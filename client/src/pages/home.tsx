@@ -1,5 +1,6 @@
 import Header from "@/components/header";
 import Hero from "@/components/hero";
+import Universities from "@/components/universities";
 import Services from "@/components/services";
 import About from "@/components/about";
 import Process from "@/components/process";
@@ -13,6 +14,7 @@ export default function Home() {
     <div className="min-h-screen">
       <Header />
       <Hero />
+      <Universities />
       <Services />
       <About />
       <Process />

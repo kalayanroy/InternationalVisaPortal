@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, GraduationCap, LogIn, UserPlus } from "lucide-react";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -8,7 +8,7 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 100);
+      setIsScrolled(window.scrollY > 50);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -25,58 +25,73 @@ export default function Header() {
 
   const navItems = [
     { label: "Home", id: "home" },
+    { label: "Universities", id: "universities" },
     { label: "Services", id: "services" },
     { label: "About", id: "about" },
     { label: "Success Stories", id: "testimonials" },
-    { label: "Contact", id: "contact" },
   ];
 
   return (
     <header
-      className={`fixed w-full z-50 border-b border-gray-100 transition-all duration-300 ${
+      className={`fixed w-full z-50 border-b luxury-border transition-all duration-500 ${
         isScrolled
-          ? "bg-white/95 backdrop-blur-sm shadow-sm"
-          : "bg-white shadow-sm"
+          ? "bg-white/95 backdrop-blur-lg luxury-shadow"
+          : "bg-white/90 backdrop-blur-sm"
       }`}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center">
-            <h1 className="text-2xl font-bold text-primary cursor-pointer" onClick={() => scrollToSection("home")}>
-              EduVisa Global
-            </h1>
+        <div className="flex justify-between items-center h-20">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-gold rounded-lg flex items-center justify-center">
+              <GraduationCap className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-playfair font-bold text-navy cursor-pointer" onClick={() => scrollToSection("home")}>
+                Prestige Global
+              </h1>
+              <p className="text-xs text-gold font-medium tracking-wide">EDUCATION CONSULTANCY</p>
+            </div>
           </div>
 
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-8">
-              {navItems.map((item, index) => (
+          <div className="hidden lg:block">
+            <div className="flex items-center space-x-8">
+              {navItems.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`px-3 py-2 text-sm font-medium transition-colors hover:text-primary ${
-                    index === 0 ? "text-gray-900" : "text-gray-600"
-                  }`}
+                  className="text-sm font-medium text-navy/80 hover:text-navy transition-colors duration-200 relative group"
                 >
                   {item.label}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-gold transition-all duration-300 group-hover:w-full" />
                 </button>
               ))}
             </div>
           </div>
 
-          <div className="hidden md:block">
+          <div className="hidden lg:flex items-center space-x-4">
+            <Button
+              variant="outline"
+              size="sm"
+              className="border-navy text-navy hover:bg-navy hover:text-white transition-all duration-300"
+            >
+              <LogIn className="h-4 w-4 mr-2" />
+              Student Login
+            </Button>
             <Button
               onClick={() => scrollToSection("contact")}
-              className="bg-primary text-white hover:bg-blue-700"
+              className="bg-gradient-gold text-white hover:opacity-90 transition-all duration-300 luxury-shadow"
             >
-              Free Consultation
+              <UserPlus className="h-4 w-4 mr-2" />
+              Book Consultation
             </Button>
           </div>
 
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-navy"
             >
               {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
@@ -85,23 +100,31 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-100">
+          <div className="lg:hidden">
+            <div className="px-2 pt-4 pb-6 space-y-2 bg-white/95 backdrop-blur-lg border-t luxury-border">
               {navItems.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className="block px-3 py-2 text-base font-medium text-gray-600 hover:text-primary w-full text-left"
+                  className="block px-4 py-3 text-base font-medium text-navy/80 hover:text-navy hover:bg-muted rounded-lg w-full text-left transition-colors"
                 >
                   {item.label}
                 </button>
               ))}
-              <div className="pt-2">
+              <div className="pt-4 space-y-3">
+                <Button
+                  variant="outline"
+                  className="w-full border-navy text-navy hover:bg-navy hover:text-white"
+                >
+                  <LogIn className="h-4 w-4 mr-2" />
+                  Student Login
+                </Button>
                 <Button
                   onClick={() => scrollToSection("contact")}
-                  className="w-full bg-primary text-white hover:bg-blue-700"
+                  className="w-full bg-gradient-gold text-white hover:opacity-90"
                 >
-                  Free Consultation
+                  <UserPlus className="h-4 w-4 mr-2" />
+                  Book Consultation
                 </Button>
               </div>
             </div>
