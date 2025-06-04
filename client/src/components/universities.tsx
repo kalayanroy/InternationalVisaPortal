@@ -104,23 +104,29 @@ export default function Universities() {
                     alt={`Study in ${country.name}`}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-br from-navy/40 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-black/30 to-transparent" />
                   
                   {/* Country Header */}
                   <div className="absolute top-6 left-6 right-6">
                     <div className="flex items-center space-x-3">
-                      <span className="text-4xl drop-shadow-lg">{country.flag}</span>
+                      <span className="text-4xl filter drop-shadow-2xl">{country.flag}</span>
                       <div>
-                        <h3 className="text-2xl font-playfair font-bold text-white drop-shadow-md">
+                        <h3 className="text-2xl font-playfair font-bold text-white" style={{
+                          textShadow: '2px 2px 4px rgba(0,0,0,0.8)'
+                        }}>
                           {country.name}
                         </h3>
                         <div className="flex items-center space-x-4 mt-1">
-                          <div className="flex items-center space-x-1 text-white/90 text-sm">
-                            <Users className="h-4 w-4" />
+                          <div className="flex items-center space-x-1 text-white text-sm font-medium" style={{
+                            textShadow: '1px 1px 2px rgba(0,0,0,0.8)'
+                          }}>
+                            <Users className="h-4 w-4 drop-shadow-lg" />
                             <span>{country.students}</span>
                           </div>
-                          <div className="flex items-center space-x-1 text-white/90 text-sm">
-                            <Trophy className="h-4 w-4" />
+                          <div className="flex items-center space-x-1 text-white text-sm font-medium" style={{
+                            textShadow: '1px 1px 2px rgba(0,0,0,0.8)'
+                          }}>
+                            <Trophy className="h-4 w-4 drop-shadow-lg" />
                             <span>{country.programs}</span>
                           </div>
                         </div>
