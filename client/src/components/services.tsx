@@ -78,79 +78,93 @@ export default function Services() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
           {services.map((service, index) => {
             const IconComponent = service.icon;
             return (
               <div
                 key={index}
-                className="group relative bg-white rounded-3xl overflow-hidden luxury-shadow hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-1"
+                className="group relative bg-gradient-to-br from-white via-slate-50/50 to-white rounded-3xl overflow-hidden luxury-shadow hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-2 border border-slate-100/50"
               >
-                {/* Premium gradient border */}
-                <div className="absolute inset-0 bg-gradient-to-r from-gold via-gold/30 to-navy p-[1px] rounded-3xl">
-                  <div className="bg-white rounded-3xl h-full w-full" />
-                </div>
+                {/* Luxury layered background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-gold/5 via-transparent to-navy/5 opacity-40" />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-gold/10 to-transparent rounded-full blur-3xl" />
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-navy/10 to-transparent rounded-full blur-2xl" />
                 
-                <div className="relative z-10 p-10">
-                  {/* Header Section */}
-                  <div className="flex items-start justify-between mb-8">
-                    <div className="flex items-center space-x-4">
-                      <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${service.color} group-hover:scale-110 transition-transform duration-500 luxury-shadow`}>
-                        <IconComponent className="h-8 w-8" />
-                      </div>
-                      <div>
-                        <span className="text-xs font-semibold text-gold bg-gradient-to-r from-gold/10 to-gold/5 px-3 py-1 rounded-full border border-gold/20">
-                          {service.tier}
-                        </span>
+                <div className="relative z-10 p-8">
+                  {/* Premium Header */}
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="relative">
+                      {/* Icon with luxury backdrop */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-gold/20 to-navy/20 rounded-2xl blur-lg transform rotate-6" />
+                      <div className={`relative w-14 h-14 rounded-2xl flex items-center justify-center ${service.color} luxury-shadow group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
+                        <IconComponent className="h-7 w-7" />
                       </div>
                     </div>
                     
-                    {/* Premium corner accent */}
-                    <div className="w-12 h-12 bg-gradient-gold opacity-10 rounded-full" />
+                    <div className="flex flex-col items-end space-y-2">
+                      <span className="text-xs font-bold text-gold bg-gradient-to-r from-gold/15 to-gold/5 px-4 py-2 rounded-full border border-gold/30 backdrop-blur-sm">
+                        {service.tier}
+                      </span>
+                      {/* Luxury corner ornament */}
+                      <div className="w-8 h-8 bg-gradient-to-br from-gold/20 to-navy/20 rounded-lg transform rotate-45 opacity-60" />
+                    </div>
                   </div>
 
-                  {/* Content Section */}
+                  {/* Content with premium typography */}
                   <div className="space-y-6">
-                    <h3 className="text-2xl font-playfair font-bold text-navy group-hover:text-gold transition-colors duration-300">
-                      {service.title}
-                    </h3>
+                    <div className="relative">
+                      <h3 className="text-2xl font-playfair font-bold text-navy mb-3 group-hover:text-gold transition-colors duration-500 leading-tight">
+                        {service.title}
+                      </h3>
+                      {/* Underline accent */}
+                      <div className="w-12 h-0.5 bg-gradient-to-r from-gold to-navy rounded-full group-hover:w-20 transition-all duration-500" />
+                    </div>
                     
-                    <p className="text-muted-foreground leading-relaxed text-base">
+                    <p className="text-slate-600 leading-relaxed text-base font-medium">
                       {service.description}
                     </p>
 
-                    {/* Premium highlights */}
-                    <div className="space-y-3">
-                      <h4 className="font-semibold text-navy text-sm flex items-center">
-                        <div className="w-2 h-2 bg-gold rounded-full mr-3" />
+                    {/* Elegant feature list */}
+                    <div className="space-y-4">
+                      <h4 className="font-bold text-navy text-sm flex items-center uppercase tracking-wider">
+                        <div className="w-3 h-3 bg-gradient-to-r from-gold to-navy rounded-full mr-3" />
                         Key Features
                       </h4>
-                      <div className="grid grid-cols-1 gap-2 pl-5">
+                      <div className="space-y-3 pl-6 border-l-2 border-gradient-to-b from-gold/30 to-navy/30">
                         {service.highlights.map((highlight, idx) => (
-                          <div key={idx} className="flex items-center text-sm text-navy/80">
-                            <div className="w-1.5 h-1.5 bg-gradient-gold rounded-full mr-3 flex-shrink-0" />
-                            <span className="font-medium">{highlight}</span>
+                          <div key={idx} className="flex items-center text-sm group/item">
+                            <div className="w-2 h-2 bg-gradient-to-r from-gold to-navy rounded-full mr-4 flex-shrink-0 group-hover/item:scale-125 transition-transform" />
+                            <span className="font-semibold text-slate-700 group-hover/item:text-navy transition-colors">{highlight}</span>
                           </div>
                         ))}
                       </div>
                     </div>
 
-                    {/* CTA Button */}
-                    <div className="pt-4">
+                    {/* Premium CTA */}
+                    <div className="pt-6">
                       <Button
                         onClick={() => scrollToSection("contact")}
-                        className="w-full bg-gradient-to-r from-navy to-navy/90 text-white hover:from-gold hover:to-gold/90 transition-all duration-500 py-4 rounded-2xl font-semibold text-base luxury-shadow group/btn"
+                        className="w-full bg-gradient-to-r from-navy via-navy to-slate-800 text-white hover:from-gold hover:via-gold/90 hover:to-amber-600 transition-all duration-700 py-4 rounded-2xl font-bold text-base luxury-shadow group/btn relative overflow-hidden"
                       >
-                        Discover More
-                        <ArrowRight className="ml-3 h-5 w-5 group-hover/btn:translate-x-1 transition-transform" />
+                        {/* Button shine effect */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000" />
+                        <span className="relative flex items-center justify-center">
+                          Discover More
+                          <ArrowRight className="ml-3 h-5 w-5 group-hover/btn:translate-x-2 transition-transform duration-300" />
+                        </span>
                       </Button>
                     </div>
                   </div>
                 </div>
 
-                {/* Decorative elements */}
-                <div className="absolute top-6 right-6 w-24 h-24 bg-gradient-to-br from-gold/5 to-navy/5 rounded-full blur-2xl opacity-60" />
-                <div className="absolute bottom-6 left-6 w-16 h-16 bg-gradient-to-tr from-navy/5 to-gold/5 rounded-full blur-xl opacity-40" />
+                {/* Premium border effect */}
+                <div className="absolute inset-0 rounded-3xl border-2 border-transparent bg-gradient-to-r from-gold/30 via-transparent to-navy/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
+                  maskImage: 'linear-gradient(white, white)',
+                  WebkitMaskImage: 'linear-gradient(white, white)',
+                  maskComposite: 'xor',
+                  WebkitMaskComposite: 'xor'
+                }} />
               </div>
             );
           })}
