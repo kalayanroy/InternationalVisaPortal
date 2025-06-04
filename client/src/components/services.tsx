@@ -78,50 +78,68 @@ export default function Services() {
           </p>
         </div>
 
-        <div className="space-y-12 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
           {services.map((service, index) => {
             const IconComponent = service.icon;
             
             return (
               <div
                 key={index}
-                className="group relative bg-white rounded-none border-b border-slate-100 last:border-b-0 hover:bg-gradient-to-r hover:from-slate-50/50 hover:to-white transition-all duration-700"
+                className="group relative bg-white rounded-2xl border border-slate-100 hover:border-gold/30 hover:shadow-2xl transition-all duration-700 overflow-hidden"
               >
-                <div className="py-16 px-8 grid md:grid-cols-12 gap-12 items-start">
-                  {/* Service Number & Icon */}
-                  <div className="md:col-span-2 flex flex-col items-center space-y-6">
-                    <div className="text-6xl font-playfair font-bold text-gold/20 group-hover:text-gold/40 transition-colors">
+                {/* Premium header with gradient */}
+                <div className="relative h-32 bg-gradient-to-br from-navy to-slate-800 overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-gold/20 to-transparent" />
+                  
+                  {/* Service number */}
+                  <div className="absolute top-4 left-6">
+                    <span className="text-4xl font-playfair font-bold text-white/30">
                       0{index + 1}
-                    </div>
-                    <div className={`w-20 h-20 rounded-full flex items-center justify-center ${service.color} luxury-shadow group-hover:scale-110 group-hover:shadow-xl transition-all duration-500`}>
-                      <IconComponent className="h-10 w-10" />
+                    </span>
+                  </div>
+                  
+                  {/* Service tier badge */}
+                  <div className="absolute top-4 right-6">
+                    <span className="text-xs font-bold text-gold bg-white/10 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20 uppercase tracking-wider">
+                      {service.tier}
+                    </span>
+                  </div>
+                  
+                  {/* Icon */}
+                  <div className="absolute bottom-6 left-6">
+                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${service.color} luxury-shadow group-hover:scale-110 transition-all duration-500`}>
+                      <IconComponent className="h-8 w-8" />
                     </div>
                   </div>
                   
-                  {/* Content Section */}
-                  <div className="md:col-span-7 space-y-8">
-                    {/* Header */}
-                    <div className="space-y-4">
-                      <div className="flex items-center space-x-4">
-                        <h3 className="text-4xl font-playfair font-bold text-navy group-hover:text-gold transition-colors duration-500">
-                          {service.title}
-                        </h3>
-                        <div className="flex-1 h-px bg-gradient-to-r from-gold/50 to-transparent" />
-                      </div>
-                      
-                      <p className="text-xl text-slate-600 leading-relaxed font-light max-w-2xl">
-                        {service.description}
-                      </p>
-                    </div>
-                    
-                    {/* Features Grid */}
-                    <div className="grid md:grid-cols-2 gap-6">
+                  {/* Decorative elements */}
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-gold/20 to-transparent rounded-full blur-2xl" />
+                </div>
+                
+                {/* Content */}
+                <div className="p-8 space-y-6">
+                  {/* Title */}
+                  <h3 className="text-2xl font-playfair font-bold text-navy group-hover:text-gold transition-colors duration-500 leading-tight">
+                    {service.title}
+                  </h3>
+                  
+                  {/* Description */}
+                  <p className="text-slate-600 leading-relaxed font-medium">
+                    {service.description}
+                  </p>
+                  
+                  {/* Features */}
+                  <div className="space-y-4">
+                    <h4 className="text-sm font-bold text-navy uppercase tracking-wider border-b border-slate-100 pb-2">
+                      Key Features
+                    </h4>
+                    <div className="space-y-3">
                       {service.highlights.map((highlight, idx) => (
                         <div key={idx} className="flex items-start space-x-3 group/item">
-                          <div className="w-6 h-6 rounded-full bg-gradient-to-r from-gold to-navy flex items-center justify-center flex-shrink-0 mt-1">
-                            <div className="w-2 h-2 bg-white rounded-full" />
+                          <div className="w-5 h-5 rounded-full bg-gradient-to-r from-gold to-navy flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <div className="w-1.5 h-1.5 bg-white rounded-full" />
                           </div>
-                          <span className="text-slate-700 font-medium leading-relaxed group-hover/item:text-navy transition-colors">
+                          <span className="text-sm text-slate-700 font-medium leading-relaxed group-hover/item:text-navy transition-colors">
                             {highlight}
                           </span>
                         </div>
@@ -129,31 +147,22 @@ export default function Services() {
                     </div>
                   </div>
                   
-                  {/* CTA Section */}
-                  <div className="md:col-span-3 flex flex-col items-start space-y-6">
-                    <div className="bg-gradient-to-r from-gold/10 to-navy/10 rounded-2xl p-6 w-full">
-                      <span className="text-sm font-bold text-navy uppercase tracking-widest mb-4 block">
-                        Service Tier
-                      </span>
-                      <span className="text-2xl font-playfair font-bold text-gold">
-                        {service.tier}
-                      </span>
-                    </div>
-                    
+                  {/* CTA Button */}
+                  <div className="pt-4">
                     <Button
                       onClick={() => scrollToSection("contact")}
-                      className="w-full bg-navy text-white hover:bg-gold hover:text-navy transition-all duration-500 py-4 rounded-2xl font-semibold text-base group/btn"
+                      className="w-full bg-navy text-white hover:bg-gold hover:text-navy transition-all duration-500 py-3 rounded-xl font-semibold group/btn"
                     >
                       <span className="flex items-center justify-center">
-                        Inquire Now
-                        <ArrowRight className="ml-3 h-5 w-5 group-hover/btn:translate-x-1 transition-transform" />
+                        Learn More
+                        <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
                       </span>
                     </Button>
                   </div>
                 </div>
                 
-                {/* Decorative line */}
-                <div className="absolute bottom-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                {/* Hover border effect */}
+                <div className="absolute inset-0 border-2 border-transparent group-hover:border-gold/20 rounded-2xl transition-all duration-500 pointer-events-none" />
               </div>
             );
           })}
