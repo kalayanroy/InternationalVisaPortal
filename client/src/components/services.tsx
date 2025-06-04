@@ -78,105 +78,68 @@ export default function Services() {
           </p>
         </div>
 
-        <div className="relative mb-20">
-          {/* Background elements */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-20 left-10 w-32 h-32 bg-gold/5 rounded-full blur-3xl" />
-            <div className="absolute bottom-20 right-10 w-40 h-40 bg-navy/5 rounded-full blur-3xl" />
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10">
-            {services.map((service, index) => {
-              const IconComponent = service.icon;
-              
-              return (
-                <div
-                  key={index}
-                  className="group relative"
-                >
-                  {/* Main card */}
-                  <div className="relative bg-white rounded-3xl p-10 border border-slate-100/80 hover:border-gold/40 transition-all duration-700 shadow-xl hover:shadow-2xl transform hover:-translate-y-3">
-                    
-                    {/* Top section with icon and number */}
-                    <div className="flex items-start justify-between mb-8">
-                      <div className="relative">
-                        <div className={`w-20 h-20 rounded-3xl flex items-center justify-center ${service.color} shadow-lg group-hover:scale-110 group-hover:shadow-xl transition-all duration-500`}>
-                          <IconComponent className="h-10 w-10" />
-                        </div>
-                        
-                        {/* Floating number */}
-                        <div className="absolute -top-3 -right-3 w-8 h-8 bg-navy rounded-full flex items-center justify-center shadow-md">
-                          <span className="text-sm font-bold text-white">{index + 1}</span>
-                        </div>
-                      </div>
-                      
-                      {/* Service tier */}
-                      <div className="bg-gradient-to-r from-gold/10 to-navy/10 rounded-2xl px-4 py-2 border border-gold/20">
-                        <span className="text-xs font-bold text-navy uppercase tracking-wider">
-                          {service.tier}
-                        </span>
-                      </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+          {services.map((service, index) => {
+            const IconComponent = service.icon;
+            
+            return (
+              <div
+                key={index}
+                className="group relative bg-white rounded-2xl p-6 border border-slate-100 hover:border-gold/30 hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2"
+              >
+                {/* Header */}
+                <div className="flex items-center justify-between mb-6">
+                  <div className="relative">
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${service.color} shadow-md group-hover:scale-110 transition-all duration-300`}>
+                      <IconComponent className="h-7 w-7" />
                     </div>
-                    
-                    {/* Title and description */}
-                    <div className="space-y-6 mb-8">
-                      <h3 className="text-2xl font-playfair font-bold text-navy group-hover:text-gold transition-colors duration-500 leading-tight">
-                        {service.title}
-                      </h3>
-                      
-                      <p className="text-slate-600 leading-relaxed font-medium">
-                        {service.description}
-                      </p>
+                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-navy rounded-full flex items-center justify-center">
+                      <span className="text-xs font-bold text-white">{index + 1}</span>
                     </div>
-                    
-                    {/* Features with enhanced styling */}
-                    <div className="space-y-6 mb-8">
-                      <h4 className="text-sm font-bold text-navy uppercase tracking-widest flex items-center">
-                        <div className="w-4 h-0.5 bg-gold mr-3" />
-                        Key Features
-                      </h4>
-                      
-                      <div className="space-y-4">
-                        {service.highlights.map((highlight, idx) => (
-                          <div key={idx} className="group/item flex items-start space-x-4 p-3 rounded-xl hover:bg-slate-50 transition-colors duration-300">
-                            <div className="flex-shrink-0 mt-1">
-                              <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-gold to-navy flex items-center justify-center group-hover/item:scale-110 transition-transform">
-                                <div className="w-2 h-2 bg-white rounded-full" />
-                              </div>
-                            </div>
-                            <span className="text-slate-700 font-medium leading-relaxed group-hover/item:text-navy transition-colors">
-                              {highlight}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    
-                    {/* Enhanced CTA button */}
-                    <Button
-                      onClick={() => scrollToSection("contact")}
-                      className="w-full bg-gradient-to-r from-navy to-slate-800 text-white hover:from-gold hover:to-amber-600 transition-all duration-500 py-4 rounded-2xl font-bold text-base group/btn shadow-lg hover:shadow-xl relative overflow-hidden"
-                    >
-                      {/* Button highlight effect */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
-                      
-                      <span className="relative flex items-center justify-center">
-                        Start Journey
-                        <ArrowRight className="ml-3 h-5 w-5 group-hover/btn:translate-x-2 transition-transform duration-300" />
-                      </span>
-                    </Button>
-                    
-                    {/* Decorative corner elements */}
-                    <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-gold/10 to-transparent rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="absolute bottom-0 left-0 w-16 h-16 bg-gradient-to-tr from-navy/10 to-transparent rounded-tr-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </div>
                   
-                  {/* Floating background element */}
-                  <div className="absolute -inset-4 bg-gradient-to-r from-gold/5 via-transparent to-navy/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 -z-10" />
+                  <span className="text-xs font-bold text-gold bg-gold/10 px-3 py-1 rounded-full border border-gold/20 uppercase">
+                    {service.tier}
+                  </span>
                 </div>
-              );
-            })}
-          </div>
+                
+                {/* Content */}
+                <div className="space-y-4 mb-6">
+                  <h3 className="text-xl font-playfair font-bold text-navy group-hover:text-gold transition-colors duration-300">
+                    {service.title}
+                  </h3>
+                  
+                  <p className="text-slate-600 text-sm leading-relaxed">
+                    Expert guidance for {service.title.toLowerCase()} with personalized support.
+                  </p>
+                  
+                  {/* Compact features */}
+                  <div className="space-y-2">
+                    {service.highlights.slice(0, 3).map((highlight, idx) => (
+                      <div key={idx} className="flex items-center space-x-2 text-xs text-slate-700">
+                        <div className="w-1.5 h-1.5 bg-gold rounded-full flex-shrink-0" />
+                        <span className="font-medium">{highlight}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                {/* CTA */}
+                <Button
+                  onClick={() => scrollToSection("contact")}
+                  className="w-full bg-navy text-white hover:bg-gold hover:text-navy py-3 rounded-xl font-semibold text-sm transition-all duration-300 group/btn"
+                >
+                  <span className="flex items-center justify-center">
+                    Learn More
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                  </span>
+                </Button>
+                
+                {/* Hover effect */}
+                <div className="absolute inset-0 border-2 border-transparent group-hover:border-gold/20 rounded-2xl transition-all duration-300 pointer-events-none" />
+              </div>
+            );
+          })}
         </div>
 
         {/* CTA Section */}
