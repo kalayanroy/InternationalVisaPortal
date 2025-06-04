@@ -78,105 +78,105 @@ export default function Services() {
           </p>
         </div>
 
-        <div className="space-y-16 mb-20">
-          {services.map((service, index) => {
-            const IconComponent = service.icon;
-            const isEven = index % 2 === 0;
-            
-            return (
-              <div key={index} className="group">
-                <div className={`flex items-center gap-16 ${!isEven ? 'flex-row-reverse' : ''}`}>
-                  {/* Visual section */}
-                  <div className="flex-1">
-                    <div className="relative bg-gradient-to-br from-slate-50 to-white rounded-3xl p-12 border border-slate-100 group-hover:border-gold/30 transition-all duration-500 shadow-lg group-hover:shadow-xl">
-                      {/* Background pattern */}
-                      <div className="absolute inset-0 opacity-5">
-                        <div className="w-full h-full bg-gradient-to-br from-navy/10 via-transparent to-gold/10 rounded-3xl" />
+        <div className="relative mb-20">
+          {/* Background elements */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute top-20 left-10 w-32 h-32 bg-gold/5 rounded-full blur-3xl" />
+            <div className="absolute bottom-20 right-10 w-40 h-40 bg-navy/5 rounded-full blur-3xl" />
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10">
+            {services.map((service, index) => {
+              const IconComponent = service.icon;
+              
+              return (
+                <div
+                  key={index}
+                  className="group relative"
+                >
+                  {/* Main card */}
+                  <div className="relative bg-white rounded-3xl p-10 border border-slate-100/80 hover:border-gold/40 transition-all duration-700 shadow-xl hover:shadow-2xl transform hover:-translate-y-3">
+                    
+                    {/* Top section with icon and number */}
+                    <div className="flex items-start justify-between mb-8">
+                      <div className="relative">
+                        <div className={`w-20 h-20 rounded-3xl flex items-center justify-center ${service.color} shadow-lg group-hover:scale-110 group-hover:shadow-xl transition-all duration-500`}>
+                          <IconComponent className="h-10 w-10" />
+                        </div>
+                        
+                        {/* Floating number */}
+                        <div className="absolute -top-3 -right-3 w-8 h-8 bg-navy rounded-full flex items-center justify-center shadow-md">
+                          <span className="text-sm font-bold text-white">{index + 1}</span>
+                        </div>
                       </div>
                       
-                      {/* Service number */}
-                      <div className="absolute top-8 right-8">
-                        <span className="text-8xl font-playfair font-bold text-navy/10 group-hover:text-gold/20 transition-colors duration-500">
-                          0{index + 1}
+                      {/* Service tier */}
+                      <div className="bg-gradient-to-r from-gold/10 to-navy/10 rounded-2xl px-4 py-2 border border-gold/20">
+                        <span className="text-xs font-bold text-navy uppercase tracking-wider">
+                          {service.tier}
                         </span>
                       </div>
-                      
-                      {/* Icon section */}
-                      <div className="relative z-10 flex flex-col items-center text-center space-y-8">
-                        <div className="relative">
-                          <div className="w-32 h-32 rounded-full bg-gradient-to-br from-navy to-slate-800 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-all duration-500">
-                            <IconComponent className="h-16 w-16 text-white" />
-                          </div>
-                          
-                          {/* Floating tier badge */}
-                          <div className="absolute -top-4 -right-4">
-                            <div className="bg-gold text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg">
-                              {service.tier}
-                            </div>
-                          </div>
-                          
-                          {/* Decorative rings */}
-                          <div className="absolute inset-0 w-32 h-32 border-2 border-gold/20 rounded-full animate-pulse" />
-                          <div className="absolute inset-4 w-24 h-24 border border-navy/20 rounded-full" />
-                        </div>
-                        
-                        <div className="space-y-4">
-                          <h3 className="text-3xl font-playfair font-bold text-navy group-hover:text-gold transition-colors duration-500">
-                            {service.title}
-                          </h3>
-                          <div className="w-24 h-1 bg-gradient-to-r from-gold to-navy rounded-full mx-auto" />
-                        </div>
-                      </div>
                     </div>
-                  </div>
-                  
-                  {/* Content section */}
-                  <div className="flex-1 space-y-8">
-                    <div className="space-y-6">
-                      <p className="text-xl text-slate-600 leading-relaxed font-light">
+                    
+                    {/* Title and description */}
+                    <div className="space-y-6 mb-8">
+                      <h3 className="text-2xl font-playfair font-bold text-navy group-hover:text-gold transition-colors duration-500 leading-tight">
+                        {service.title}
+                      </h3>
+                      
+                      <p className="text-slate-600 leading-relaxed font-medium">
                         {service.description}
                       </p>
+                    </div>
+                    
+                    {/* Features with enhanced styling */}
+                    <div className="space-y-6 mb-8">
+                      <h4 className="text-sm font-bold text-navy uppercase tracking-widest flex items-center">
+                        <div className="w-4 h-0.5 bg-gold mr-3" />
+                        Key Features
+                      </h4>
                       
-                      {/* Premium features */}
-                      <div className="space-y-6">
-                        <h4 className="text-sm font-bold text-navy uppercase tracking-widest border-b border-slate-200 pb-3">
-                          Service Highlights
-                        </h4>
-                        
-                        <div className="grid grid-cols-1 gap-4">
-                          {service.highlights.map((highlight, idx) => (
-                            <div key={idx} className="group/item flex items-start space-x-4 p-4 rounded-xl hover:bg-slate-50 transition-colors duration-300">
-                              <div className="flex-shrink-0 mt-1">
-                                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-gold to-navy flex items-center justify-center group-hover/item:scale-110 transition-transform">
-                                  <div className="w-3 h-3 bg-white rounded-full" />
-                                </div>
+                      <div className="space-y-4">
+                        {service.highlights.map((highlight, idx) => (
+                          <div key={idx} className="group/item flex items-start space-x-4 p-3 rounded-xl hover:bg-slate-50 transition-colors duration-300">
+                            <div className="flex-shrink-0 mt-1">
+                              <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-gold to-navy flex items-center justify-center group-hover/item:scale-110 transition-transform">
+                                <div className="w-2 h-2 bg-white rounded-full" />
                               </div>
-                              <span className="text-base font-semibold text-slate-700 group-hover/item:text-navy transition-colors leading-relaxed">
-                                {highlight}
-                              </span>
                             </div>
-                          ))}
-                        </div>
-                      </div>
-                      
-                      {/* CTA */}
-                      <div className="pt-6">
-                        <Button
-                          onClick={() => scrollToSection("contact")}
-                          className="bg-navy text-white hover:bg-gold hover:text-navy px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-500 group/btn shadow-lg hover:shadow-xl"
-                        >
-                          <span className="flex items-center">
-                            Explore Service
-                            <ArrowRight className="ml-3 h-5 w-5 group-hover/btn:translate-x-2 transition-transform duration-300" />
-                          </span>
-                        </Button>
+                            <span className="text-slate-700 font-medium leading-relaxed group-hover/item:text-navy transition-colors">
+                              {highlight}
+                            </span>
+                          </div>
+                        ))}
                       </div>
                     </div>
+                    
+                    {/* Enhanced CTA button */}
+                    <Button
+                      onClick={() => scrollToSection("contact")}
+                      className="w-full bg-gradient-to-r from-navy to-slate-800 text-white hover:from-gold hover:to-amber-600 transition-all duration-500 py-4 rounded-2xl font-bold text-base group/btn shadow-lg hover:shadow-xl relative overflow-hidden"
+                    >
+                      {/* Button highlight effect */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
+                      
+                      <span className="relative flex items-center justify-center">
+                        Start Journey
+                        <ArrowRight className="ml-3 h-5 w-5 group-hover/btn:translate-x-2 transition-transform duration-300" />
+                      </span>
+                    </Button>
+                    
+                    {/* Decorative corner elements */}
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-gold/10 to-transparent rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute bottom-0 left-0 w-16 h-16 bg-gradient-to-tr from-navy/10 to-transparent rounded-tr-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </div>
+                  
+                  {/* Floating background element */}
+                  <div className="absolute -inset-4 bg-gradient-to-r from-gold/5 via-transparent to-navy/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 -z-10" />
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
         {/* CTA Section */}
