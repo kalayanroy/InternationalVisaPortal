@@ -82,64 +82,115 @@ export default function Services() {
           {services.map((service, index) => {
             const IconComponent = service.icon;
             
+            // Service-specific background patterns
+            const backgroundImages = [
+              'data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23B8860B" fill-opacity="0.05"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E',
+              'data:image/svg+xml,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%231e293b" fill-opacity="0.03"%3E%3Cpath d="M20 20c0-11.046-8.954-20-20-20v20h20zm0 0c11.046 0 20 8.954 20 20H20V20z"/%3E%3C/g%3E%3C/svg%3E',
+              'data:image/svg+xml,%3Csvg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23B8860B" fill-opacity="0.04"%3E%3Cpath d="M0 0h80v80H0V0zm20 20v40h40V20H20zm20 35a15 15 0 1 1 0-30 15 15 0 0 1 0 30z" fill-rule="evenodd"/%3E%3C/g%3E%3C/svg%3E',
+              'data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%231e293b" fill-opacity="0.04"%3E%3Cpath d="M30 0l30 30-30 30L0 30 30 0zm0 6L6 30l24 24 24-24L30 6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E'
+            ];
+            
             return (
               <div
                 key={index}
-                className="group relative bg-white rounded-2xl border border-slate-100 hover:border-gold/30 hover:shadow-2xl transition-all duration-700 overflow-hidden"
+                className="group relative bg-white rounded-3xl border border-slate-100/50 hover:border-gold/30 transition-all duration-700 overflow-hidden"
+                style={{
+                  boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1), 0 4px 25px rgba(0, 0, 0, 0.05)',
+                  transform: 'translateY(0px)',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0 25px 60px rgba(0, 0, 0, 0.15), 0 10px 40px rgba(184, 134, 11, 0.1)';
+                  e.currentTarget.style.transform = 'translateY(-8px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '0 10px 40px rgba(0, 0, 0, 0.1), 0 4px 25px rgba(0, 0, 0, 0.05)';
+                  e.currentTarget.style.transform = 'translateY(0px)';
+                }}
               >
+                {/* Background pattern */}
+                <div 
+                  className="absolute inset-0 opacity-30"
+                  style={{
+                    backgroundImage: `url("${backgroundImages[index]}")`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                  }}
+                />
+                
+                {/* Animated background overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-50/80 via-white/90 to-slate-50/80 group-hover:from-slate-50/60 group-hover:via-white/80 group-hover:to-gold/5 transition-all duration-700" />
+                
                 {/* Premium header with gradient */}
-                <div className="relative h-32 bg-gradient-to-br from-navy to-slate-800 overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-gold/20 to-transparent" />
+                <div className="relative h-40 bg-gradient-to-br from-navy via-slate-800 to-navy overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-gold/30 via-gold/10 to-transparent group-hover:from-gold/40 group-hover:to-gold/20 transition-all duration-700" />
                   
-                  {/* Service number */}
-                  <div className="absolute top-4 left-6">
-                    <span className="text-4xl font-playfair font-bold text-white/30">
+                  {/* Animated particles */}
+                  <div className="absolute top-4 right-12 w-2 h-2 bg-gold rounded-full opacity-60 group-hover:opacity-100 group-hover:scale-150 transition-all duration-700" />
+                  <div className="absolute top-8 right-20 w-1 h-1 bg-white rounded-full opacity-40 group-hover:opacity-80 group-hover:scale-125 transition-all duration-500" />
+                  <div className="absolute top-12 right-8 w-1.5 h-1.5 bg-gold/70 rounded-full opacity-50 group-hover:opacity-90 group-hover:scale-110 transition-all duration-600" />
+                  
+                  {/* Service number with animation */}
+                  <div className="absolute top-6 left-6 transform group-hover:scale-110 transition-transform duration-500">
+                    <span className="text-5xl font-playfair font-bold text-white/40 group-hover:text-white/60 transition-colors duration-500">
                       0{index + 1}
                     </span>
                   </div>
                   
-                  {/* Service tier badge */}
-                  <div className="absolute top-4 right-6">
-                    <span className="text-xs font-bold text-gold bg-white/10 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20 uppercase tracking-wider">
+                  {/* Service tier badge with pulse animation */}
+                  <div className="absolute top-6 right-6 transform group-hover:scale-105 transition-transform duration-500">
+                    <span className="text-xs font-bold text-gold bg-white/15 backdrop-blur-md px-4 py-2 rounded-full border border-gold/30 uppercase tracking-wider group-hover:bg-white/20 group-hover:border-gold/50 transition-all duration-500">
                       {service.tier}
                     </span>
                   </div>
                   
-                  {/* Icon */}
-                  <div className="absolute bottom-6 left-6">
-                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${service.color} luxury-shadow group-hover:scale-110 transition-all duration-500`}>
-                      <IconComponent className="h-8 w-8" />
+                  {/* Icon with enhanced animation */}
+                  <div className="absolute bottom-6 left-6 transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                    <div className={`w-18 h-18 rounded-2xl flex items-center justify-center ${service.color} shadow-xl group-hover:shadow-2xl transition-all duration-500`}
+                         style={{
+                           boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15), 0 4px 15px rgba(184, 134, 11, 0.1)',
+                         }}>
+                      <IconComponent className="h-9 w-9 transform group-hover:scale-110 transition-transform duration-300" />
                     </div>
                   </div>
                   
-                  {/* Decorative elements */}
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-gold/20 to-transparent rounded-full blur-2xl" />
+                  {/* Enhanced decorative elements */}
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-gold/30 to-transparent rounded-full blur-2xl group-hover:blur-xl group-hover:scale-110 transition-all duration-700" />
+                  <div className="absolute bottom-0 left-0 w-16 h-16 bg-gradient-to-tr from-white/10 to-transparent rounded-full blur-xl opacity-50 group-hover:opacity-80 transition-all duration-500" />
                 </div>
                 
-                {/* Content */}
-                <div className="p-8 space-y-6">
-                  {/* Title */}
-                  <h3 className="text-2xl font-playfair font-bold text-navy group-hover:text-gold transition-colors duration-500 leading-tight">
-                    {service.title}
-                  </h3>
+                {/* Content with enhanced spacing */}
+                <div className="relative p-8 space-y-6">
+                  {/* Title with underline animation */}
+                  <div className="space-y-3">
+                    <h3 className="text-2xl font-playfair font-bold text-navy group-hover:text-gold transition-colors duration-500 leading-tight">
+                      {service.title}
+                    </h3>
+                    <div className="w-12 h-0.5 bg-gradient-to-r from-gold to-navy rounded-full group-hover:w-24 transition-all duration-500" />
+                  </div>
                   
                   {/* Description */}
-                  <p className="text-slate-600 leading-relaxed font-medium">
+                  <p className="text-slate-600 leading-relaxed font-medium group-hover:text-slate-700 transition-colors duration-300">
                     {service.description}
                   </p>
                   
-                  {/* Features */}
+                  {/* Features with staggered animations */}
                   <div className="space-y-4">
-                    <h4 className="text-sm font-bold text-navy uppercase tracking-wider border-b border-slate-100 pb-2">
+                    <h4 className="text-sm font-bold text-navy uppercase tracking-wider border-b border-slate-100 pb-2 group-hover:border-gold/30 transition-colors duration-300">
                       Key Features
                     </h4>
                     <div className="space-y-3">
                       {service.highlights.map((highlight, idx) => (
-                        <div key={idx} className="flex items-start space-x-3 group/item">
-                          <div className="w-5 h-5 rounded-full bg-gradient-to-r from-gold to-navy flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <div className="w-1.5 h-1.5 bg-white rounded-full" />
+                        <div 
+                          key={idx} 
+                          className="flex items-start space-x-3 group/item transform transition-all duration-300"
+                          style={{
+                            transitionDelay: `${idx * 50}ms`
+                          }}
+                        >
+                          <div className="w-5 h-5 rounded-full bg-gradient-to-r from-gold to-navy flex items-center justify-center flex-shrink-0 mt-0.5 group-hover/item:scale-110 transition-transform duration-300">
+                            <div className="w-1.5 h-1.5 bg-white rounded-full group-hover/item:scale-125 transition-transform duration-200" />
                           </div>
-                          <span className="text-sm text-slate-700 font-medium leading-relaxed group-hover/item:text-navy transition-colors">
+                          <span className="text-sm text-slate-700 font-medium leading-relaxed group-hover/item:text-navy group-hover/item:translate-x-1 transition-all duration-300">
                             {highlight}
                           </span>
                         </div>
@@ -147,22 +198,25 @@ export default function Services() {
                     </div>
                   </div>
                   
-                  {/* CTA Button */}
+                  {/* CTA Button with enhanced animation */}
                   <div className="pt-4">
                     <Button
                       onClick={() => scrollToSection("contact")}
-                      className="w-full bg-navy text-white hover:bg-gold hover:text-navy transition-all duration-500 py-3 rounded-xl font-semibold group/btn"
+                      className="w-full bg-navy text-white hover:bg-gold hover:text-navy transition-all duration-500 py-4 rounded-xl font-semibold group/btn shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98]"
                     >
                       <span className="flex items-center justify-center">
                         Learn More
-                        <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                        <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-2 transition-transform duration-300" />
                       </span>
                     </Button>
                   </div>
                 </div>
                 
-                {/* Hover border effect */}
-                <div className="absolute inset-0 border-2 border-transparent group-hover:border-gold/20 rounded-2xl transition-all duration-500 pointer-events-none" />
+                {/* Enhanced hover border effect */}
+                <div className="absolute inset-0 border-2 border-transparent group-hover:border-gold/30 rounded-3xl transition-all duration-500 pointer-events-none" />
+                
+                {/* Floating elements on hover */}
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-r from-gold/0 via-gold/5 to-gold/0 rounded-full opacity-0 group-hover:opacity-100 group-hover:scale-150 transition-all duration-1000 pointer-events-none" />
               </div>
             );
           })}
