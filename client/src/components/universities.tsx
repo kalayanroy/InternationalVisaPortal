@@ -90,89 +90,79 @@ export default function Universities() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {countries.map((country, index) => (
-            <Card
+            <div
               key={index}
-              className="group relative overflow-hidden border-0 bg-gradient-to-br from-white via-white to-muted/20 luxury-shadow hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-2"
+              className="group relative bg-white rounded-2xl overflow-hidden luxury-shadow hover:shadow-2xl transition-all duration-500"
             >
-              {/* Premium border gradient */}
-              <div className="absolute inset-0 bg-gradient-to-r from-gold via-gold/50 to-navy p-[2px] rounded-xl">
-                <div className="bg-white rounded-xl h-full w-full" />
-              </div>
-              
-              <div className="relative z-10">
-                <div className="relative h-56 overflow-hidden rounded-t-xl">
+              <div className="grid md:grid-cols-2 h-full">
+                {/* Image Section */}
+                <div className="relative h-64 md:h-auto overflow-hidden">
                   <img
                     src={country.image}
                     alt={`Study in ${country.name}`}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-navy/40 to-transparent" />
                   
-                  {/* Country badge */}
-                  <div className="absolute top-6 left-6">
-                    <div className="bg-white/95 backdrop-blur-md rounded-xl px-4 py-2 flex items-center space-x-3 luxury-shadow">
-                      <span className="text-2xl">{country.flag}</span>
+                  {/* Country Header */}
+                  <div className="absolute top-6 left-6 right-6">
+                    <div className="flex items-center space-x-3">
+                      <span className="text-4xl drop-shadow-lg">{country.flag}</span>
                       <div>
-                        <span className="font-playfair font-bold text-navy text-lg">{country.name}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Statistics overlay */}
-                  <div className="absolute bottom-6 left-6 right-6">
-                    <div className="bg-white/15 backdrop-blur-md rounded-xl p-4 border border-white/20">
-                      <div className="grid grid-cols-2 gap-4 text-white">
-                        <div className="flex items-center space-x-2">
-                          <Users className="h-4 w-4 text-gold" />
-                          <div>
-                            <div className="text-sm font-semibold">{country.students}</div>
-                            <div className="text-xs opacity-80">Students</div>
+                        <h3 className="text-2xl font-playfair font-bold text-white drop-shadow-md">
+                          {country.name}
+                        </h3>
+                        <div className="flex items-center space-x-4 mt-1">
+                          <div className="flex items-center space-x-1 text-white/90 text-sm">
+                            <Users className="h-4 w-4" />
+                            <span>{country.students}</span>
                           </div>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Trophy className="h-4 w-4 text-gold" />
-                          <div>
-                            <div className="text-sm font-semibold">{country.programs}</div>
-                            <div className="text-xs opacity-80">Programs</div>
+                          <div className="flex items-center space-x-1 text-white/90 text-sm">
+                            <Trophy className="h-4 w-4" />
+                            <span>{country.programs}</span>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Premium corner accent */}
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-gold opacity-10 rounded-bl-full" />
+                  {/* Gold accent */}
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-gold" />
                 </div>
 
-                <CardContent className="p-8 space-y-6">
-                  <div>
+                {/* Content Section */}
+                <div className="p-8 flex flex-col justify-between">
+                  <div className="space-y-6">
                     <p className="text-muted-foreground leading-relaxed">
                       {country.description}
                     </p>
-                  </div>
 
-                  <div className="space-y-4">
                     <div>
-                      <h4 className="font-playfair font-semibold text-navy mb-3">Prestigious Universities</h4>
+                      <h4 className="font-playfair font-semibold text-navy mb-3 flex items-center">
+                        <div className="w-2 h-2 bg-gold rounded-full mr-3" />
+                        Top Universities
+                      </h4>
                       <div className="space-y-2">
                         {country.topUniversities.map((uni, idx) => (
-                          <div key={idx} className="flex items-center space-x-3 text-sm text-navy/80">
-                            <div className="w-2 h-2 bg-gradient-gold rounded-full flex-shrink-0" />
-                            <span className="font-medium">{uni}</span>
+                          <div key={idx} className="text-sm text-navy/70 pl-5">
+                            • {uni}
                           </div>
                         ))}
                       </div>
                     </div>
 
                     <div>
-                      <h4 className="font-playfair font-semibold text-navy mb-3">Key Advantages</h4>
+                      <h4 className="font-playfair font-semibold text-navy mb-3 flex items-center">
+                        <div className="w-2 h-2 bg-gold rounded-full mr-3" />
+                        Key Benefits
+                      </h4>
                       <div className="flex flex-wrap gap-2">
                         {country.highlights.map((highlight, idx) => (
                           <span
                             key={idx}
-                            className="bg-gradient-to-r from-gold/10 to-navy/5 text-navy px-3 py-1.5 rounded-full text-xs font-medium border border-gold/20"
+                            className="bg-navy/5 text-navy px-3 py-1 rounded-full text-xs font-medium border border-navy/10"
                           >
                             {highlight}
                           </span>
@@ -181,17 +171,18 @@ export default function Universities() {
                     </div>
                   </div>
 
-                  <Button
-                    onClick={() => scrollToSection("contact")}
-                    className="w-full bg-gradient-to-r from-navy to-navy/90 text-white hover:from-gold hover:to-gold/90 transition-all duration-500 py-4 rounded-xl font-semibold luxury-shadow group"
-                  >
-                    <MapPin className="h-5 w-5 mr-2" />
-                    Explore Opportunities
-                    <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </CardContent>
+                  <div className="mt-6">
+                    <Button
+                      onClick={() => scrollToSection("contact")}
+                      className="w-full bg-navy text-white hover:bg-gold hover:text-navy transition-all duration-300 py-3 font-semibold group"
+                    >
+                      Explore {country.name}
+                      <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </div>
+                </div>
               </div>
-            </Card>
+            </div>
           ))}
         </div>
 
