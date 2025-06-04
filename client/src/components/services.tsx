@@ -78,112 +78,88 @@ export default function Services() {
           </p>
         </div>
 
-        <div className="space-y-16 mb-20">
-          {services.map((service, index) => {
-            const IconComponent = service.icon;
-            const isEven = index % 2 === 0;
-            
-            return (
-              <div
-                key={index}
-                className={`group flex items-center gap-16 ${!isEven ? 'flex-row-reverse' : ''}`}
-              >
-                {/* Visual Section */}
-                <div className="flex-1 relative">
-                  <div className="relative h-80 bg-gradient-to-br from-slate-50 to-white rounded-3xl overflow-hidden border border-slate-100/50 luxury-shadow group-hover:shadow-2xl transition-all duration-700">
-                    {/* Sophisticated background pattern */}
-                    <div className="absolute inset-0 opacity-30">
-                      <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                        <defs>
-                          <linearGradient id={`grad-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style={{stopColor: '#B8860B', stopOpacity: 0.1}} />
-                            <stop offset="50%" style={{stopColor: 'transparent'}} />
-                            <stop offset="100%" style={{stopColor: '#1e293b', stopOpacity: 0.1}} />
-                          </linearGradient>
-                        </defs>
-                        <path d="M0,20 Q50,0 100,20 L100,80 Q50,100 0,80 Z" fill={`url(#grad-${index})`} />
-                      </svg>
+        <div className="relative">
+          {/* Services Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-1 bg-slate-900 p-1 rounded-3xl overflow-hidden">
+            {services.map((service, index) => {
+              const IconComponent = service.icon;
+              
+              return (
+                <div
+                  key={index}
+                  className="group relative bg-white p-12 hover:bg-slate-50 transition-all duration-700 cursor-pointer"
+                >
+                  {/* Minimal accent line */}
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gold to-navy" />
+                  
+                  {/* Header Section */}
+                  <div className="mb-8 space-y-6">
+                    {/* Icon and tier badge row */}
+                    <div className="flex items-start justify-between">
+                      <div className={`w-16 h-16 rounded-full flex items-center justify-center ${service.color} transform group-hover:scale-110 transition-transform duration-500`}>
+                        <IconComponent className="h-8 w-8" />
+                      </div>
+                      
+                      <span className="text-xs font-black text-gold/80 bg-gold/10 px-3 py-1 rounded-full border border-gold/20 uppercase tracking-widest">
+                        {service.tier}
+                      </span>
                     </div>
                     
-                    {/* Floating icon design */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="relative">
-                        {/* Icon backdrop rings */}
-                        <div className="absolute inset-0 w-32 h-32 border-2 border-gold/20 rounded-full animate-pulse" />
-                        <div className="absolute inset-4 w-24 h-24 border border-navy/20 rounded-full" />
-                        
-                        {/* Main icon */}
-                        <div className={`relative w-24 h-24 rounded-full flex items-center justify-center ${service.color} luxury-shadow group-hover:scale-110 transition-all duration-700`}>
-                          <IconComponent className="h-12 w-12" />
-                        </div>
-                        
-                        {/* Floating elements */}
-                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-gold rounded-full opacity-80 group-hover:scale-125 transition-transform duration-500" />
-                        <div className="absolute -bottom-3 -left-3 w-4 h-4 bg-navy rounded-full opacity-60 group-hover:scale-125 transition-transform duration-700" />
-                      </div>
-                    </div>
-                    
-                    {/* Service tier badge */}
-                    <div className="absolute top-6 right-6">
-                      <div className="bg-white/90 backdrop-blur-md border border-gold/30 rounded-2xl px-4 py-2 luxury-shadow">
-                        <span className="text-xs font-bold text-gold uppercase tracking-wider">
-                          {service.tier}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Content Section */}
-                <div className="flex-1 space-y-8">
-                  {/* Header */}
-                  <div className="space-y-4">
-                    <h3 className="text-4xl font-playfair font-bold text-navy leading-tight group-hover:text-gold transition-colors duration-500">
+                    {/* Title */}
+                    <h3 className="text-3xl font-playfair font-black text-navy leading-tight">
                       {service.title}
                     </h3>
-                    <div className="w-24 h-1 bg-gradient-to-r from-gold to-navy rounded-full" />
                   </div>
                   
-                  {/* Description */}
-                  <p className="text-lg text-slate-600 leading-relaxed font-medium">
-                    {service.description}
-                  </p>
-
-                  {/* Premium feature grid */}
-                  <div className="space-y-6">
-                    <h4 className="text-sm font-bold text-navy uppercase tracking-widest border-b border-slate-200 pb-2">
-                      Excellence Standards
-                    </h4>
-                    <div className="grid grid-cols-1 gap-4">
-                      {service.highlights.map((highlight, idx) => (
-                        <div key={idx} className="group/feature flex items-start space-x-4 p-4 rounded-2xl hover:bg-slate-50 transition-colors duration-300">
-                          <div className="flex-shrink-0 mt-1">
-                            <div className="w-3 h-3 bg-gradient-to-r from-gold to-navy rounded-full group-hover/feature:scale-125 transition-transform" />
+                  {/* Content */}
+                  <div className="space-y-8">
+                    {/* Description */}
+                    <p className="text-slate-700 text-lg leading-relaxed font-medium">
+                      {service.description}
+                    </p>
+                    
+                    {/* Features */}
+                    <div className="space-y-4">
+                      <div className="flex items-center space-x-3 mb-4">
+                        <div className="w-2 h-2 bg-gold rounded-full" />
+                        <span className="text-sm font-black text-navy uppercase tracking-widest">Features</span>
+                      </div>
+                      
+                      <div className="space-y-3">
+                        {service.highlights.map((highlight, idx) => (
+                          <div key={idx} className="flex items-start space-x-3 group/item">
+                            <div className="w-1 h-1 bg-navy rounded-full mt-2 flex-shrink-0 group-hover/item:bg-gold transition-colors" />
+                            <span className="text-slate-600 font-semibold text-base leading-relaxed group-hover/item:text-navy transition-colors">
+                              {highlight}
+                            </span>
                           </div>
-                          <span className="text-base font-semibold text-slate-700 group-hover/feature:text-navy transition-colors">
-                            {highlight}
-                          </span>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {/* Action */}
+                    <div className="pt-6">
+                      <button
+                        onClick={() => scrollToSection("contact")}
+                        className="group/btn flex items-center space-x-2 text-navy font-black text-base hover:text-gold transition-colors duration-300"
+                      >
+                        <span>Explore Service</span>
+                        <ArrowRight className="h-5 w-5 group-hover/btn:translate-x-1 transition-transform" />
+                      </button>
                     </div>
                   </div>
-
-                  {/* Elegant CTA */}
-                  <div className="pt-4">
-                    <Button
-                      onClick={() => scrollToSection("contact")}
-                      className="bg-transparent border-2 border-navy text-navy hover:bg-navy hover:text-white px-8 py-4 rounded-2xl font-bold text-base transition-all duration-500 group/btn"
-                    >
-                      <span className="flex items-center">
-                        Learn More
-                        <ArrowRight className="ml-3 h-5 w-5 group-hover/btn:translate-x-2 transition-transform duration-300" />
-                      </span>
-                    </Button>
-                  </div>
+                  
+                  {/* Hover overlay */}
+                  <div className="absolute inset-0 border-4 border-transparent group-hover:border-gold/20 rounded-lg transition-all duration-300 pointer-events-none" />
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
+          
+          {/* Bottom accent */}
+          <div className="mt-12 flex justify-center">
+            <div className="w-32 h-1 bg-gradient-to-r from-transparent via-gold to-transparent rounded-full" />
+          </div>
         </div>
 
         {/* CTA Section */}
