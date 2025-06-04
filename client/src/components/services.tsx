@@ -78,55 +78,80 @@ export default function Services() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
           {services.map((service, index) => {
             const IconComponent = service.icon;
             return (
-              <Card
+              <div
                 key={index}
-                className="group hover:luxury-shadow transition-all duration-500 border-0 bg-gradient-to-br from-white to-muted/20 overflow-hidden relative"
+                className="group relative bg-white rounded-3xl overflow-hidden luxury-shadow hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-1"
               >
-                <CardContent className="p-8 relative z-10">
-                  <div className="flex items-center justify-between mb-6">
-                    <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${service.color} group-hover:scale-110 transition-transform duration-300`}>
-                      <IconComponent className="h-7 w-7" />
-                    </div>
-                    <span className="text-xs font-medium text-gold bg-gold/10 px-2 py-1 rounded-full">
-                      {service.tier}
-                    </span>
-                  </div>
-                  
-                  <h3 className="text-xl font-playfair font-semibold text-navy mb-4 group-hover:text-gold transition-colors">
-                    {service.title}
-                  </h3>
-                  
-                  <p className="text-muted-foreground mb-6 text-sm leading-relaxed">
-                    {service.description}
-                  </p>
-
-                  <div className="space-y-2 mb-6">
-                    {service.highlights.map((highlight, idx) => (
-                      <div key={idx} className="flex items-center text-xs text-navy/70">
-                        <div className="w-1 h-1 bg-gold rounded-full mr-2" />
-                        {highlight}
-                      </div>
-                    ))}
-                  </div>
-
-                  <Button
-                    onClick={() => scrollToSection("contact")}
-                    variant="outline"
-                    className="w-full border-navy/20 text-navy hover:bg-navy hover:text-white transition-all group/btn"
-                  >
-                    Learn More
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
-                  </Button>
-                </CardContent>
+                {/* Premium gradient border */}
+                <div className="absolute inset-0 bg-gradient-to-r from-gold via-gold/30 to-navy p-[1px] rounded-3xl">
+                  <div className="bg-white rounded-3xl h-full w-full" />
+                </div>
                 
+                <div className="relative z-10 p-10">
+                  {/* Header Section */}
+                  <div className="flex items-start justify-between mb-8">
+                    <div className="flex items-center space-x-4">
+                      <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${service.color} group-hover:scale-110 transition-transform duration-500 luxury-shadow`}>
+                        <IconComponent className="h-8 w-8" />
+                      </div>
+                      <div>
+                        <span className="text-xs font-semibold text-gold bg-gradient-to-r from-gold/10 to-gold/5 px-3 py-1 rounded-full border border-gold/20">
+                          {service.tier}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    {/* Premium corner accent */}
+                    <div className="w-12 h-12 bg-gradient-gold opacity-10 rounded-full" />
+                  </div>
+
+                  {/* Content Section */}
+                  <div className="space-y-6">
+                    <h3 className="text-2xl font-playfair font-bold text-navy group-hover:text-gold transition-colors duration-300">
+                      {service.title}
+                    </h3>
+                    
+                    <p className="text-muted-foreground leading-relaxed text-base">
+                      {service.description}
+                    </p>
+
+                    {/* Premium highlights */}
+                    <div className="space-y-3">
+                      <h4 className="font-semibold text-navy text-sm flex items-center">
+                        <div className="w-2 h-2 bg-gold rounded-full mr-3" />
+                        Key Features
+                      </h4>
+                      <div className="grid grid-cols-1 gap-2 pl-5">
+                        {service.highlights.map((highlight, idx) => (
+                          <div key={idx} className="flex items-center text-sm text-navy/80">
+                            <div className="w-1.5 h-1.5 bg-gradient-gold rounded-full mr-3 flex-shrink-0" />
+                            <span className="font-medium">{highlight}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* CTA Button */}
+                    <div className="pt-4">
+                      <Button
+                        onClick={() => scrollToSection("contact")}
+                        className="w-full bg-gradient-to-r from-navy to-navy/90 text-white hover:from-gold hover:to-gold/90 transition-all duration-500 py-4 rounded-2xl font-semibold text-base luxury-shadow group/btn"
+                      >
+                        Discover More
+                        <ArrowRight className="ml-3 h-5 w-5 group-hover/btn:translate-x-1 transition-transform" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Decorative elements */}
-                <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-gold opacity-5 rounded-full blur-xl" />
-                <div className="absolute bottom-0 left-0 w-16 h-16 bg-gradient-navy opacity-5 rounded-full blur-lg" />
-              </Card>
+                <div className="absolute top-6 right-6 w-24 h-24 bg-gradient-to-br from-gold/5 to-navy/5 rounded-full blur-2xl opacity-60" />
+                <div className="absolute bottom-6 left-6 w-16 h-16 bg-gradient-to-tr from-navy/5 to-gold/5 rounded-full blur-xl opacity-40" />
+              </div>
             );
           })}
         </div>
