@@ -23,8 +23,8 @@ export default function Process() {
   ];
 
   return (
-    <section className="py-20 bg-slate-50">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-playfair font-bold text-navy mb-4">
             Simple 4-Step Process
@@ -34,13 +34,21 @@ export default function Process() {
           </p>
         </div>
 
-        <div className="space-y-8">
-          {steps.map((step, index) => (
-            <div key={index} className="group">
-              <div className="flex items-center gap-8 bg-white rounded-2xl p-8 shadow-md hover:shadow-lg transition-all duration-300">
-                {/* Step number */}
-                <div className="flex-shrink-0">
-                  <div className="w-16 h-16 bg-gradient-to-br from-navy to-slate-700 rounded-2xl flex items-center justify-center shadow-lg">
+        <div className="relative">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {steps.map((step, index) => (
+              <div key={index} className="group text-center">
+                {/* Step circle with connecting line */}
+                <div className="relative mb-8">
+                  {/* Connecting line */}
+                  {index < steps.length - 1 && (
+                    <div className="hidden lg:block absolute top-8 left-16 w-full h-0.5 bg-slate-200 z-0">
+                      <div className="h-full bg-gradient-to-r from-navy to-gold w-full opacity-30" />
+                    </div>
+                  )}
+                  
+                  {/* Step circle */}
+                  <div className="relative z-10 w-16 h-16 bg-gradient-to-br from-navy via-slate-800 to-navy rounded-full flex items-center justify-center mx-auto shadow-lg group-hover:scale-110 transition-all duration-500">
                     <span className="text-xl font-playfair font-bold text-white">
                       {step.number}
                     </span>
@@ -48,26 +56,17 @@ export default function Process() {
                 </div>
                 
                 {/* Content */}
-                <div className="flex-1">
-                  <h3 className="text-xl font-playfair font-bold text-navy mb-3">
+                <div className="space-y-4">
+                  <h3 className="text-lg font-playfair font-bold text-navy">
                     {step.title}
                   </h3>
-                  <p className="text-slate-600 leading-relaxed">
+                  <p className="text-slate-600 text-sm leading-relaxed">
                     {step.description}
                   </p>
                 </div>
-                
-                {/* Arrow indicator */}
-                <div className="flex-shrink-0">
-                  <div className="w-8 h-8 bg-gold/10 rounded-full flex items-center justify-center group-hover:bg-gold/20 transition-colors">
-                    <svg className="w-4 h-4 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </div>
-                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
