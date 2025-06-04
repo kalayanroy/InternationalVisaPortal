@@ -94,75 +94,103 @@ export default function Universities() {
           {countries.map((country, index) => (
             <Card
               key={index}
-              className="group hover:luxury-shadow transition-all duration-500 border-0 bg-white/80 backdrop-blur-sm overflow-hidden"
+              className="group relative overflow-hidden border-0 bg-gradient-to-br from-white via-white to-muted/20 luxury-shadow hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-2"
             >
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src={country.image}
-                  alt={`Study in ${country.name}`}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy/60 to-transparent" />
-                <div className="absolute top-4 left-4">
-                  <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 flex items-center space-x-2">
-                    <span className="text-lg">{country.flag}</span>
-                    <span className="font-semibold text-navy text-sm">{country.name}</span>
-                  </div>
-                </div>
-                <div className="absolute bottom-4 left-4 right-4">
-                  <div className="grid grid-cols-2 gap-2 text-white text-xs">
-                    <div className="flex items-center">
-                      <Users className="h-3 w-3 mr-1" />
-                      {country.students}
-                    </div>
-                    <div className="flex items-center">
-                      <Trophy className="h-3 w-3 mr-1" />
-                      {country.programs}
-                    </div>
-                  </div>
-                </div>
+              {/* Premium border gradient */}
+              <div className="absolute inset-0 bg-gradient-to-r from-gold via-gold/50 to-navy p-[2px] rounded-xl">
+                <div className="bg-white rounded-xl h-full w-full" />
               </div>
-
-              <CardContent className="p-6">
-                <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-                  {country.description}
-                </p>
-
-                <div className="mb-4">
-                  <h4 className="font-semibold text-navy mb-2 text-sm">Top Universities:</h4>
-                  <div className="space-y-1">
-                    {country.topUniversities.map((uni, idx) => (
-                      <div key={idx} className="text-xs text-muted-foreground flex items-center">
-                        <div className="w-1 h-1 bg-gold rounded-full mr-2" />
-                        {uni}
+              
+              <div className="relative z-10">
+                <div className="relative h-56 overflow-hidden rounded-t-xl">
+                  <img
+                    src={country.image}
+                    alt={`Study in ${country.name}`}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent" />
+                  
+                  {/* Country badge */}
+                  <div className="absolute top-6 left-6">
+                    <div className="bg-white/95 backdrop-blur-md rounded-xl px-4 py-2 flex items-center space-x-3 luxury-shadow">
+                      <span className="text-2xl">{country.flag}</span>
+                      <div>
+                        <span className="font-playfair font-bold text-navy text-lg">{country.name}</span>
                       </div>
-                    ))}
+                    </div>
                   </div>
+
+                  {/* Statistics overlay */}
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <div className="bg-white/15 backdrop-blur-md rounded-xl p-4 border border-white/20">
+                      <div className="grid grid-cols-2 gap-4 text-white">
+                        <div className="flex items-center space-x-2">
+                          <Users className="h-4 w-4 text-gold" />
+                          <div>
+                            <div className="text-sm font-semibold">{country.students}</div>
+                            <div className="text-xs opacity-80">Students</div>
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Trophy className="h-4 w-4 text-gold" />
+                          <div>
+                            <div className="text-sm font-semibold">{country.programs}</div>
+                            <div className="text-xs opacity-80">Programs</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Premium corner accent */}
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-gold opacity-10 rounded-bl-full" />
                 </div>
 
-                <div className="mb-6">
-                  <h4 className="font-semibold text-navy mb-2 text-sm">Key Highlights:</h4>
-                  <div className="flex flex-wrap gap-1">
-                    {country.highlights.map((highlight, idx) => (
-                      <span
-                        key={idx}
-                        className="text-xs bg-gold/10 text-gold px-2 py-1 rounded-full"
-                      >
-                        {highlight}
-                      </span>
-                    ))}
+                <CardContent className="p-8 space-y-6">
+                  <div>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {country.description}
+                    </p>
                   </div>
-                </div>
 
-                <Button
-                  onClick={() => scrollToSection("contact")}
-                  className="w-full bg-navy text-white hover:bg-navy/90 transition-all group"
-                >
-                  <MapPin className="h-4 w-4 mr-2" />
-                  Explore Programs
-                  <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </CardContent>
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="font-playfair font-semibold text-navy mb-3">Prestigious Universities</h4>
+                      <div className="space-y-2">
+                        {country.topUniversities.map((uni, idx) => (
+                          <div key={idx} className="flex items-center space-x-3 text-sm text-navy/80">
+                            <div className="w-2 h-2 bg-gradient-gold rounded-full flex-shrink-0" />
+                            <span className="font-medium">{uni}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="font-playfair font-semibold text-navy mb-3">Key Advantages</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {country.highlights.map((highlight, idx) => (
+                          <span
+                            key={idx}
+                            className="bg-gradient-to-r from-gold/10 to-navy/5 text-navy px-3 py-1.5 rounded-full text-xs font-medium border border-gold/20"
+                          >
+                            {highlight}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <Button
+                    onClick={() => scrollToSection("contact")}
+                    className="w-full bg-gradient-to-r from-navy to-navy/90 text-white hover:from-gold hover:to-gold/90 transition-all duration-500 py-4 rounded-xl font-semibold luxury-shadow group"
+                  >
+                    <MapPin className="h-5 w-5 mr-2" />
+                    Explore Opportunities
+                    <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </CardContent>
+              </div>
             </Card>
           ))}
         </div>
