@@ -33,10 +33,10 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed w-full z-50 border-b luxury-border transition-all duration-500 ${
+      className={`fixed w-full z-50 transition-all duration-500 ${
         isScrolled
-          ? "bg-white/98 backdrop-blur-lg luxury-shadow"
-          : "bg-white/95 backdrop-blur-md"
+          ? "bg-white border-b border-gray-200 luxury-shadow"
+          : "bg-transparent border-b border-white/20"
       }`}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -101,7 +101,11 @@ export default function Header() {
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="lg:hidden">
-            <div className="px-2 pt-4 pb-6 space-y-2 bg-white/98 backdrop-blur-lg border-t luxury-border shadow-lg">
+            <div className={`px-2 pt-4 pb-6 space-y-2 shadow-lg transition-all duration-300 ${
+              isScrolled 
+                ? "bg-white border-t border-gray-200" 
+                : "bg-white/95 backdrop-blur-lg border-t border-white/20"
+            }`}>
               {navItems.map((item) => (
                 <button
                   key={item.id}
