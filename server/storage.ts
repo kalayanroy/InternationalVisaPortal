@@ -15,6 +15,8 @@ import {
   type Application,
   type InsertApplication
 } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -38,151 +40,118 @@ export interface IStorage {
   updateApplication(id: number, updates: Partial<Application>): Promise<Application | undefined>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private students: Map<number, Student>;
-  private contactInquiries: Map<number, ContactInquiry>;
-  private appointments: Map<number, Appointment>;
-  private applications: Map<number, Application>;
-  private currentUserId: number;
-  private currentStudentId: number;
-  private currentInquiryId: number;
-  private currentAppointmentId: number;
-  private currentApplicationId: number;
-
-  constructor() {
-    this.users = new Map();
-    this.students = new Map();
-    this.contactInquiries = new Map();
-    this.appointments = new Map();
-    this.applications = new Map();
-    this.currentUserId = 1;
-    this.currentStudentId = 1;
-    this.currentInquiryId = 1;
-    this.currentAppointmentId = 1;
-    this.currentApplicationId = 1;
-  }
-
+export class DatabaseStorage implements IStorage {
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.currentUserId++;
-    const user: User = { ...insertUser, id, role: "admin" };
-    this.users.set(id, user);
+    const [user] = await db
+      .insert(users)
+      .values({ ...insertUser, role: "admin" })
+      .returning();
     return user;
   }
 
   async getStudent(id: number): Promise<Student | undefined> {
-    return this.students.get(id);
+    const [student] = await db.select().from(students).where(eq(students.id, id));
+    return student || undefined;
   }
 
   async getStudentByEmail(email: string): Promise<Student | undefined> {
-    return Array.from(this.students.values()).find(
-      (student) => student.email === email,
-    );
+    const [student] = await db.select().from(students).where(eq(students.email, email));
+    return student || undefined;
   }
 
   async createStudent(insertStudent: InsertStudent): Promise<Student> {
-    const id = this.currentStudentId++;
-    const student: Student = { 
-      ...insertStudent, 
-      id, 
-      createdAt: new Date() 
-    };
-    this.students.set(id, student);
+    const [student] = await db
+      .insert(students)
+      .values({
+        ...insertStudent,
+        phone: insertStudent.phone || null,
+        dateOfBirth: insertStudent.dateOfBirth || null,
+        nationality: insertStudent.nationality || null
+      })
+      .returning();
     return student;
   }
 
   async createContactInquiry(insertInquiry: InsertContactInquiry): Promise<ContactInquiry> {
-    const id = this.currentInquiryId++;
-    const inquiry: ContactInquiry = { 
-      ...insertInquiry,
-      destination: insertInquiry.destination || null,
-      message: insertInquiry.message || null,
-      id, 
-      createdAt: new Date() 
-    };
-    this.contactInquiries.set(id, inquiry);
+    const [inquiry] = await db
+      .insert(contactInquiries)
+      .values(insertInquiry)
+      .returning();
     return inquiry;
   }
 
   async getContactInquiries(): Promise<ContactInquiry[]> {
-    return Array.from(this.contactInquiries.values()).sort(
-      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
-    );
+    return await db.select().from(contactInquiries).orderBy(contactInquiries.createdAt);
   }
 
   async createAppointment(insertAppointment: InsertAppointment): Promise<Appointment> {
-    const id = this.currentAppointmentId++;
-    const appointment: Appointment = {
-      ...insertAppointment,
-      id,
-      studentId: null,
-      status: "pending",
-      createdAt: new Date()
-    };
-    this.appointments.set(id, appointment);
+    const [appointment] = await db
+      .insert(appointments)
+      .values(insertAppointment)
+      .returning();
     return appointment;
   }
 
   async getAppointments(): Promise<Appointment[]> {
-    return Array.from(this.appointments.values()).sort(
-      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
-    );
+    return await db.select().from(appointments).orderBy(appointments.createdAt);
   }
 
   async getStudentAppointments(studentId: number): Promise<Appointment[]> {
-    return Array.from(this.appointments.values())
-      .filter(appointment => appointment.studentId === studentId)
-      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    return await db
+      .select()
+      .from(appointments)
+      .where(eq(appointments.studentId, studentId))
+      .orderBy(appointments.createdAt);
   }
 
   async createApplication(insertApplication: InsertApplication): Promise<Application> {
-    const id = this.currentApplicationId++;
-    const application: Application = {
-      ...insertApplication,
-      id,
-      status: "draft",
-      documents: [],
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-    this.applications.set(id, application);
+    const [application] = await db
+      .insert(applications)
+      .values({
+        ...insertApplication,
+        studentId: insertApplication.studentId || 1,
+        documents: insertApplication.documents || [],
+        requirements: insertApplication.requirements || {
+          academicRequirements: [],
+          languageRequirements: [],
+          financialRequirements: [],
+          documentRequirements: []
+        }
+      })
+      .returning();
     return application;
   }
 
   async getApplications(): Promise<Application[]> {
-    return Array.from(this.applications.values()).sort(
-      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
-    );
+    return await db.select().from(applications).orderBy(applications.createdAt);
   }
 
   async getStudentApplications(studentId: number): Promise<Application[]> {
-    return Array.from(this.applications.values())
-      .filter(application => application.studentId === studentId)
-      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    return await db
+      .select()
+      .from(applications)
+      .where(eq(applications.studentId, studentId))
+      .orderBy(applications.createdAt);
   }
 
   async updateApplication(id: number, updates: Partial<Application>): Promise<Application | undefined> {
-    const application = this.applications.get(id);
-    if (!application) return undefined;
-
-    const updatedApplication = {
-      ...application,
-      ...updates,
-      updatedAt: new Date()
-    };
-    this.applications.set(id, updatedApplication);
-    return updatedApplication;
+    const [application] = await db
+      .update(applications)
+      .set(updates)
+      .where(eq(applications.id, id))
+      .returning();
+    return application || undefined;
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
