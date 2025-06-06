@@ -227,22 +227,35 @@ export default function Universities() {
                   </div>
 
                   <div className="mt-6">
-                    {country.name === "United States" ? (
-                      <Link href="/usa-universities">
-                        <Button className="w-full bg-navy text-white hover:bg-gold hover:text-navy transition-all duration-300 py-3 font-semibold group">
+                    {(() => {
+                      const countryRoutes = {
+                        "United States": "/usa-universities",
+                        "United Kingdom": "/uk-universities", 
+                        "Canada": "/canada-universities",
+                        "Australia": "/australia-universities",
+                        "Germany": "/germany-universities",
+                        "Singapore": "/singapore-universities"
+                      };
+                      
+                      const route = countryRoutes[country.name as keyof typeof countryRoutes];
+                      
+                      return route ? (
+                        <Link href={route}>
+                          <Button className="w-full bg-navy text-white hover:bg-gold hover:text-navy transition-all duration-300 py-3 font-semibold group">
+                            Explore {country.name}
+                            <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                          </Button>
+                        </Link>
+                      ) : (
+                        <Button
+                          onClick={() => scrollToSection("contact")}
+                          className="w-full bg-navy text-white hover:bg-gold hover:text-navy transition-all duration-300 py-3 font-semibold group"
+                        >
                           Explore {country.name}
                           <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
                         </Button>
-                      </Link>
-                    ) : (
-                      <Button
-                        onClick={() => scrollToSection("contact")}
-                        className="w-full bg-navy text-white hover:bg-gold hover:text-navy transition-all duration-300 py-3 font-semibold group"
-                      >
-                        Explore {country.name}
-                        <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                      </Button>
-                    )}
+                      );
+                    })()}
                   </div>
                 </div>
               </div>

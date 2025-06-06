@@ -5,6 +5,11 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Home from "@/pages/home";
 import USAUniversities from "@/pages/usa-universities";
+import UKUniversities from "@/pages/uk-universities";
+import CanadaUniversities from "@/pages/canada-universities";
+import AustraliaUniversities from "@/pages/australia-universities";
+import GermanyUniversities from "@/pages/germany-universities";
+import SingaporeUniversities from "@/pages/singapore-universities";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -12,6 +17,11 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/usa-universities" component={USAUniversities} />
+      <Route path="/uk-universities" component={UKUniversities} />
+      <Route path="/canada-universities" component={CanadaUniversities} />
+      <Route path="/australia-universities" component={AustraliaUniversities} />
+      <Route path="/germany-universities" component={GermanyUniversities} />
+      <Route path="/singapore-universities" component={SingaporeUniversities} />
       <Route component={NotFound} />
     </Switch>
   );
