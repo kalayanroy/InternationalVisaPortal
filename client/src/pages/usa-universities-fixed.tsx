@@ -373,113 +373,95 @@ export default function USAUniversities() {
                   
                   <CardContent className="p-0">
                     <div className="flex">
-                      {/* Left side - Main content */}
-                      <div className="flex-1 p-6">
+                      {/* Left side - Summarized content */}
+                      <div className="flex-1 p-4">
                         {/* Basic Stats */}
-                        <div className="grid grid-cols-2 gap-4 mb-6">
-                          <div className="text-center p-3 bg-slate-50 rounded-lg">
-                            <div className="text-lg font-bold text-navy">{university.acceptanceRate}</div>
-                            <div className="text-sm text-slate-600">Acceptance Rate</div>
+                        <div className="grid grid-cols-2 gap-3 mb-4">
+                          <div className="text-center p-2 bg-slate-50 rounded-lg">
+                            <div className="text-base font-bold text-navy">{university.acceptanceRate}</div>
+                            <div className="text-xs text-slate-600">Acceptance</div>
                           </div>
-                          <div className="text-center p-3 bg-slate-50 rounded-lg">
-                            <div className="text-lg font-bold text-navy">{university.tuitionFee}</div>
-                            <div className="text-sm text-slate-600">Annual Tuition</div>
+                          <div className="text-center p-2 bg-slate-50 rounded-lg">
+                            <div className="text-base font-bold text-navy">{university.tuitionFee}</div>
+                            <div className="text-xs text-slate-600">Tuition</div>
                           </div>
                         </div>
 
-                        {/* Visa Requirements */}
-                        <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200">
-                          <h4 className="font-semibold text-navy mb-3 flex items-center">
-                            <FileText className="h-4 w-4 mr-2" />
-                            Visa Requirements (Unique to {university.name})
+                        {/* Quick Info */}
+                        <div className="mb-4 p-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200">
+                          <h4 className="font-semibold text-navy mb-2 text-sm flex items-center">
+                            <FileText className="h-3 w-3 mr-1" />
+                            Visa & Costs Summary
                           </h4>
-                          <div className="grid grid-cols-2 gap-3 text-sm">
+                          <div className="grid grid-cols-2 gap-2 text-xs">
                             <div>
-                              <span className="font-medium text-slate-700">Processing Time:</span>
-                              <span className="ml-2 text-navy">{university.visaRequirements.f1ProcessingTime}</span>
+                              <span className="font-medium text-slate-700">Processing:</span>
+                              <span className="ml-1 text-navy">{university.visaRequirements.f1ProcessingTime}</span>
                             </div>
                             <div>
-                              <span className="font-medium text-slate-700">Financial Proof:</span>
-                              <span className="ml-2 text-navy">{university.visaRequirements.financialProof}</span>
+                              <span className="font-medium text-slate-700">Proof:</span>
+                              <span className="ml-1 text-navy">{university.visaRequirements.financialProof}</span>
                             </div>
-                            <div className="col-span-2">
-                              <span className="font-medium text-slate-700">Required Docs:</span>
-                              <span className="ml-2 text-navy text-xs">{university.visaRequirements.documentsRequired.slice(0, 2).join(", ")} + more</span>
+                            <div>
+                              <span className="font-medium text-slate-700">Room:</span>
+                              <span className="ml-1 text-navy">{university.specificCosts.roomBoard}</span>
                             </div>
-                          </div>
-                        </div>
-
-                        {/* Cost Breakdown */}
-                        <div className="mb-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-200">
-                          <h4 className="font-semibold text-navy mb-3 flex items-center">
-                            <DollarSign className="h-4 w-4 mr-2" />
-                            Cost Breakdown (University-Specific)
-                          </h4>
-                          <div className="grid grid-cols-2 gap-2 text-sm">
-                            <div className="flex justify-between">
-                              <span className="text-slate-700">Undergrad:</span>
-                              <span className="font-medium text-navy">{university.specificCosts.tuitionUgrad}</span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="text-slate-700">Graduate:</span>
-                              <span className="font-medium text-navy">{university.specificCosts.tuitionGrad}</span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="text-slate-700">Room & Board:</span>
-                              <span className="font-medium text-navy">{university.specificCosts.roomBoard}</span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="text-slate-700">Insurance:</span>
-                              <span className="font-medium text-navy">{university.specificCosts.healthInsurance}</span>
+                            <div>
+                              <span className="font-medium text-slate-700">Insurance:</span>
+                              <span className="ml-1 text-navy">{university.specificCosts.healthInsurance}</span>
                             </div>
                           </div>
                         </div>
 
-                        {/* University Details */}
-                        <div className="space-y-4">
-                          <div>
-                            <h4 className="font-semibold text-navy mb-2">Key Information</h4>
-                            <div className="grid grid-cols-2 gap-2 text-sm">
-                              <div className="flex items-center">
-                                <Users className="h-4 w-4 mr-2 text-slate-500" />
-                                {university.students.toLocaleString()} students
-                              </div>
-                              <div className="flex items-center">
-                                <Globe className="h-4 w-4 mr-2 text-slate-500" />
-                                {university.internationalStudents} international
-                              </div>
-                              <div className="flex items-center">
-                                <Clock className="h-4 w-4 mr-2 text-slate-500" />
-                                Founded {university.founded}
-                              </div>
-                              <div className="flex items-center">
-                                <Star className="h-4 w-4 mr-2 text-slate-500" />
-                                SAT: {university.averageSAT}
-                              </div>
+                        {/* Key Stats */}
+                        <div className="mb-4">
+                          <h4 className="font-semibold text-navy mb-2 text-sm">Quick Facts</h4>
+                          <div className="grid grid-cols-2 gap-2 text-xs">
+                            <div className="flex items-center">
+                              <Users className="h-3 w-3 mr-1 text-slate-500" />
+                              {university.students.toLocaleString()} students
+                            </div>
+                            <div className="flex items-center">
+                              <Globe className="h-3 w-3 mr-1 text-slate-500" />
+                              {university.internationalStudents} international
+                            </div>
+                            <div className="flex items-center">
+                              <Clock className="h-3 w-3 mr-1 text-slate-500" />
+                              Est. {university.founded}
+                            </div>
+                            <div className="flex items-center">
+                              <Star className="h-3 w-3 mr-1 text-slate-500" />
+                              SAT: {university.averageSAT}
                             </div>
                           </div>
-
-                          <div>
-                            <h4 className="font-semibold text-navy mb-2">Popular Specialties</h4>
-                            <div className="flex flex-wrap gap-2">
-                              {university.specialties.map((specialty: string, idx: number) => (
-                                <Badge key={idx} variant="outline" className="text-xs">
-                                  {specialty}
-                                </Badge>
-                              ))}
-                            </div>
-                          </div>
-
-                          {route && (
-                            <div className="pt-4 border-t border-slate-200">
-                              <Link href={route}>
-                                <Button className="w-full bg-navy hover:bg-navy/90 text-white">
-                                  View Detailed Information
-                                </Button>
-                              </Link>
-                            </div>
-                          )}
                         </div>
+
+                        {/* Specialties */}
+                        <div className="mb-4">
+                          <h4 className="font-semibold text-navy mb-2 text-sm">Specialties</h4>
+                          <div className="flex flex-wrap gap-1">
+                            {university.specialties.slice(0, 3).map((specialty: string, idx: number) => (
+                              <Badge key={idx} variant="outline" className="text-xs px-2 py-1">
+                                {specialty}
+                              </Badge>
+                            ))}
+                            {university.specialties.length > 3 && (
+                              <Badge variant="outline" className="text-xs px-2 py-1">
+                                +{university.specialties.length - 3}
+                              </Badge>
+                            )}
+                          </div>
+                        </div>
+
+                        {route && (
+                          <div className="pt-3 border-t border-slate-200">
+                            <Link href={route}>
+                              <Button size="sm" className="w-full bg-navy hover:bg-navy/90 text-white text-xs">
+                                View Details
+                              </Button>
+                            </Link>
+                          </div>
+                        )}
                       </div>
 
                       {/* Right side - Top 5 Courses */}
