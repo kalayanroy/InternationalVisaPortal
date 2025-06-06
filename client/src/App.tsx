@@ -10,6 +10,7 @@ import CanadaUniversities from "@/pages/canada-universities";
 import AustraliaUniversities from "@/pages/australia-universities";
 import GermanyUniversities from "@/pages/germany-universities";
 import SingaporeUniversities from "@/pages/singapore-universities";
+import HarvardUniversity from "@/pages/harvard-university";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -22,6 +23,7 @@ function Router() {
       <Route path="/australia-universities" component={AustraliaUniversities} />
       <Route path="/germany-universities" component={GermanyUniversities} />
       <Route path="/singapore-universities" component={SingaporeUniversities} />
+      <Route path="/harvard-university" component={HarvardUniversity} />
       <Route component={NotFound} />
     </Switch>
   );

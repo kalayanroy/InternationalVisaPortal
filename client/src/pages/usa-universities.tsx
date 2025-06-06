@@ -288,80 +288,123 @@ export default function USAUniversities() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {topUniversities.map((university, index) => (
-                <Card key={index} className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                  <div className="relative h-48">
-                    <img
-                      src={university.image}
-                      alt={university.name}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                    <div className="absolute top-4 right-4">
-                      <Badge className="bg-gold text-navy">
-                        #{university.worldRanking} World
-                      </Badge>
-                    </div>
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <h3 className="text-xl font-playfair font-bold text-white mb-1">
-                        {university.name}
-                      </h3>
-                      <p className="text-white/90 text-sm flex items-center">
-                        <MapPin className="h-4 w-4 mr-1" />
-                        {university.location}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <CardContent className="p-6">
-                    <div className="grid grid-cols-2 gap-4 mb-6">
-                      <div className="text-center p-3 bg-slate-50 rounded-lg">
-                        <div className="text-lg font-bold text-navy">{university.acceptanceRate}</div>
-                        <div className="text-sm text-slate-600">Acceptance Rate</div>
-                      </div>
-                      <div className="text-center p-3 bg-slate-50 rounded-lg">
-                        <div className="text-lg font-bold text-navy">{university.tuitionFee}</div>
-                        <div className="text-sm text-slate-600">Annual Tuition</div>
-                      </div>
-                    </div>
-
-                    <div className="space-y-4">
-                      <div>
-                        <h4 className="font-semibold text-navy mb-2">Key Information</h4>
-                        <div className="grid grid-cols-2 gap-2 text-sm">
-                          <div className="flex items-center">
-                            <Users className="h-4 w-4 mr-2 text-slate-500" />
-                            {university.students.toLocaleString()} students
+              {topUniversities.map((university, index) => {
+                const universityRoutes = {
+                  "Harvard University": "/harvard-university",
+                  "Stanford University": "/stanford-university",
+                  "Massachusetts Institute of Technology": "/mit-university",
+                  "California Institute of Technology": "/caltech-university",
+                  "University of Chicago": "/chicago-university",
+                  "Princeton University": "/princeton-university"
+                };
+                
+                const route = universityRoutes[university.name as keyof typeof universityRoutes];
+                
+                return (
+                  <Card key={index} className="group overflow-hidden hover:shadow-2xl transition-all duration-500 cursor-pointer border-0 bg-gradient-to-br from-white to-slate-50">
+                    <div>
+                      {route ? (
+                        <Link href={route}>
+                          <div className="relative h-48">
+                            <img
+                              src={university.image}
+                              alt={university.name}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                            <div className="absolute top-4 right-4">
+                              <Badge className="bg-gold text-navy shadow-lg">
+                                #{university.worldRanking} World
+                              </Badge>
+                            </div>
+                            <div className="absolute bottom-4 left-4 right-4">
+                              <h3 className="text-xl font-playfair font-bold text-white mb-1 group-hover:text-gold transition-colors">
+                                {university.name}
+                              </h3>
+                              <p className="text-white/90 text-sm flex items-center">
+                                <MapPin className="h-4 w-4 mr-1" />
+                                {university.location}
+                              </p>
+                            </div>
+                            <div className="absolute inset-0 bg-gold/0 group-hover:bg-gold/10 transition-colors duration-300" />
                           </div>
-                          <div className="flex items-center">
-                            <Globe className="h-4 w-4 mr-2 text-slate-500" />
-                            {university.internationalStudents} international
-                          </div>
-                          <div className="flex items-center">
-                            <Clock className="h-4 w-4 mr-2 text-slate-500" />
-                            Founded {university.founded}
-                          </div>
-                          <div className="flex items-center">
-                            <Star className="h-4 w-4 mr-2 text-slate-500" />
-                            SAT: {university.averageSAT}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div>
-                        <h4 className="font-semibold text-navy mb-2">Popular Specialties</h4>
-                        <div className="flex flex-wrap gap-2">
-                          {university.specialties.map((specialty, idx) => (
-                            <Badge key={idx} variant="outline" className="text-xs">
-                              {specialty}
+                        </Link>
+                      ) : (
+                        <div className="relative h-48">
+                          <img
+                            src={university.image}
+                            alt={university.name}
+                            className="w-full h-full object-cover"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                          <div className="absolute top-4 right-4">
+                            <Badge className="bg-gold text-navy">
+                              #{university.worldRanking} World
                             </Badge>
-                          ))}
+                          </div>
+                          <div className="absolute bottom-4 left-4 right-4">
+                            <h3 className="text-xl font-playfair font-bold text-white mb-1">
+                              {university.name}
+                            </h3>
+                            <p className="text-white/90 text-sm flex items-center">
+                              <MapPin className="h-4 w-4 mr-1" />
+                              {university.location}
+                            </p>
+                          </div>
                         </div>
-                      </div>
+                      )}
+                    
+                      <CardContent className="p-6">
+                        <div className="grid grid-cols-2 gap-4 mb-6">
+                          <div className="text-center p-3 bg-slate-50 rounded-lg">
+                            <div className="text-lg font-bold text-navy">{university.acceptanceRate}</div>
+                            <div className="text-sm text-slate-600">Acceptance Rate</div>
+                          </div>
+                          <div className="text-center p-3 bg-slate-50 rounded-lg">
+                            <div className="text-lg font-bold text-navy">{university.tuitionFee}</div>
+                            <div className="text-sm text-slate-600">Annual Tuition</div>
+                          </div>
+                        </div>
+
+                        <div className="space-y-4">
+                          <div>
+                            <h4 className="font-semibold text-navy mb-2">Key Information</h4>
+                            <div className="grid grid-cols-2 gap-2 text-sm">
+                              <div className="flex items-center">
+                                <Users className="h-4 w-4 mr-2 text-slate-500" />
+                                {university.students.toLocaleString()} students
+                              </div>
+                              <div className="flex items-center">
+                                <Globe className="h-4 w-4 mr-2 text-slate-500" />
+                                {university.internationalStudents} international
+                              </div>
+                              <div className="flex items-center">
+                                <Clock className="h-4 w-4 mr-2 text-slate-500" />
+                                Founded {university.founded}
+                              </div>
+                              <div className="flex items-center">
+                                <Star className="h-4 w-4 mr-2 text-slate-500" />
+                                SAT: {university.averageSAT}
+                              </div>
+                            </div>
+                          </div>
+
+                          <div>
+                            <h4 className="font-semibold text-navy mb-2">Popular Specialties</h4>
+                            <div className="flex flex-wrap gap-2">
+                              {university.specialties.map((specialty: string, idx: number) => (
+                                <Badge key={idx} variant="outline" className="text-xs">
+                                  {specialty}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
+                  </Card>
+                );
+              })}
             </div>
           </TabsContent>
 
