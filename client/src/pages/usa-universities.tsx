@@ -128,7 +128,22 @@ export default function USAUniversities() {
       specialties: ["Engineering", "Physics", "Chemistry", "Mathematics"],
       founded: 1891,
       students: 2200,
-      internationalStudents: "27%"
+      internationalStudents: "27%",
+      visaRequirements: {
+        f1ProcessingTime: "4-7 weeks",
+        sevisFee: "$350",
+        visaFee: "$185",
+        documentsRequired: ["I-20 form", "Financial proof", "Transcripts", "Passport", "SEVIS receipt"],
+        financialProof: "$95,250"
+      },
+      specificCosts: {
+        tuitionUgrad: "$63,255",
+        tuitionGrad: "$63,255",
+        roomBoard: "$19,884",
+        books: "$1,428",
+        personal: "$2,091",
+        healthInsurance: "$8,592"
+      }
     },
     {
       name: "University of Chicago",
@@ -143,7 +158,22 @@ export default function USAUniversities() {
       specialties: ["Economics", "Business", "Political Science", "Physics"],
       founded: 1890,
       students: 17000,
-      internationalStudents: "25%"
+      internationalStudents: "25%",
+      visaRequirements: {
+        f1ProcessingTime: "3-5 weeks",
+        sevisFee: "$350",
+        visaFee: "$185",
+        documentsRequired: ["I-20 form", "Bank statements", "Academic records", "Passport", "SEVIS confirmation"],
+        financialProof: "$94,965"
+      },
+      specificCosts: {
+        tuitionUgrad: "$64,965",
+        tuitionGrad: "$62,640",
+        roomBoard: "$18,900",
+        books: "$1,800",
+        personal: "$3,000",
+        healthInsurance: "$6,300"
+      }
     },
     {
       name: "Princeton University",
@@ -158,7 +188,22 @@ export default function USAUniversities() {
       specialties: ["Engineering", "Economics", "Computer Science", "Politics"],
       founded: 1746,
       students: 5400,
-      internationalStudents: "24%"
+      internationalStudents: "24%",
+      visaRequirements: {
+        f1ProcessingTime: "2-4 weeks",
+        sevisFee: "$350",
+        visaFee: "$185",
+        documentsRequired: ["I-20 form", "Financial documentation", "Transcripts", "Passport", "SEVIS payment proof"],
+        financialProof: "$89,710"
+      },
+      specificCosts: {
+        tuitionUgrad: "$59,710",
+        tuitionGrad: "$56,040",
+        roomBoard: "$18,630",
+        books: "$1,050",
+        personal: "$2,550",
+        healthInsurance: "$7,770"
+      }
     }
   ];
 
@@ -263,23 +308,82 @@ export default function USAUniversities() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-white">
-      {/* Header */}
-      <div className="bg-navy text-white py-16">
+      {/* Navigation */}
+      <nav className="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link href="/" className="inline-flex items-center text-gold mb-6 hover:text-white transition-colors">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Home
-          </Link>
-          
-          <div className="flex items-center space-x-6">
-            <span className="text-6xl">🇺🇸</span>
-            <div>
-              <h1 className="text-4xl md:text-5xl font-playfair font-bold mb-4">
+          <div className="flex justify-between items-center h-16">
+            <Link href="/" className="flex items-center">
+              <span className="text-2xl font-playfair font-bold text-navy">EduConsult</span>
+            </Link>
+            
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-8">
+              <Link href="/" className="text-slate-600 hover:text-navy transition-colors">Home</Link>
+              <Link href="/usa-universities" className="text-navy font-semibold">USA</Link>
+              <Link href="/uk-universities" className="text-slate-600 hover:text-navy transition-colors">UK</Link>
+              <Link href="/canada-universities" className="text-slate-600 hover:text-navy transition-colors">Canada</Link>
+              <Link href="/australia-universities" className="text-slate-600 hover:text-navy transition-colors">Australia</Link>
+              <Button className="bg-gold hover:bg-gold/90 text-navy">Get Consultation</Button>
+            </div>
+
+            {/* Mobile menu button */}
+            <div className="md:hidden">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="text-navy"
+              >
+                {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </Button>
+            </div>
+          </div>
+
+          {/* Mobile Navigation */}
+          {isMenuOpen && (
+            <div className="md:hidden">
+              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-slate-200">
+                <Link href="/" className="block px-3 py-2 text-slate-600 hover:text-navy">Home</Link>
+                <Link href="/usa-universities" className="block px-3 py-2 text-navy font-semibold">USA</Link>
+                <Link href="/uk-universities" className="block px-3 py-2 text-slate-600 hover:text-navy">UK</Link>
+                <Link href="/canada-universities" className="block px-3 py-2 text-slate-600 hover:text-navy">Canada</Link>
+                <Link href="/australia-universities" className="block px-3 py-2 text-slate-600 hover:text-navy">Australia</Link>
+                <Button className="w-full mt-4 bg-gold hover:bg-gold/90 text-navy">Get Consultation</Button>
+              </div>
+            </div>
+          )}
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <div className="relative h-96 overflow-hidden">
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1626157150198-4cdec90f15a8?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop"
+            alt="USA Universities"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-navy/80 to-navy/40" />
+        </div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
+          <div className="max-w-3xl">
+            <div className="flex items-center space-x-4 mb-6">
+              <span className="text-6xl">🇺🇸</span>
+              <h1 className="text-4xl md:text-5xl font-playfair font-bold text-white">
                 Study in United States
               </h1>
-              <p className="text-xl text-slate-200 max-w-3xl">
-                Explore world-renowned universities, cutting-edge research opportunities, and diverse academic programs in the land of innovation and opportunity.
-              </p>
+            </div>
+            <p className="text-xl text-white/90 mb-8 max-w-2xl">
+              Explore world-renowned universities with cutting-edge research opportunities, diverse academic programs, and unique visa requirements for international students.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Button size="lg" className="bg-gold hover:bg-gold/90 text-navy font-semibold">
+                Explore Universities
+              </Button>
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-navy">
+                View Visa Requirements
+              </Button>
             </div>
           </div>
         </div>
