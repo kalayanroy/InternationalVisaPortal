@@ -332,7 +332,7 @@ export default function USAUniversities() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {topUniversities.map((university, index) => {
               const universityRoutes = {
                 "Harvard University": "/harvard-university",
