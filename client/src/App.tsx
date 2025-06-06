@@ -4,7 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Home from "@/pages/home";
-import USAUniversities from "@/pages/usa-universities-new";
+import USAUniversities from "@/pages/usa-universities-fixed";
 import UKUniversities from "@/pages/uk-universities";
 import CanadaUniversities from "@/pages/canada-universities";
 import AustraliaUniversities from "@/pages/australia-universities";
