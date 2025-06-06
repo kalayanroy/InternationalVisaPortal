@@ -415,23 +415,8 @@ export default function USAUniversities() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <Tabs defaultValue="universities" className="space-y-8">
-          <TabsList className="grid w-full grid-cols-4 bg-slate-100">
-            <TabsTrigger value="universities" className="data-[state=active]:bg-navy data-[state=active]:text-white">
-              Top Universities
-            </TabsTrigger>
-            <TabsTrigger value="courses" className="data-[state=active]:bg-navy data-[state=active]:text-white">
-              Popular Courses
-            </TabsTrigger>
-            <TabsTrigger value="visa" className="data-[state=active]:bg-navy data-[state=active]:text-white">
-              Visa Requirements
-            </TabsTrigger>
-            <TabsTrigger value="costs" className="data-[state=active]:bg-navy data-[state=active]:text-white">
-              Cost Information
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="universities" className="space-y-8">
+        {/* Universities Section */}
+        <div className="space-y-8">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-playfair font-bold text-navy mb-4">
                 Top US Universities
@@ -596,9 +581,10 @@ export default function USAUniversities() {
                 </Card>
               ))}
             </div>
-          </TabsContent>
+        </div>
 
-          <TabsContent value="visa" className="space-y-8">
+        {/* Visa Requirements Section */}
+        <div className="space-y-8 mt-20">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-playfair font-bold text-navy mb-4">
                 Student Visa Requirements
