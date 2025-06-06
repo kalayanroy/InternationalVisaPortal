@@ -14,11 +14,16 @@ import {
   TrendingUp,
   Globe,
   BookOpen,
-  GraduationCap
+  GraduationCap,
+  Menu,
+  X
 } from "lucide-react";
 import { Link } from "wouter";
+import { useState } from "react";
 
 export default function USAUniversities() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const topUniversities = [
     {
       name: "Harvard University",
@@ -33,7 +38,22 @@ export default function USAUniversities() {
       specialties: ["Business", "Medicine", "Law", "Engineering"],
       founded: 1636,
       students: 23000,
-      internationalStudents: "22%"
+      internationalStudents: "22%",
+      visaRequirements: {
+        f1ProcessingTime: "3-5 weeks",
+        sevisFee: "$350",
+        visaFee: "$185",
+        documentsRequired: ["I-20 form", "Financial statements", "Academic transcripts", "Passport", "SEVIS receipt"],
+        financialProof: "$89,450"
+      },
+      specificCosts: {
+        tuitionUgrad: "$59,076",
+        tuitionGrad: "$53,760",
+        roomBoard: "$20,374",
+        books: "$1,000",
+        personal: "$2,500",
+        healthInsurance: "$4,500"
+      }
     },
     {
       name: "Stanford University",
@@ -48,7 +68,22 @@ export default function USAUniversities() {
       specialties: ["Computer Science", "Engineering", "Business", "Medicine"],
       founded: 1885,
       students: 17000,
-      internationalStudents: "23%"
+      internationalStudents: "23%",
+      visaRequirements: {
+        f1ProcessingTime: "2-4 weeks",
+        sevisFee: "$350",
+        visaFee: "$185",
+        documentsRequired: ["I-20 form", "Bank statements", "Academic records", "Passport", "SEVIS fee receipt"],
+        financialProof: "$92,130"
+      },
+      specificCosts: {
+        tuitionUgrad: "$61,731",
+        tuitionGrad: "$58,416",
+        roomBoard: "$19,922",
+        books: "$1,245",
+        personal: "$2,745",
+        healthInsurance: "$6,571"
+      }
     },
     {
       name: "Massachusetts Institute of Technology",
@@ -63,7 +98,22 @@ export default function USAUniversities() {
       specialties: ["Engineering", "Computer Science", "Physics", "Economics"],
       founded: 1861,
       students: 11000,
-      internationalStudents: "33%"
+      internationalStudents: "33%",
+      visaRequirements: {
+        f1ProcessingTime: "3-6 weeks",
+        sevisFee: "$350",
+        visaFee: "$185",
+        documentsRequired: ["I-20 form", "Financial documents", "Academic transcripts", "Passport", "SEVIS payment"],
+        financialProof: "$89,750"
+      },
+      specificCosts: {
+        tuitionUgrad: "$59,750",
+        tuitionGrad: "$59,750",
+        roomBoard: "$17,800",
+        books: "$820",
+        personal: "$2,260",
+        healthInsurance: "$3,350"
+      }
     },
     {
       name: "California Institute of Technology",
