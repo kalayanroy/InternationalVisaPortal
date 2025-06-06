@@ -3,67 +3,66 @@ export default function Process() {
     {
       number: 1,
       title: "Initial Consultation",
-      description: "Free assessment of your profile and university eligibility with our expert consultants.",
+      description:
+        "Free assessment of your profile and university eligibility with our expert consultants.",
     },
     {
       number: 2,
-      title: "Document Preparation", 
-      description: "Comprehensive document review and preparation ensuring all requirements are met.",
+      title: "Document Preparation",
+      description:
+        "Comprehensive document review and preparation ensuring all requirements are met.",
     },
     {
       number: 3,
       title: "Application Submission",
-      description: "Expert submission of your application with thorough quality checks and tracking.",
+      description:
+        "Expert submission of your application with thorough quality checks and tracking.",
     },
     {
       number: 4,
       title: "Interview & Approval",
-      description: "Interview preparation and support until you receive your acceptance letter.",
+      description:
+        "Interview preparation and support until you receive your acceptance letter.",
     },
   ];
 
   return (
-    <section className="py-20 bg-slate-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-playfair font-bold text-navy mb-4">
+    <section className="py-28 bg-gradient-to-b from-blue-900 via-blue-800 to-blue-950 text-gray-100">
+      <div className="max-w-6xl mx-auto px-6 sm:px-12">
+        {/* Header */}
+        <div className="text-center mb-24">
+          <h2 className="text-5xl font-serif font-extrabold text-yellow-400 tracking-tight mb-3 drop-shadow-lg">
             Simple 4-Step Process
           </h2>
-          <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-            We make university applications straightforward with our proven step-by-step approach
+          <p className="text-lg max-w-3xl mx-auto text-gray-300 font-sans">
+            We make university applications straightforward with our proven
+            step-by-step approach
           </p>
         </div>
 
-        <div className="relative">
-          {/* Connecting line */}
-          <div className="hidden md:block absolute top-12 left-0 right-0 h-0.5 bg-slate-300">
-            <div className="h-full bg-slate-400 w-full" />
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
-            {steps.map((step, index) => (
-              <div key={index} className="group text-center">
-                {/* Step circle */}
-                <div className="relative mx-auto mb-8 z-10">
-                  <div className="w-24 h-24 bg-white border-4 border-slate-300 rounded-full flex items-center justify-center mx-auto shadow-lg group-hover:border-slate-400 group-hover:shadow-xl transition-all duration-300">
-                    <span className="text-xl font-playfair font-bold text-slate-700">
-                      {step.number}
-                    </span>
-                  </div>
-                </div>
-                
-                {/* Content */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-playfair font-bold text-navy">
-                    {step.title}
-                  </h3>
-                  <p className="text-slate-600 text-sm leading-relaxed">
-                    {step.description}
-                  </p>
-                </div>
+        {/* Steps grid */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-16">
+          {steps.map((step) => (
+            <div
+              key={step.number}
+              className="bg-blue-900 bg-opacity-60 rounded-3xl p-10 flex flex-col items-center text-center shadow-xl backdrop-blur-md hover:shadow-yellow-400 transition-shadow duration-400"
+            >
+              {/* Step circle */}
+              <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-yellow-400 to-yellow-600 flex items-center justify-center mb-8 text-3xl font-serif font-bold text-gray-900 shadow-md">
+                {step.number}
               </div>
-            ))}
-          </div>
+
+              {/* Title */}
+              <h3 className="text-2xl font-serif font-semibold text-yellow-300 mb-4">
+                {step.title}
+              </h3>
+
+              {/* Description */}
+              <p className="text-gray-300 text-base leading-relaxed max-w-xs">
+                {step.description}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

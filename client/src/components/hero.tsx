@@ -10,7 +10,10 @@ export default function Hero() {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
+    <section
+      id="home"
+      className="relative min-h-screen flex items-center overflow-hidden"
+    >
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
@@ -30,16 +33,18 @@ export default function Hero() {
               <Award className="h-4 w-4 mr-2" />
               Premium Education Consultancy Since 2010
             </div>
-            
+
             <h1 className="text-4xl lg:text-6xl font-playfair font-bold text-white mb-6 leading-tight">
               Your Gateway to
               <span className="block text-gold">World-Class Education</span>
             </h1>
-            
+
             <p className="text-xl text-white/90 mb-8 leading-relaxed max-w-2xl">
-              Unlock exclusive access to prestigious universities worldwide. Our expert consultants provide personalized guidance for your academic journey to success.
+              Unlock exclusive access to prestigious universities worldwide. Our
+              expert consultants provide personalized guidance for your academic
+              journey to success.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
               <Button
                 onClick={() => scrollToSection("contact")}
@@ -51,7 +56,7 @@ export default function Hero() {
               <Button
                 onClick={() => scrollToSection("universities")}
                 variant="outline"
-                className="border-2 border-white/20 text-white px-8 py-4 text-lg font-semibold hover:bg-white/10 backdrop-blur-sm transition-all"
+                className="bg-transparent border-2 border-[#ffc105] text-[#ffc105] px-8 py-4 text-lg font-semibold hover:bg-[#ffc105] hover:text-white transition-all duration-300"
               >
                 Explore Universities
               </Button>
@@ -62,21 +67,27 @@ export default function Hero() {
               <div className="text-center lg:text-left">
                 <div className="flex items-center justify-center lg:justify-start mb-2">
                   <Users className="h-6 w-6 text-gold mr-2" />
-                  <div className="text-3xl font-playfair font-bold text-white">15,000+</div>
+                  <div className="text-3xl font-playfair font-bold text-white">
+                    15,000+
+                  </div>
                 </div>
                 <div className="text-white/70 text-sm">Success Stories</div>
               </div>
               <div className="text-center lg:text-left">
                 <div className="flex items-center justify-center lg:justify-start mb-2">
                   <Award className="h-6 w-6 text-gold mr-2" />
-                  <div className="text-3xl font-playfair font-bold text-white">99%</div>
+                  <div className="text-3xl font-playfair font-bold text-white">
+                    99%
+                  </div>
                 </div>
                 <div className="text-white/70 text-sm">Success Rate</div>
               </div>
               <div className="text-center lg:text-left">
                 <div className="flex items-center justify-center lg:justify-start mb-2">
                   <Globe className="h-6 w-6 text-gold mr-2" />
-                  <div className="text-3xl font-playfair font-bold text-white">40+</div>
+                  <div className="text-3xl font-playfair font-bold text-white">
+                    40+
+                  </div>
                 </div>
                 <div className="text-white/70 text-sm">Countries</div>
               </div>
@@ -89,38 +100,48 @@ export default function Hero() {
               <div className="grid grid-cols-3 gap-6 opacity-90">
                 {/* Top Row */}
                 <div className="bg-white/10 backdrop-blur-sm luxury-border rounded-xl p-6 flex items-center justify-center h-24 hover:bg-white/20 transition-all">
-                  <span className="text-white font-semibold text-sm">Harvard</span>
+                  <span className="text-white font-semibold text-sm">
+                    Harvard
+                  </span>
                 </div>
                 <div className="bg-white/10 backdrop-blur-sm luxury-border rounded-xl p-6 flex items-center justify-center h-24 hover:bg-white/20 transition-all">
-                  <span className="text-white font-semibold text-sm">Oxford</span>
+                  <span className="text-white font-semibold text-sm">
+                    Oxford
+                  </span>
                 </div>
                 <div className="bg-white/10 backdrop-blur-sm luxury-border rounded-xl p-6 flex items-center justify-center h-24 hover:bg-white/20 transition-all">
                   <span className="text-white font-semibold text-sm">MIT</span>
                 </div>
-                
+
                 {/* Middle Row */}
                 <div className="bg-white/10 backdrop-blur-sm luxury-border rounded-xl p-6 flex items-center justify-center h-24 hover:bg-white/20 transition-all">
-                  <span className="text-white font-semibold text-sm">Stanford</span>
+                  <span className="text-white font-semibold text-sm">
+                    Stanford
+                  </span>
                 </div>
                 <div className="bg-white/10 backdrop-blur-sm luxury-border rounded-xl p-6 flex items-center justify-center h-24 hover:bg-white/20 transition-all">
-                  <span className="text-white font-semibold text-sm">Cambridge</span>
+                  <span className="text-white font-semibold text-sm">
+                    Cambridge
+                  </span>
                 </div>
                 <div className="bg-white/10 backdrop-blur-sm luxury-border rounded-xl p-6 flex items-center justify-center h-24 hover:bg-white/20 transition-all">
                   <span className="text-white font-semibold text-sm">Yale</span>
                 </div>
-                
+
                 {/* Bottom Row */}
                 <div className="bg-white/10 backdrop-blur-sm luxury-border rounded-xl p-6 flex items-center justify-center h-24 hover:bg-white/20 transition-all">
                   <span className="text-white font-semibold text-sm">UBC</span>
                 </div>
                 <div className="bg-white/10 backdrop-blur-sm luxury-border rounded-xl p-6 flex items-center justify-center h-24 hover:bg-white/20 transition-all">
-                  <span className="text-white font-semibold text-sm">Imperial</span>
+                  <span className="text-white font-semibold text-sm">
+                    Imperial
+                  </span>
                 </div>
                 <div className="bg-white/10 backdrop-blur-sm luxury-border rounded-xl p-6 flex items-center justify-center h-24 hover:bg-white/20 transition-all">
                   <span className="text-white font-semibold text-sm">NYU</span>
                 </div>
               </div>
-              
+
               <div className="absolute -top-4 -right-4 w-8 h-8 bg-gold rounded-full opacity-60 animate-ping"></div>
             </div>
           </div>

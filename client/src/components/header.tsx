@@ -43,13 +43,24 @@ export default function Header() {
         <div className="flex justify-between items-center h-20">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-gradient-gold rounded-lg flex items-center justify-center">
-              <GraduationCap className="h-6 w-6 text-white" />
+              <GraduationCap
+                className={`h-6 w-6 transition-colors duration-300 ${
+                  isScrolled ? "text-black" : "text-white"
+                }`}
+              />
             </div>
             <div>
-              <h1 className="text-2xl font-playfair font-bold text-navy cursor-pointer" onClick={() => scrollToSection("home")}>
+              <h1
+                className={`text-2xl font-playfair font-bold cursor-pointer transition-colors duration-300 ${
+                  isScrolled ? "text-black" : "text-white"
+                }`}
+                onClick={() => scrollToSection("home")}
+              >
                 Prestige Global
               </h1>
-              <p className="text-xs text-gold font-medium tracking-wide">EDUCATION CONSULTANCY</p>
+              <p className="text-xs text-gold font-medium tracking-wide">
+                EDUCATION CONSULTANCY
+              </p>
             </div>
           </div>
 
@@ -59,7 +70,11 @@ export default function Header() {
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className="text-sm font-medium text-navy/80 hover:text-navy transition-colors duration-200 relative group"
+                  className={`text-sm font-medium transition-colors duration-300 relative group ${
+                    isScrolled
+                      ? "text-black hover:text-navy"
+                      : "text-white hover:text-gold"
+                  }`}
                 >
                   {item.label}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-gold transition-all duration-300 group-hover:w-full" />
@@ -79,7 +94,11 @@ export default function Header() {
             </Button>
             <Button
               onClick={() => scrollToSection("contact")}
-              className="bg-gradient-gold text-white hover:opacity-90 transition-all duration-300 luxury-shadow"
+              className={`border border-[#ffc105] transition-all duration-300 luxury-shadow ${
+                isScrolled
+                  ? "bg-[#ffc105] text-black"
+                  : "bg-transparent text-[#ffc105] hover:bg-[#ffc105] hover:text-white"
+              }`}
             >
               <UserPlus className="h-4 w-4 mr-2" />
               Book Consultation
@@ -91,9 +110,15 @@ export default function Header() {
               variant="ghost"
               size="icon"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-navy"
+              className={`transition-colors duration-300 ${
+                isScrolled ? "text-[#ffc105]" : "text-[#ffc105]"
+              }`}
             >
-              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </Button>
           </div>
         </div>
@@ -101,11 +126,13 @@ export default function Header() {
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="lg:hidden">
-            <div className={`px-2 pt-4 pb-6 space-y-2 shadow-lg transition-all duration-300 ${
-              isScrolled 
-                ? "bg-white border-t border-gray-200" 
-                : "bg-white/95 backdrop-blur-lg border-t border-white/20"
-            }`}>
+            <div
+              className={`px-2 pt-4 pb-6 space-y-2 shadow-lg transition-all duration-300 ${
+                isScrolled
+                  ? "bg-white border-t border-gray-200"
+                  : "bg-white/95 backdrop-blur-lg border-t border-white/20"
+              }`}
+            >
               {navItems.map((item) => (
                 <button
                   key={item.id}
@@ -125,7 +152,7 @@ export default function Header() {
                 </Button>
                 <Button
                   onClick={() => scrollToSection("contact")}
-                  className="w-full bg-gradient-gold text-white hover:opacity-90"
+                  className="w-full bg-transparent border border-[#ffc105] text-[#ffc105] hover:bg-[#ffc105] hover:text-white transition-all duration-300"
                 >
                   <UserPlus className="h-4 w-4 mr-2" />
                   Book Consultation
