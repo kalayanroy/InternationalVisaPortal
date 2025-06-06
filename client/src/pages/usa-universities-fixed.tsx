@@ -470,34 +470,18 @@ export default function USAUniversities() {
                           <BookOpen className="h-4 w-4 mr-2" />
                           Top 5 Courses
                         </h4>
-                        <div className="space-y-3">
-                          {/* First row - 2 courses */}
-                          <div className="grid grid-cols-2 gap-2">
-                            {university.topCourses.slice(0, 2).map((course: string, idx: number) => (
-                              <Button
-                                key={idx}
-                                variant="outline"
-                                size="sm"
-                                className="text-left justify-start bg-gold hover:bg-gold/90 border-gold text-navy hover:text-navy font-medium text-xs px-2 py-2 h-auto"
-                              >
-                                {course}
-                              </Button>
-                            ))}
-                          </div>
-                          
-                          {/* Second row - 3 courses */}
-                          <div className="grid grid-cols-3 gap-2">
-                            {university.topCourses.slice(2, 5).map((course: string, idx: number) => (
-                              <Button
-                                key={idx + 2}
-                                variant="outline"
-                                size="sm"
-                                className="text-left justify-start bg-gold hover:bg-gold/90 border-gold text-navy hover:text-navy font-medium text-xs px-2 py-2 h-auto"
-                              >
-                                {course}
-                              </Button>
-                            ))}
-                          </div>
+                        <div className="space-y-2">
+                          {/* One course per row */}
+                          {university.topCourses.slice(0, 5).map((course: string, idx: number) => (
+                            <Button
+                              key={idx}
+                              variant="outline"
+                              size="sm"
+                              className="w-full text-left justify-start bg-gold hover:bg-gold/90 border-gold text-navy hover:text-navy font-medium text-xs px-3 py-2 h-auto"
+                            >
+                              {course}
+                            </Button>
+                          ))}
                           
                           {/* More Courses button if there are more than 5 */}
                           {university.topCourses.length > 5 && (
