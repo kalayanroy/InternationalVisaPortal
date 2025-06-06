@@ -215,21 +215,23 @@ export default function USAUniversities() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-white">
       {/* Navigation */}
-      <nav className="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
+      <nav className="bg-white shadow-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex items-center">
-              <span className="text-2xl font-playfair font-bold text-navy">EduConsult</span>
+              <span className="text-xl font-bold text-navy">EduConsult</span>
             </Link>
             
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              <Link href="/" className="text-slate-600 hover:text-navy transition-colors">Home</Link>
+              <Link href="/" className="text-slate-700 hover:text-navy transition-colors">Home</Link>
               <Link href="/usa-universities" className="text-navy font-semibold">USA</Link>
-              <Link href="/uk-universities" className="text-slate-600 hover:text-navy transition-colors">UK</Link>
-              <Link href="/canada-universities" className="text-slate-600 hover:text-navy transition-colors">Canada</Link>
-              <Link href="/australia-universities" className="text-slate-600 hover:text-navy transition-colors">Australia</Link>
-              <Button className="bg-gold hover:bg-gold/90 text-navy">Get Consultation</Button>
+              <Link href="/uk-universities" className="text-slate-700 hover:text-navy transition-colors">UK</Link>
+              <Link href="/canada-universities" className="text-slate-700 hover:text-navy transition-colors">Canada</Link>
+              <Link href="/australia-universities" className="text-slate-700 hover:text-navy transition-colors">Australia</Link>
+              <Button className="bg-gold hover:bg-gold/90 text-navy px-6 py-2 rounded-md font-medium">
+                Get Consultation
+              </Button>
             </div>
 
             {/* Mobile menu button */}
@@ -249,11 +251,11 @@ export default function USAUniversities() {
           {isMenuOpen && (
             <div className="md:hidden">
               <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-slate-200">
-                <Link href="/" className="block px-3 py-2 text-slate-600 hover:text-navy">Home</Link>
+                <Link href="/" className="block px-3 py-2 text-slate-700 hover:text-navy">Home</Link>
                 <Link href="/usa-universities" className="block px-3 py-2 text-navy font-semibold">USA</Link>
-                <Link href="/uk-universities" className="block px-3 py-2 text-slate-600 hover:text-navy">UK</Link>
-                <Link href="/canada-universities" className="block px-3 py-2 text-slate-600 hover:text-navy">Canada</Link>
-                <Link href="/australia-universities" className="block px-3 py-2 text-slate-600 hover:text-navy">Australia</Link>
+                <Link href="/uk-universities" className="block px-3 py-2 text-slate-700 hover:text-navy">UK</Link>
+                <Link href="/canada-universities" className="block px-3 py-2 text-slate-700 hover:text-navy">Canada</Link>
+                <Link href="/australia-universities" className="block px-3 py-2 text-slate-700 hover:text-navy">Australia</Link>
                 <Button className="w-full mt-4 bg-gold hover:bg-gold/90 text-navy">Get Consultation</Button>
               </div>
             </div>
@@ -261,59 +263,70 @@ export default function USAUniversities() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <div className="relative h-96 overflow-hidden">
+      {/* Hero Section with Video Background */}
+      <div className="relative h-screen overflow-hidden bg-slate-100">
         <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1626157150198-4cdec90f15a8?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop"
-            alt="USA Universities"
+          {/* Video Background */}
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
             className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-navy/80 to-navy/40" />
+          >
+            <source
+              src="https://player.vimeo.com/external/430233971.sd.mp4?s=e90dcaba73c19842bf035b87b9b69f8b78a87a60&profile_id=164&oauth2_token_id=57447761"
+              type="video/mp4"
+            />
+            {/* Fallback image if video doesn't load */}
+            <img
+              src="https://images.unsplash.com/photo-1626157150198-4cdec90f15a8?q=80&w=2069&auto=format&fit=crop"
+              alt="USA Universities"
+              className="w-full h-full object-cover"
+            />
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30" />
         </div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
-          <div className="max-w-3xl">
-            <div className="flex items-center space-x-4 mb-6">
-              <span className="text-6xl">🇺🇸</span>
-              <h1 className="text-4xl md:text-5xl font-playfair font-bold text-white">
-                Study in United States
-              </h1>
-            </div>
-            <p className="text-xl text-white/90 mb-8 max-w-2xl">
-              Explore world-renowned universities with cutting-edge research opportunities, diverse academic programs, and unique visa requirements for international students.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Button size="lg" className="bg-gold hover:bg-gold/90 text-navy font-semibold">
+          <div className="max-w-2xl">
+            <h1 className="text-6xl md:text-7xl font-bold text-white mb-6">
+              US
+            </h1>
+            <div className="mb-8">
+              <Button className="bg-gold hover:bg-gold/90 text-navy font-semibold px-8 py-3 rounded-md">
                 Explore Universities
-              </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-navy">
-                View Visa Requirements
               </Button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Statistics Banner */}
-      <div className="bg-white shadow-lg border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Statistics Banner - Premium Design */}
+      <div className="relative bg-gradient-to-r from-slate-50 to-white overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-50/50 to-indigo-50/50"></div>
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-gold/10 to-transparent rounded-full transform -translate-x-48 -translate-y-48"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-navy/5 to-transparent rounded-full transform translate-x-48 translate-y-48"></div>
+        </div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-3xl font-bold text-navy">4,000+</div>
-              <div className="text-slate-600">Universities</div>
+            <div className="group">
+              <div className="text-4xl md:text-5xl font-bold text-navy mb-2 group-hover:text-gold transition-colors duration-300">4,000+</div>
+              <div className="text-slate-700 font-medium">Universities</div>
             </div>
-            <div>
-              <div className="text-3xl font-bold text-navy">1M+</div>
-              <div className="text-slate-600">International Students</div>
+            <div className="group">
+              <div className="text-4xl md:text-5xl font-bold text-navy mb-2 group-hover:text-gold transition-colors duration-300">1M+</div>
+              <div className="text-slate-700 font-medium">International Students</div>
             </div>
-            <div>
-              <div className="text-3xl font-bold text-navy">15,000+</div>
-              <div className="text-slate-600">Programs</div>
+            <div className="group">
+              <div className="text-4xl md:text-5xl font-bold text-navy mb-2 group-hover:text-gold transition-colors duration-300">15,000+</div>
+              <div className="text-slate-700 font-medium">Programs</div>
             </div>
-            <div>
-              <div className="text-3xl font-bold text-navy">50</div>
-              <div className="text-slate-600">States</div>
+            <div className="group">
+              <div className="text-4xl md:text-5xl font-bold text-navy mb-2 group-hover:text-gold transition-colors duration-300">50</div>
+              <div className="text-slate-700 font-medium">States</div>
             </div>
           </div>
         </div>
