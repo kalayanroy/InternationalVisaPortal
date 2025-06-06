@@ -35,7 +35,7 @@ export default function USAUniversities() {
       averageGPA: "4.0",
       image: "https://images.unsplash.com/photo-1562774053-701939374585?w=400&h=300&fit=crop&auto=format",
       specialties: ["Business", "Medicine", "Law", "Engineering"],
-      topCourses: ["MBA Program", "Medical School", "Law School", "Computer Science", "Economics"],
+      topCourses: ["MBA Program", "Medical School", "Law School", "Computer Science", "Economics", "Public Policy", "Psychology"],
       founded: 1636,
       students: 23000,
       internationalStudents: "22%",
@@ -66,7 +66,7 @@ export default function USAUniversities() {
       averageGPA: "3.96",
       image: "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=400&h=300&fit=crop&auto=format",
       specialties: ["Computer Science", "Engineering", "Business", "Medicine"],
-      topCourses: ["Computer Science", "Artificial Intelligence", "Engineering", "MBA Program", "Data Science"],
+      topCourses: ["Computer Science", "Artificial Intelligence", "Engineering", "MBA Program", "Data Science", "Machine Learning", "Bioengineering"],
       founded: 1885,
       students: 17000,
       internationalStudents: "23%",
@@ -488,17 +488,47 @@ export default function USAUniversities() {
                           <BookOpen className="h-4 w-4 mr-2" />
                           Top 5 Courses
                         </h4>
-                        <div className="space-y-2">
-                          {university.topCourses.map((course: string, idx: number) => (
-                            <Button
-                              key={idx}
-                              variant="outline"
-                              size="sm"
-                              className="w-full text-left justify-start bg-gold hover:bg-gold/90 border-gold text-navy hover:text-navy font-medium text-xs px-3 py-2 h-auto"
-                            >
-                              {course}
-                            </Button>
-                          ))}
+                        <div className="space-y-3">
+                          {/* First row - 2 courses */}
+                          <div className="grid grid-cols-2 gap-2">
+                            {university.topCourses.slice(0, 2).map((course: string, idx: number) => (
+                              <Button
+                                key={idx}
+                                variant="outline"
+                                size="sm"
+                                className="text-left justify-start bg-gold hover:bg-gold/90 border-gold text-navy hover:text-navy font-medium text-xs px-2 py-2 h-auto"
+                              >
+                                {course}
+                              </Button>
+                            ))}
+                          </div>
+                          
+                          {/* Second row - 3 courses */}
+                          <div className="grid grid-cols-3 gap-2">
+                            {university.topCourses.slice(2, 5).map((course: string, idx: number) => (
+                              <Button
+                                key={idx + 2}
+                                variant="outline"
+                                size="sm"
+                                className="text-left justify-start bg-gold hover:bg-gold/90 border-gold text-navy hover:text-navy font-medium text-xs px-2 py-2 h-auto"
+                              >
+                                {course}
+                              </Button>
+                            ))}
+                          </div>
+                          
+                          {/* More Courses button if there are more than 5 */}
+                          {university.topCourses.length > 5 && (
+                            <div className="pt-2 border-t border-yellow-300">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="w-full text-center bg-yellow-100 hover:bg-yellow-200 border-yellow-300 text-navy hover:text-navy font-medium text-xs px-3 py-2 h-auto"
+                              >
+                                More Courses
+                              </Button>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
