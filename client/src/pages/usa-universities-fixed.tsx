@@ -325,14 +325,14 @@ export default function USAUniversities() {
         <div className="mb-16">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-playfair font-bold text-navy mb-4">
-              Top US Universities with Unique Requirements
+              Top US Universities with Unique Requirements & Courses
             </h2>
             <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-              Each university has specific visa requirements, costs, and application processes. View detailed information for each institution below.
+              Each university has specific visa requirements, costs, and top-rated programs. View detailed information for each institution below.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 gap-8">
             {topUniversities.map((university, index) => {
               const universityRoutes = {
                 "Harvard University": "/harvard-university",
@@ -376,109 +376,110 @@ export default function USAUniversities() {
                       {/* Left side - Main content */}
                       <div className="flex-1 p-6">
                         {/* Basic Stats */}
-                    <div className="grid grid-cols-2 gap-4 mb-6">
-                      <div className="text-center p-3 bg-slate-50 rounded-lg">
-                        <div className="text-lg font-bold text-navy">{university.acceptanceRate}</div>
-                        <div className="text-sm text-slate-600">Acceptance Rate</div>
-                      </div>
-                      <div className="text-center p-3 bg-slate-50 rounded-lg">
-                        <div className="text-lg font-bold text-navy">{university.tuitionFee}</div>
-                        <div className="text-sm text-slate-600">Annual Tuition</div>
-                      </div>
-                    </div>
-
-                    {/* Visa Requirements */}
-                    <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200">
-                      <h4 className="font-semibold text-navy mb-3 flex items-center">
-                        <FileText className="h-4 w-4 mr-2" />
-                        Visa Requirements (Unique to {university.name})
-                      </h4>
-                      <div className="grid grid-cols-2 gap-3 text-sm">
-                        <div>
-                          <span className="font-medium text-slate-700">Processing Time:</span>
-                          <span className="ml-2 text-navy">{university.visaRequirements.f1ProcessingTime}</span>
-                        </div>
-                        <div>
-                          <span className="font-medium text-slate-700">Financial Proof:</span>
-                          <span className="ml-2 text-navy">{university.visaRequirements.financialProof}</span>
-                        </div>
-                        <div className="col-span-2">
-                          <span className="font-medium text-slate-700">Required Docs:</span>
-                          <span className="ml-2 text-navy text-xs">{university.visaRequirements.documentsRequired.slice(0, 2).join(", ")} + more</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Cost Breakdown */}
-                    <div className="mb-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-200">
-                      <h4 className="font-semibold text-navy mb-3 flex items-center">
-                        <DollarSign className="h-4 w-4 mr-2" />
-                        Cost Breakdown (University-Specific)
-                      </h4>
-                      <div className="grid grid-cols-2 gap-2 text-sm">
-                        <div className="flex justify-between">
-                          <span className="text-slate-700">Undergrad:</span>
-                          <span className="font-medium text-navy">{university.specificCosts.tuitionUgrad}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-slate-700">Graduate:</span>
-                          <span className="font-medium text-navy">{university.specificCosts.tuitionGrad}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-slate-700">Room & Board:</span>
-                          <span className="font-medium text-navy">{university.specificCosts.roomBoard}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-slate-700">Insurance:</span>
-                          <span className="font-medium text-navy">{university.specificCosts.healthInsurance}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* University Details */}
-                    <div className="space-y-4">
-                      <div>
-                        <h4 className="font-semibold text-navy mb-2">Key Information</h4>
-                        <div className="grid grid-cols-2 gap-2 text-sm">
-                          <div className="flex items-center">
-                            <Users className="h-4 w-4 mr-2 text-slate-500" />
-                            {university.students.toLocaleString()} students
+                        <div className="grid grid-cols-2 gap-4 mb-6">
+                          <div className="text-center p-3 bg-slate-50 rounded-lg">
+                            <div className="text-lg font-bold text-navy">{university.acceptanceRate}</div>
+                            <div className="text-sm text-slate-600">Acceptance Rate</div>
                           </div>
-                          <div className="flex items-center">
-                            <Globe className="h-4 w-4 mr-2 text-slate-500" />
-                            {university.internationalStudents} international
-                          </div>
-                          <div className="flex items-center">
-                            <Clock className="h-4 w-4 mr-2 text-slate-500" />
-                            Founded {university.founded}
-                          </div>
-                          <div className="flex items-center">
-                            <Star className="h-4 w-4 mr-2 text-slate-500" />
-                            SAT: {university.averageSAT}
+                          <div className="text-center p-3 bg-slate-50 rounded-lg">
+                            <div className="text-lg font-bold text-navy">{university.tuitionFee}</div>
+                            <div className="text-sm text-slate-600">Annual Tuition</div>
                           </div>
                         </div>
-                      </div>
 
-                      <div>
-                        <h4 className="font-semibold text-navy mb-2">Popular Specialties</h4>
-                        <div className="flex flex-wrap gap-2">
-                          {university.specialties.map((specialty: string, idx: number) => (
-                            <Badge key={idx} variant="outline" className="text-xs">
-                              {specialty}
-                            </Badge>
-                          ))}
+                        {/* Visa Requirements */}
+                        <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200">
+                          <h4 className="font-semibold text-navy mb-3 flex items-center">
+                            <FileText className="h-4 w-4 mr-2" />
+                            Visa Requirements (Unique to {university.name})
+                          </h4>
+                          <div className="grid grid-cols-2 gap-3 text-sm">
+                            <div>
+                              <span className="font-medium text-slate-700">Processing Time:</span>
+                              <span className="ml-2 text-navy">{university.visaRequirements.f1ProcessingTime}</span>
+                            </div>
+                            <div>
+                              <span className="font-medium text-slate-700">Financial Proof:</span>
+                              <span className="ml-2 text-navy">{university.visaRequirements.financialProof}</span>
+                            </div>
+                            <div className="col-span-2">
+                              <span className="font-medium text-slate-700">Required Docs:</span>
+                              <span className="ml-2 text-navy text-xs">{university.visaRequirements.documentsRequired.slice(0, 2).join(", ")} + more</span>
+                            </div>
+                          </div>
                         </div>
-                      </div>
 
-                      {route && (
-                        <div className="pt-4 border-t border-slate-200">
-                          <Link href={route}>
-                            <Button className="w-full bg-navy hover:bg-navy/90 text-white">
-                              View Detailed Information
-                            </Button>
-                          </Link>
+                        {/* Cost Breakdown */}
+                        <div className="mb-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-200">
+                          <h4 className="font-semibold text-navy mb-3 flex items-center">
+                            <DollarSign className="h-4 w-4 mr-2" />
+                            Cost Breakdown (University-Specific)
+                          </h4>
+                          <div className="grid grid-cols-2 gap-2 text-sm">
+                            <div className="flex justify-between">
+                              <span className="text-slate-700">Undergrad:</span>
+                              <span className="font-medium text-navy">{university.specificCosts.tuitionUgrad}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-slate-700">Graduate:</span>
+                              <span className="font-medium text-navy">{university.specificCosts.tuitionGrad}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-slate-700">Room & Board:</span>
+                              <span className="font-medium text-navy">{university.specificCosts.roomBoard}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-slate-700">Insurance:</span>
+                              <span className="font-medium text-navy">{university.specificCosts.healthInsurance}</span>
+                            </div>
+                          </div>
                         </div>
-                      )}
+
+                        {/* University Details */}
+                        <div className="space-y-4">
+                          <div>
+                            <h4 className="font-semibold text-navy mb-2">Key Information</h4>
+                            <div className="grid grid-cols-2 gap-2 text-sm">
+                              <div className="flex items-center">
+                                <Users className="h-4 w-4 mr-2 text-slate-500" />
+                                {university.students.toLocaleString()} students
+                              </div>
+                              <div className="flex items-center">
+                                <Globe className="h-4 w-4 mr-2 text-slate-500" />
+                                {university.internationalStudents} international
+                              </div>
+                              <div className="flex items-center">
+                                <Clock className="h-4 w-4 mr-2 text-slate-500" />
+                                Founded {university.founded}
+                              </div>
+                              <div className="flex items-center">
+                                <Star className="h-4 w-4 mr-2 text-slate-500" />
+                                SAT: {university.averageSAT}
+                              </div>
+                            </div>
+                          </div>
+
+                          <div>
+                            <h4 className="font-semibold text-navy mb-2">Popular Specialties</h4>
+                            <div className="flex flex-wrap gap-2">
+                              {university.specialties.map((specialty: string, idx: number) => (
+                                <Badge key={idx} variant="outline" className="text-xs">
+                                  {specialty}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+
+                          {route && (
+                            <div className="pt-4 border-t border-slate-200">
+                              <Link href={route}>
+                                <Button className="w-full bg-navy hover:bg-navy/90 text-white">
+                                  View Detailed Information
+                                </Button>
+                              </Link>
+                            </div>
+                          )}
+                        </div>
                       </div>
 
                       {/* Right side - Top 5 Courses */}
@@ -488,7 +489,7 @@ export default function USAUniversities() {
                           Top 5 Courses
                         </h4>
                         <div className="space-y-2">
-                          {university.topCourses && university.topCourses.map((course: string, idx: number) => (
+                          {university.topCourses.map((course: string, idx: number) => (
                             <Button
                               key={idx}
                               variant="outline"
