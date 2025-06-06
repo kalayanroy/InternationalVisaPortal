@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MapPin, Users, Trophy, ArrowRight } from "lucide-react";
+import { Link } from "wouter";
 
 export default function Universities() {
   const countries = [
@@ -226,13 +227,22 @@ export default function Universities() {
                   </div>
 
                   <div className="mt-6">
-                    <Button
-                      onClick={() => scrollToSection("contact")}
-                      className="w-full bg-navy text-white hover:bg-gold hover:text-navy transition-all duration-300 py-3 font-semibold group"
-                    >
-                      Explore {country.name}
-                      <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                    </Button>
+                    {country.name === "United States" ? (
+                      <Link href="/usa-universities">
+                        <Button className="w-full bg-navy text-white hover:bg-gold hover:text-navy transition-all duration-300 py-3 font-semibold group">
+                          Explore {country.name}
+                          <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                        </Button>
+                      </Link>
+                    ) : (
+                      <Button
+                        onClick={() => scrollToSection("contact")}
+                        className="w-full bg-navy text-white hover:bg-gold hover:text-navy transition-all duration-300 py-3 font-semibold group"
+                      >
+                        Explore {country.name}
+                        <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                      </Button>
+                    )}
                   </div>
                 </div>
               </div>
