@@ -657,6 +657,14 @@ export default function USAUniversities() {
                           </div>
                         </div>
 
+                        {/* View Details Button */}
+                        <div className="mt-6">
+                          <Link href={`/university/${university.id}`}>
+                            <Button className="w-full bg-navy hover:bg-navy/90 text-white">
+                              View Details
+                            </Button>
+                          </Link>
+                        </div>
 
                       </div>
 
