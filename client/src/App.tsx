@@ -12,7 +12,7 @@ import GermanyUniversities from "@/pages/germany-universities";
 import SingaporeUniversities from "@/pages/singapore-universities";
 import HarvardUniversity from "@/pages/harvard-university";
 import UniversityDetail from "@/pages/university-detail";
-import CountryUniversities from "@/pages/country-universities";
+import CountryUniversities from "@/pages/country-universities-fixed";
 import NotFound from "@/pages/not-found";
 
 function Router() {

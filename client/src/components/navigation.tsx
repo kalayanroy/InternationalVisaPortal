@@ -27,7 +27,7 @@ const mockUser = {
 };
 
 // For demo purposes - in real app this would be managed by auth context
-const isLoggedIn = false; // Change to true to test logged in state
+const isLoggedIn = true; // Change to false to test logged out state
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
