@@ -1,4 +1,3 @@
-import Navigation from "@/components/navigation-fixed";
 import Header from "@/components/header";
 import Hero from "@/components/hero";
 import CountryCards from "@/components/country-cards";
