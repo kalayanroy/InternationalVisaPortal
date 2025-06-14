@@ -119,6 +119,7 @@ export default function USAUniversities() {
       },
     },
     {
+      id: "mit",
       name: "Massachusetts Institute of Technology",
       location: "Cambridge, Massachusetts",
       worldRanking: 1,
@@ -163,6 +164,7 @@ export default function USAUniversities() {
       },
     },
     {
+      id: "caltech",
       name: "California Institute of Technology",
       location: "Pasadena, California",
       worldRanking: 6,
@@ -207,6 +209,7 @@ export default function USAUniversities() {
       },
     },
     {
+      id: "chicago",
       name: "University of Chicago",
       location: "Chicago, Illinois",
       worldRanking: 10,
@@ -251,6 +254,7 @@ export default function USAUniversities() {
       },
     },
     {
+      id: "princeton",
       name: "Princeton University",
       location: "Princeton, New Jersey",
       worldRanking: 12,
@@ -504,19 +508,6 @@ export default function USAUniversities() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {topUniversities.map((university, index) => {
-              const universityRoutes = {
-                "Harvard University": "/harvard-university",
-                "Stanford University": "/stanford-university",
-                "Massachusetts Institute of Technology": "/mit-university",
-                "California Institute of Technology": "/caltech-university",
-                "University of Chicago": "/chicago-university",
-                "Princeton University": "/princeton-university",
-              };
-
-              const route =
-                universityRoutes[
-                  university.name as keyof typeof universityRoutes
-                ];
 
               return (
                 <Card
@@ -666,18 +657,7 @@ export default function USAUniversities() {
                           </div>
                         </div>
 
-                        {route && (
-                          <div className="pt-3 border-t border-slate-200">
-                            <Link href={route}>
-                              <Button
-                                size="sm"
-                                className="w-full bg-navy hover:bg-navy/90 text-white text-xs"
-                              >
-                                View Details
-                              </Button>
-                            </Link>
-                          </div>
-                        )}
+
                       </div>
 
                       {/* Right side - Top 5 Courses */}
@@ -713,6 +693,15 @@ export default function USAUniversities() {
                               </Button>
                             </div>
                           )}
+                        </div>
+
+                        {/* Action Button */}
+                        <div className="mt-4 pt-4 border-t border-slate-200">
+                          <Link href={`/university/${university.id}`}>
+                            <Button className="w-full bg-navy hover:bg-navy/90 text-white">
+                              View Details
+                            </Button>
+                          </Link>
                         </div>
                       </div>
                     </div>
