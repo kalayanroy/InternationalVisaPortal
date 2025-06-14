@@ -13,9 +13,10 @@ import logo from "@/assets/college.png";
 
 const navItems = [
   { id: "home", label: "Home", path: "/" },
-  { id: "countries", label: "Countries", path: "/countries" },
-  { id: "services", label: "Services", path: "/services" },
-  { id: "about", label: "About Us", path: "/about" },
+  { id: "usa", label: "USA", path: "/country/usa" },
+  { id: "uk", label: "UK", path: "/country/uk" },
+  { id: "canada", label: "Canada", path: "/country/canada" },
+  { id: "australia", label: "Australia", path: "/country/australia" }
 ];
 
 export default function Navigation() {
@@ -118,12 +119,12 @@ export default function Navigation() {
           <div className="flex flex-col gap-4">
             {navItems.map((item) => (
               <Link key={item.id} href={item.path}>
-                <a
+                <div
                   onClick={closeMenu}
-                  className={`text-base font-medium transition-colors duration-200 ${location === item.path ? "text-gold font-semibold" : "text-navy"}`}
+                  className={`text-base font-medium transition-colors duration-200 cursor-pointer ${location === item.path ? "text-gold font-semibold" : "text-navy"}`}
                 >
                   {item.label}
-                </a>
+                </div>
               </Link>
             ))}
 

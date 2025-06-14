@@ -3,7 +3,7 @@ import { useLocation, Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import Navigation from "@/components/navigation";
+import Navigation from "@/components/navigation-fixed";
 import { ArrowLeft, MapPin, BookOpen } from "lucide-react";
 
 // Country data - in a real app this would come from an API
