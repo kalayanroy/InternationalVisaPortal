@@ -13,10 +13,10 @@ import logo from "@/assets/college.png";
 
 const navItems = [
   { id: "home", label: "Home", path: "/" },
-  { id: "usa", label: "USA", path: "/country/usa" },
-  { id: "uk", label: "UK", path: "/country/uk" },
-  { id: "canada", label: "Canada", path: "/country/canada" },
-  { id: "australia", label: "Australia", path: "/country/australia" }
+  { id: "universities", label: "Universities", path: "/universities" },
+  { id: "services", label: "Services", path: "/services" },
+  { id: "about", label: "About", path: "/about" },
+  { id: "success-stories", label: "Success Stories", path: "/success-stories" }
 ];
 
 export default function Navigation() {

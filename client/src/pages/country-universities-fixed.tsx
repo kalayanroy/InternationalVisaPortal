@@ -3,7 +3,8 @@ import { useLocation, Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import Navigation from "@/components/navigation-fixed";
+import Navigation from "@/components/navigation";
+import Header from "@/components/header";
 import { ArrowLeft, MapPin, BookOpen } from "lucide-react";
 
 // Country data - in a real app this would come from an API
@@ -252,7 +253,7 @@ export default function CountryUniversities() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-white overflow-y-auto">
-      <Navigation />
+      <Header />
 
       {/* Hero Section */}
       <div className="relative h-screen overflow-hidden bg-slate-100">
