@@ -15,13 +15,23 @@ export default function Home() {
     <div className="min-h-screen">
       <Header />
       <Hero />
-      <Universities />
-      <Services />
-      <About />
+      <div id="universities">
+        <Universities />
+      </div>
+      <div id="services">
+        <Services />
+      </div>
+      <div id="about">
+        <About />
+      </div>
       <Process />
-      <Testimonials />
+      <div id="success-stories">
+        <Testimonials />
+      </div>
       <FAQ />
-      <Contact />
+      <div id="consultation">
+        <Contact />
+      </div>
       <Footer />
     </div>
   );

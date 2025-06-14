@@ -45,6 +45,38 @@ export default function Header() {
 
   const closeMenu = () => setIsMenuOpen(false);
 
+  // Handle navigation - scroll to section if on home page, otherwise navigate
+  const handleNavigation = (item: typeof navItems[0]) => {
+    closeMenu();
+    
+    if (location === "/" && item.id !== "home") {
+      // On home page, scroll to section
+      const sectionId = item.id;
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      // Navigate to page
+      window.location.href = item.path;
+    }
+  };
+
+  const handleConsultationClick = () => {
+    closeMenu();
+    
+    if (location === "/") {
+      // On home page, scroll to consultation section
+      const element = document.getElementById("consultation");
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      // Navigate to consultation page
+      window.location.href = "/consultation";
+    }
+  };
+
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-white/90 shadow backdrop-blur" : "bg-transparent"}`}
@@ -53,26 +85,34 @@ export default function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <img src={logo} alt="Logo" className="h-8 w-auto" />
-          <span className="font-bold text-navy text-lg">StudyBridge</span>
+          <span className={`font-bold text-lg transition-colors duration-300 ${isScrolled ? "text-navy" : "text-white"}`}>StudyBridge</span>
         </Link>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-6">
           {navItems.map((item) => (
-            <Link
+            <button
               key={item.id}
-              href={item.path}
-              className={`text-sm font-medium transition-colors duration-200 hover:text-gold ${location === item.path ? "text-gold font-semibold" : "text-navy"}`}
+              onClick={() => handleNavigation(item)}
+              className={`text-sm font-medium transition-colors duration-300 hover:text-gold ${
+                location === item.path ? "text-gold font-semibold" : 
+                isScrolled ? "text-navy" : "text-white"
+              }`}
             >
               {item.label}
-            </Link>
+            </button>
           ))}
 
-          <Link href="/consultation">
-            <Button className="bg-gold hover:bg-gold/90 text-navy font-semibold text-sm px-4 py-2 rounded-md">
-              Book Consultation
-            </Button>
-          </Link>
+          <Button 
+            onClick={handleConsultationClick}
+            className={`font-semibold text-sm px-4 py-2 rounded-md transition-colors duration-300 ${
+              isScrolled 
+                ? "bg-gold hover:bg-gold/90 text-navy" 
+                : "bg-gold hover:bg-gold/90 text-navy"
+            }`}
+          >
+            Book Consultation
+          </Button>
 
           {isLoggedIn ? (
             <DropdownMenu>
@@ -83,7 +123,7 @@ export default function Header() {
                       {mockUser.initials}
                     </AvatarFallback>
                   </Avatar>
-                  <ChevronDown className="ml-1 h-4 w-4 text-navy" />
+                  <ChevronDown className={`ml-1 h-4 w-4 transition-colors duration-300 ${isScrolled ? "text-navy" : "text-white"}`} />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
@@ -96,7 +136,9 @@ export default function Header() {
             </DropdownMenu>
           ) : (
             <Link href="/login">
-              <Button variant="outline" className="text-navy border-navy">
+              <Button variant="outline" className={`border transition-colors duration-300 ${
+                isScrolled ? "text-navy border-navy" : "text-white border-white"
+              }`}>
                 Login
               </Button>
             </Link>
@@ -107,9 +149,9 @@ export default function Header() {
         <div className="md:hidden">
           <Button variant="ghost" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? (
-              <X className="h-6 w-6" />
+              <X className={`h-6 w-6 transition-colors duration-300 ${isScrolled ? "text-navy" : "text-white"}`} />
             ) : (
-              <Menu className="h-6 w-6" />
+              <Menu className={`h-6 w-6 transition-colors duration-300 ${isScrolled ? "text-navy" : "text-white"}`} />
             )}
           </Button>
         </div>
@@ -120,21 +162,21 @@ export default function Header() {
         <div className="md:hidden bg-white shadow-lg border-t px-4 py-4">
           <div className="flex flex-col gap-4">
             {navItems.map((item) => (
-              <Link key={item.id} href={item.path}>
-                <div
-                  onClick={closeMenu}
-                  className={`text-base font-medium transition-colors duration-200 cursor-pointer ${location === item.path ? "text-gold font-semibold" : "text-navy"}`}
-                >
-                  {item.label}
-                </div>
-              </Link>
+              <button
+                key={item.id}
+                onClick={() => handleNavigation(item)}
+                className={`text-base font-medium transition-colors duration-200 text-left ${location === item.path ? "text-gold font-semibold" : "text-navy"}`}
+              >
+                {item.label}
+              </button>
             ))}
 
-            <Link href="/consultation">
-              <Button className="bg-gold hover:bg-gold/90 text-navy font-semibold text-sm w-full">
-                Book Consultation
-              </Button>
-            </Link>
+            <Button 
+              onClick={handleConsultationClick}
+              className="bg-gold hover:bg-gold/90 text-navy font-semibold text-sm w-full"
+            >
+              Book Consultation
+            </Button>
 
             {isLoggedIn ? (
               <>
