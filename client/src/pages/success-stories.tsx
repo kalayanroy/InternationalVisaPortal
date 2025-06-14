@@ -1,4 +1,4 @@
-import Navigation from "@/components/navigation-fixed";
+import Header from "@/components/header";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -130,7 +130,7 @@ const statistics = [
 export default function SuccessStories() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-white">
-      <Navigation />
+      <Header />
       
       {/* Hero Section */}
       <div className="relative pt-24 pb-16 bg-gradient-to-r from-navy to-navy/90">
