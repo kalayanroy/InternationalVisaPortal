@@ -11,6 +11,7 @@ import AustraliaUniversities from "@/pages/australia-universities";
 import GermanyUniversities from "@/pages/germany-universities";
 import SingaporeUniversities from "@/pages/singapore-universities";
 import HarvardUniversity from "@/pages/harvard-university";
+import UniversityDetail from "@/pages/university-detail";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -24,6 +25,7 @@ function Router() {
       <Route path="/germany-universities" component={GermanyUniversities} />
       <Route path="/singapore-universities" component={SingaporeUniversities} />
       <Route path="/harvard-university" component={HarvardUniversity} />
+      <Route path="/university/:id" component={UniversityDetail} />
       <Route component={NotFound} />
     </Switch>
   );
