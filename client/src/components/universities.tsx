@@ -6,6 +6,7 @@ import { Link } from "wouter";
 export default function Universities() {
   const countries = [
     {
+      id: "usa",
       name: "United States",
       flag: "🇺🇸",
       topUniversities: ["Harvard University", "Stanford University", "MIT"],
@@ -22,6 +23,7 @@ export default function Universities() {
       ],
     },
     {
+      id: "uk",
       name: "United Kingdom",
       flag: "🇬🇧",
       topUniversities: [
@@ -38,6 +40,7 @@ export default function Universities() {
       highlights: ["Historic Excellence", "Shorter Degrees", "Global Network"],
     },
     {
+      id: "canada",
       name: "Canada",
       flag: "🇨🇦",
       topUniversities: ["University of Toronto", "UBC", "McGill University"],
@@ -50,6 +53,7 @@ export default function Universities() {
       highlights: ["Work Permits", "Immigration Path", "Quality of Life"],
     },
     {
+      id: "australia",
       name: "Australia",
       flag: "🇦🇺",
       topUniversities: [
@@ -66,6 +70,7 @@ export default function Universities() {
       highlights: ["Work Rights", "Beautiful Cities", "Research Focus"],
     },
     {
+      id: "germany",
       name: "Germany",
       flag: "🇩🇪",
       topUniversities: [
@@ -82,6 +87,7 @@ export default function Universities() {
       highlights: ["Low Tuition", "Engineering Hub", "EU Access"],
     },
     {
+      id: "singapore",
       name: "Singapore",
       flag: "🇸🇬",
       topUniversities: ["NUS", "NTU", "SMU"],
@@ -230,17 +236,20 @@ export default function Universities() {
                     {(() => {
                       const countryRoutes = {
                         "United States": "/usa-universities",
-                        "United Kingdom": "/uk-universities", 
-                        "Canada": "/canada-universities",
-                        "Australia": "/australia-universities",
-                        "Germany": "/germany-universities",
-                        "Singapore": "/singapore-universities"
+                        "United Kingdom": "/uk-universities",
+                        Canada: "/canada-universities",
+                        Australia: "/australia-universities",
+                        Germany: "/germany-universities",
+                        Singapore: "/singapore-universities",
                       };
-                      
-                      const route = countryRoutes[country.name as keyof typeof countryRoutes];
-                      
+
+                      const route =
+                        countryRoutes[
+                          country.name as keyof typeof countryRoutes
+                        ];
+
                       return route ? (
-                        <Link href={route}>
+                        <Link href={`/country/${country.id}`}>
                           <Button className="w-full bg-navy text-white hover:bg-gold hover:text-navy transition-all duration-300 py-3 font-semibold group">
                             Explore {country.name}
                             <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />

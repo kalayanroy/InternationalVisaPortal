@@ -1,4 +1,4 @@
-import Header from "@/components/header";
+import Navigation from "@/components/navigation";
 import Hero from "@/components/hero";
 import CountryCards from "@/components/country-cards";
 import Services from "@/components/services";
@@ -12,7 +12,7 @@ import Footer from "@/components/footer";
 export default function Home() {
   return (
     <div className="min-h-screen">
-      <Header />
+      <Navigation />
       <Hero />
       <CountryCards />
       <Services />
