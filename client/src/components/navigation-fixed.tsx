@@ -68,9 +68,11 @@ export default function Navigation() {
             </Link>
           ))}
 
-          <Button className="bg-gold hover:bg-gold/90 text-navy font-semibold text-sm px-4 py-2 rounded-md">
-            Book Consultation
-          </Button>
+          <Link href="/consultation">
+            <Button className="bg-gold hover:bg-gold/90 text-navy font-semibold text-sm px-4 py-2 rounded-md">
+              Book Consultation
+            </Button>
+          </Link>
 
           {isLoggedIn ? (
             <DropdownMenu>
@@ -128,9 +130,11 @@ export default function Navigation() {
               </Link>
             ))}
 
-            <Button className="bg-gold hover:bg-gold/90 text-navy font-semibold text-sm w-full">
-              Book Consultation
-            </Button>
+            <Link href="/consultation">
+              <Button className="bg-gold hover:bg-gold/90 text-navy font-semibold text-sm w-full">
+                Book Consultation
+              </Button>
+            </Link>
 
             {isLoggedIn ? (
               <>

@@ -24,6 +24,11 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/universities" component={Universities} />
+      <Route path="/services" component={Services} />
+      <Route path="/about" component={About} />
+      <Route path="/success-stories" component={SuccessStories} />
+      <Route path="/consultation" component={Consultation} />
       <Route path="/usa-universities" component={USAUniversities} />
       <Route path="/uk-universities" component={UKUniversities} />
       <Route path="/canada-universities" component={CanadaUniversities} />
