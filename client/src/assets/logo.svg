@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="160" height="40" viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="160" height="40" rx="8" fill="#0A2342"/>
+  <text x="20" y="26" font-family="Arial, sans-serif" font-size="16" fill="#FFD700" font-weight="bold">
+    StudyBridge
+  </text>
+  <circle cx="12" cy="20" r="6" fill="#FFD700" />
+</svg>
