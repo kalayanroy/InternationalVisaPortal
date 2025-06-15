@@ -2,135 +2,126 @@ import Header from "@/components/header";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { 
-  GraduationCap, 
-  FileText, 
-  MapPin, 
-  Users, 
-  CheckCircle, 
+import {
+  Crown,
+  FileCheck,
+  ArrowRight,
+  Sparkles,
+  GraduationCap,
+  FileText,
+  MapPin,
+  Users,
+  CheckCircle,
   Clock,
   Star,
   Shield,
   Globe,
   BookOpen,
   Award,
-  Plane
+  Plane,
 } from "lucide-react";
 
 const services = [
   {
-    id: "university-selection",
-    title: "University Selection",
-    description: "Expert guidance to find the perfect university match based on your academic profile, career goals, and preferences.",
-    icon: GraduationCap,
-    features: [
-      "Personalized university recommendations",
-      "Course comparison and analysis", 
-      "Admission requirements assessment",
-      "Scholarship opportunity identification"
+    icon: Crown,
+    title: "Premium University Selection",
+    description:
+      "Personalized guidance to prestigious institutions with our exclusive partnerships and insider knowledge of admission requirements.",
+    tier: "Signature Service",
+    color: "bg-gold/10 text-gold",
+    highlights: [
+      "Ivy League Access",
+      "Merit Scholarships",
+      "Priority Applications",
     ],
-    pricing: "Free with consultation"
   },
   {
-    id: "application-assistance",
-    title: "Application Assistance",
-    description: "Complete support through the university application process to maximize your chances of acceptance.",
-    icon: FileText,
-    features: [
-      "Application form completion",
-      "Statement of purpose writing",
-      "Letter of recommendation guidance",
-      "Portfolio development support"
-    ],
-    pricing: "Starting from $299"
+    icon: FileCheck,
+    title: "Elite Application Support",
+    description:
+      "Expert crafting of compelling applications, essays, and documentation that showcase your unique potential to admissions committees.",
+    tier: "Premium Service",
+    color: "bg-navy/10 text-navy",
+    highlights: ["Personal Statement", "LOR Strategy", "Portfolio Review"],
   },
   {
-    id: "visa-processing",
-    title: "Visa Processing",
-    description: "End-to-end visa application support with 98% success rate and expert guidance through complex requirements.",
-    icon: Shield,
-    features: [
-      "Complete visa documentation",
-      "Interview preparation",
-      "Application tracking",
-      "Embassy liaison support"
-    ],
-    pricing: "Starting from $499"
+    icon: Users,
+    title: "Executive Mentorship",
+    description:
+      "One-on-one guidance from education consultants with proven track records at top-tier universities worldwide.",
+    tier: "Exclusive Service",
+    color: "bg-secondary/10 text-secondary",
+    highlights: ["Former Admissions", "Industry Experts", "Dedicated Support"],
   },
   {
-    id: "test-preparation",
-    title: "Test Preparation",
-    description: "Comprehensive preparation for IELTS, TOEFL, GRE, GMAT, and other standardized tests.",
     icon: BookOpen,
-    features: [
-      "One-on-one coaching sessions",
-      "Practice tests and materials",
-      "Score improvement guarantee",
-      "Flexible scheduling options"
-    ],
-    pricing: "Starting from $199"
+    title: "Academic Pathway Planning",
+    description:
+      "Strategic academic roadmapping aligned with your career aspirations and global opportunities in your chosen field.",
+    tier: "Strategic Service",
+    color: "bg-purple-100 text-purple-600",
+    highlights: ["Career Alignment", "Skill Mapping", "Future Planning"],
   },
   {
-    id: "scholarship-guidance",
-    title: "Scholarship Guidance",
-    description: "Identify and apply for scholarships, grants, and financial aid opportunities to reduce education costs.",
-    icon: Award,
-    features: [
-      "Scholarship database access",
-      "Application strategy planning",
-      "Essay writing assistance",
-      "Merit scholarship optimization"
-    ],
-    pricing: "Starting from $149"
-  },
-  {
-    id: "pre-departure",
-    title: "Pre-Departure Support",
-    description: "Essential preparation for your journey abroad including accommodation, travel, and cultural orientation.",
     icon: Plane,
-    features: [
-      "Accommodation arrangements",
-      "Travel planning assistance",
-      "Cultural orientation sessions",
-      "Airport pickup coordination"
-    ],
-    pricing: "Starting from $99"
-  }
+    title: "Global Visa Excellence",
+    description:
+      "Comprehensive visa assistance with our 99% success rate, ensuring smooth transitions to your dream destination.",
+    tier: "Essential Service",
+    color: "bg-green-100 text-green-600",
+    highlights: ["99% Success Rate", "Fast Processing", "Interview Prep"],
+  },
+  {
+    icon: Shield,
+    title: "Concierge Support",
+    description:
+      "End-to-end support including accommodation, banking, insurance, and orientation for a seamless transition abroad.",
+    tier: "Luxury Service",
+    color: "bg-red-100 text-red-600",
+    highlights: ["24/7 Support", "Local Assistance", "Emergency Help"],
+  },
 ];
 
 const processSteps = [
   {
     step: 1,
     title: "Initial Consultation",
-    description: "Free assessment of your academic profile and career aspirations"
+    description:
+      "Free assessment of your academic profile and career aspirations",
   },
   {
     step: 2,
-    title: "University Selection", 
-    description: "Personalized recommendations based on your preferences and goals"
+    title: "University Selection",
+    description:
+      "Personalized recommendations based on your preferences and goals",
   },
   {
     step: 3,
     title: "Application Support",
-    description: "Complete assistance with applications and documentation"
+    description: "Complete assistance with applications and documentation",
   },
   {
     step: 4,
     title: "Visa Processing",
-    description: "Expert guidance through visa application and approval"
+    description: "Expert guidance through visa application and approval",
   },
   {
     step: 5,
     title: "Pre-Departure",
-    description: "Final preparations for your international education journey"
-  }
+    description: "Final preparations for your international education journey",
+  },
 ];
-
+const scrollToSection = (sectionId: string) => {
+  const element = document.getElementById(sectionId);
+  if (element) {
+    element.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+};
 export default function Services() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-white">
       <Header />
-      
+
       {/* Hero Section */}
       <div className="relative pt-24 pb-16 bg-gradient-to-r from-navy to-navy/90">
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30"></div>
@@ -139,7 +130,8 @@ export default function Services() {
             Our Services
           </h1>
           <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
-            Comprehensive support for your international education journey from university selection to visa approval
+            Comprehensive support for your international education journey from
+            university selection to visa approval
           </p>
         </div>
       </div>
@@ -148,47 +140,93 @@ export default function Services() {
       <div className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-navy mb-4">Complete Educational Solutions</h2>
+            <h2 className="text-3xl font-bold text-navy mb-4">
+              Complete Educational Solutions
+            </h2>
             <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-              From initial consultation to successful visa approval, we provide end-to-end support for your study abroad dreams
+              From initial consultation to successful visa approval, we provide
+              end-to-end support for your study abroad dreams
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service) => {
+            {services.map((service, index) => {
               const IconComponent = service.icon;
+
               return (
-                <Card key={service.id} className="group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-white to-slate-50">
-                  <CardContent className="p-6">
-                    <div className="flex items-center mb-4">
-                      <div className="p-3 bg-navy/10 rounded-lg mr-4">
-                        <IconComponent className="h-6 w-6 text-navy" />
+                <div
+                  key={index}
+                  className="
+                    group relative 
+                    bg-gradient-to-br from-white via-slate-50 to-white 
+                    rounded-2xl p-6 
+                    border border-transparent 
+                    shadow-[0_10px_30px_rgba(0,0,0,0.05)] 
+                    hover:shadow-[0_15px_40px_rgba(218,165,32,0.2)] 
+                    hover:border-gold/20 
+                    transition-all duration-500 
+                    transform hover:-translate-y-2
+                  "
+                >
+                  {/* Header */}
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="relative">
+                      <div
+                        className={`w-14 h-14 rounded-2xl flex items-center justify-center ${service.color} shadow-md group-hover:scale-110 transition-all duration-300`}
+                      >
+                        <IconComponent className="h-7 w-7" />
                       </div>
-                      <h3 className="text-xl font-bold text-navy">{service.title}</h3>
+                      <div className="absolute -top-2 -right-2 w-6 h-6 bg-navy rounded-full flex items-center justify-center">
+                        <span className="text-xs font-bold text-white">
+                          {index + 1}
+                        </span>
+                      </div>
                     </div>
-                    
-                    <p className="text-slate-600 mb-6">{service.description}</p>
-                    
-                    <div className="space-y-2 mb-6">
-                      {service.features.map((feature, idx) => (
-                        <div key={idx} className="flex items-center text-sm text-slate-700">
-                          <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
-                          {feature}
+
+                    <span className="text-xs font-bold text-gold bg-gold/10 px-3 py-1 rounded-full border border-gold/20 uppercase">
+                      {service.tier}
+                    </span>
+                  </div>
+
+                  {/* Content */}
+                  <div className="space-y-4 mb-6">
+                    <h3 className="text-xl font-playfair font-bold text-navy group-hover:text-gold transition-colors duration-300">
+                      {service.title}
+                    </h3>
+
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                      Expert guidance for {service.title.toLowerCase()} with
+                      personalized support.
+                    </p>
+
+                    {/* Compact features */}
+                    <div className="space-y-2">
+                      {service.highlights.slice(0, 3).map((highlight, idx) => (
+                        <div
+                          key={idx}
+                          className="flex items-center space-x-2 text-xs text-slate-700"
+                        >
+                          <div className="w-1.5 h-1.5 bg-gold rounded-full flex-shrink-0" />
+                          <span className="font-medium">{highlight}</span>
                         </div>
                       ))}
                     </div>
-                    
-                    <div className="border-t pt-4 flex items-center justify-between">
-                      <div>
-                        <div className="text-sm text-slate-600">Starting from</div>
-                        <div className="font-semibold text-navy">{service.pricing}</div>
-                      </div>
-                      <Button className="bg-gold hover:bg-gold/90 text-navy">
-                        Learn More
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
+                  </div>
+
+                  {/* CTA */}
+                  <Button
+                    onClick={() => scrollToSection("contact")}
+                    className="w-full bg-navy text-white hover:bg-gold hover:text-navy py-3 rounded-xl font-semibold text-sm transition-all duration-300 group/btn"
+                  >
+                    <span className="flex items-center justify-center">
+                      Learn More
+                      <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                    </span>
+                  </Button>
+
+                  {/* Hover border effect */}
+                  <div className="absolute inset-0 border-2 border-transparent group-hover:border-gold/20 rounded-2xl transition-all duration-300 pointer-events-none" />
+                </div>
               );
             })}
           </div>
@@ -201,13 +239,14 @@ export default function Services() {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-navy mb-4">Our Process</h2>
             <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-              A streamlined 5-step process to ensure your success in international education
+              A streamlined 5-step process to ensure your success in
+              international education
             </p>
           </div>
 
           <div className="relative">
             <div className="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 bg-navy/20 transform -translate-y-1/2"></div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
               {processSteps.map((step, index) => (
                 <div key={step.step} className="relative">
@@ -229,9 +268,12 @@ export default function Services() {
       <div className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-navy mb-4">Why Choose StudyBridge?</h2>
+            <h2 className="text-3xl font-bold text-navy mb-4">
+              Why Choose StudyBridge?
+            </h2>
             <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-              Trusted by thousands of students for exceptional service and guaranteed results
+              Trusted by thousands of students for exceptional service and
+              guaranteed results
             </p>
           </div>
 
@@ -241,31 +283,39 @@ export default function Services() {
                 <Star className="h-8 w-8 text-navy" />
               </div>
               <h3 className="font-bold text-navy mb-2">98% Success Rate</h3>
-              <p className="text-slate-600 text-sm">Highest visa approval rate in the industry</p>
+              <p className="text-slate-600 text-sm">
+                Highest visa approval rate in the industry
+              </p>
             </div>
-            
+
             <div className="text-center">
               <div className="p-4 bg-navy/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <Users className="h-8 w-8 text-navy" />
               </div>
               <h3 className="font-bold text-navy mb-2">10,000+ Students</h3>
-              <p className="text-slate-600 text-sm">Successfully placed in top universities</p>
+              <p className="text-slate-600 text-sm">
+                Successfully placed in top universities
+              </p>
             </div>
-            
+
             <div className="text-center">
               <div className="p-4 bg-navy/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <Globe className="h-8 w-8 text-navy" />
               </div>
               <h3 className="font-bold text-navy mb-2">50+ Countries</h3>
-              <p className="text-slate-600 text-sm">Global network of partner institutions</p>
+              <p className="text-slate-600 text-sm">
+                Global network of partner institutions
+              </p>
             </div>
-            
+
             <div className="text-center">
               <div className="p-4 bg-navy/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <Clock className="h-8 w-8 text-navy" />
               </div>
               <h3 className="font-bold text-navy mb-2">15+ Years</h3>
-              <p className="text-slate-600 text-sm">Experience in international education</p>
+              <p className="text-slate-600 text-sm">
+                Experience in international education
+              </p>
             </div>
           </div>
         </div>
@@ -278,7 +328,8 @@ export default function Services() {
             Ready to Start Your Journey?
           </h2>
           <p className="text-xl text-slate-200 mb-8">
-            Book a free consultation with our expert counselors and take the first step towards your international education
+            Book a free consultation with our expert counselors and take the
+            first step towards your international education
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/consultation">
@@ -286,7 +337,10 @@ export default function Services() {
                 Book Free Consultation
               </Button>
             </Link>
-            <Button variant="outline" className="border-white text-white hover:bg-white hover:text-navy px-8 py-3">
+            <Button
+              variant="outline"
+              className="border-white text-white hover:bg-white hover:text-navy px-8 py-3"
+            >
               Download Service Guide
             </Button>
           </div>

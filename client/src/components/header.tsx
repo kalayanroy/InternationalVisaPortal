@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -16,7 +16,7 @@ const navItems = [
   { id: "universities", label: "Universities", path: "/universities" },
   { id: "services", label: "Services", path: "/services" },
   { id: "about", label: "About", path: "/about" },
-  { id: "success-stories", label: "Success Stories", path: "/success-stories" }
+  { id: "success-stories", label: "Success Stories", path: "/success-stories" },
 ];
 
 export default function Header() {
@@ -46,9 +46,9 @@ export default function Header() {
   const closeMenu = () => setIsMenuOpen(false);
 
   // Handle navigation - scroll to section if on home page, otherwise navigate
-  const handleNavigation = (item: typeof navItems[0]) => {
+  const handleNavigation = (item: (typeof navItems)[0]) => {
     closeMenu();
-    
+
     if (location === "/" && item.id !== "home") {
       // On home page, scroll to section
       const sectionId = item.id;
@@ -64,7 +64,7 @@ export default function Header() {
 
   const handleConsultationClick = () => {
     closeMenu();
-    
+
     if (location === "/") {
       // On home page, scroll to consultation section
       const element = document.getElementById("consultation");
@@ -85,7 +85,11 @@ export default function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <img src={logo} alt="Logo" className="h-8 w-auto" />
-          <span className={`font-bold text-lg transition-colors duration-300 ${isScrolled ? "text-navy" : "text-white"}`}>StudyBridge</span>
+          <span
+            className={`font-bold text-lg transition-colors duration-300 ${isScrolled ? "text-navy" : "text-white"}`}
+          >
+            StudyBridge
+          </span>
         </Link>
 
         {/* Desktop Menu */}
@@ -95,22 +99,26 @@ export default function Header() {
               key={item.id}
               onClick={() => handleNavigation(item)}
               className={`text-sm font-medium transition-colors duration-300 hover:text-gold ${
-                location === item.path ? "text-gold font-semibold" : 
-                isScrolled ? "text-navy" : "text-white"
+                location === item.path
+                  ? "text-gold font-semibold"
+                  : isScrolled
+                    ? "text-navy"
+                    : "text-white"
               }`}
             >
               {item.label}
             </button>
           ))}
 
-          <Button 
+          <Button
             onClick={handleConsultationClick}
-            className={`font-semibold text-sm px-4 py-2 rounded-md transition-colors duration-300 ${
-              isScrolled 
-                ? "bg-gold hover:bg-gold/90 text-navy" 
-                : "bg-gold hover:bg-gold/90 text-navy"
+            className={`border border-[#ffc105] transition-all duration-300 luxury-shadow ${
+              isScrolled
+                ? "bg-[#ffc105] text-black"
+                : "bg-transparent text-[#ffc105] hover:bg-[#ffc105] hover:text-white"
             }`}
           >
+            <UserPlus className="h-4 w-4 mr-2" />
             Book Consultation
           </Button>
 
@@ -123,7 +131,9 @@ export default function Header() {
                       {mockUser.initials}
                     </AvatarFallback>
                   </Avatar>
-                  <ChevronDown className={`ml-1 h-4 w-4 transition-colors duration-300 ${isScrolled ? "text-navy" : "text-white"}`} />
+                  <ChevronDown
+                    className={`ml-1 h-4 w-4 transition-colors duration-300 ${isScrolled ? "text-navy" : "text-white"}`}
+                  />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
@@ -136,9 +146,14 @@ export default function Header() {
             </DropdownMenu>
           ) : (
             <Link href="/login">
-              <Button variant="outline" className={`border transition-colors duration-300 ${
-                isScrolled ? "text-navy border-navy" : "text-white border-white"
-              }`}>
+              <Button
+                variant="outline"
+                className={`border transition-colors duration-300 ${
+                  isScrolled
+                    ? "text-navy border-navy"
+                    : "text-white border-white"
+                }`}
+              >
                 Login
               </Button>
             </Link>
@@ -149,9 +164,13 @@ export default function Header() {
         <div className="md:hidden">
           <Button variant="ghost" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? (
-              <X className={`h-6 w-6 transition-colors duration-300 ${isScrolled ? "text-navy" : "text-white"}`} />
+              <X
+                className={`h-6 w-6 transition-colors duration-300 ${isScrolled ? "text-navy" : "text-white"}`}
+              />
             ) : (
-              <Menu className={`h-6 w-6 transition-colors duration-300 ${isScrolled ? "text-navy" : "text-white"}`} />
+              <Menu
+                className={`h-6 w-6 transition-colors duration-300 ${isScrolled ? "text-navy" : "text-white"}`}
+              />
             )}
           </Button>
         </div>
@@ -171,7 +190,7 @@ export default function Header() {
               </button>
             ))}
 
-            <Button 
+            <Button
               onClick={handleConsultationClick}
               className="bg-gold hover:bg-gold/90 text-navy font-semibold text-sm w-full"
             >
