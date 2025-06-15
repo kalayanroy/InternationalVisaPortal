@@ -21,13 +21,13 @@ const universities = [
     students: "23,000",
     programs: "200+",
     rating: "4.9",
-    specialties: ["Business", "Medicine", "Law", "Engineering"],
+    specialties: ["Medicine", "Law", "Business", "Engineering"],
     description:
-      "World's leading research university with exceptional academic programs and distinguished faculty.",
+      "Harvard University is a private Ivy League research university in Cambridge, Massachusetts, with about 6,800 undergraduate students and about 14,000 postgraduate students.",
     topCourses: [
-      "MBA Program",
-      "Medical School",
-      "Law School",
+      "Medicine",
+      "Law",
+      "Business Administration",
       "Computer Science",
       "Economics",
     ],
@@ -38,67 +38,41 @@ const universities = [
     location: "Stanford, California, USA",
     country: "USA",
     ranking: "#2",
-    acceptance: "3.9%",
-    tuition: "$61,731",
+    acceptance: "4.3%",
+    tuition: "$58,416",
     image:
-      "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=600&h=400&fit=crop&auto=format",
+      "https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?w=600&h=400&fit=crop&auto=format",
     students: "17,000",
     programs: "180+",
     rating: "4.8",
-    specialties: ["Computer Science", "Engineering", "Business", "Medicine"],
+    specialties: ["Engineering", "Computer Science", "Business", "Medicine"],
     description:
-      "Premier institution for innovation and entrepreneurship in Silicon Valley.",
+      "Stanford University is a private research university in Stanford, California, known for its academic strength, proximity to Silicon Valley, and ranking as one of the world's top universities.",
     topCourses: [
       "Computer Science",
-      "Artificial Intelligence",
       "Engineering",
-      "MBA Program",
-      "Data Science",
+      "Business School",
+      "Medicine",
+      "Law",
     ],
   },
   {
-    id: "oxford",
-    name: "Oxford University",
-    location: "Oxford, England, UK",
-    country: "UK",
-    ranking: "#1",
-    acceptance: "17.5%",
-    tuition: "£28,950",
+    id: "mit",
+    name: "MIT",
+    location: "Cambridge, Massachusetts, USA",
+    country: "USA",
+    ranking: "#3",
+    acceptance: "6.7%",
+    tuition: "$57,986",
     image:
-      "https://images.unsplash.com/photo-1566408669057-4cd39b3bb1a0?w=600&h=400&fit=crop&auto=format",
-    students: "24,000",
-    programs: "350+",
+      "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=600&h=400&fit=crop&auto=format",
+    students: "11,500",
+    programs: "150+",
     rating: "4.9",
-    specialties: ["Philosophy", "Politics", "Economics", "Medicine"],
+    specialties: ["Engineering", "Computer Science", "Physics", "Economics"],
     description:
-      "Ancient university with over 900 years of academic excellence and tradition.",
+      "MIT is a private research university in Cambridge, Massachusetts, that has played a key role in the development of modern technology and science.",
     topCourses: [
-      "Electrical Engineering",
-      "Computer Science",
-      "Physics",
-      "Mathematics",
-      "Aerospace Engineering",
-    ],
-  },
-  {
-    id: "cambridge",
-    name: "Cambridge University",
-    location: "Cambridge, England, UK",
-    country: "UK",
-    ranking: "#2",
-    acceptance: "21%",
-    tuition: "£28,950",
-    image:
-      "https://images.unsplash.com/photo-1559409030-0b0fb6d6b23e?w=600&h=400&fit=crop&auto=format",
-    students: "23,000",
-    programs: "300+",
-    rating: "4.8",
-    specialties: ["Mathematics", "Physics", "Engineering", "Natural Sciences"],
-    description:
-      "Historic university renowned for scientific discoveries and academic excellence.",
-    topCourses: [
-      "Mathematics",
-      "Natural Sciences",
       "Engineering",
       "Computer Science",
       "Medicine",
@@ -321,200 +295,113 @@ export default function Universities() {
                   </div>
                 </div>
 
-                <CardContent className="p-0">
-                  <div className="flex">
-                    <div className="flex-1 p-6 flex flex-col">
-                      <div className="grid grid-cols-2 gap-4 mb-4">
-                        <div className="text-center p-2 bg-slate-50 rounded-lg">
-                          <div className="text-base font-bold text-navy">
-                            {university.acceptance}
-                          </div>
-                          <div className="text-xs text-slate-600">
-                            Acceptance
-                          </div>
-                        </div>
-                        <div className="text-center p-2 bg-slate-50 rounded-lg">
-                          <div className="text-base font-bold text-navy">
-                            {university.tuition}
-                          </div>
-                          <div className="text-xs text-slate-600">Tuition</div>
-                        </div>
-                      </div>
-
-                      <div className="mb-4">
-                        <h4 className="font-semibold text-navy mb-2 text-sm">
-                          Key Specialties
-                        </h4>
-                        <div className="flex flex-wrap gap-1">
-                          {university.specialties
-                            .slice(0, 3)
-                            .map((specialty, idx) => (
-                              <Badge
-                                key={idx}
-                                variant="outline"
-                                className="text-xs px-2 py-1 border-navy/20 text-navy"
-                              >
-                                {specialty}
-                              </Badge>
-                            ))}
-                          {university.specialties.length > 3 && (
-                            <Badge
-                              variant="outline"
-                              className="text-xs px-2 py-1 border-slate-300 text-slate-600"
-                            >
-                              +{university.specialties.length - 3} more
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
-
-                      <div className="mt-auto">
-                        <Link href={`/university/${university.id}`}>
-                          <Button className="w-full bg-navy hover:bg-navy/90 text-white">
-                            View Details
-                          </Button>
-                        </Link>
-                      </div>
-                    </div>
-
-                    <div className="w-64 bg-gradient-to-b from-yellow-50 to-gold/10 p-4 border-l border-yellow-200">
-                      <h4 className="font-semibold text-navy mb-3 flex items-center">
-                        <BookOpen className="h-4 w-4 mr-2" />
-                        Top Courses
-                      </h4>
-                      <div className="space-y-2">
-                        {university.topCourses
-                          .slice(0, 5)
-                          .map((course, idx) => (
-                            <Button
-                              key={idx}
-                              variant="outline"
-                              size="sm"
-                              className="w-full text-left justify-start bg-gold hover:bg-gold/90 border-gold text-navy hover:text-navy font-medium text-xs px-3 py-2 h-auto"
-                            >
-                              {course}
-                            </Button>
-                          ))}
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-            {universities.map((university) => (
-              <Card
-                key={university.id}
-                className="group overflow-hidden hover:shadow-xl transition-all duration-300"
-              >
-                <div className="relative h-48">
-                  <img
-                    src={university.image}
-                    alt={university.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  <div className="absolute top-4 right-4">
-                    <Badge className="bg-gold text-navy">
-                      {university.ranking}
-                    </Badge>
-                  </div>
-                  <div className="absolute bottom-4 left-4">
-                    <Badge
-                      variant="outline"
-                      className="bg-white/90 text-navy border-white"
-                    >
-                      {university.country}
-                    </Badge>
-                  </div>
-                </div>
-
                 <CardContent className="p-6">
-                  <h3 className="text-xl font-bold text-navy mb-2">
-                    {university.name}
-                  </h3>
-                  <p className="text-slate-600 mb-4 flex items-center">
-                    <MapPin className="h-4 w-4 mr-1" />
-                    {university.location}
-                  </p>
+                  {/* Key Statistics */}
+                  <div className="grid grid-cols-3 gap-4 mb-6">
+                    <div className="text-center">
+                      <div className="flex items-center justify-center w-10 h-10 bg-navy/10 rounded-lg mb-2 mx-auto">
+                        <Users className="h-5 w-5 text-navy" />
+                      </div>
+                      <div className="text-lg font-bold text-navy">{university.students}</div>
+                      <div className="text-xs text-slate-600">Students</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="flex items-center justify-center w-10 h-10 bg-navy/10 rounded-lg mb-2 mx-auto">
+                        <BookOpen className="h-5 w-5 text-navy" />
+                      </div>
+                      <div className="text-lg font-bold text-navy">{university.programs}</div>
+                      <div className="text-xs text-slate-600">Programs</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="flex items-center justify-center w-10 h-10 bg-navy/10 rounded-lg mb-2 mx-auto">
+                        <Star className="h-5 w-5 text-navy" />
+                      </div>
+                      <div className="text-lg font-bold text-navy">{university.rating}</div>
+                      <div className="text-xs text-slate-600">Rating</div>
+                    </div>
+                  </div>
 
-                  <p className="text-slate-700 mb-4 text-sm">
+                  {/* Acceptance & Tuition */}
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-lg border border-green-200">
+                      <div className="text-sm text-green-700 font-medium mb-1">Acceptance Rate</div>
+                      <div className="text-xl font-bold text-green-800">{university.acceptance}</div>
+                    </div>
+                    <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg border border-blue-200">
+                      <div className="text-sm text-blue-700 font-medium mb-1">Annual Tuition</div>
+                      <div className="text-xl font-bold text-blue-800">{university.tuition}</div>
+                    </div>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-sm text-slate-600 mb-4 leading-relaxed">
                     {university.description}
                   </p>
 
-                  <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
-                    <div className="flex items-center text-slate-600">
-                      <Users className="h-4 w-4 mr-1" />
-                      {university.students} students
-                    </div>
-                    <div className="flex items-center text-slate-600">
-                      <GraduationCap className="h-4 w-4 mr-1" />
-                      {university.programs} programs
-                    </div>
-                    <div className="text-slate-600">
-                      <span className="font-semibold">Acceptance:</span>{" "}
-                      {university.acceptance}
-                    </div>
-                    <div className="flex items-center text-slate-600">
-                      <Star className="h-4 w-4 mr-1 text-yellow-500" />
-                      {university.rating}
-                    </div>
-                  </div>
-
-                  <div className="mb-4">
-                    <div className="text-sm text-slate-600 mb-2">
-                      Specialties:
-                    </div>
-                    <div className="flex flex-wrap gap-1">
-                      {university.specialties.map((specialty, idx) => (
-                        <Badge key={idx} variant="outline" className="text-xs">
-                          {specialty}
+                  {/* Top Courses */}
+                  <div className="mb-6">
+                    <h4 className="font-semibold text-navy mb-3 text-sm">Top Courses</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {university.topCourses.slice(0, 3).map((course, idx) => (
+                        <Badge
+                          key={idx}
+                          className="bg-navy/10 text-navy hover:bg-navy/20 text-xs px-3 py-1"
+                        >
+                          {course}
                         </Badge>
                       ))}
+                      {university.topCourses.length > 3 && (
+                        <Badge className="bg-slate-100 text-slate-600 text-xs px-3 py-1">
+                          +{university.topCourses.length - 3} more
+                        </Badge>
+                      )}
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="text-sm text-slate-600">Tuition</div>
-                      <div className="font-semibold text-navy">
-                        {university.tuition}
-                      </div>
-                    </div>
-                    <Link href={`/university/${university.id}`}>
-                      <Button className="bg-navy hover:bg-navy/90 text-white">
-                        Learn More
-                      </Button>
-                    </Link>
-                  </div>
+                  {/* Action Button */}
+                  <Link href={`/university/${university.id}`}>
+                    <Button className="w-full bg-gradient-to-r from-navy to-navy/90 hover:from-navy/90 hover:to-navy text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
+                      View University Details
+                    </Button>
+                  </Link>
                 </CardContent>
               </Card>
             ))}
           </div>
+          
+          {filteredUniversities.length === 0 && (
+            <div className="text-center py-12">
+              <div className="text-slate-400 mb-4">
+                <Search className="h-12 w-12 mx-auto mb-4" />
+              </div>
+              <h3 className="text-xl font-semibold text-slate-700 mb-2">No universities found</h3>
+              <p className="text-slate-500">Try adjusting your search criteria or filters.</p>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* CTA Section */}
-      <div className="py-16 bg-navy">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-white mb-6">
-            Ready to Find Your Perfect University?
+      {/* Call to Action */}
+      <div className="py-20 bg-gradient-to-br from-navy to-navy/90 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,215,0,0.1),transparent)]"></div>
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            Ready to Start Your Journey?
           </h2>
-          <p className="text-xl text-slate-200 mb-8">
-            Our expert counselors will help you choose the right university
-            based on your goals and preferences
+          <p className="text-xl text-white/90 mb-10 leading-relaxed">
+            Get personalized guidance from our education experts and find the perfect university for your goals.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/consultation">
-              <Button className="bg-gold hover:bg-gold/90 text-navy px-8 py-3">
+              <Button className="bg-gold hover:bg-gold/90 text-navy font-semibold px-8 py-4 text-lg rounded-lg shadow-lg">
                 Book Free Consultation
               </Button>
             </Link>
-            <Button
-              variant="outline"
-              className="border-white text-white hover:bg-white hover:text-navy px-8 py-3"
-            >
-              Download University Guide
-            </Button>
+            <Link href="/services">
+              <Button variant="outline" className="border-white text-white hover:bg-white hover:text-navy font-semibold px-8 py-4 text-lg rounded-lg">
+                Our Services
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
