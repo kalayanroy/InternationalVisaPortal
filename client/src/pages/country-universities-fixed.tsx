@@ -4,7 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Header from "@/components/header";
-import { ArrowLeft, MapPin, BookOpen } from "lucide-react";
+import {
+  ArrowLeft,
+  MapPin,
+  Users,
+  GraduationCap,
+  Star,
+  BookOpen,
+} from "lucide-react";
 
 // Country data - in a real app this would come from an API
 const countryData = {
@@ -31,6 +38,9 @@ const countryData = {
         ranking: "#1",
         acceptance: "3.4%",
         tuition: "$59,076",
+        students: "23,000",
+        country: "USA",
+        programs: "200+",
         image:
           "https://images.unsplash.com/photo-1562774053-701939374585?w=400&h=300&fit=crop&auto=format",
         specialties: ["Business", "Medicine", "Law", "Engineering"],
@@ -41,6 +51,8 @@ const countryData = {
           "Computer Science",
           "Economics",
         ],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
       },
       {
         id: "stanford",
@@ -49,6 +61,9 @@ const countryData = {
         ranking: "#2",
         acceptance: "3.9%",
         tuition: "$61,731",
+        students: "23,000",
+        country: "USA",
+        programs: "200+",
         image:
           "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=400&h=300&fit=crop&auto=format",
         specialties: [
@@ -64,6 +79,8 @@ const countryData = {
           "MBA Program",
           "Data Science",
         ],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
       },
       {
         id: "mit",
@@ -72,6 +89,9 @@ const countryData = {
         ranking: "#3",
         acceptance: "4.1%",
         tuition: "$59,750",
+        students: "23,000",
+        country: "USA",
+        programs: "200+",
         image:
           "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=400&h=300&fit=crop&auto=format",
         specialties: [
@@ -87,6 +107,8 @@ const countryData = {
           "Mathematics",
           "Aerospace Engineering",
         ],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
       },
     ],
   },
@@ -113,10 +135,15 @@ const countryData = {
         ranking: "#1",
         acceptance: "17.5%",
         tuition: "£28,950",
+        students: "23,000",
+        country: "UK",
+        programs: "200+",
         image:
           "https://images.unsplash.com/photo-1566408669057-4cd39b3bb1a0?w=400&h=300&fit=crop&auto=format",
         specialties: ["Philosophy", "Politics", "Economics", "Medicine"],
         topCourses: ["PPE", "Medicine", "Law", "History", "English Literature"],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
       },
       {
         id: "cambridge",
@@ -125,6 +152,9 @@ const countryData = {
         ranking: "#2",
         acceptance: "21%",
         tuition: "£28,950",
+        students: "23,000",
+        country: "UK",
+        programs: "200+",
         image:
           "https://images.unsplash.com/photo-1559409030-0b0fb6d6b23e?w=400&h=300&fit=crop&auto=format",
         specialties: [
@@ -140,6 +170,8 @@ const countryData = {
           "Computer Science",
           "Medicine",
         ],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
       },
       {
         id: "imperial",
@@ -148,6 +180,9 @@ const countryData = {
         ranking: "#8",
         acceptance: "14.3%",
         tuition: "£32,000",
+        students: "23,000",
+        country: "UK",
+        programs: "200+",
         image:
           "https://images.unsplash.com/photo-1551740952-9ba0661ba9be?w=400&h=300&fit=crop&auto=format",
         specialties: ["Engineering", "Medicine", "Business", "Science"],
@@ -158,6 +193,8 @@ const countryData = {
           "Computing",
           "Physics",
         ],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
       },
     ],
   },
@@ -184,6 +221,9 @@ const countryData = {
         ranking: "#21",
         acceptance: "43%",
         tuition: "CAD $58,160",
+        students: "23,000",
+        country: "CA",
+        programs: "200+",
         image:
           "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=400&h=300&fit=crop&auto=format",
         specialties: ["Medicine", "Engineering", "Business", "Arts"],
@@ -194,6 +234,8 @@ const countryData = {
           "Computer Science",
           "Law",
         ],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
       },
       {
         id: "mcgill",
@@ -202,6 +244,9 @@ const countryData = {
         ranking: "#31",
         acceptance: "46%",
         tuition: "CAD $50,000",
+        students: "23,000",
+        country: "CA",
+        programs: "200+",
         image:
           "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop&auto=format",
         specialties: ["Medicine", "Engineering", "Arts", "Science"],
@@ -212,6 +257,8 @@ const countryData = {
           "Management",
           "Science",
         ],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
       },
     ],
   },
@@ -314,7 +361,7 @@ export default function CountryUniversities() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {country.universities.map((university, index) => (
             <Card
               key={index}
@@ -415,6 +462,94 @@ export default function CountryUniversities() {
                       ))}
                     </div>
                   </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+          {country.universities.map((university) => (
+            <Card
+              key={university.id}
+              className="group overflow-hidden hover:shadow-xl transition-all duration-300"
+            >
+              <div className="relative h-48">
+                <img
+                  src={university.image}
+                  alt={university.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute top-4 right-4">
+                  <Badge className="bg-gold text-navy">
+                    {university.ranking}
+                  </Badge>
+                </div>
+                <div className="absolute bottom-4 left-4">
+                  <Badge
+                    variant="outline"
+                    className="bg-white/90 text-navy border-white"
+                  >
+                    {university.country}
+                  </Badge>
+                </div>
+              </div>
+
+              <CardContent className="p-6">
+                <h3 className="text-xl font-bold text-navy mb-2">
+                  {university.name}
+                </h3>
+                <p className="text-slate-600 mb-4 flex items-center">
+                  <MapPin className="h-4 w-4 mr-1" />
+                  {university.location}
+                </p>
+
+                <p className="text-slate-700 mb-4 text-sm">
+                  {university.description}
+                </p>
+
+                <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
+                  <div className="flex items-center text-slate-600">
+                    <Users className="h-4 w-4 mr-1" />
+                    {university.students} students
+                  </div>
+                  <div className="flex items-center text-slate-600">
+                    <GraduationCap className="h-4 w-4 mr-1" />
+                    {university.programs} programs
+                  </div>
+                  <div className="text-slate-600">
+                    <span className="font-semibold">Acceptance:</span>{" "}
+                    {university.acceptance}
+                  </div>
+                  <div className="flex items-center text-slate-600">
+                    <Star className="h-4 w-4 mr-1 text-yellow-500" />
+                    {university.rating}
+                  </div>
+                </div>
+
+                <div className="mb-4">
+                  <div className="text-sm text-slate-600 mb-2">
+                    Specialties:
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {university.specialties.map((specialty, idx) => (
+                      <Badge key={idx} variant="outline" className="text-xs">
+                        {specialty}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-sm text-slate-600">Tuition</div>
+                    <div className="font-semibold text-navy">
+                      {university.tuition}
+                    </div>
+                  </div>
+                  <Link href={`/university/${university.id}`}>
+                    <Button className="bg-navy hover:bg-navy/90 text-white">
+                      Learn More
+                    </Button>
+                  </Link>
                 </div>
               </CardContent>
             </Card>
