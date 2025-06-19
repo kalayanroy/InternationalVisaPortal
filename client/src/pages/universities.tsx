@@ -158,8 +158,19 @@ export default function Universities() {
       <Header />
 
       {/* Hero Section */}
-      <div className="relative pt-24 pb-16 bg-gradient-to-r from-navy to-navy/90">
+      <div className="relative pt-24 pb-16">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url('https://content.mtfxgroup.com/uploads/Orange_Brown_Minimalist_Photo_Collage_Happy_Thanksgiving_Facebook_Cover_d901a16a13_5332d40bbb.webp')`,
+          }}
+        ></div>
+
+        {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30"></div>
+
+        {/* Content */}
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
             World-Class Universities
@@ -317,94 +328,6 @@ export default function Universities() {
                 </CardContent>
               </Card>
             ))}
-            {universities.map((university) => (
-              <Card
-                key={university.id}
-                className="group overflow-hidden hover:shadow-xl transition-all duration-300"
-              >
-                <div className="relative h-48">
-                  <img
-                    src={university.image}
-                    alt={university.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  <div className="absolute top-4 right-4">
-                    <Badge className="bg-gold text-navy">
-                      {university.ranking}
-                    </Badge>
-                  </div>
-                  <div className="absolute bottom-4 left-4">
-                    <Badge
-                      variant="outline"
-                      className="bg-white/90 text-navy border-white"
-                    >
-                      {university.country}
-                    </Badge>
-                  </div>
-                </div>
-
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-bold text-navy mb-2">
-                    {university.name}
-                  </h3>
-                  <p className="text-slate-600 mb-4 flex items-center">
-                    <MapPin className="h-4 w-4 mr-1" />
-                    {university.location}
-                  </p>
-
-                  <p className="text-slate-700 mb-4 text-sm">
-                    {university.description}
-                  </p>
-
-                  <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
-                    <div className="flex items-center text-slate-600">
-                      <Users className="h-4 w-4 mr-1" />
-                      {university.students} students
-                    </div>
-                    <div className="flex items-center text-slate-600">
-                      <GraduationCap className="h-4 w-4 mr-1" />
-                      {university.programs} programs
-                    </div>
-                    <div className="text-slate-600">
-                      <span className="font-semibold">Acceptance:</span>{" "}
-                      {university.acceptance}
-                    </div>
-                    <div className="flex items-center text-slate-600">
-                      <Star className="h-4 w-4 mr-1 text-yellow-500" />
-                      {university.rating}
-                    </div>
-                  </div>
-
-                  <div className="mb-4">
-                    <div className="text-sm text-slate-600 mb-2">
-                      Specialties:
-                    </div>
-                    <div className="flex flex-wrap gap-1">
-                      {university.specialties.map((specialty, idx) => (
-                        <Badge key={idx} variant="outline" className="text-xs">
-                          {specialty}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="text-sm text-slate-600">Tuition</div>
-                      <div className="font-semibold text-navy">
-                        {university.tuition}
-                      </div>
-                    </div>
-                    <Link href={`/university/${university.id}`}>
-                      <Button className="bg-navy hover:bg-navy/90 text-white">
-                        Learn More
-                      </Button>
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
           </div>
         </div>
       </div>
@@ -427,7 +350,7 @@ export default function Universities() {
             </Link>
             <Button
               variant="outline"
-              className="border-white text-white hover:bg-white hover:text-navy px-8 py-3"
+              className="border-white text-black hover:bg-white hover:text-navy px-8 py-3"
             >
               Download University Guide
             </Button>

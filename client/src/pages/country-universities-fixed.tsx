@@ -12,7 +12,6 @@ import {
   Star,
   BookOpen,
 } from "lucide-react";
-
 // Country data - in a real app this would come from an API
 const countryData = {
   usa: {
@@ -50,6 +49,7 @@ const countryData = {
           "Law School",
           "Computer Science",
           "Economics",
+          "Machine Learning",
         ],
         description:
           "World's leading research university with exceptional academic programs and distinguished faculty.",
@@ -460,96 +460,20 @@ export default function CountryUniversities() {
                           {course}
                         </Button>
                       ))}
+                      {/* More Courses button if there are more than 5 */}
+                      {university.topCourses.length > 5 && (
+                        <div className="pt-2 border-t border-yellow-300">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="w-full text-center bg-yellow-100 hover:bg-yellow-200 border-yellow-300 text-navy hover:text-navy font-medium text-xs px-3 py-2 h-auto"
+                          >
+                            More Courses
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-          {country.universities.map((university) => (
-            <Card
-              key={university.id}
-              className="group overflow-hidden hover:shadow-xl transition-all duration-300"
-            >
-              <div className="relative h-48">
-                <img
-                  src={university.image}
-                  alt={university.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <div className="absolute top-4 right-4">
-                  <Badge className="bg-gold text-navy">
-                    {university.ranking}
-                  </Badge>
-                </div>
-                <div className="absolute bottom-4 left-4">
-                  <Badge
-                    variant="outline"
-                    className="bg-white/90 text-navy border-white"
-                  >
-                    {university.country}
-                  </Badge>
-                </div>
-              </div>
-
-              <CardContent className="p-6">
-                <h3 className="text-xl font-bold text-navy mb-2">
-                  {university.name}
-                </h3>
-                <p className="text-slate-600 mb-4 flex items-center">
-                  <MapPin className="h-4 w-4 mr-1" />
-                  {university.location}
-                </p>
-
-                <p className="text-slate-700 mb-4 text-sm">
-                  {university.description}
-                </p>
-
-                <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
-                  <div className="flex items-center text-slate-600">
-                    <Users className="h-4 w-4 mr-1" />
-                    {university.students} students
-                  </div>
-                  <div className="flex items-center text-slate-600">
-                    <GraduationCap className="h-4 w-4 mr-1" />
-                    {university.programs} programs
-                  </div>
-                  <div className="text-slate-600">
-                    <span className="font-semibold">Acceptance:</span>{" "}
-                    {university.acceptance}
-                  </div>
-                  <div className="flex items-center text-slate-600">
-                    <Star className="h-4 w-4 mr-1 text-yellow-500" />
-                    {university.rating}
-                  </div>
-                </div>
-
-                <div className="mb-4">
-                  <div className="text-sm text-slate-600 mb-2">
-                    Specialties:
-                  </div>
-                  <div className="flex flex-wrap gap-1">
-                    {university.specialties.map((specialty, idx) => (
-                      <Badge key={idx} variant="outline" className="text-xs">
-                        {specialty}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-sm text-slate-600">Tuition</div>
-                    <div className="font-semibold text-navy">
-                      {university.tuition}
-                    </div>
-                  </div>
-                  <Link href={`/university/${university.id}`}>
-                    <Button className="bg-navy hover:bg-navy/90 text-white">
-                      Learn More
-                    </Button>
-                  </Link>
                 </div>
               </CardContent>
             </Card>
@@ -572,7 +496,7 @@ export default function CountryUniversities() {
                 </Button>
                 <Button
                   variant="outline"
-                  className="border-white text-white hover:bg-white hover:text-navy px-8 py-3"
+                  className="border-white text-black hover:bg-white hover:text-navy px-8 py-3"
                 >
                   Download {country.name} Guide
                 </Button>

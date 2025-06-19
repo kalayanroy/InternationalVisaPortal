@@ -1,4 +1,5 @@
 import Header from "@/components/header";
+import { useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
@@ -118,14 +119,30 @@ const scrollToSection = (sectionId: string) => {
   }
 };
 export default function Services() {
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [location]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-white">
       <Header />
 
       {/* Hero Section */}
-      <div className="relative pt-24 pb-16 bg-gradient-to-r from-navy to-navy/90">
+      <div className="relative pt-24 pb-16">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url('https://thumbs.dreamstime.com/b/consumer-service-sector-economy-web-banner-landing-page-education-school-university-vector-illustration-197048943.jpg')`,
+          }}
+        ></div>
+
+        {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+        {/* Content */}
+        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
             Our Services
           </h1>
@@ -339,7 +356,7 @@ export default function Services() {
             </Link>
             <Button
               variant="outline"
-              className="border-white text-white hover:bg-white hover:text-navy px-8 py-3"
+              className="border-white text-black hover:bg-white hover:text-navy px-8 py-3"
             >
               Download Service Guide
             </Button>
