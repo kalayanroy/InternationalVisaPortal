@@ -19,6 +19,9 @@ import HarvardUniversity from "@/pages/harvard-university";
 import UniversityDetail from "@/pages/university-detail";
 import CountryUniversities from "@/pages/country-universities-fixed";
 import NotFound from "@/pages/not-found";
+import Login from "@/pages/login";
+import Register from "@/pages/register";
+import AdminDashboard from "@/pages/admin-dashboard";
 
 function Router() {
   return (
@@ -38,6 +41,9 @@ function Router() {
       <Route path="/harvard-university" component={HarvardUniversity} />
       <Route path="/university/:id" component={UniversityDetail} />
       <Route path="/country/:id" component={CountryUniversities} />
+      <Route path="/login" component={Login} />
+      <Route path="/register" component={Register} />
+      <Route path="/admin" component={AdminDashboard} />
       <Route component={NotFound} />
     </Switch>
   );
