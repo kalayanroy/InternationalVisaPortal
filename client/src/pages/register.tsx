@@ -30,7 +30,7 @@ export default function Register() {
     try {
       await register(formData);
       toast({
-        title: "Registration Successful",
+        title: "Registration Successful", 
         description: "Welcome to EduVisa Global!",
       });
       setLocation("/");

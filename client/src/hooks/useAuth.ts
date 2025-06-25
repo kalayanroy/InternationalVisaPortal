@@ -73,6 +73,8 @@ export const useAuthState = () => {
     setUser(data.user);
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', JSON.stringify(data.user));
+    
+    return data.user; // Return user data for immediate use
   };
 
   const register = async (userData: RegisterData) => {

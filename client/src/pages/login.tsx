@@ -25,12 +25,18 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      await login(formData.username, formData.password);
+      const userData = await login(formData.username, formData.password);
       toast({
         title: "Login Successful",
         description: "Welcome back!",
       });
-      setLocation("/admin");
+      
+      // Redirect based on user role
+      if (userData.role === 'admin') {
+        setLocation("/admin");
+      } else {
+        setLocation("/");
+      }
     } catch (error) {
       toast({
         title: "Login Failed",
