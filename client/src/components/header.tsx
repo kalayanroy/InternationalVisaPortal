@@ -1,243 +1,244 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, ChevronDown, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Menu, X, ChevronDown, User, LogOut, Settings } from "lucide-react";
+import { useAuthState } from "@/hooks/useAuth";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import logo from "@/assets/college.png";
-
-const navItems = [
-  { id: "home", label: "Home", path: "/" },
-  { id: "universities", label: "Universities", path: "/universities" },
-  { id: "services", label: "Services", path: "/services" },
-  { id: "about", label: "About", path: "/about" },
-  { id: "success-stories", label: "Success Stories", path: "/success-stories" },
-];
 
 export default function Header() {
-  const [location] = useLocation();
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // Replace with real auth later
-
-  const mockUser = {
-    name: "Jane Doe",
-    initials: "JD",
-  };
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [location] = useLocation();
+  const { user, isAuthenticated, logout } = useAuthState();
 
   useEffect(() => {
-    const onScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
     };
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
-    console.log("Logged out");
-  };
-
-  const closeMenu = () => setIsMenuOpen(false);
-
-  // Handle navigation - scroll to section if on home page, otherwise navigate
-  const handleNavigation = (item: (typeof navItems)[0]) => {
-    closeMenu();
-
-    if (location === "/" && item.id !== "home") {
-      // On home page, scroll to section
-      const sectionId = item.id;
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
-    } else {
-      // Navigate to page
-      window.location.href = item.path;
-    }
-  };
-
-  const handleConsultationClick = () => {
-    closeMenu();
-
-    if (location === "/") {
-      // On home page, scroll to consultation section
-      const element = document.getElementById("consultation");
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
-    } else {
-      // Navigate to consultation page
-      window.location.href = "/consultation";
-    }
+    logout();
+    setIsMenuOpen(false);
   };
 
   return (
-    <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-white/90 shadow backdrop-blur" : "bg-transparent"}`}
-    >
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <img src={logo} alt="Logo" className="h-8 w-auto" />
-          <span
-            className={`font-bold text-lg transition-colors duration-300 ${isScrolled ? "text-navy" : "text-white"}`}
-          >
-            StudyBridge
-          </span>
-        </Link>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isScrolled ? 'bg-white shadow-lg' : 'bg-transparent'
+    }`}>
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-20">
+          {/* Logo */}
+          <Link href="/">
+            <div className="flex items-center">
+              <span className={`text-2xl font-bold transition-colors ${
+                isScrolled ? 'text-navy' : 'text-white'
+              }`}>
+                EduVisa Global
+              </span>
+            </div>
+          </Link>
 
-        {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-6">
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => handleNavigation(item)}
-              className={`text-sm font-medium transition-colors duration-300 hover:text-gold ${
-                location === item.path
-                  ? "text-gold font-semibold"
-                  : isScrolled
-                    ? "text-navy"
-                    : "text-white"
-              }`}
-            >
-              {item.label}
-            </button>
-          ))}
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            <nav className="flex items-center space-x-6">
+              <Link href="/">
+                <a className={`font-medium transition-colors hover:scale-105 ${
+                  isScrolled ? 'text-navy hover:text-gold' : 'text-white hover:text-gold'
+                } ${location === '/' ? 'border-b-2 border-gold' : ''}`}>
+                  Home
+                </a>
+              </Link>
+              <Link href="/about">
+                <a className={`font-medium transition-colors hover:scale-105 ${
+                  isScrolled ? 'text-navy hover:text-gold' : 'text-white hover:text-gold'
+                } ${location === '/about' ? 'border-b-2 border-gold' : ''}`}>
+                  About
+                </a>
+              </Link>
+              <Link href="/services">
+                <a className={`font-medium transition-colors hover:scale-105 ${
+                  isScrolled ? 'text-navy hover:text-gold' : 'text-white hover:text-gold'
+                } ${location === '/services' ? 'border-b-2 border-gold' : ''}`}>
+                  Services
+                </a>
+              </Link>
+              <Link href="/universities">
+                <a className={`font-medium transition-colors hover:scale-105 ${
+                  isScrolled ? 'text-navy hover:text-gold' : 'text-white hover:text-gold'
+                } ${location === '/universities' ? 'border-b-2 border-gold' : ''}`}>
+                  Universities
+                </a>
+              </Link>
+              <Link href="/success-stories">
+                <a className={`font-medium transition-colors hover:scale-105 ${
+                  isScrolled ? 'text-navy hover:text-gold' : 'text-white hover:text-gold'
+                } ${location === '/success-stories' ? 'border-b-2 border-gold' : ''}`}>
+                  Success Stories
+                </a>
+              </Link>
+            </nav>
 
-          <Button
-            onClick={handleConsultationClick}
-            className={`border border-[#ffc105] transition-all duration-300 luxury-shadow ${
-              isScrolled
-                ? "bg-[#ffc105] text-black"
-                : "bg-transparent text-[#ffc105] hover:bg-[#ffc105] hover:text-white"
-            }`}
-          >
-            <UserPlus className="h-4 w-4 mr-2" />
-            Book Consultation
-          </Button>
-
-          {isLoggedIn ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="p-0">
-                  <Avatar>
-                    <AvatarFallback className="bg-navy text-white">
-                      {mockUser.initials}
-                    </AvatarFallback>
-                  </Avatar>
-                  <ChevronDown
-                    className={`ml-1 h-4 w-4 transition-colors duration-300 ${isScrolled ? "text-navy" : "text-white"}`}
-                  />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem>Dashboard</DropdownMenuItem>
-                <DropdownMenuItem>Settings</DropdownMenuItem>
-                <DropdownMenuItem onClick={handleLogout}>
-                  Logout
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <Link href="/login">
-              <Button
-                variant="outline"
-                className={`border transition-colors duration-300 ${
-                  isScrolled
-                    ? "text-navy border-navy"
-                    : "text-white border-white"
-                }`}
-              >
-                Login
-              </Button>
-            </Link>
-          )}
-        </div>
-
-        {/* Mobile Menu Button */}
-        <div className="md:hidden">
-          <Button variant="ghost" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? (
-              <X
-                className={`h-6 w-6 transition-colors duration-300 ${isScrolled ? "text-navy" : "text-white"}`}
-              />
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className={`flex items-center space-x-2 ${
+                      isScrolled 
+                        ? 'text-navy hover:text-gold hover:bg-navy/10' 
+                        : 'text-white hover:text-gold hover:bg-white/10'
+                    }`}
+                  >
+                    <User className="h-4 w-4" />
+                    <span>{user?.firstName || user?.username}</span>
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem>
+                    <User className="h-4 w-4 mr-2" />
+                    Profile
+                  </DropdownMenuItem>
+                  {user?.role === 'admin' && (
+                    <DropdownMenuItem>
+                      <Link href="/admin" className="flex items-center w-full">
+                        <Settings className="h-4 w-4 mr-2" />
+                        Admin Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="text-red-600" onClick={handleLogout}>
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
-              <Menu
-                className={`h-6 w-6 transition-colors duration-300 ${isScrolled ? "text-navy" : "text-white"}`}
-              />
-            )}
-          </Button>
-        </div>
-      </nav>
-
-      {/* Mobile Dropdown */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-white shadow-lg border-t px-4 py-4">
-          <div className="flex flex-col gap-4">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => handleNavigation(item)}
-                className={`text-base font-medium transition-colors duration-200 text-left ${location === item.path ? "text-gold font-semibold" : "text-navy"}`}
-              >
-                {item.label}
-              </button>
-            ))}
-
-            <Button
-              onClick={handleConsultationClick}
-              className="bg-gold hover:bg-gold/90 text-navy font-semibold text-sm w-full"
-            >
-              Book Consultation
-            </Button>
-
-            {isLoggedIn ? (
-              <>
-                <div className="flex items-center gap-3 mt-4">
-                  <Avatar>
-                    <AvatarFallback className="bg-navy text-white">
-                      {mockUser.initials}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="text-sm font-semibold">{mockUser.name}</p>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-2 mt-2">
+              <div className="flex items-center space-x-4">
+                <Link href="/consultation">
+                  <Button
+                    className={`font-semibold px-6 py-2 rounded-lg transition-all duration-300 ${
+                      isScrolled 
+                        ? 'bg-gold text-navy hover:bg-gold/90 hover:scale-105' 
+                        : 'bg-gold text-navy hover:bg-gold/90 hover:scale-105'
+                    }`}
+                  >
+                    Book Consultation
+                  </Button>
+                </Link>
+                <Link href="/login">
                   <Button
                     variant="outline"
-                    onClick={() => {
-                      closeMenu();
-                      console.log("Go to dashboard");
-                    }}
+                    className={`border-2 font-semibold px-6 py-2 rounded-lg transition-all duration-300 ${
+                      isScrolled 
+                        ? 'border-navy text-navy hover:bg-navy hover:text-white' 
+                        : 'border-white text-white hover:bg-white hover:text-navy'
+                    }`}
                   >
-                    Dashboard
+                    Login
                   </Button>
-                  <Button variant="outline" onClick={handleLogout}>
-                    Logout
-                  </Button>
-                </div>
-              </>
-            ) : (
-              <Link href="/login">
-                <Button
-                  variant="outline"
-                  className="text-navy border-navy w-full mt-4"
-                  onClick={closeMenu}
-                >
-                  Login
-                </Button>
-              </Link>
+                </Link>
+              </div>
             )}
           </div>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className={isScrolled ? 'text-navy' : 'text-white'}
+            >
+              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </Button>
+          </div>
         </div>
-      )}
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              <Link href="/">
+                <a className="block px-3 py-2 text-navy hover:text-gold font-medium" onClick={() => setIsMenuOpen(false)}>
+                  Home
+                </a>
+              </Link>
+              <Link href="/about">
+                <a className="block px-3 py-2 text-navy hover:text-gold font-medium" onClick={() => setIsMenuOpen(false)}>
+                  About
+                </a>
+              </Link>
+              <Link href="/services">
+                <a className="block px-3 py-2 text-navy hover:text-gold font-medium" onClick={() => setIsMenuOpen(false)}>
+                  Services
+                </a>
+              </Link>
+              <Link href="/universities">
+                <a className="block px-3 py-2 text-navy hover:text-gold font-medium" onClick={() => setIsMenuOpen(false)}>
+                  Universities
+                </a>
+              </Link>
+              <Link href="/success-stories">
+                <a className="block px-3 py-2 text-navy hover:text-gold font-medium" onClick={() => setIsMenuOpen(false)}>
+                  Success Stories
+                </a>
+              </Link>
+            </div>
+            
+            <div className="border-t border-gray-200 pt-4 pb-3">
+              {isAuthenticated ? (
+                <div className="flex items-center justify-between px-3">
+                  <span className="text-navy font-medium">{user?.firstName || user?.username}</span>
+                  <div className="flex items-center space-x-2">
+                    {user?.role === 'admin' && (
+                      <Link href="/admin">
+                        <Button variant="ghost" size="sm" className="text-navy" onClick={() => setIsMenuOpen(false)}>
+                          <Settings className="h-4 w-4 mr-1" />
+                          Admin
+                        </Button>
+                      </Link>
+                    )}
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                      onClick={handleLogout}
+                    >
+                      <LogOut className="h-4 w-4 mr-1" />
+                      Logout
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-col space-y-3 px-3">
+                  <Link href="/consultation">
+                    <Button className="w-full bg-gold text-navy hover:bg-gold/90" onClick={() => setIsMenuOpen(false)}>
+                      Book Consultation
+                    </Button>
+                  </Link>
+                  <Link href="/login">
+                    <Button variant="outline" className="w-full border-navy text-navy hover:bg-navy hover:text-white" onClick={() => setIsMenuOpen(false)}>
+                      Login
+                    </Button>
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </nav>
     </header>
   );
 }
