@@ -19,9 +19,13 @@ import { db } from "./db";
 import { eq } from "drizzle-orm";
 
 export interface IStorage {
-  getUser(id: number): Promise<User | undefined>;
+  // Authentication
+  getUserById(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  registerUser(userData: RegisterUser): Promise<User>;
+  authenticateUser(credentials: LoginUser): Promise<User | null>;
   
   getStudent(id: number): Promise<Student | undefined>;
   getStudentByEmail(email: string): Promise<Student | undefined>;

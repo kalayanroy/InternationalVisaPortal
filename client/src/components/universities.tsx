@@ -6,21 +6,258 @@ import { Link } from "wouter";
 export default function Universities() {
   const countries = [
     {
-      id: "usa",
-      name: "United States",
-      flag: "🇺🇸",
-      topUniversities: ["Harvard University", "Stanford University", "MIT"],
-      programs: "15,000+ Programs",
-      students: "1M+ International Students",
-      image:
-        "https://images.unsplash.com/photo-1626157150198-4cdec90f15a8?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop",
-      description:
-        "Home to the world's most prestigious institutions with cutting-edge research and innovation.",
-      highlights: [
-        "Silicon Valley Access",
-        "Research Excellence",
-        "Career Opportunities",
+      id: "australia",
+      name: "Australia",
+      flag: "🇦🇺",
+      topUniversities: [
+        "Australian National University",
+        "Bond University",
+        "University of Sydney",
+        "More +",
       ],
+      programs: "22,000+ Programs",
+      students: "400K+ International Students",
+      image:
+        "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      description:
+        "World-class education in a vibrant multicultural environment with great weather.",
+      highlights: [], //"Work Rights", "Beautiful Cities", "Research Focus"
+    },
+    {
+      id: "canada",
+      name: "Canada",
+      flag: "🇨🇦",
+      topUniversities: [
+        "University of Toronto",
+        "Brandon University",
+        "McGill University",
+      ],
+      programs: "25,000+ Programs",
+      students: "350K+ International Students",
+      image:
+        "https://images.unsplash.com/photo-1517935706615-2717063c2225?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      description:
+        "Excellent education quality with post-study work opportunities and pathway to PR.",
+      highlights: [], //"Work Permits", "Immigration Path", "Quality of Life"
+    },
+    {
+      id: "china",
+      name: "China",
+      flag: "🇨🇳",
+      topUniversities: [
+        "China Medical University(Shenyang)",
+        "Fudan University (Shanghai)",
+        "Jiangsu University (Zhenjiang)",
+      ],
+      programs: "25,000+ Programs",
+      students: "350K+ International Students",
+      image:
+        "https://images.unsplash.com/photo-1509195070461-b99ef33ceb67?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      description:
+        "Excellent education quality with post-study work opportunities and pathway to PR.",
+      highlights: [], //"Work Permits", "Immigration Path", "Quality of Life"
+    },
+    {
+      id: "Denmark",
+      name: "Denmark",
+      flag: "🇩🇰",
+      topUniversities: [
+        "Aalborg University",
+        "Aarhus University",
+        "Copenhagen University",
+      ],
+      programs: "25,000+ Programs",
+      students: "350K+ International Students",
+      image:
+        "https://images.unsplash.com/photo-1552560880-2482cef14240?q=80&w=743&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      description:
+        "Excellent education quality with post-study work opportunities and pathway to PR.",
+      highlights: [], //"Work Permits", "Immigration Path", "Quality of Life"
+    },
+    {
+      id: "Dubai",
+      name: "Dubai",
+      flag: "🇦🇪",
+      topUniversities: [
+        "American University in Dubai (AUD)",
+        "Amity University Dubai",
+        "BITS Pilani Dubai Campus",
+      ],
+      programs: "25,000+ Programs",
+      students: "350K+ International Students",
+      image:
+        "https://images.unsplash.com/photo-1518684079-3c830dcef090?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      description:
+        "Excellent education quality with post-study work opportunities and pathway to PR.",
+      highlights: [], //"Work Permits", "Immigration Path", "Quality of Life"
+    },
+    {
+      id: "france",
+      name: "France",
+      flag: "🇫🇷",
+      topUniversities: [
+        "École Polytechnique",
+        "HEC Paris",
+        "Sorbonne University",
+      ],
+      programs: "25,000+ Programs",
+      students: "350K+ International Students",
+      image:
+        "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      description:
+        "Excellent education quality with post-study work opportunities and pathway to PR.",
+      highlights: [], //"Work Permits", "Immigration Path", "Quality of Life"
+    },
+    {
+      id: "germany",
+      name: "Germany",
+      flag: "🇩🇪",
+      topUniversities: [
+        "Free University of Berlin",
+        "Heidelberg University",
+        "Humboldt University of Berlin",
+      ],
+      programs: "25,000+ Programs",
+      students: "350K+ International Students",
+      image:
+        "https://images.unsplash.com/photo-1618259278412-2819cbdea4dc?q=80&w=1121&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description:
+        "Excellent education quality with post-study work opportunities and pathway to PR.",
+      highlights: [], //"Work Permits", "Immigration Path", "Quality of Life"
+    }, //
+    {
+      id: "hungary",
+      name: "Hungary",
+      flag: "🇭🇺",
+      topUniversities: [
+        "Budapest University of Technology and Economics (BME)",
+        "Corvinus University of Budapest",
+        "Eötvös Loránd University (ELTE, Budapest)",
+      ],
+      programs: "25,000+ Programs",
+      students: "350K+ International Students",
+      image:
+        "https://images.unsplash.com/photo-1616432902940-b7a1acbc60b3?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description:
+        "Excellent education quality with post-study work opportunities and pathway to PR.",
+      highlights: [], //"Work Permits", "Immigration Path", "Quality of Life"
+    },
+    {
+      id: "india",
+      name: "India",
+      flag: "🇮🇳",
+      topUniversities: [],
+      programs: "25,000+ Programs",
+      students: "350K+ International Students",
+      image:
+        "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description:
+        "Excellent education quality with post-study work opportunities and pathway to PR.",
+      highlights: [], //"Work Permits", "Immigration Path", "Quality of Life"
+    },
+    {
+      id: "japan",
+      name: "Japan",
+      flag: "🇯🇵",
+      topUniversities: [],
+      programs: "25,000+ Programs",
+      students: "350K+ International Students",
+      image:
+        "https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description:
+        "Excellent education quality with post-study work opportunities and pathway to PR.",
+      highlights: [], //"Work Permits", "Immigration Path", "Quality of Life"
+    },
+    {
+      id: "malaysia",
+      name: "Malaysia",
+      flag: "🇲🇾",
+      topUniversities: [],
+      programs: "25,000+ Programs",
+      students: "350K+ International Students",
+      image:
+        "https://plus.unsplash.com/premium_photo-1678303397238-76250a5ebf73?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description:
+        "Excellent education quality with post-study work opportunities and pathway to PR.",
+      highlights: [], //"Work Permits", "Immigration Path", "Quality of Life"
+    },
+    {
+      id: "New Zealand",
+      name: "New Zealand",
+      flag: "🇳🇿",
+      topUniversities: [],
+      programs: "25,000+ Programs",
+      students: "350K+ International Students",
+      image:
+        "https://images.unsplash.com/photo-1597655601841-214a4cfe8b2c?q=80&w=989&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description:
+        "Excellent education quality with post-study work opportunities and pathway to PR.",
+      highlights: [], //"Work Permits", "Immigration Path", "Quality of Life"
+    },
+    {
+      id: "norway",
+      name: "Norway",
+      flag: "🇳🇴",
+      topUniversities: [],
+      programs: "25,000+ Programs",
+      students: "350K+ International Students",
+      image:
+        "https://images.unsplash.com/photo-1544085311-11a028465b03?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description:
+        "Excellent education quality with post-study work opportunities and pathway to PR.",
+      highlights: [], //"Work Permits", "Immigration Path", "Quality of Life"
+    },
+    {
+      id: "poland",
+      name: "Poland",
+      flag: "🇵🇱",
+      topUniversities: [],
+      programs: "25,000+ Programs",
+      students: "350K+ International Students",
+      image:
+        "https://images.unsplash.com/photo-1519197924294-4ba991a11128?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description:
+        "Excellent education quality with post-study work opportunities and pathway to PR.",
+      highlights: [], //"Work Permits", "Immigration Path", "Quality of Life"
+    },
+    {
+      id: "qatar",
+      name: "Qatar",
+      flag: "🇶🇦",
+      topUniversities: [],
+      programs: "25,000+ Programs",
+      students: "350K+ International Students",
+      image:
+        "https://images.unsplash.com/photo-1539475314840-751cecc1dacd?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description:
+        "Excellent education quality with post-study work opportunities and pathway to PR.",
+      highlights: [], //"Work Permits", "Immigration Path", "Quality of Life"
+    },
+    {
+      id: "south Korea",
+      name: "South Korea",
+      flag: "🇰🇷",
+      topUniversities: [],
+      programs: "25,000+ Programs",
+      students: "350K+ International Students",
+      image:
+        "https://plus.unsplash.com/premium_photo-1661886333708-877148b43ae1?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description:
+        "Excellent education quality with post-study work opportunities and pathway to PR.",
+      highlights: [], //"Work Permits", "Immigration Path", "Quality of Life"
+    },
+    {
+      id: "sweden",
+      name: "Sweden",
+      flag: "🇸🇪",
+      topUniversities: [],
+      programs: "25,000+ Programs",
+      students: "350K+ International Students",
+      image:
+        "https://images.unsplash.com/photo-1579359565489-8e65439e6d1c?q=80&w=1170&auto=format&fait=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description:
+        "Excellent education quality with post-study work opportunities and pathway to PR.",
+      highlights: [], //"Work Permits", "Immigration Path", "Quality of Life"
     },
     {
       id: "uk",
@@ -40,64 +277,21 @@ export default function Universities() {
       highlights: ["Historic Excellence", "Shorter Degrees", "Global Network"],
     },
     {
-      id: "canada",
-      name: "Canada",
-      flag: "🇨🇦",
-      topUniversities: ["University of Toronto", "UBC", "McGill University"],
-      programs: "25,000+ Programs",
-      students: "350K+ International Students",
+      id: "usa",
+      name: "United States",
+      flag: "🇺🇸",
+      topUniversities: ["Harvard University", "Stanford University", "MIT"],
+      programs: "15,000+ Programs",
+      students: "1M+ International Students",
       image:
-        "https://images.unsplash.com/photo-1517935706615-2717063c2225?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1626157150198-4cdec90f15a8?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop",
       description:
-        "Excellent education quality with post-study work opportunities and pathway to PR.",
-      highlights: ["Work Permits", "Immigration Path", "Quality of Life"],
-    },
-    {
-      id: "australia",
-      name: "Australia",
-      flag: "🇦🇺",
-      topUniversities: [
-        "University of Melbourne",
-        "ANU",
-        "University of Sydney",
+        "Home to the world's most prestigious institutions with cutting-edge research and innovation.",
+      highlights: [
+        "Silicon Valley Access",
+        "Research Excellence",
+        "Career Opportunities",
       ],
-      programs: "22,000+ Programs",
-      students: "400K+ International Students",
-      image:
-        "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      description:
-        "World-class education in a vibrant multicultural environment with great weather.",
-      highlights: ["Work Rights", "Beautiful Cities", "Research Focus"],
-    },
-    {
-      id: "germany",
-      name: "Germany",
-      flag: "🇩🇪",
-      topUniversities: [
-        "Technical University Munich",
-        "Heidelberg University",
-        "LMU Munich",
-      ],
-      programs: "17,000+ Programs",
-      students: "300K+ International Students",
-      image:
-        "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      description:
-        "Engineering excellence and tuition-free education at public universities.",
-      highlights: ["Low Tuition", "Engineering Hub", "EU Access"],
-    },
-    {
-      id: "singapore",
-      name: "Singapore",
-      flag: "🇸🇬",
-      topUniversities: ["NUS", "NTU", "SMU"],
-      programs: "1,000+ Programs",
-      students: "80K+ International Students",
-      image:
-        "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      description:
-        "Gateway to Asia with world-class universities and strong industry connections.",
-      highlights: ["Asian Hub", "Tech Innovation", "Safe Environment"],
     },
   ];
 
@@ -210,23 +404,6 @@ export default function Universities() {
                           <div key={idx} className="text-sm text-navy/70 pl-5">
                             • {uni}
                           </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div>
-                      <h4 className="font-playfair font-semibold text-navy mb-3 flex items-center">
-                        <div className="w-2 h-2 bg-gold rounded-full mr-3" />
-                        Key Benefits
-                      </h4>
-                      <div className="flex flex-wrap gap-2">
-                        {country.highlights.map((highlight, idx) => (
-                          <span
-                            key={idx}
-                            className="bg-navy/5 text-navy px-3 py-1 rounded-full text-xs font-medium border border-navy/10"
-                          >
-                            {highlight}
-                          </span>
                         ))}
                       </div>
                     </div>

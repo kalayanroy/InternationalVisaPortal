@@ -1,4 +1,4 @@
-import { pgTable, text, serial, timestamp, json, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, timestamp, json, boolean, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -97,15 +97,38 @@ export type Application = typeof applications.$inferSelect;
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull(),
-  role: text("role").notNull().default("admin"),
+  username: varchar("username", { length: 50 }).notNull().unique(),
+  email: varchar("email", { length: 100 }).notNull().unique(),
+  password: varchar("password", { length: 255 }).notNull(),
+  firstName: varchar("first_name", { length: 50 }),
+  lastName: varchar("last_name", { length: 50 }),
+  role: varchar("role", { length: 20 }).notNull().default("user"),
+  isActive: boolean("is_active").default(true),
+  profileImageUrl: varchar("profile_image_url", { length: 255 }),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-export const insertUserSchema = createInsertSchema(users).pick({
-  username: true,
-  password: true,
+export const loginSchema = z.object({
+  username: z.string().min(1, "Username is required"),
+  password: z.string().min(1, "Password is required"),
+});
+
+export const registerSchema = z.object({
+  username: z.string().min(3, "Username must be at least 3 characters"),
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+});
+
+export const insertUserSchema = createInsertSchema(users).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
 });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
+export type LoginUser = z.infer<typeof loginSchema>;
+export type RegisterUser = z.infer<typeof registerSchema>;
