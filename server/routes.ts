@@ -1,6 +1,8 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { generateToken, authenticateToken, requireAdmin, type AuthRequest } from "./auth";
+import { loginSchema, registerSchema } from "@shared/schema";
 import { 
   insertContactInquirySchema, 
   insertStudentSchema, 
@@ -10,6 +12,154 @@ import {
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Authentication routes
+  app.post('/api/auth/register', async (req, res) => {
+    try {
+      const userData = registerSchema.parse(req.body);
+      
+      // Check if user already exists
+      const existingUserByUsername = await storage.getUserByUsername(userData.username);
+      if (existingUserByUsername) {
+        return res.status(400).json({ message: 'Username already exists' });
+      }
+
+      const existingUserByEmail = await storage.getUserByEmail(userData.email);
+      if (existingUserByEmail) {
+        return res.status(400).json({ message: 'Email already exists' });
+      }
+
+      const user = await storage.registerUser(userData);
+      const token = generateToken(user.id, user.username, user.email || '', user.role);
+
+      res.status(201).json({
+        message: 'User registered successfully',
+        token,
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          role: user.role,
+        },
+      });
+    } catch (error) {
+      console.error('Registration error:', error);
+      if (error.name === 'ZodError') {
+        return res.status(400).json({ message: 'Validation error', errors: error.errors });
+      }
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
+  app.post('/api/auth/login', async (req, res) => {
+    try {
+      const credentials = loginSchema.parse(req.body);
+      
+      const user = await storage.authenticateUser(credentials);
+      if (!user) {
+        return res.status(401).json({ message: 'Invalid username or password' });
+      }
+
+      const token = generateToken(user.id, user.username, user.email || '', user.role);
+
+      res.json({
+        message: 'Login successful',
+        token,
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          role: user.role,
+        },
+      });
+    } catch (error) {
+      console.error('Login error:', error);
+      if (error.name === 'ZodError') {
+        return res.status(400).json({ message: 'Validation error', errors: error.errors });
+      }
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
+  app.get('/api/auth/me', authenticateToken, async (req: AuthRequest, res) => {
+    try {
+      const user = await storage.getUserById(req.user!.id);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      res.json({
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: user.role,
+      });
+    } catch (error) {
+      console.error('Get user error:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
+  app.post('/api/auth/logout', authenticateToken, (req, res) => {
+    res.json({ message: 'Logged out successfully' });
+  });
+
+  // Admin routes
+  app.get('/api/admin/dashboard', authenticateToken, requireAdmin, async (req, res) => {
+    try {
+      const [contactInquiries, students, appointments, applications] = await Promise.all([
+        storage.getContactInquiries(),
+        [],
+        storage.getAppointments(),
+        storage.getApplications(),
+      ]);
+
+      res.json({
+        stats: {
+          totalInquiries: contactInquiries.length,
+          totalStudents: students.length,
+          totalAppointments: appointments.length,
+          totalApplications: applications.length,
+        },
+        recentInquiries: contactInquiries.slice(0, 5),
+        recentAppointments: appointments.slice(0, 5),
+        recentApplications: applications.slice(0, 5),
+      });
+    } catch (error) {
+      console.error('Dashboard error:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
+  // Initialize admin user
+  app.post('/api/init-admin', async (req, res) => {
+    try {
+      const existingAdmin = await storage.getUserByUsername('admin');
+      if (existingAdmin) {
+        return res.status(400).json({ message: 'Admin user already exists' });
+      }
+
+      await storage.createUser({
+        username: 'admin',
+        email: 'admin@eduvisa.com',
+        password: 'admin123',
+        firstName: 'Admin',
+        lastName: 'User',
+        role: 'admin',
+        isActive: true,
+      });
+
+      res.json({ message: 'Admin user created successfully' });
+    } catch (error) {
+      console.error('Init admin error:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
   // Contact form submission endpoint
   app.post("/api/contact", async (req, res) => {
     try {

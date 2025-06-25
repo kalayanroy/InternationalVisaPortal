@@ -13,10 +13,13 @@ import {
   type Appointment,
   type InsertAppointment,
   type Application,
-  type InsertApplication
+  type InsertApplication,
+  type LoginUser,
+  type RegisterUser,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
+import bcrypt from "bcryptjs";
 
 export interface IStorage {
   // Authentication
@@ -45,7 +48,8 @@ export interface IStorage {
 }
 
 export class DatabaseStorage implements IStorage {
-  async getUser(id: number): Promise<User | undefined> {
+  // Authentication methods
+  async getUserById(id: number): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
     return user || undefined;
   }
@@ -55,11 +59,48 @@ export class DatabaseStorage implements IStorage {
     return user || undefined;
   }
 
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.email, email));
+    return user || undefined;
+  }
+
   async createUser(insertUser: InsertUser): Promise<User> {
+    const hashedPassword = await bcrypt.hash(insertUser.password, 12);
     const [user] = await db
       .insert(users)
-      .values({ ...insertUser, role: "admin" })
+      .values({
+        ...insertUser,
+        password: hashedPassword,
+      })
       .returning();
+    return user;
+  }
+
+  async registerUser(userData: RegisterUser): Promise<User> {
+    const hashedPassword = await bcrypt.hash(userData.password, 12);
+    const [user] = await db
+      .insert(users)
+      .values({
+        ...userData,
+        password: hashedPassword,
+        role: "user",
+        isActive: true,
+      })
+      .returning();
+    return user;
+  }
+
+  async authenticateUser(credentials: LoginUser): Promise<User | null> {
+    const user = await this.getUserByUsername(credentials.username);
+    if (!user || !user.isActive) {
+      return null;
+    }
+
+    const isValidPassword = await bcrypt.compare(credentials.password, user.password);
+    if (!isValidPassword) {
+      return null;
+    }
+
     return user;
   }
 
