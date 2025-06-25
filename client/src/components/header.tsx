@@ -51,40 +51,30 @@ export default function Header() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <nav className="flex items-center space-x-6">
-              <Link href="/">
-                <a className={`font-medium transition-colors hover:scale-105 ${
-                  isScrolled ? 'text-navy hover:text-gold' : 'text-white hover:text-gold'
-                } ${location === '/' ? 'border-b-2 border-gold' : ''}`}>
-                  Home
-                </a>
+              <Link href="/" className={`font-medium transition-colors hover:scale-105 ${
+                isScrolled ? 'text-navy hover:text-gold' : 'text-white hover:text-gold'
+              } ${location === '/' ? 'border-b-2 border-gold' : ''}`}>
+                Home
               </Link>
-              <Link href="/about">
-                <a className={`font-medium transition-colors hover:scale-105 ${
-                  isScrolled ? 'text-navy hover:text-gold' : 'text-white hover:text-gold'
-                } ${location === '/about' ? 'border-b-2 border-gold' : ''}`}>
-                  About
-                </a>
+              <Link href="/about" className={`font-medium transition-colors hover:scale-105 ${
+                isScrolled ? 'text-navy hover:text-gold' : 'text-white hover:text-gold'
+              } ${location === '/about' ? 'border-b-2 border-gold' : ''}`}>
+                About
               </Link>
-              <Link href="/services">
-                <a className={`font-medium transition-colors hover:scale-105 ${
-                  isScrolled ? 'text-navy hover:text-gold' : 'text-white hover:text-gold'
-                } ${location === '/services' ? 'border-b-2 border-gold' : ''}`}>
-                  Services
-                </a>
+              <Link href="/services" className={`font-medium transition-colors hover:scale-105 ${
+                isScrolled ? 'text-navy hover:text-gold' : 'text-white hover:text-gold'
+              } ${location === '/services' ? 'border-b-2 border-gold' : ''}`}>
+                Services
               </Link>
-              <Link href="/universities">
-                <a className={`font-medium transition-colors hover:scale-105 ${
-                  isScrolled ? 'text-navy hover:text-gold' : 'text-white hover:text-gold'
-                } ${location === '/universities' ? 'border-b-2 border-gold' : ''}`}>
-                  Universities
-                </a>
+              <Link href="/universities" className={`font-medium transition-colors hover:scale-105 ${
+                isScrolled ? 'text-navy hover:text-gold' : 'text-white hover:text-gold'
+              } ${location === '/universities' ? 'border-b-2 border-gold' : ''}`}>
+                Universities
               </Link>
-              <Link href="/success-stories">
-                <a className={`font-medium transition-colors hover:scale-105 ${
-                  isScrolled ? 'text-navy hover:text-gold' : 'text-white hover:text-gold'
-                } ${location === '/success-stories' ? 'border-b-2 border-gold' : ''}`}>
-                  Success Stories
-                </a>
+              <Link href="/success-stories" className={`font-medium transition-colors hover:scale-105 ${
+                isScrolled ? 'text-navy hover:text-gold' : 'text-white hover:text-gold'
+              } ${location === '/success-stories' ? 'border-b-2 border-gold' : ''}`}>
+                Success Stories
               </Link>
             </nav>
 
@@ -170,30 +160,20 @@ export default function Header() {
         {isMenuOpen && (
           <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              <Link href="/">
-                <a className="block px-3 py-2 text-navy hover:text-gold font-medium" onClick={() => setIsMenuOpen(false)}>
-                  Home
-                </a>
+              <Link href="/" className="block px-3 py-2 text-navy hover:text-gold font-medium" onClick={() => setIsMenuOpen(false)}>
+                Home
               </Link>
-              <Link href="/about">
-                <a className="block px-3 py-2 text-navy hover:text-gold font-medium" onClick={() => setIsMenuOpen(false)}>
-                  About
-                </a>
+              <Link href="/about" className="block px-3 py-2 text-navy hover:text-gold font-medium" onClick={() => setIsMenuOpen(false)}>
+                About
               </Link>
-              <Link href="/services">
-                <a className="block px-3 py-2 text-navy hover:text-gold font-medium" onClick={() => setIsMenuOpen(false)}>
-                  Services
-                </a>
+              <Link href="/services" className="block px-3 py-2 text-navy hover:text-gold font-medium" onClick={() => setIsMenuOpen(false)}>
+                Services
               </Link>
-              <Link href="/universities">
-                <a className="block px-3 py-2 text-navy hover:text-gold font-medium" onClick={() => setIsMenuOpen(false)}>
-                  Universities
-                </a>
+              <Link href="/universities" className="block px-3 py-2 text-navy hover:text-gold font-medium" onClick={() => setIsMenuOpen(false)}>
+                Universities
               </Link>
-              <Link href="/success-stories">
-                <a className="block px-3 py-2 text-navy hover:text-gold font-medium" onClick={() => setIsMenuOpen(false)}>
-                  Success Stories
-                </a>
+              <Link href="/success-stories" className="block px-3 py-2 text-navy hover:text-gold font-medium" onClick={() => setIsMenuOpen(false)}>
+                Success Stories
               </Link>
             </div>
             
