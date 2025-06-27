@@ -4,6 +4,7 @@ import {
   students, 
   appointments, 
   applications,
+  studentApplications,
   type User, 
   type InsertUser, 
   type ContactInquiry, 
@@ -14,11 +15,13 @@ import {
   type InsertAppointment,
   type Application,
   type InsertApplication,
+  type StudentApplication,
+  type InsertStudentApplication,
   type LoginUser,
   type RegisterUser,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 
 export interface IStorage {
@@ -203,7 +206,6 @@ export class DatabaseStorage implements IStorage {
       .returning();
     return application || undefined;
   }
-}
 
   // Student Application Methods
   async createStudentApplication(insertApplication: InsertStudentApplication): Promise<StudentApplication> {

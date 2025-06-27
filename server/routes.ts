@@ -376,7 +376,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/student-applications', isAuthenticated, async (req: any, res) => {
+  app.get('/api/student-applications', authenticateToken, async (req: any, res) => {
     try {
       const applications = await storage.getAllStudentApplications();
       res.json(applications);
@@ -386,7 +386,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/student-applications/:id', isAuthenticated, async (req: any, res) => {
+  app.get('/api/student-applications/:id', authenticateToken, async (req: any, res) => {
     try {
       const application = await storage.getStudentApplication(parseInt(req.params.id));
       if (!application) {
@@ -399,7 +399,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch('/api/student-applications/:id/status', isAuthenticated, async (req: any, res) => {
+  app.patch('/api/student-applications/:id/status', authenticateToken, async (req: any, res) => {
     try {
       const { status } = req.body;
       const application = await storage.updateStudentApplicationStatus(parseInt(req.params.id), status);
