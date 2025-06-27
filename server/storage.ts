@@ -55,6 +55,11 @@ export interface IStorage {
   getStudentApplication(id: number): Promise<StudentApplication | undefined>;
   getStudentApplicationsByUserId(userId: number): Promise<StudentApplication[]>;
   updateStudentApplicationStatus(id: number, status: string): Promise<StudentApplication | undefined>;
+
+  // Admin methods
+  getAllUsers(): Promise<User[]>;
+  updateUserRole(id: number, role: string): Promise<User | undefined>;
+  getAllUniversities(): Promise<any[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -244,6 +249,56 @@ export class DatabaseStorage implements IStorage {
       .where(eq(studentApplications.id, id))
       .returning();
     return application || undefined;
+  }
+
+  // Admin methods
+  async getAllUsers(): Promise<User[]> {
+    return await db.select().from(users).orderBy(users.createdAt);
+  }
+
+  async updateUserRole(id: number, role: string): Promise<User | undefined> {
+    const [user] = await db
+      .update(users)
+      .set({ role })
+      .where(eq(users.id, id))
+      .returning();
+    return user || undefined;
+  }
+
+  async getAllUniversities(): Promise<any[]> {
+    // Return sample university data for now
+    return [
+      {
+        id: 1,
+        name: "Harvard University",
+        country: "USA",
+        city: "Cambridge",
+        ranking: 1,
+        tuitionFee: "$50,000/year",
+        requirements: "SAT: 1520+, GPA: 3.9+",
+        createdAt: new Date().toISOString(),
+      },
+      {
+        id: 2,
+        name: "Oxford University",
+        country: "UK",
+        city: "Oxford",
+        ranking: 2,
+        tuitionFee: "£35,000/year",
+        requirements: "A-Levels: A*A*A",
+        createdAt: new Date().toISOString(),
+      },
+      {
+        id: 3,
+        name: "University of Toronto",
+        country: "Canada",
+        city: "Toronto",
+        ranking: 15,
+        tuitionFee: "CAD 45,000/year",
+        requirements: "GPA: 3.7+, IELTS: 7.0+",
+        createdAt: new Date().toISOString(),
+      },
+    ];
   }
 }
 

@@ -67,6 +67,27 @@ interface Application {
   createdAt: string;
 }
 
+interface User {
+  id: number;
+  username: string;
+  email: string;
+  firstName?: string;
+  lastName?: string;
+  role: string;
+  createdAt: string;
+}
+
+interface University {
+  id: number;
+  name: string;
+  country: string;
+  city: string;
+  ranking: number;
+  tuitionFee: string;
+  requirements: string;
+  createdAt: string;
+}
+
 export default function AdminDashboard() {
   const [, setLocation] = useLocation();
   const { user, logout, isAdmin } = useAuthState();

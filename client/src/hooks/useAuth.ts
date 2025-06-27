@@ -106,7 +106,17 @@ export const useAuthState = () => {
     localStorage.removeItem("user");
   };
   //console.log("User:", user);
+  if (user == null) {
+    const userInfoString = localStorage.getItem("user");
 
+    if (userInfoString) {
+      const userInfo = JSON.parse(userInfoString);
+      //console.log(userInfo); // এখন এটা object
+      //console.log(userInfo.username); // নির্দিষ্ট কোনো property অ্যাক্সেস
+
+      setUser(userInfo);
+    }
+  }
   return {
     user,
     token,

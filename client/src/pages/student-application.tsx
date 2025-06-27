@@ -1712,7 +1712,7 @@ export default function StudentApplication() {
               <Button
                 type="submit"
                 size="lg"
-                className="bg-gradient-to-r from-navy to-blue-700 hover:from-navy/90 hover:to-blue-700/90 text-white px-12 py-6 text-lg font-semibold"
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-10 bg-[#FFD700] text-[#001F3F] hover:bg-[#FFC300] px-6 sm:px-8 py-3 text-sm sm:text-base font-semibold"
                 disabled={isLoading || mutation.isPending}
                 type="submit"
               >

@@ -30,9 +30,9 @@ export default function Login() {
         title: "Login Successful",
         description: "Welcome back!",
       });
-      
+
       // Redirect based on user role
-      if (userData.role === 'admin') {
+      if (userData.role === "admin") {
         setLocation("/admin");
       } else {
         setLocation("/");
@@ -40,7 +40,10 @@ export default function Login() {
     } catch (error) {
       toast({
         title: "Login Failed",
-        description: error instanceof Error ? error.message : "Please check your credentials",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Please check your credentials",
         variant: "destructive",
       });
     } finally {
@@ -49,7 +52,7 @@ export default function Login() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
@@ -58,7 +61,7 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-white">
       <Header />
-      
+
       <div className="pt-24 pb-20">
         <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
@@ -71,12 +74,16 @@ export default function Login() {
 
           <Card className="border-0 shadow-2xl bg-white/95 backdrop-blur-sm">
             <CardHeader className="text-center pb-4">
-              <CardTitle className="text-2xl font-bold text-navy">Login</CardTitle>
+              <CardTitle className="text-2xl font-bold text-navy">
+                Login
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="username" className="text-navy font-semibold">Username</Label>
+                  <Label htmlFor="username" className="text-navy font-semibold">
+                    Username
+                  </Label>
                   <div className="relative">
                     <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
                     <Input
@@ -93,7 +100,9 @@ export default function Login() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-navy font-semibold">Password</Label>
+                  <Label htmlFor="password" className="text-navy font-semibold">
+                    Password
+                  </Label>
                   <div className="relative">
                     <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
                     <Input
@@ -111,7 +120,11 @@ export default function Login() {
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600"
                     >
-                      {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                      {showPassword ? (
+                        <EyeOff className="h-5 w-5" />
+                      ) : (
+                        <Eye className="h-5 w-5" />
+                      )}
                     </button>
                   </div>
                 </div>
@@ -119,7 +132,7 @@ export default function Login() {
                 <Button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full bg-gradient-to-r from-navy to-navy/90 hover:from-navy/90 hover:to-navy/80 text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="w-full bg-[#FFD700] to-navy/90 hover:from-navy/90 hover:to-navy/80 text-[#001F3F] font-semibold py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
                 >
                   {isLoading ? (
                     <div className="flex items-center">
@@ -135,16 +148,23 @@ export default function Login() {
               <div className="mt-6 text-center">
                 <p className="text-slate-600">
                   Don't have an account?{" "}
-                  <Link href="/register" className="text-gold hover:text-gold/80 font-semibold">
+                  <Link
+                    href="/register"
+                    className="text-gold hover:text-gold/80 font-semibold"
+                  >
                     Sign up
                   </Link>
                 </p>
               </div>
 
               <div className="mt-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
-                <p className="text-sm text-slate-600 mb-2 font-medium">Demo Credentials:</p>
+                <p className="text-sm text-slate-600 mb-2 font-medium">
+                  Demo Credentials:
+                </p>
                 <div className="text-xs text-slate-500 space-y-1">
-                  <div><strong>Admin:</strong> username: admin, password: admin123</div>
+                  <div>
+                    <strong>Admin:</strong> username: admin, password: admin123
+                  </div>
                 </div>
               </div>
             </CardContent>
