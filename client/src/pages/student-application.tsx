@@ -4,12 +4,22 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { CalendarIcon, Plus, Trash2 } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -67,7 +77,7 @@ export default function StudentApplication() {
     emergencyContactName: "",
     emergencyContactRelation: "",
     emergencyContactPhone: "",
-    
+
     // Study Abroad Preferences
     preferredCountries: "",
     preferredCity: "",
@@ -80,7 +90,7 @@ export default function StudentApplication() {
     openToScholarships: false,
     institutionType: "",
     studyMode: "",
-    
+
     // Language Proficiency
     hasEnglishTest: false,
     testType: "",
@@ -91,7 +101,7 @@ export default function StudentApplication() {
     writingScore: "",
     speakingScore: "",
     planningTestDate: "",
-    
+
     // Visa & Travel History
     previousStudentVisa: false,
     countriesVisited: "",
@@ -100,37 +110,42 @@ export default function StudentApplication() {
     familyInDestination: false,
     familyRelationship: "",
     familyVisaType: "",
-    
+
     // Additional Information
     additionalInfo: "",
   });
 
-  const [educationHistory, setEducationHistory] = useState<EducationEntry[]>([{
-    level: "",
-    institution: "",
-    country: "",
-    board: "",
-    fieldOfStudy: "",
-    startDate: "",
-    endDate: "",
-    grade: "",
-    mediumOfInstruction: "",
-    hasGap: false,
-    gapExplanation: "",
-  }]);
+  const [educationHistory, setEducationHistory] = useState<EducationEntry[]>([
+    {
+      level: "",
+      institution: "",
+      country: "",
+      board: "",
+      fieldOfStudy: "",
+      startDate: "",
+      endDate: "",
+      grade: "",
+      mediumOfInstruction: "",
+      hasGap: false,
+      gapExplanation: "",
+    },
+  ]);
 
-  const [workExperience, setWorkExperience] = useState<WorkEntry[]>([{
-    jobTitle: "",
-    organization: "",
-    startDate: "",
-    endDate: "",
-    employmentType: "",
-    responsibilities: "",
-    relevantToStudy: false,
-  }]);
+  const [workExperience, setWorkExperience] = useState<WorkEntry[]>([
+    {
+      jobTitle: "",
+      organization: "",
+      startDate: "",
+      endDate: "",
+      employmentType: "",
+      responsibilities: "",
+      relevantToStudy: false,
+    },
+  ]);
 
   // Check authentication
   useEffect(() => {
+    console.log(isAuthenticated);
     if (!isAuthenticated) {
       toast({
         title: "Authentication Required",
@@ -148,29 +163,31 @@ export default function StudentApplication() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
       });
-      
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to submit application");
       }
-      
+
       return response.json();
     },
     onSuccess: () => {
       toast({
         title: "Application Submitted Successfully",
-        description: "Your student application has been submitted. We will contact you soon.",
+        description:
+          "Your student application has been submitted. We will contact you soon.",
       });
       resetForm();
     },
     onError: (error: Error) => {
       toast({
         title: "Submission Failed",
-        description: error.message || "Failed to submit application. Please try again.",
+        description:
+          error.message || "Failed to submit application. Please try again.",
         variant: "destructive",
       });
     },
@@ -222,28 +239,32 @@ export default function StudentApplication() {
       familyVisaType: "",
       additionalInfo: "",
     });
-    setEducationHistory([{
-      level: "",
-      institution: "",
-      country: "",
-      board: "",
-      fieldOfStudy: "",
-      startDate: "",
-      endDate: "",
-      grade: "",
-      mediumOfInstruction: "",
-      hasGap: false,
-      gapExplanation: "",
-    }]);
-    setWorkExperience([{
-      jobTitle: "",
-      organization: "",
-      startDate: "",
-      endDate: "",
-      employmentType: "",
-      responsibilities: "",
-      relevantToStudy: false,
-    }]);
+    setEducationHistory([
+      {
+        level: "",
+        institution: "",
+        country: "",
+        board: "",
+        fieldOfStudy: "",
+        startDate: "",
+        endDate: "",
+        grade: "",
+        mediumOfInstruction: "",
+        hasGap: false,
+        gapExplanation: "",
+      },
+    ]);
+    setWorkExperience([
+      {
+        jobTitle: "",
+        organization: "",
+        startDate: "",
+        endDate: "",
+        employmentType: "",
+        responsibilities: "",
+        relevantToStudy: false,
+      },
+    ]);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -273,19 +294,22 @@ export default function StudentApplication() {
   };
 
   const addEducationEntry = () => {
-    setEducationHistory([...educationHistory, {
-      level: "",
-      institution: "",
-      country: "",
-      board: "",
-      fieldOfStudy: "",
-      startDate: "",
-      endDate: "",
-      grade: "",
-      mediumOfInstruction: "",
-      hasGap: false,
-      gapExplanation: "",
-    }]);
+    setEducationHistory([
+      ...educationHistory,
+      {
+        level: "",
+        institution: "",
+        country: "",
+        board: "",
+        fieldOfStudy: "",
+        startDate: "",
+        endDate: "",
+        grade: "",
+        mediumOfInstruction: "",
+        hasGap: false,
+        gapExplanation: "",
+      },
+    ]);
   };
 
   const removeEducationEntry = (index: number) => {
@@ -299,15 +323,18 @@ export default function StudentApplication() {
   };
 
   const addWorkEntry = () => {
-    setWorkExperience([...workExperience, {
-      jobTitle: "",
-      organization: "",
-      startDate: "",
-      endDate: "",
-      employmentType: "",
-      responsibilities: "",
-      relevantToStudy: false,
-    }]);
+    setWorkExperience([
+      ...workExperience,
+      {
+        jobTitle: "",
+        organization: "",
+        startDate: "",
+        endDate: "",
+        employmentType: "",
+        responsibilities: "",
+        relevantToStudy: false,
+      },
+    ]);
   };
 
   const removeWorkEntry = (index: number) => {
@@ -326,30 +353,45 @@ export default function StudentApplication() {
       <div className="pt-24 pb-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-navy mb-4">Student Application Form</h1>
-            <p className="text-lg text-gray-600">Complete your study abroad application</p>
+            <h1 className="text-4xl font-bold text-navy mb-4">
+              Student Application Form
+            </h1>
+            <p className="text-lg text-gray-600">
+              Complete your study abroad application
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Personal Information */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-2xl text-navy">Personal Information</CardTitle>
+                <CardTitle className="text-2xl text-navy">
+                  Personal Information
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <Label htmlFor="fullName">Full Name (as per passport) *</Label>
+                    <Label htmlFor="fullName">
+                      Full Name (as per passport) *
+                    </Label>
                     <Input
                       id="fullName"
                       value={formData.fullName}
-                      onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+                      onChange={(e) =>
+                        setFormData({ ...formData, fullName: e.target.value })
+                      }
                       required
                     />
                   </div>
                   <div>
                     <Label htmlFor="gender">Gender *</Label>
-                    <Select value={formData.gender} onValueChange={(value) => setFormData({...formData, gender: value})}>
+                    <Select
+                      value={formData.gender}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, gender: value })
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select gender" />
                       </SelectTrigger>
@@ -366,7 +408,12 @@ export default function StudentApplication() {
                       id="dateOfBirth"
                       type="date"
                       value={formData.dateOfBirth}
-                      onChange={(e) => setFormData({...formData, dateOfBirth: e.target.value})}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          dateOfBirth: e.target.value,
+                        })
+                      }
                       required
                     />
                   </div>
@@ -375,13 +422,23 @@ export default function StudentApplication() {
                     <Input
                       id="nationality"
                       value={formData.nationality}
-                      onChange={(e) => setFormData({...formData, nationality: e.target.value})}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          nationality: e.target.value,
+                        })
+                      }
                       required
                     />
                   </div>
                   <div>
                     <Label htmlFor="maritalStatus">Marital Status *</Label>
-                    <Select value={formData.maritalStatus} onValueChange={(value) => setFormData({...formData, maritalStatus: value})}>
+                    <Select
+                      value={formData.maritalStatus}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, maritalStatus: value })
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select status" />
                       </SelectTrigger>
@@ -398,17 +455,29 @@ export default function StudentApplication() {
                     <Input
                       id="passportNumber"
                       value={formData.passportNumber}
-                      onChange={(e) => setFormData({...formData, passportNumber: e.target.value})}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          passportNumber: e.target.value,
+                        })
+                      }
                       required
                     />
                   </div>
                   <div>
-                    <Label htmlFor="passportExpiry">Passport Expiry Date *</Label>
+                    <Label htmlFor="passportExpiry">
+                      Passport Expiry Date *
+                    </Label>
                     <Input
                       id="passportExpiry"
                       type="date"
                       value={formData.passportExpiry}
-                      onChange={(e) => setFormData({...formData, passportExpiry: e.target.value})}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          passportExpiry: e.target.value,
+                        })
+                      }
                       required
                     />
                   </div>
@@ -417,27 +486,41 @@ export default function StudentApplication() {
                     <Input
                       id="nationalId"
                       value={formData.nationalId}
-                      onChange={(e) => setFormData({...formData, nationalId: e.target.value})}
+                      onChange={(e) =>
+                        setFormData({ ...formData, nationalId: e.target.value })
+                      }
                     />
                   </div>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <Label htmlFor="currentAddress">Current Address *</Label>
                     <Textarea
                       id="currentAddress"
                       value={formData.currentAddress}
-                      onChange={(e) => setFormData({...formData, currentAddress: e.target.value})}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          currentAddress: e.target.value,
+                        })
+                      }
                       required
                     />
                   </div>
                   <div>
-                    <Label htmlFor="permanentAddress">Permanent Address *</Label>
+                    <Label htmlFor="permanentAddress">
+                      Permanent Address *
+                    </Label>
                     <Textarea
                       id="permanentAddress"
                       value={formData.permanentAddress}
-                      onChange={(e) => setFormData({...formData, permanentAddress: e.target.value})}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          permanentAddress: e.target.value,
+                        })
+                      }
                       required
                     />
                   </div>
@@ -449,7 +532,12 @@ export default function StudentApplication() {
                     <Input
                       id="contactNumber"
                       value={formData.contactNumber}
-                      onChange={(e) => setFormData({...formData, contactNumber: e.target.value})}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          contactNumber: e.target.value,
+                        })
+                      }
                       placeholder="+1234567890"
                       required
                     />
@@ -460,21 +548,30 @@ export default function StudentApplication() {
                       id="email"
                       type="email"
                       value={formData.email}
-                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
                       required
                     />
                   </div>
                 </div>
 
                 <Separator />
-                <h3 className="text-lg font-semibold text-navy">Emergency Contact</h3>
+                <h3 className="text-lg font-semibold text-navy">
+                  Emergency Contact
+                </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div>
                     <Label htmlFor="emergencyContactName">Name *</Label>
                     <Input
                       id="emergencyContactName"
                       value={formData.emergencyContactName}
-                      onChange={(e) => setFormData({...formData, emergencyContactName: e.target.value})}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          emergencyContactName: e.target.value,
+                        })
+                      }
                       required
                     />
                   </div>
@@ -483,16 +580,28 @@ export default function StudentApplication() {
                     <Input
                       id="emergencyContactRelation"
                       value={formData.emergencyContactRelation}
-                      onChange={(e) => setFormData({...formData, emergencyContactRelation: e.target.value})}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          emergencyContactRelation: e.target.value,
+                        })
+                      }
                       required
                     />
                   </div>
                   <div>
-                    <Label htmlFor="emergencyContactPhone">Phone Number *</Label>
+                    <Label htmlFor="emergencyContactPhone">
+                      Phone Number *
+                    </Label>
                     <Input
                       id="emergencyContactPhone"
                       value={formData.emergencyContactPhone}
-                      onChange={(e) => setFormData({...formData, emergencyContactPhone: e.target.value})}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          emergencyContactPhone: e.target.value,
+                        })
+                      }
                       required
                     />
                   </div>
@@ -505,7 +614,12 @@ export default function StudentApplication() {
               <CardHeader>
                 <CardTitle className="text-2xl text-navy flex items-center justify-between">
                   Educational Background
-                  <Button type="button" onClick={addEducationEntry} variant="outline" size="sm">
+                  <Button
+                    type="button"
+                    onClick={addEducationEntry}
+                    variant="outline"
+                    size="sm"
+                  >
                     <Plus className="h-4 w-4 mr-2" />
                     Add Education
                   </Button>
@@ -513,7 +627,10 @@ export default function StudentApplication() {
               </CardHeader>
               <CardContent className="space-y-6">
                 {educationHistory.map((edu, index) => (
-                  <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-4">
+                  <div
+                    key={index}
+                    className="border border-gray-200 rounded-lg p-4 space-y-4"
+                  >
                     <div className="flex justify-between items-center">
                       <h4 className="font-semibold">Education {index + 1}</h4>
                       {educationHistory.length > 1 && (
@@ -528,11 +645,16 @@ export default function StudentApplication() {
                         </Button>
                       )}
                     </div>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <Label>Level of Education *</Label>
-                        <Select value={edu.level} onValueChange={(value) => updateEducationEntry(index, "level", value)}>
+                        <Select
+                          value={edu.level}
+                          onValueChange={(value) =>
+                            updateEducationEntry(index, "level", value)
+                          }
+                        >
                           <SelectTrigger>
                             <SelectValue placeholder="Select level" />
                           </SelectTrigger>
@@ -550,7 +672,13 @@ export default function StudentApplication() {
                         <Label>Institution Name *</Label>
                         <Input
                           value={edu.institution}
-                          onChange={(e) => updateEducationEntry(index, "institution", e.target.value)}
+                          onChange={(e) =>
+                            updateEducationEntry(
+                              index,
+                              "institution",
+                              e.target.value,
+                            )
+                          }
                           required
                         />
                       </div>
@@ -558,7 +686,13 @@ export default function StudentApplication() {
                         <Label>Country *</Label>
                         <Input
                           value={edu.country}
-                          onChange={(e) => updateEducationEntry(index, "country", e.target.value)}
+                          onChange={(e) =>
+                            updateEducationEntry(
+                              index,
+                              "country",
+                              e.target.value,
+                            )
+                          }
                           required
                         />
                       </div>
@@ -566,7 +700,9 @@ export default function StudentApplication() {
                         <Label>Board/University *</Label>
                         <Input
                           value={edu.board}
-                          onChange={(e) => updateEducationEntry(index, "board", e.target.value)}
+                          onChange={(e) =>
+                            updateEducationEntry(index, "board", e.target.value)
+                          }
                           required
                         />
                       </div>
@@ -574,7 +710,13 @@ export default function StudentApplication() {
                         <Label>Field of Study *</Label>
                         <Input
                           value={edu.fieldOfStudy}
-                          onChange={(e) => updateEducationEntry(index, "fieldOfStudy", e.target.value)}
+                          onChange={(e) =>
+                            updateEducationEntry(
+                              index,
+                              "fieldOfStudy",
+                              e.target.value,
+                            )
+                          }
                           required
                         />
                       </div>
@@ -582,7 +724,9 @@ export default function StudentApplication() {
                         <Label>GPA/Percentage/Grade *</Label>
                         <Input
                           value={edu.grade}
-                          onChange={(e) => updateEducationEntry(index, "grade", e.target.value)}
+                          onChange={(e) =>
+                            updateEducationEntry(index, "grade", e.target.value)
+                          }
                           required
                         />
                       </div>
@@ -591,7 +735,13 @@ export default function StudentApplication() {
                         <Input
                           type="date"
                           value={edu.startDate}
-                          onChange={(e) => updateEducationEntry(index, "startDate", e.target.value)}
+                          onChange={(e) =>
+                            updateEducationEntry(
+                              index,
+                              "startDate",
+                              e.target.value,
+                            )
+                          }
                           required
                         />
                       </div>
@@ -600,40 +750,67 @@ export default function StudentApplication() {
                         <Input
                           type="date"
                           value={edu.endDate}
-                          onChange={(e) => updateEducationEntry(index, "endDate", e.target.value)}
+                          onChange={(e) =>
+                            updateEducationEntry(
+                              index,
+                              "endDate",
+                              e.target.value,
+                            )
+                          }
                           required
                         />
                       </div>
                       <div>
                         <Label>Medium of Instruction *</Label>
-                        <Select value={edu.mediumOfInstruction} onValueChange={(value) => updateEducationEntry(index, "mediumOfInstruction", value)}>
+                        <Select
+                          value={edu.mediumOfInstruction}
+                          onValueChange={(value) =>
+                            updateEducationEntry(
+                              index,
+                              "mediumOfInstruction",
+                              value,
+                            )
+                          }
+                        >
                           <SelectTrigger>
                             <SelectValue placeholder="Select medium" />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="english">English</SelectItem>
-                            <SelectItem value="local">Local Language</SelectItem>
+                            <SelectItem value="local">
+                              Local Language
+                            </SelectItem>
                             <SelectItem value="bilingual">Bilingual</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center space-x-2">
                       <Checkbox
                         id={`hasGap-${index}`}
                         checked={edu.hasGap}
-                        onCheckedChange={(checked) => updateEducationEntry(index, "hasGap", checked)}
+                        onCheckedChange={(checked) =>
+                          updateEducationEntry(index, "hasGap", checked)
+                        }
                       />
-                      <Label htmlFor={`hasGap-${index}`}>Did you have any education gap?</Label>
+                      <Label htmlFor={`hasGap-${index}`}>
+                        Did you have any education gap?
+                      </Label>
                     </div>
-                    
+
                     {edu.hasGap && (
                       <div>
                         <Label>Gap Explanation</Label>
                         <Textarea
                           value={edu.gapExplanation}
-                          onChange={(e) => updateEducationEntry(index, "gapExplanation", e.target.value)}
+                          onChange={(e) =>
+                            updateEducationEntry(
+                              index,
+                              "gapExplanation",
+                              e.target.value,
+                            )
+                          }
                           placeholder="Please explain the reason for the gap"
                         />
                       </div>
@@ -646,16 +823,25 @@ export default function StudentApplication() {
             {/* Study Abroad Preferences */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-2xl text-navy">Study Abroad Preferences</CardTitle>
+                <CardTitle className="text-2xl text-navy">
+                  Study Abroad Preferences
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <Label htmlFor="preferredCountries">Preferred Countries *</Label>
+                    <Label htmlFor="preferredCountries">
+                      Preferred Countries *
+                    </Label>
                     <Input
                       id="preferredCountries"
                       value={formData.preferredCountries}
-                      onChange={(e) => setFormData({...formData, preferredCountries: e.target.value})}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          preferredCountries: e.target.value,
+                        })
+                      }
                       placeholder="e.g., USA, Canada, UK"
                       required
                     />
@@ -665,35 +851,63 @@ export default function StudentApplication() {
                     <Input
                       id="preferredCity"
                       value={formData.preferredCity}
-                      onChange={(e) => setFormData({...formData, preferredCity: e.target.value})}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          preferredCity: e.target.value,
+                        })
+                      }
                     />
                   </div>
                   <div>
-                    <Label htmlFor="preferredCourse">Preferred Course/Program *</Label>
+                    <Label htmlFor="preferredCourse">
+                      Preferred Course/Program *
+                    </Label>
                     <Input
                       id="preferredCourse"
                       value={formData.preferredCourse}
-                      onChange={(e) => setFormData({...formData, preferredCourse: e.target.value})}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          preferredCourse: e.target.value,
+                        })
+                      }
                       required
                     />
                   </div>
                   <div>
                     <Label htmlFor="preferredIntake">Preferred Intake *</Label>
-                    <Select value={formData.preferredIntake} onValueChange={(value) => setFormData({...formData, preferredIntake: value})}>
+                    <Select
+                      value={formData.preferredIntake}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, preferredIntake: value })
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select intake" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="september-2025">September 2025</SelectItem>
-                        <SelectItem value="january-2026">January 2026</SelectItem>
+                        <SelectItem value="september-2025">
+                          September 2025
+                        </SelectItem>
+                        <SelectItem value="january-2026">
+                          January 2026
+                        </SelectItem>
                         <SelectItem value="may-2026">May 2026</SelectItem>
-                        <SelectItem value="september-2026">September 2026</SelectItem>
+                        <SelectItem value="september-2026">
+                          September 2026
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div>
                     <Label htmlFor="studyLevel">Study Level *</Label>
-                    <Select value={formData.studyLevel} onValueChange={(value) => setFormData({...formData, studyLevel: value})}>
+                    <Select
+                      value={formData.studyLevel}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, studyLevel: value })
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select level" />
                       </SelectTrigger>
@@ -713,13 +927,20 @@ export default function StudentApplication() {
                           id="budget"
                           type="number"
                           value={formData.budget}
-                          onChange={(e) => setFormData({...formData, budget: e.target.value})}
+                          onChange={(e) =>
+                            setFormData({ ...formData, budget: e.target.value })
+                          }
                           required
                         />
                       </div>
                       <div>
                         <Label htmlFor="budgetCurrency">Currency *</Label>
-                        <Select value={formData.budgetCurrency} onValueChange={(value) => setFormData({...formData, budgetCurrency: value})}>
+                        <Select
+                          value={formData.budgetCurrency}
+                          onValueChange={(value) =>
+                            setFormData({ ...formData, budgetCurrency: value })
+                          }
+                        >
                           <SelectTrigger>
                             <SelectValue />
                           </SelectTrigger>
@@ -734,14 +955,21 @@ export default function StudentApplication() {
                       </div>
                       <div>
                         <Label htmlFor="fundingSource">Funding Source *</Label>
-                        <Select value={formData.fundingSource} onValueChange={(value) => setFormData({...formData, fundingSource: value})}>
+                        <Select
+                          value={formData.fundingSource}
+                          onValueChange={(value) =>
+                            setFormData({ ...formData, fundingSource: value })
+                          }
+                        >
                           <SelectTrigger>
                             <SelectValue placeholder="Select source" />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="self">Self</SelectItem>
                             <SelectItem value="parents">Parents</SelectItem>
-                            <SelectItem value="scholarship">Scholarship</SelectItem>
+                            <SelectItem value="scholarship">
+                              Scholarship
+                            </SelectItem>
                             <SelectItem value="sponsor">Sponsor</SelectItem>
                             <SelectItem value="bank-loan">Bank Loan</SelectItem>
                           </SelectContent>
@@ -751,7 +979,12 @@ export default function StudentApplication() {
                   </div>
                   <div>
                     <Label htmlFor="institutionType">Institution Type *</Label>
-                    <Select value={formData.institutionType} onValueChange={(value) => setFormData({...formData, institutionType: value})}>
+                    <Select
+                      value={formData.institutionType}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, institutionType: value })
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select type" />
                       </SelectTrigger>
@@ -759,13 +992,20 @@ export default function StudentApplication() {
                         <SelectItem value="university">University</SelectItem>
                         <SelectItem value="college">College</SelectItem>
                         <SelectItem value="tafe">TAFE</SelectItem>
-                        <SelectItem value="community-college">Community College</SelectItem>
+                        <SelectItem value="community-college">
+                          Community College
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div>
                     <Label htmlFor="studyMode">Study Mode *</Label>
-                    <Select value={formData.studyMode} onValueChange={(value) => setFormData({...formData, studyMode: value})}>
+                    <Select
+                      value={formData.studyMode}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, studyMode: value })
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select mode" />
                       </SelectTrigger>
@@ -777,14 +1017,21 @@ export default function StudentApplication() {
                     </Select>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="openToScholarships"
                     checked={formData.openToScholarships}
-                    onCheckedChange={(checked) => setFormData({...formData, openToScholarships: !!checked})}
+                    onCheckedChange={(checked) =>
+                      setFormData({
+                        ...formData,
+                        openToScholarships: !!checked,
+                      })
+                    }
                   />
-                  <Label htmlFor="openToScholarships">Are you open to scholarships?</Label>
+                  <Label htmlFor="openToScholarships">
+                    Are you open to scholarships?
+                  </Label>
                 </div>
               </CardContent>
             </Card>
@@ -792,24 +1039,35 @@ export default function StudentApplication() {
             {/* Language Proficiency */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-2xl text-navy">Language Proficiency</CardTitle>
+                <CardTitle className="text-2xl text-navy">
+                  Language Proficiency
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="hasEnglishTest"
                     checked={formData.hasEnglishTest}
-                    onCheckedChange={(checked) => setFormData({...formData, hasEnglishTest: !!checked})}
+                    onCheckedChange={(checked) =>
+                      setFormData({ ...formData, hasEnglishTest: !!checked })
+                    }
                   />
-                  <Label htmlFor="hasEnglishTest">Have you taken any English test?</Label>
+                  <Label htmlFor="hasEnglishTest">
+                    Have you taken any English test?
+                  </Label>
                 </div>
-                
+
                 {formData.hasEnglishTest && (
                   <>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       <div>
                         <Label htmlFor="testType">Test Type</Label>
-                        <Select value={formData.testType} onValueChange={(value) => setFormData({...formData, testType: value})}>
+                        <Select
+                          value={formData.testType}
+                          onValueChange={(value) =>
+                            setFormData({ ...formData, testType: value })
+                          }
+                        >
                           <SelectTrigger>
                             <SelectValue placeholder="Select test" />
                           </SelectTrigger>
@@ -828,7 +1086,12 @@ export default function StudentApplication() {
                           id="testDate"
                           type="date"
                           value={formData.testDate}
-                          onChange={(e) => setFormData({...formData, testDate: e.target.value})}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              testDate: e.target.value,
+                            })
+                          }
                         />
                       </div>
                       <div>
@@ -836,18 +1099,28 @@ export default function StudentApplication() {
                         <Input
                           id="overallScore"
                           value={formData.overallScore}
-                          onChange={(e) => setFormData({...formData, overallScore: e.target.value})}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              overallScore: e.target.value,
+                            })
+                          }
                         />
                       </div>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       <div>
                         <Label htmlFor="listeningScore">Listening</Label>
                         <Input
                           id="listeningScore"
                           value={formData.listeningScore}
-                          onChange={(e) => setFormData({...formData, listeningScore: e.target.value})}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              listeningScore: e.target.value,
+                            })
+                          }
                         />
                       </div>
                       <div>
@@ -855,7 +1128,12 @@ export default function StudentApplication() {
                         <Input
                           id="readingScore"
                           value={formData.readingScore}
-                          onChange={(e) => setFormData({...formData, readingScore: e.target.value})}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              readingScore: e.target.value,
+                            })
+                          }
                         />
                       </div>
                       <div>
@@ -863,7 +1141,12 @@ export default function StudentApplication() {
                         <Input
                           id="writingScore"
                           value={formData.writingScore}
-                          onChange={(e) => setFormData({...formData, writingScore: e.target.value})}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              writingScore: e.target.value,
+                            })
+                          }
                         />
                       </div>
                       <div>
@@ -871,21 +1154,33 @@ export default function StudentApplication() {
                         <Input
                           id="speakingScore"
                           value={formData.speakingScore}
-                          onChange={(e) => setFormData({...formData, speakingScore: e.target.value})}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              speakingScore: e.target.value,
+                            })
+                          }
                         />
                       </div>
                     </div>
                   </>
                 )}
-                
+
                 {!formData.hasEnglishTest && (
                   <div>
-                    <Label htmlFor="planningTestDate">Planning to take an English test? When?</Label>
+                    <Label htmlFor="planningTestDate">
+                      Planning to take an English test? When?
+                    </Label>
                     <Input
                       id="planningTestDate"
                       type="date"
                       value={formData.planningTestDate}
-                      onChange={(e) => setFormData({...formData, planningTestDate: e.target.value})}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          planningTestDate: e.target.value,
+                        })
+                      }
                     />
                   </div>
                 )}
@@ -897,7 +1192,12 @@ export default function StudentApplication() {
               <CardHeader>
                 <CardTitle className="text-2xl text-navy flex items-center justify-between">
                   Work Experience (Optional)
-                  <Button type="button" onClick={addWorkEntry} variant="outline" size="sm">
+                  <Button
+                    type="button"
+                    onClick={addWorkEntry}
+                    variant="outline"
+                    size="sm"
+                  >
                     <Plus className="h-4 w-4 mr-2" />
                     Add Work Experience
                   </Button>
@@ -905,9 +1205,14 @@ export default function StudentApplication() {
               </CardHeader>
               <CardContent className="space-y-6">
                 {workExperience.map((work, index) => (
-                  <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-4">
+                  <div
+                    key={index}
+                    className="border border-gray-200 rounded-lg p-4 space-y-4"
+                  >
                     <div className="flex justify-between items-center">
-                      <h4 className="font-semibold">Work Experience {index + 1}</h4>
+                      <h4 className="font-semibold">
+                        Work Experience {index + 1}
+                      </h4>
                       {workExperience.length > 1 && (
                         <Button
                           type="button"
@@ -920,20 +1225,28 @@ export default function StudentApplication() {
                         </Button>
                       )}
                     </div>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <Label>Job Title</Label>
                         <Input
                           value={work.jobTitle}
-                          onChange={(e) => updateWorkEntry(index, "jobTitle", e.target.value)}
+                          onChange={(e) =>
+                            updateWorkEntry(index, "jobTitle", e.target.value)
+                          }
                         />
                       </div>
                       <div>
                         <Label>Organization</Label>
                         <Input
                           value={work.organization}
-                          onChange={(e) => updateWorkEntry(index, "organization", e.target.value)}
+                          onChange={(e) =>
+                            updateWorkEntry(
+                              index,
+                              "organization",
+                              e.target.value,
+                            )
+                          }
                         />
                       </div>
                       <div>
@@ -941,7 +1254,9 @@ export default function StudentApplication() {
                         <Input
                           type="date"
                           value={work.startDate}
-                          onChange={(e) => updateWorkEntry(index, "startDate", e.target.value)}
+                          onChange={(e) =>
+                            updateWorkEntry(index, "startDate", e.target.value)
+                          }
                         />
                       </div>
                       <div>
@@ -949,41 +1264,60 @@ export default function StudentApplication() {
                         <Input
                           type="date"
                           value={work.endDate}
-                          onChange={(e) => updateWorkEntry(index, "endDate", e.target.value)}
+                          onChange={(e) =>
+                            updateWorkEntry(index, "endDate", e.target.value)
+                          }
                         />
                       </div>
                       <div>
                         <Label>Employment Type</Label>
-                        <Select value={work.employmentType} onValueChange={(value) => updateWorkEntry(index, "employmentType", value)}>
+                        <Select
+                          value={work.employmentType}
+                          onValueChange={(value) =>
+                            updateWorkEntry(index, "employmentType", value)
+                          }
+                        >
                           <SelectTrigger>
                             <SelectValue placeholder="Select type" />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="full-time">Full-time</SelectItem>
                             <SelectItem value="part-time">Part-time</SelectItem>
-                            <SelectItem value="internship">Internship</SelectItem>
+                            <SelectItem value="internship">
+                              Internship
+                            </SelectItem>
                             <SelectItem value="freelance">Freelance</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
                     </div>
-                    
+
                     <div>
                       <Label>Job Responsibilities</Label>
                       <Textarea
                         value={work.responsibilities}
-                        onChange={(e) => updateWorkEntry(index, "responsibilities", e.target.value)}
+                        onChange={(e) =>
+                          updateWorkEntry(
+                            index,
+                            "responsibilities",
+                            e.target.value,
+                          )
+                        }
                         placeholder="Describe your key responsibilities"
                       />
                     </div>
-                    
+
                     <div className="flex items-center space-x-2">
                       <Checkbox
                         id={`relevantToStudy-${index}`}
                         checked={work.relevantToStudy}
-                        onCheckedChange={(checked) => updateWorkEntry(index, "relevantToStudy", checked)}
+                        onCheckedChange={(checked) =>
+                          updateWorkEntry(index, "relevantToStudy", checked)
+                        }
                       />
-                      <Label htmlFor={`relevantToStudy-${index}`}>Is this relevant to your intended study?</Label>
+                      <Label htmlFor={`relevantToStudy-${index}`}>
+                        Is this relevant to your intended study?
+                      </Label>
                     </div>
                   </div>
                 ))}
@@ -993,58 +1327,90 @@ export default function StudentApplication() {
             {/* Visa & Travel History */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-2xl text-navy">Visa & Travel History</CardTitle>
+                <CardTitle className="text-2xl text-navy">
+                  Visa & Travel History
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="previousStudentVisa"
                     checked={formData.previousStudentVisa}
-                    onCheckedChange={(checked) => setFormData({...formData, previousStudentVisa: !!checked})}
+                    onCheckedChange={(checked) =>
+                      setFormData({
+                        ...formData,
+                        previousStudentVisa: !!checked,
+                      })
+                    }
                   />
-                  <Label htmlFor="previousStudentVisa">Have you ever applied for a student visa before?</Label>
+                  <Label htmlFor="previousStudentVisa">
+                    Have you ever applied for a student visa before?
+                  </Label>
                 </div>
-                
+
                 <div>
                   <Label htmlFor="countriesVisited">Countries Visited</Label>
                   <Textarea
                     id="countriesVisited"
                     value={formData.countriesVisited}
-                    onChange={(e) => setFormData({...formData, countriesVisited: e.target.value})}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        countriesVisited: e.target.value,
+                      })
+                    }
                     placeholder="List countries you have visited"
                   />
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="visaRefusals"
                     checked={formData.visaRefusals}
-                    onCheckedChange={(checked) => setFormData({...formData, visaRefusals: !!checked})}
+                    onCheckedChange={(checked) =>
+                      setFormData({ ...formData, visaRefusals: !!checked })
+                    }
                   />
-                  <Label htmlFor="visaRefusals">Any previous visa refusals?</Label>
+                  <Label htmlFor="visaRefusals">
+                    Any previous visa refusals?
+                  </Label>
                 </div>
-                
+
                 {formData.visaRefusals && (
                   <div>
-                    <Label htmlFor="visaRefusalDetails">Visa Refusal Details</Label>
+                    <Label htmlFor="visaRefusalDetails">
+                      Visa Refusal Details
+                    </Label>
                     <Textarea
                       id="visaRefusalDetails"
                       value={formData.visaRefusalDetails}
-                      onChange={(e) => setFormData({...formData, visaRefusalDetails: e.target.value})}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          visaRefusalDetails: e.target.value,
+                        })
+                      }
                       placeholder="Please provide details about visa refusals"
                     />
                   </div>
                 )}
-                
+
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="familyInDestination"
                     checked={formData.familyInDestination}
-                    onCheckedChange={(checked) => setFormData({...formData, familyInDestination: !!checked})}
+                    onCheckedChange={(checked) =>
+                      setFormData({
+                        ...formData,
+                        familyInDestination: !!checked,
+                      })
+                    }
                   />
-                  <Label htmlFor="familyInDestination">Any relatives/family in the destination country?</Label>
+                  <Label htmlFor="familyInDestination">
+                    Any relatives/family in the destination country?
+                  </Label>
                 </div>
-                
+
                 {formData.familyInDestination && (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
@@ -1052,7 +1418,12 @@ export default function StudentApplication() {
                       <Input
                         id="familyRelationship"
                         value={formData.familyRelationship}
-                        onChange={(e) => setFormData({...formData, familyRelationship: e.target.value})}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            familyRelationship: e.target.value,
+                          })
+                        }
                       />
                     </div>
                     <div>
@@ -1060,7 +1431,12 @@ export default function StudentApplication() {
                       <Input
                         id="familyVisaType"
                         value={formData.familyVisaType}
-                        onChange={(e) => setFormData({...formData, familyVisaType: e.target.value})}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            familyVisaType: e.target.value,
+                          })
+                        }
                       />
                     </div>
                   </div>
@@ -1071,15 +1447,24 @@ export default function StudentApplication() {
             {/* Additional Information */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-2xl text-navy">Additional Information</CardTitle>
+                <CardTitle className="text-2xl text-navy">
+                  Additional Information
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div>
-                  <Label htmlFor="additionalInfo">Any additional information you'd like to share</Label>
+                  <Label htmlFor="additionalInfo">
+                    Any additional information you'd like to share
+                  </Label>
                   <Textarea
                     id="additionalInfo"
                     value={formData.additionalInfo}
-                    onChange={(e) => setFormData({...formData, additionalInfo: e.target.value})}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        additionalInfo: e.target.value,
+                      })
+                    }
                     placeholder="Share any additional information that might be relevant to your application"
                     rows={4}
                   />
@@ -1090,12 +1475,15 @@ export default function StudentApplication() {
             {/* Document Upload Section */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-2xl text-navy">Document Upload</CardTitle>
+                <CardTitle className="text-2xl text-navy">
+                  Document Upload
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   <p className="text-gray-600 mb-4">
-                    Please upload the following documents. All documents should be in PDF, JPG, or PNG format (max 5MB each).
+                    Please upload the following documents. All documents should
+                    be in PDF, JPG, or PNG format (max 5MB each).
                   </p>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1215,7 +1603,9 @@ export default function StudentApplication() {
 
                   <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mt-4">
                     <p className="text-sm text-blue-800">
-                      <strong>Note:</strong> All documents must be clear and legible. Documents in languages other than English must be accompanied by certified translations.
+                      <strong>Note:</strong> All documents must be clear and
+                      legible. Documents in languages other than English must be
+                      accompanied by certified translations.
                     </p>
                   </div>
                 </div>
@@ -1225,19 +1615,24 @@ export default function StudentApplication() {
             {/* Declaration & Consent Section */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-2xl text-navy">Declaration & Consent</CardTitle>
+                <CardTitle className="text-2xl text-navy">
+                  Declaration & Consent
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">
                   <div className="space-y-4">
                     <div className="flex items-start space-x-3">
-                      <Checkbox
-                        id="dataConsent"
-                        className="mt-1"
-                        required
-                      />
-                      <Label htmlFor="dataConsent" className="text-sm text-gray-700">
-                        I consent to the use of the provided data for consultation and application purposes. I understand that my personal information will be used to process my application and provide educational consultancy services.
+                      <Checkbox id="dataConsent" className="mt-1" required />
+                      <Label
+                        htmlFor="dataConsent"
+                        className="text-sm text-gray-700"
+                      >
+                        I consent to the use of the provided data for
+                        consultation and application purposes. I understand that
+                        my personal information will be used to process my
+                        application and provide educational consultancy
+                        services.
                       </Label>
                     </div>
 
@@ -1247,8 +1642,15 @@ export default function StudentApplication() {
                         className="mt-1"
                         required
                       />
-                      <Label htmlFor="truthDeclaration" className="text-sm text-gray-700">
-                        I declare that all the information provided in this application form is true, complete, and accurate to the best of my knowledge. I understand that providing false or misleading information may result in the rejection of my application.
+                      <Label
+                        htmlFor="truthDeclaration"
+                        className="text-sm text-gray-700"
+                      >
+                        I declare that all the information provided in this
+                        application form is true, complete, and accurate to the
+                        best of my knowledge. I understand that providing false
+                        or misleading information may result in the rejection of
+                        my application.
                       </Label>
                     </div>
 
@@ -1258,8 +1660,13 @@ export default function StudentApplication() {
                         className="mt-1"
                         required
                       />
-                      <Label htmlFor="termsAcceptance" className="text-sm text-gray-700">
-                        I accept the terms and conditions of the consultancy services and understand the application process requirements.
+                      <Label
+                        htmlFor="termsAcceptance"
+                        className="text-sm text-gray-700"
+                      >
+                        I accept the terms and conditions of the consultancy
+                        services and understand the application process
+                        requirements.
                       </Label>
                     </div>
                   </div>
@@ -1267,7 +1674,10 @@ export default function StudentApplication() {
                   <div className="border-t pt-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <Label htmlFor="digitalSignature" className="block text-sm font-medium text-gray-700 mb-2">
+                        <Label
+                          htmlFor="digitalSignature"
+                          className="block text-sm font-medium text-gray-700 mb-2"
+                        >
                           Digital Signature (Type your full name) *
                         </Label>
                         <Input
@@ -1278,13 +1688,16 @@ export default function StudentApplication() {
                       </div>
 
                       <div>
-                        <Label htmlFor="signatureDate" className="block text-sm font-medium text-gray-700 mb-2">
+                        <Label
+                          htmlFor="signatureDate"
+                          className="block text-sm font-medium text-gray-700 mb-2"
+                        >
                           Date *
                         </Label>
                         <Input
                           id="signatureDate"
                           type="date"
-                          defaultValue={new Date().toISOString().split('T')[0]}
+                          defaultValue={new Date().toISOString().split("T")[0]}
                           required
                         />
                       </div>
@@ -1303,7 +1716,9 @@ export default function StudentApplication() {
                 disabled={isLoading || mutation.isPending}
                 type="submit"
               >
-                {isLoading || mutation.isPending ? "Submitting..." : "Submit Application"}
+                {isLoading || mutation.isPending
+                  ? "Submitting..."
+                  : "Submit Application"}
               </Button>
             </div>
           </form>
