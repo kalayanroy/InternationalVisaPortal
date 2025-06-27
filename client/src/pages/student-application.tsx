@@ -989,6 +989,213 @@ export default function StudentApplication() {
               </CardContent>
             </Card>
 
+            {/* Document Upload Section */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-2xl text-navy">Document Upload</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <p className="text-gray-600 mb-4">
+                    Please upload the following documents. All documents should be in PDF, JPG, or PNG format (max 5MB each).
+                  </p>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label className="block text-sm font-medium text-gray-700 mb-2">
+                        Passport (Front and Back Page) *
+                      </Label>
+                      <input
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent"
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="block text-sm font-medium text-gray-700 mb-2">
+                        Academic Certificates and Transcripts *
+                      </Label>
+                      <input
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        multiple
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent"
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="block text-sm font-medium text-gray-700 mb-2">
+                        English Test Score Report
+                      </Label>
+                      <input
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent"
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="block text-sm font-medium text-gray-700 mb-2">
+                        CV/Resume *
+                      </Label>
+                      <input
+                        type="file"
+                        accept=".pdf,.doc,.docx"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent"
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="block text-sm font-medium text-gray-700 mb-2">
+                        Statement of Purpose (SOP) or Motivation Letter *
+                      </Label>
+                      <input
+                        type="file"
+                        accept=".pdf,.doc,.docx"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent"
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="block text-sm font-medium text-gray-700 mb-2">
+                        Experience Letter (if applicable)
+                      </Label>
+                      <input
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        multiple
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent"
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="block text-sm font-medium text-gray-700 mb-2">
+                        National ID *
+                      </Label>
+                      <input
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent"
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="block text-sm font-medium text-gray-700 mb-2">
+                        Passport-size Photo *
+                      </Label>
+                      <input
+                        type="file"
+                        accept=".jpg,.jpeg,.png"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent"
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="block text-sm font-medium text-gray-700 mb-2">
+                        Birth Certificate (if required by country)
+                      </Label>
+                      <input
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent"
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="block text-sm font-medium text-gray-700 mb-2">
+                        Financial Documents (if available or required)
+                      </Label>
+                      <input
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        multiple
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mt-4">
+                    <p className="text-sm text-blue-800">
+                      <strong>Note:</strong> All documents must be clear and legible. Documents in languages other than English must be accompanied by certified translations.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Declaration & Consent Section */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-2xl text-navy">Declaration & Consent</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-6">
+                  <div className="space-y-4">
+                    <div className="flex items-start space-x-3">
+                      <Checkbox
+                        id="dataConsent"
+                        className="mt-1"
+                        required
+                      />
+                      <Label htmlFor="dataConsent" className="text-sm text-gray-700">
+                        I consent to the use of the provided data for consultation and application purposes. I understand that my personal information will be used to process my application and provide educational consultancy services.
+                      </Label>
+                    </div>
+
+                    <div className="flex items-start space-x-3">
+                      <Checkbox
+                        id="truthDeclaration"
+                        className="mt-1"
+                        required
+                      />
+                      <Label htmlFor="truthDeclaration" className="text-sm text-gray-700">
+                        I declare that all the information provided in this application form is true, complete, and accurate to the best of my knowledge. I understand that providing false or misleading information may result in the rejection of my application.
+                      </Label>
+                    </div>
+
+                    <div className="flex items-start space-x-3">
+                      <Checkbox
+                        id="termsAcceptance"
+                        className="mt-1"
+                        required
+                      />
+                      <Label htmlFor="termsAcceptance" className="text-sm text-gray-700">
+                        I accept the terms and conditions of the consultancy services and understand the application process requirements.
+                      </Label>
+                    </div>
+                  </div>
+
+                  <div className="border-t pt-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="digitalSignature" className="block text-sm font-medium text-gray-700 mb-2">
+                          Digital Signature (Type your full name) *
+                        </Label>
+                        <Input
+                          id="digitalSignature"
+                          placeholder="Type your full name as digital signature"
+                          required
+                        />
+                      </div>
+
+                      <div>
+                        <Label htmlFor="signatureDate" className="block text-sm font-medium text-gray-700 mb-2">
+                          Date *
+                        </Label>
+                        <Input
+                          id="signatureDate"
+                          type="date"
+                          defaultValue={new Date().toISOString().split('T')[0]}
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Submit Button */}
             <div className="text-center">
               <Button
