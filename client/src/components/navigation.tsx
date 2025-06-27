@@ -93,7 +93,7 @@ export default function Navigation() {
             </DropdownMenu>
           ) : (
             <Link href="/login">
-              <Button variant="outline" className="text-navy border-navy">
+              <Button variant="outline" className="text-black border-navy">
                 Login
               </Button>
             </Link>
@@ -162,7 +162,7 @@ export default function Navigation() {
               <Link href="/login">
                 <Button
                   variant="outline"
-                  className="text-navy border-navy w-full mt-4"
+                  className="text-black border-navy w-full mt-4"
                   onClick={closeMenu}
                 >
                   Login

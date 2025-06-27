@@ -1,4 +1,4 @@
-import { pgTable, text, serial, timestamp, json, boolean, varchar } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, timestamp, json, boolean, varchar, date, integer, jsonb } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -132,3 +132,80 @@ export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type LoginUser = z.infer<typeof loginSchema>;
 export type RegisterUser = z.infer<typeof registerSchema>;
+
+// Student Application Form Schema
+export const studentApplications = pgTable("student_applications", {
+  id: serial("id").primaryKey(),
+  // Personal Information
+  fullName: varchar("full_name", { length: 100 }).notNull(),
+  gender: varchar("gender", { length: 20 }).notNull(),
+  dateOfBirth: date("date_of_birth").notNull(),
+  nationality: varchar("nationality", { length: 50 }).notNull(),
+  maritalStatus: varchar("marital_status", { length: 30 }).notNull(),
+  passportNumber: varchar("passport_number", { length: 50 }).notNull(),
+  passportExpiry: date("passport_expiry").notNull(),
+  nationalId: varchar("national_id", { length: 50 }),
+  currentAddress: text("current_address").notNull(),
+  permanentAddress: text("permanent_address").notNull(),
+  contactNumber: varchar("contact_number", { length: 20 }).notNull(),
+  email: varchar("email", { length: 100 }).notNull(),
+  emergencyContactName: varchar("emergency_contact_name", { length: 100 }).notNull(),
+  emergencyContactRelation: varchar("emergency_contact_relation", { length: 50 }).notNull(),
+  emergencyContactPhone: varchar("emergency_contact_phone", { length: 20 }).notNull(),
+  
+  // Educational Background (JSON for multiple entries)
+  educationHistory: jsonb("education_history").notNull(),
+  
+  // Study Abroad Preferences
+  preferredCountries: text("preferred_countries").notNull(),
+  preferredCity: varchar("preferred_city", { length: 100 }),
+  preferredCourse: varchar("preferred_course", { length: 200 }).notNull(),
+  preferredIntake: varchar("preferred_intake", { length: 50 }).notNull(),
+  studyLevel: varchar("study_level", { length: 50 }).notNull(),
+  budget: integer("budget").notNull(),
+  budgetCurrency: varchar("budget_currency", { length: 10 }).notNull(),
+  fundingSource: varchar("funding_source", { length: 100 }).notNull(),
+  openToScholarships: boolean("open_to_scholarships").notNull(),
+  institutionType: varchar("institution_type", { length: 100 }).notNull(),
+  studyMode: varchar("study_mode", { length: 50 }).notNull(),
+  
+  // Language Proficiency
+  hasEnglishTest: boolean("has_english_test").notNull(),
+  testType: varchar("test_type", { length: 50 }),
+  testDate: date("test_date"),
+  overallScore: varchar("overall_score", { length: 20 }),
+  listeningScore: varchar("listening_score", { length: 20 }),
+  readingScore: varchar("reading_score", { length: 20 }),
+  writingScore: varchar("writing_score", { length: 20 }),
+  speakingScore: varchar("speaking_score", { length: 20 }),
+  planningTestDate: date("planning_test_date"),
+  
+  // Work Experience (JSON for multiple entries)
+  workExperience: jsonb("work_experience"),
+  
+  // Visa & Travel History
+  previousStudentVisa: boolean("previous_student_visa").notNull(),
+  countriesVisited: text("countries_visited"),
+  visaRefusals: boolean("visa_refusals").notNull(),
+  visaRefusalDetails: text("visa_refusal_details"),
+  familyInDestination: boolean("family_in_destination").notNull(),
+  familyRelationship: varchar("family_relationship", { length: 100 }),
+  familyVisaType: varchar("family_visa_type", { length: 50 }),
+  
+  // Additional Information
+  additionalInfo: text("additional_info"),
+  
+  // Status and Timestamps
+  status: varchar("status", { length: 30 }).default("pending").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertStudentApplicationSchema = createInsertSchema(studentApplications).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertStudentApplication = z.infer<typeof insertStudentApplicationSchema>;
+export type StudentApplication = typeof studentApplications.$inferSelect;

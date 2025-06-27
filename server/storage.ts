@@ -45,6 +45,12 @@ export interface IStorage {
   getApplications(): Promise<Application[]>;
   getStudentApplications(studentId: number): Promise<Application[]>;
   updateApplication(id: number, updates: Partial<Application>): Promise<Application | undefined>;
+  
+  // Student Application Methods  
+  createStudentApplication(application: InsertStudentApplication): Promise<StudentApplication>;
+  getAllStudentApplications(): Promise<StudentApplication[]>;
+  getStudentApplication(id: number): Promise<StudentApplication | undefined>;
+  updateStudentApplicationStatus(id: number, status: string): Promise<StudentApplication | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -194,6 +200,41 @@ export class DatabaseStorage implements IStorage {
       .update(applications)
       .set(updates)
       .where(eq(applications.id, id))
+      .returning();
+    return application || undefined;
+  }
+}
+
+  // Student Application Methods
+  async createStudentApplication(insertApplication: InsertStudentApplication): Promise<StudentApplication> {
+    const [application] = await db
+      .insert(studentApplications)
+      .values({
+        ...insertApplication,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })
+      .returning();
+    return application;
+  }
+
+  async getAllStudentApplications(): Promise<StudentApplication[]> {
+    return await db.select().from(studentApplications).orderBy(desc(studentApplications.createdAt));
+  }
+
+  async getStudentApplication(id: number): Promise<StudentApplication | undefined> {
+    const [application] = await db.select().from(studentApplications).where(eq(studentApplications.id, id));
+    return application || undefined;
+  }
+
+  async updateStudentApplicationStatus(id: number, status: string): Promise<StudentApplication | undefined> {
+    const [application] = await db
+      .update(studentApplications)
+      .set({ 
+        status, 
+        updatedAt: new Date() 
+      })
+      .where(eq(studentApplications.id, id))
       .returning();
     return application || undefined;
   }

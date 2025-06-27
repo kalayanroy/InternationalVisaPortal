@@ -1,4 +1,5 @@
 import { Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
+import { Link } from "wouter";
 
 export default function Footer() {
   const scrollToSection = (sectionId: string) => {
@@ -51,7 +52,7 @@ export default function Footer() {
               <li><a href="#" className="hover:text-white transition-colors">Document Preparation</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Interview Coaching</a></li>
               <li><a href="#" className="hover:text-white transition-colors">University Selection</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">24/7 Support</a></li>
+              <li><Link href="/student-application" className="hover:text-white transition-colors text-gold font-semibold">Apply Now</Link></li>
             </ul>
           </div>
 

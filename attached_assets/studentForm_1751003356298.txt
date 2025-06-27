@@ -1,0 +1,86 @@
+ Personal Information
+-----------------------------------
+• Full Name (as per passport)
+• Gender
+• Date of Birth
+• Nationality
+• Marital Status
+• Passport Number
+• Passport Expiry Date
+• National ID Number (if applicable)
+• Current Address
+• Permanent Address
+• Contact Number (with country code)
+• Email Address
+• Emergency Contact (Name, Relation, Phone Number)
+
+ Educational Background
+For each level of education:
+------------------------------------------
+• Level of Education (e.g., SSC, HSC, Diploma, Bachelor's, Master's)
+• Institution Name
+• Country of Institution
+• Board/University
+• Field of Study / Major
+• Start Date and End Date
+• GPA/Percentage/Grade
+• Medium of Instruction
+• Have you had any education gap? (Yes/No – If Yes, explain)
+
+ Study Abroad Preferences
+--------------------------------
+• Preferred Country/Countries
+• Preferred City (if any)
+• Preferred Course/Program
+• Preferred Intake (e.g., February 2025, September 2025)
+• Study Level Interested In (Diploma, Bachelor’s, Master’s, PhD)
+• Budget (Tuition + Living) per year in local or foreign currency
+• Funding Source (Self, Parents, Scholarship, Sponsor, Bank Loan)
+• Are you open to scholarships? (Yes/No)
+• Preferred type of institution (University, College, TAFE, etc.)
+• Mode of study (On-campus, Online, Hybrid)
+
+ Language Proficiency
+------------------------------------
+• Have you taken any English test? (Yes/No)
+• Test Type (IELTS / PTE / TOEFL / Duolingo / Other)
+• Test Date
+• Overall Score
+• Individual Band Scores (Listening, Reading, Writing, Speaking)
+• Planning to take an English test? (Yes/No – If yes, when?)
+
+ Work Experience (if applicable)
+----------------------------------
+• Job Title
+• Organization Name
+• Duration (Start – End)
+• Full-time/Part-time
+• Job Responsibilities
+• Relevant to Intended Study? (Yes/No)
+
+ Visa & Travel History
+-------------------------------------
+• Have you ever applied for a student visa before? (Yes/No)
+• Countries visited
+• Any previous visa refusals? (Yes/No – If yes, details)
+• Any relatives/family in the destination country? (Yes/No – If yes, relationship and visa type)
+
+ Document Upload Section
+------------------------------------
+• Passport (Front and Back Page)
+• Academic Certificates and Transcripts
+• English Test Score Report
+• CV/Resume
+• Statement of Purpose (SOP) or Motivation Letter
+• Experience Letter (if applicable)
+• National ID
+• Passport-size Photo
+• Birth Certificate (if required by country)
+• Financial documents (if available or required)
+
+ Declaration & Consent
+--------------------------
+• Consent to use the provided data for consultation and application
+• Declaration that the provided information is true
+• Signature (digital or typed)
+• Date

@@ -22,6 +22,7 @@ import NotFound from "@/pages/not-found";
 import Login from "@/pages/login";
 import Register from "@/pages/register";
 import AdminDashboard from "@/pages/admin-dashboard";
+import StudentApplication from "@/pages/student-application";
 
 function Router() {
   return (
@@ -44,6 +45,7 @@ function Router() {
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
       <Route path="/admin" component={AdminDashboard} />
+      <Route path="/student-application" component={StudentApplication} />
       <Route component={NotFound} />
     </Switch>
   );
