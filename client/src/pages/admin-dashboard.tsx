@@ -1,26 +1,44 @@
-import { useState, useEffect } from "react";
-import { useLocation } from "wouter";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useEffect, useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useAuthState } from "@/hooks/useAuth";
-import { useToast } from "@/hooks/use-toast";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { 
   Users, 
-  MessageSquare, 
-  Calendar, 
   FileText, 
-  TrendingUp, 
-  LogOut,
+  Calendar, 
+  GraduationCap, 
+  Eye, 
+  Plus, 
+  Edit, 
+  Trash2, 
+  School, 
+  UserCheck, 
+  Clock, 
+  AlertCircle,
+  Activity,
+  TrendingUp,
   Settings,
+  Search,
+  Filter,
+  Download,
+  Bell,
+  UserPlus,
   BarChart3,
   Globe,
-  Award,
-  Mail,
-  Phone,
-  MapPin,
-  Clock
+  Mail
 } from "lucide-react";
+import { useAuthState } from "@/hooks/useAuth";
+import { useLocation } from "wouter";
+import { useToast } from "@/hooks/use-toast";
 import Header from "@/components/header";
 
 interface DashboardStats {
@@ -55,18 +73,6 @@ interface Appointment {
   createdAt: string;
 }
 
-interface Application {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  university: string;
-  program: string;
-  status: string;
-  createdAt: string;
-}
-
 interface User {
   id: number;
   username: string;
@@ -88,27 +94,34 @@ interface University {
   createdAt: string;
 }
 
-export default function AdminDashboard() {
-  const [, setLocation] = useLocation();
-  const { user, logout, isAdmin } = useAuthState();
-  const { toast } = useToast();
-  const [stats, setStats] = useState<DashboardStats>({
-    totalInquiries: 0,
-    totalStudents: 0,
-    totalAppointments: 0,
-    totalApplications: 0,
-  });
-  const [recentInquiries, setRecentInquiries] = useState<ContactInquiry[]>([]);
-  const [recentAppointments, setRecentAppointments] = useState<Appointment[]>([]);
-  const [recentApplications, setRecentApplications] = useState<Application[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+interface StudentApplication {
+  id: number;
+  fullName: string;
+  email: string;
+  preferredCountries: string;
+  studyLevel: string;
+  status: string;
+  createdAt: string;
+}
 
+export default function AdminDashboard() {
+  const { user, isAuthenticated, isAdmin } = useAuthState();
+  const [, setLocation] = useLocation();
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [activeTab, setActiveTab] = useState("overview");
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [selectedUniversity, setSelectedUniversity] = useState<University | null>(null);
+  const [isUserDialogOpen, setIsUserDialogOpen] = useState(false);
+  const [isUniversityDialogOpen, setIsUniversityDialogOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Authentication check
   useEffect(() => {
-    if (!user) {
+    if (!isAuthenticated) {
       setLocation("/login");
       return;
     }
-
     if (!isAdmin) {
       toast({
         title: "Access Denied",
@@ -118,97 +131,176 @@ export default function AdminDashboard() {
       setLocation("/");
       return;
     }
+  }, [isAuthenticated, isAdmin, setLocation, toast]);
 
-    fetchDashboardData();
-  }, [user, isAdmin]);
+  // Fetch dashboard data
+  const { data: dashboardData, isLoading } = useQuery({
+    queryKey: ['/api/admin/dashboard'],
+    enabled: isAuthenticated && isAdmin,
+  });
 
-  const fetchDashboardData = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        setLocation("/login");
-        return;
-      }
+  // Fetch users
+  const { data: users = [], isLoading: usersLoading } = useQuery<User[]>({
+    queryKey: ['/api/admin/users'],
+    enabled: isAuthenticated && isAdmin,
+  });
 
-      const response = await fetch('/api/admin/dashboard', {
+  // Fetch universities
+  const { data: universities = [] } = useQuery<University[]>({
+    queryKey: ['/api/admin/universities'],
+    enabled: isAuthenticated && isAdmin,
+  });
+
+  // Fetch student applications
+  const { data: studentApplications = [] } = useQuery<StudentApplication[]>({
+    queryKey: ['/api/admin/student-applications'],
+    enabled: isAuthenticated && isAdmin,
+  });
+
+  const stats = dashboardData?.stats || {
+    totalInquiries: 0,
+    totalStudents: 0,
+    totalAppointments: 0,
+    totalApplications: 0,
+  };
+
+  const inquiries = dashboardData?.inquiries || [];
+  const appointments = dashboardData?.appointments || [];
+
+  // Mutations for user management
+  const updateUserMutation = useMutation({
+    mutationFn: async (userData: { id: number; role: string }) => {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`/api/admin/users/${userData.id}`, {
+        method: "PATCH",
         headers: {
-          'Authorization': `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
         },
+        body: JSON.stringify({ role: userData.role }),
       });
-
+      
       if (!response.ok) {
-        if (response.status === 401) {
-          logout();
-          setLocation("/login");
-          return;
-        }
-        throw new Error('Failed to fetch dashboard data');
+        throw new Error("Failed to update user");
       }
-
-      const data = await response.json();
-      setStats(data.stats);
-      setRecentInquiries(data.recentInquiries || []);
-      setRecentAppointments(data.recentAppointments || []);
-      setRecentApplications(data.recentApplications || []);
-    } catch (error) {
+      
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/users'] });
+      toast({
+        title: "Success",
+        description: "User updated successfully",
+      });
+      setIsUserDialogOpen(false);
+      setSelectedUser(null);
+    },
+    onError: () => {
       toast({
         title: "Error",
-        description: "Failed to load dashboard data",
+        description: "Failed to update user",
         variant: "destructive",
       });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    },
+  });
 
-  const handleLogout = () => {
-    logout();
-    toast({
-      title: "Logged Out",
-      description: "You have been successfully logged out.",
-    });
-    setLocation("/");
-  };
+  // Mutations for application status updates
+  const updateApplicationMutation = useMutation({
+    mutationFn: async (data: { id: number; status: string }) => {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`/api/admin/student-applications/${data.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify({ status: data.status }),
+      });
+      
+      if (!response.ok) {
+        throw new Error("Failed to update application");
+      }
+      
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/student-applications'] });
+      toast({
+        title: "Success",
+        description: "Application status updated successfully",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to update application status",
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Filter users based on search term
+  const filteredUsers = users.filter((user: User) =>
+    user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (user.firstName && user.firstName.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (user.lastName && user.lastName.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-white">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
         <Header />
-        <div className="pt-24 flex items-center justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-navy"></div>
+        <div className="pt-24 pb-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="animate-pulse">
+              <div className="h-8 bg-gray-200 rounded w-1/4 mb-8"></div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="h-32 bg-gray-200 rounded-lg"></div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <Header />
       
       {/* Dashboard Header */}
-      <div className="pt-24 pb-8 bg-gradient-to-br from-navy via-navy/95 to-navy/90">
+      <div className="pt-24 pb-8 bg-gradient-to-r from-navy via-blue-900 to-navy">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-            <div>
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+            <div className="mb-6 lg:mb-0">
               <h1 className="text-4xl font-bold text-white mb-2">Admin Dashboard</h1>
-              <p className="text-white/90">Welcome back, {user?.firstName || user?.username}</p>
+              <p className="text-blue-100 text-lg">Welcome back, {user?.firstName || user?.username}</p>
+              <p className="text-blue-200 text-sm mt-1">Manage your education platform with comprehensive tools</p>
             </div>
-            <div className="mt-4 md:mt-0 flex gap-4">
+            <div className="flex items-center gap-4">
               <Button 
                 variant="outline" 
-                className="border-white text-white hover:bg-white hover:text-navy"
-                onClick={() => setLocation("/settings")}
+                className="border-white/20 text-white hover:bg-white/10 backdrop-blur-sm"
               >
-                <Settings className="h-4 w-4 mr-2" />
-                Settings
+                <Download className="h-4 w-4 mr-2" />
+                Export Data
               </Button>
               <Button 
                 variant="outline" 
-                className="border-white text-white hover:bg-white hover:text-navy"
-                onClick={handleLogout}
+                className="border-white/20 text-white hover:bg-white/10 backdrop-blur-sm"
               >
-                <LogOut className="h-4 w-4 mr-2" />
-                Logout
+                <Bell className="h-4 w-4 mr-2" />
+                Notifications
+              </Button>
+              <Button 
+                variant="outline" 
+                className="border-white/20 text-white hover:bg-white/10 backdrop-blur-sm"
+              >
+                <Settings className="h-4 w-4 mr-2" />
+                Settings
               </Button>
             </div>
           </div>
@@ -216,231 +308,578 @@ export default function AdminDashboard() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-50 to-white">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-blue-600">Contact Inquiries</p>
-                  <p className="text-3xl font-bold text-blue-900">{stats.totalInquiries}</p>
-                </div>
-                <div className="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-xl">
-                  <MessageSquare className="h-6 w-6 text-blue-600" />
-                </div>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <TabsList className="grid w-full sm:w-auto grid-cols-2 lg:grid-cols-4 bg-white/80 backdrop-blur-sm">
+              <TabsTrigger value="overview" className="flex items-center gap-2">
+                <BarChart3 className="h-4 w-4" />
+                Overview
+              </TabsTrigger>
+              <TabsTrigger value="users" className="flex items-center gap-2">
+                <Users className="h-4 w-4" />
+                Users
+              </TabsTrigger>
+              <TabsTrigger value="applications" className="flex items-center gap-2">
+                <GraduationCap className="h-4 w-4" />
+                Applications
+              </TabsTrigger>
+              <TabsTrigger value="universities" className="flex items-center gap-2">
+                <School className="h-4 w-4" />
+                Universities
+              </TabsTrigger>
+            </TabsList>
+            
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Input
+                  placeholder="Search..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 bg-white/80 backdrop-blur-sm border-gray-200"
+                />
               </div>
-            </CardContent>
-          </Card>
+              <Button variant="outline" size="sm" className="bg-white/80 backdrop-blur-sm">
+                <Filter className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
 
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-green-50 to-white">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-green-600">Appointments</p>
-                  <p className="text-3xl font-bold text-green-900">{stats.totalAppointments}</p>
-                </div>
-                <div className="flex items-center justify-center w-12 h-12 bg-green-100 rounded-xl">
-                  <Calendar className="h-6 w-6 text-green-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <TabsContent value="overview" className="space-y-8">
+            {/* Enhanced Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-500 to-blue-600 text-white overflow-hidden relative">
+                <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -translate-y-6 translate-x-6"></div>
+                <CardContent className="p-6 relative z-10">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-blue-100 text-sm font-medium">Contact Inquiries</p>
+                      <p className="text-3xl font-bold">{stats.totalInquiries}</p>
+                      <p className="text-blue-200 text-xs mt-1">+12% from last month</p>
+                    </div>
+                    <div className="p-3 bg-white/20 rounded-xl">
+                      <Mail className="h-6 w-6" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
 
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-purple-50 to-white">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-purple-600">Applications</p>
-                  <p className="text-3xl font-bold text-purple-900">{stats.totalApplications}</p>
-                </div>
-                <div className="flex items-center justify-center w-12 h-12 bg-purple-100 rounded-xl">
-                  <FileText className="h-6 w-6 text-purple-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              <Card className="border-0 shadow-lg bg-gradient-to-br from-green-500 to-green-600 text-white overflow-hidden relative">
+                <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -translate-y-6 translate-x-6"></div>
+                <CardContent className="p-6 relative z-10">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-green-100 text-sm font-medium">Total Users</p>
+                      <p className="text-3xl font-bold">{users.length}</p>
+                      <p className="text-green-200 text-xs mt-1">+5% from last month</p>
+                    </div>
+                    <div className="p-3 bg-white/20 rounded-xl">
+                      <Users className="h-6 w-6" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
 
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-orange-50 to-white">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-orange-600">Students</p>
-                  <p className="text-3xl font-bold text-orange-900">{stats.totalStudents}</p>
-                </div>
-                <div className="flex items-center justify-center w-12 h-12 bg-orange-100 rounded-xl">
-                  <Users className="h-6 w-6 text-orange-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+              <Card className="border-0 shadow-lg bg-gradient-to-br from-orange-500 to-orange-600 text-white overflow-hidden relative">
+                <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -translate-y-6 translate-x-6"></div>
+                <CardContent className="p-6 relative z-10">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-orange-100 text-sm font-medium">Appointments</p>
+                      <p className="text-3xl font-bold">{stats.totalAppointments}</p>
+                      <p className="text-orange-200 text-xs mt-1">+8% from last month</p>
+                    </div>
+                    <div className="p-3 bg-white/20 rounded-xl">
+                      <Calendar className="h-6 w-6" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
 
-        {/* Recent Activities */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-          {/* Recent Inquiries */}
-          <Card className="border-0 shadow-lg">
-            <CardHeader>
-              <CardTitle className="flex items-center text-navy">
-                <MessageSquare className="h-5 w-5 mr-2" />
-                Recent Inquiries
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {recentInquiries.length > 0 ? (
-                  recentInquiries.map((inquiry) => (
-                    <div key={inquiry.id} className="border-l-4 border-blue-500 pl-4 py-2">
-                      <div className="flex items-center justify-between mb-1">
-                        <h4 className="font-semibold text-navy">
-                          {inquiry.firstName} {inquiry.lastName}
-                        </h4>
-                        <Badge variant="outline" className="text-xs">
-                          {new Date(inquiry.createdAt).toLocaleDateString()}
-                        </Badge>
-                      </div>
-                      <div className="flex items-center text-sm text-slate-600 mb-1">
-                        <Mail className="h-3 w-3 mr-1" />
-                        {inquiry.email}
-                      </div>
-                      {inquiry.destination && (
-                        <div className="flex items-center text-sm text-slate-600">
-                          <MapPin className="h-3 w-3 mr-1" />
-                          {inquiry.destination}
+              <Card className="border-0 shadow-lg bg-gradient-to-br from-purple-500 to-purple-600 text-white overflow-hidden relative">
+                <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -translate-y-6 translate-x-6"></div>
+                <CardContent className="p-6 relative z-10">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-purple-100 text-sm font-medium">Applications</p>
+                      <p className="text-3xl font-bold">{studentApplications.length}</p>
+                      <p className="text-purple-200 text-xs mt-1">+15% from last month</p>
+                    </div>
+                    <div className="p-3 bg-white/20 rounded-xl">
+                      <GraduationCap className="h-6 w-6" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Quick Actions */}
+            <Card className="border-0 shadow-lg bg-white/90 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-navy">
+                  <Activity className="h-5 w-5" />
+                  Quick Actions
+                </CardTitle>
+                <CardDescription>Frequently used administrative actions</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <Button
+                    variant="outline"
+                    className="h-24 flex flex-col items-center justify-center gap-2 bg-blue-50 hover:bg-blue-100 border-blue-200"
+                    onClick={() => setActiveTab("users")}
+                  >
+                    <UserPlus className="h-6 w-6 text-blue-600" />
+                    <span className="text-sm font-medium">Manage Users</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="h-24 flex flex-col items-center justify-center gap-2 bg-green-50 hover:bg-green-100 border-green-200"
+                    onClick={() => setActiveTab("applications")}
+                  >
+                    <FileText className="h-6 w-6 text-green-600" />
+                    <span className="text-sm font-medium">Review Applications</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="h-24 flex flex-col items-center justify-center gap-2 bg-orange-50 hover:bg-orange-100 border-orange-200"
+                  >
+                    <Calendar className="h-6 w-6 text-orange-600" />
+                    <span className="text-sm font-medium">View Appointments</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="h-24 flex flex-col items-center justify-center gap-2 bg-purple-50 hover:bg-purple-100 border-purple-200"
+                    onClick={() => setActiveTab("universities")}
+                  >
+                    <School className="h-6 w-6 text-purple-600" />
+                    <span className="text-sm font-medium">Manage Universities</span>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Recent Activities Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Recent Inquiries */}
+              <Card className="border-0 shadow-lg bg-white/90 backdrop-blur-sm">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-navy">
+                    <Mail className="h-5 w-5" />
+                    Recent Contact Inquiries
+                  </CardTitle>
+                  <CardDescription>Latest contact form submissions</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {inquiries.length > 0 ? (
+                      inquiries.slice(0, 5).map((inquiry: ContactInquiry) => (
+                        <div key={inquiry.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-100">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <h4 className="font-semibold text-navy">{inquiry.firstName} {inquiry.lastName}</h4>
+                              <Badge variant="outline" className="text-xs">
+                                New
+                              </Badge>
+                            </div>
+                            <p className="text-sm text-gray-600">{inquiry.email}</p>
+                            <p className="text-xs text-gray-500 mt-1">
+                              {new Date(inquiry.createdAt).toLocaleDateString()}
+                            </p>
+                          </div>
+                          <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700">
+                            <Eye className="h-4 w-4" />
+                          </Button>
                         </div>
+                      ))
+                    ) : (
+                      <div className="text-center py-8 text-gray-500">
+                        <Mail className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                        <p>No recent inquiries</p>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Recent Appointments */}
+              <Card className="border-0 shadow-lg bg-white/90 backdrop-blur-sm">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-navy">
+                    <Calendar className="h-5 w-5" />
+                    Recent Appointments
+                  </CardTitle>
+                  <CardDescription>Latest consultation bookings</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {appointments.length > 0 ? (
+                      appointments.slice(0, 5).map((appointment: Appointment) => (
+                        <div key={appointment.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-100">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <h4 className="font-semibold text-navy">{appointment.firstName} {appointment.lastName}</h4>
+                              <Badge 
+                                variant={
+                                  appointment.status === 'confirmed' ? 'default' : 
+                                  appointment.status === 'pending' ? 'secondary' : 'destructive'
+                                }
+                                className="text-xs"
+                              >
+                                {appointment.status}
+                              </Badge>
+                            </div>
+                            <p className="text-sm text-gray-600">{appointment.consultationType}</p>
+                            <p className="text-xs text-gray-500 mt-1">
+                              {appointment.preferredDate} at {appointment.preferredTime}
+                            </p>
+                          </div>
+                          <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700">
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-center py-8 text-gray-500">
+                        <Calendar className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                        <p>No recent appointments</p>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="users" className="space-y-6">
+            <Card className="border-0 shadow-lg bg-white/90 backdrop-blur-sm">
+              <CardHeader>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div>
+                    <CardTitle className="flex items-center gap-2 text-navy">
+                      <Users className="h-5 w-5" />
+                      User Management
+                    </CardTitle>
+                    <CardDescription>Manage user accounts and permissions</CardDescription>
+                  </div>
+                  <Button className="bg-navy hover:bg-navy/90">
+                    <UserPlus className="h-4 w-4 mr-2" />
+                    Add User
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent>
+                {usersLoading ? (
+                  <div className="flex items-center justify-center py-12">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-navy"></div>
+                  </div>
+                ) : (
+                  <div className="rounded-md border">
+                    <Table>
+                      <TableHeader>
+                        <TableRow className="bg-gray-50">
+                          <TableHead className="font-semibold">Name</TableHead>
+                          <TableHead className="font-semibold">Email</TableHead>
+                          <TableHead className="font-semibold">Username</TableHead>
+                          <TableHead className="font-semibold">Role</TableHead>
+                          <TableHead className="font-semibold">Joined</TableHead>
+                          <TableHead className="font-semibold text-center">Actions</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {filteredUsers.length > 0 ? (
+                          filteredUsers.map((user: User) => (
+                            <TableRow key={user.id} className="hover:bg-gray-50">
+                              <TableCell>
+                                <div className="flex items-center gap-3">
+                                  <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                                    {(user.firstName?.charAt(0) || user.username.charAt(0)).toUpperCase()}
+                                  </div>
+                                  <div className="font-medium">
+                                    {user.firstName && user.lastName 
+                                      ? `${user.firstName} ${user.lastName}` 
+                                      : user.username
+                                    }
+                                  </div>
+                                </div>
+                              </TableCell>
+                              <TableCell className="text-gray-600">{user.email}</TableCell>
+                              <TableCell className="text-gray-600">{user.username}</TableCell>
+                              <TableCell>
+                                <Badge 
+                                  variant={user.role === 'admin' ? 'default' : 'secondary'}
+                                  className={user.role === 'admin' ? 'bg-navy' : ''}
+                                >
+                                  {user.role}
+                                </Badge>
+                              </TableCell>
+                              <TableCell className="text-gray-600">
+                                {new Date(user.createdAt).toLocaleDateString()}
+                              </TableCell>
+                              <TableCell>
+                                <div className="flex justify-center">
+                                  <Dialog 
+                                    open={isUserDialogOpen && selectedUser?.id === user.id} 
+                                    onOpenChange={(open) => {
+                                      setIsUserDialogOpen(open);
+                                      if (!open) setSelectedUser(null);
+                                    }}
+                                  >
+                                    <DialogTrigger asChild>
+                                      <Button 
+                                        variant="outline" 
+                                        size="sm"
+                                        className="hover:bg-blue-50"
+                                        onClick={() => setSelectedUser(user)}
+                                      >
+                                        <Edit className="h-4 w-4" />
+                                      </Button>
+                                    </DialogTrigger>
+                                    <DialogContent className="sm:max-w-[425px]">
+                                      <DialogHeader>
+                                        <DialogTitle>Edit User Role</DialogTitle>
+                                        <DialogDescription>
+                                          Update user permissions and role settings
+                                        </DialogDescription>
+                                      </DialogHeader>
+                                      <div className="space-y-4 py-4">
+                                        <div className="space-y-2">
+                                          <Label htmlFor="role">User Role</Label>
+                                          <Select 
+                                            value={selectedUser?.role || 'user'}
+                                            onValueChange={(value) => 
+                                              setSelectedUser(prev => prev ? {...prev, role: value} : null)
+                                            }
+                                          >
+                                            <SelectTrigger>
+                                              <SelectValue placeholder="Select role" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                              <SelectItem value="user">User</SelectItem>
+                                              <SelectItem value="admin">Admin</SelectItem>
+                                            </SelectContent>
+                                          </Select>
+                                        </div>
+                                        <div className="flex justify-end gap-3 pt-4">
+                                          <Button 
+                                            variant="outline" 
+                                            onClick={() => {
+                                              setIsUserDialogOpen(false);
+                                              setSelectedUser(null);
+                                            }}
+                                          >
+                                            Cancel
+                                          </Button>
+                                          <Button 
+                                            className="bg-navy hover:bg-navy/90"
+                                            onClick={() => selectedUser && updateUserMutation.mutate({ 
+                                              id: selectedUser.id, 
+                                              role: selectedUser.role 
+                                            })}
+                                            disabled={updateUserMutation.isPending}
+                                          >
+                                            {updateUserMutation.isPending ? "Updating..." : "Update Role"}
+                                          </Button>
+                                        </div>
+                                      </div>
+                                    </DialogContent>
+                                  </Dialog>
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        ) : (
+                          <TableRow>
+                            <TableCell colSpan={6} className="text-center py-12 text-gray-500">
+                              <Users className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                              {searchTerm ? "No users found matching your search" : "No users found"}
+                            </TableCell>
+                          </TableRow>
+                        )}
+                      </TableBody>
+                    </Table>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="applications" className="space-y-6">
+            <Card className="border-0 shadow-lg bg-white/90 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-navy">
+                  <GraduationCap className="h-5 w-5" />
+                  Student Applications
+                </CardTitle>
+                <CardDescription>Review and manage student applications</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="rounded-md border">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="bg-gray-50">
+                        <TableHead className="font-semibold">Student Name</TableHead>
+                        <TableHead className="font-semibold">Email</TableHead>
+                        <TableHead className="font-semibold">Preferred Countries</TableHead>
+                        <TableHead className="font-semibold">Study Level</TableHead>
+                        <TableHead className="font-semibold">Status</TableHead>
+                        <TableHead className="font-semibold">Submitted</TableHead>
+                        <TableHead className="font-semibold text-center">Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {studentApplications.length > 0 ? (
+                        studentApplications.map((application: StudentApplication) => (
+                          <TableRow key={application.id} className="hover:bg-gray-50">
+                            <TableCell>
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                                  {application.fullName.charAt(0).toUpperCase()}
+                                </div>
+                                <div className="font-medium">{application.fullName}</div>
+                              </div>
+                            </TableCell>
+                            <TableCell className="text-gray-600">{application.email}</TableCell>
+                            <TableCell className="text-gray-600">{application.preferredCountries}</TableCell>
+                            <TableCell className="text-gray-600">{application.studyLevel}</TableCell>
+                            <TableCell>
+                              <Badge 
+                                variant={
+                                  application.status === 'approved' ? 'default' : 
+                                  application.status === 'pending' ? 'secondary' : 
+                                  application.status === 'rejected' ? 'destructive' : 'outline'
+                                }
+                                className={application.status === 'approved' ? 'bg-green-600' : 
+                                          application.status === 'pending' ? 'bg-yellow-600' : ''}
+                              >
+                                {application.status}
+                              </Badge>
+                            </TableCell>
+                            <TableCell className="text-gray-600">
+                              {new Date(application.createdAt).toLocaleDateString()}
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex justify-center gap-2">
+                                <Select 
+                                  value={application.status}
+                                  onValueChange={(value) => 
+                                    updateApplicationMutation.mutate({ id: application.id, status: value })
+                                  }
+                                >
+                                  <SelectTrigger className="w-32">
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="pending">Pending</SelectItem>
+                                    <SelectItem value="approved">Approved</SelectItem>
+                                    <SelectItem value="rejected">Rejected</SelectItem>
+                                    <SelectItem value="under_review">Under Review</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                                <Button variant="outline" size="sm" className="hover:bg-blue-50">
+                                  <Eye className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        ))
+                      ) : (
+                        <TableRow>
+                          <TableCell colSpan={7} className="text-center py-12 text-gray-500">
+                            <GraduationCap className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                            <p>No applications found</p>
+                          </TableCell>
+                        </TableRow>
                       )}
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-slate-500 text-center py-4">No recent inquiries</p>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+                    </TableBody>
+                  </Table>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
 
-          {/* Recent Appointments */}
-          <Card className="border-0 shadow-lg">
-            <CardHeader>
-              <CardTitle className="flex items-center text-navy">
-                <Calendar className="h-5 w-5 mr-2" />
-                Recent Appointments
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {recentAppointments.length > 0 ? (
-                  recentAppointments.map((appointment) => (
-                    <div key={appointment.id} className="border-l-4 border-green-500 pl-4 py-2">
-                      <div className="flex items-center justify-between mb-1">
-                        <h4 className="font-semibold text-navy">
-                          {appointment.firstName} {appointment.lastName}
-                        </h4>
-                        <Badge 
-                          variant={appointment.status === 'confirmed' ? 'default' : 'outline'}
-                          className="text-xs"
-                        >
-                          {appointment.status}
-                        </Badge>
-                      </div>
-                      <div className="flex items-center text-sm text-slate-600 mb-1">
-                        <Clock className="h-3 w-3 mr-1" />
-                        {appointment.preferredDate} at {appointment.preferredTime}
-                      </div>
-                      <div className="text-sm text-slate-600">
-                        {appointment.consultationType}
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-slate-500 text-center py-4">No recent appointments</p>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Recent Applications */}
-          <Card className="border-0 shadow-lg">
-            <CardHeader>
-              <CardTitle className="flex items-center text-navy">
-                <FileText className="h-5 w-5 mr-2" />
-                Recent Applications
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {recentApplications.length > 0 ? (
-                  recentApplications.map((application) => (
-                    <div key={application.id} className="border-l-4 border-purple-500 pl-4 py-2">
-                      <div className="flex items-center justify-between mb-1">
-                        <h4 className="font-semibold text-navy">
-                          {application.firstName} {application.lastName}
-                        </h4>
-                        <Badge 
-                          variant={application.status === 'approved' ? 'default' : 'outline'}
-                          className="text-xs"
-                        >
-                          {application.status}
-                        </Badge>
-                      </div>
-                      <div className="text-sm text-slate-600 mb-1">
-                        {application.university}
-                      </div>
-                      <div className="text-sm text-slate-600">
-                        {application.program}
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-slate-500 text-center py-4">No recent applications</p>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Quick Actions */}
-        <div className="mt-8">
-          <Card className="border-0 shadow-lg">
-            <CardHeader>
-              <CardTitle className="text-navy">Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <Button 
-                  variant="outline" 
-                  className="h-20 flex-col space-y-2 border-slate-200 hover:border-navy hover:bg-navy/5"
-                  onClick={() => window.location.href = '/api/contact'}
-                >
-                  <MessageSquare className="h-6 w-6" />
-                  <span className="text-sm">View Inquiries</span>
-                </Button>
-                <Button 
-                  variant="outline" 
-                  className="h-20 flex-col space-y-2 border-slate-200 hover:border-navy hover:bg-navy/5"
-                  onClick={() => window.location.href = '/api/appointments'}
-                >
-                  <Calendar className="h-6 w-6" />
-                  <span className="text-sm">Manage Appointments</span>
-                </Button>
-                <Button 
-                  variant="outline" 
-                  className="h-20 flex-col space-y-2 border-slate-200 hover:border-navy hover:bg-navy/5"
-                  onClick={() => window.location.href = '/api/applications'}
-                >
-                  <FileText className="h-6 w-6" />
-                  <span className="text-sm">Review Applications</span>
-                </Button>
-                <Button 
-                  variant="outline" 
-                  className="h-20 flex-col space-y-2 border-slate-200 hover:border-navy hover:bg-navy/5"
-                  onClick={() => window.location.href = '/api/users'}
-                >
-                  <Users className="h-6 w-6" />
-                  <span className="text-sm">Manage Users</span>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+          <TabsContent value="universities" className="space-y-6">
+            <Card className="border-0 shadow-lg bg-white/90 backdrop-blur-sm">
+              <CardHeader>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div>
+                    <CardTitle className="flex items-center gap-2 text-navy">
+                      <School className="h-5 w-5" />
+                      University Management
+                    </CardTitle>
+                    <CardDescription>Manage university listings and information</CardDescription>
+                  </div>
+                  <Button className="bg-navy hover:bg-navy/90">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add University
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="rounded-md border">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="bg-gray-50">
+                        <TableHead className="font-semibold">University Name</TableHead>
+                        <TableHead className="font-semibold">Country</TableHead>
+                        <TableHead className="font-semibold">City</TableHead>
+                        <TableHead className="font-semibold">Ranking</TableHead>
+                        <TableHead className="font-semibold">Tuition Fee</TableHead>
+                        <TableHead className="font-semibold text-center">Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {universities.length > 0 ? (
+                        universities.map((university: University) => (
+                          <TableRow key={university.id} className="hover:bg-gray-50">
+                            <TableCell>
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                                  {university.name.charAt(0)}
+                                </div>
+                                <div className="font-medium">{university.name}</div>
+                              </div>
+                            </TableCell>
+                            <TableCell className="text-gray-600">
+                              <div className="flex items-center gap-2">
+                                <Globe className="h-4 w-4 text-gray-400" />
+                                {university.country}
+                              </div>
+                            </TableCell>
+                            <TableCell className="text-gray-600">{university.city}</TableCell>
+                            <TableCell>
+                              <Badge variant="outline" className="font-medium">
+                                #{university.ranking}
+                              </Badge>
+                            </TableCell>
+                            <TableCell className="text-gray-600 font-medium">{university.tuitionFee}</TableCell>
+                            <TableCell>
+                              <div className="flex justify-center gap-2">
+                                <Button variant="outline" size="sm" className="hover:bg-blue-50">
+                                  <Edit className="h-4 w-4" />
+                                </Button>
+                                <Button variant="outline" size="sm" className="hover:bg-red-50 text-red-600">
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        ))
+                      ) : (
+                        <TableRow>
+                          <TableCell colSpan={6} className="text-center py-12 text-gray-500">
+                            <School className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                            <p>No universities found</p>
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
