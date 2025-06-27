@@ -129,18 +129,33 @@ export default function StudentApplication() {
     relevantToStudy: false,
   }]);
 
+  // Check authentication
+  useEffect(() => {
+    if (!isAuthenticated) {
+      toast({
+        title: "Authentication Required",
+        description: "Please log in to submit an application.",
+        variant: "destructive",
+      });
+      setLocation("/login");
+    }
+  }, [isAuthenticated, setLocation, toast]);
+
   const mutation = useMutation({
     mutationFn: async (data: any) => {
+      const token = localStorage.getItem("token");
       const response = await fetch("/api/student-applications", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify(data),
       });
       
       if (!response.ok) {
-        throw new Error("Failed to submit application");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to submit application");
       }
       
       return response.json();
@@ -150,7 +165,7 @@ export default function StudentApplication() {
         title: "Application Submitted Successfully",
         description: "Your student application has been submitted. We will contact you soon.",
       });
-      setLocation("/");
+      resetForm();
     },
     onError: (error: Error) => {
       toast({
@@ -161,19 +176,100 @@ export default function StudentApplication() {
     },
   });
 
+  const resetForm = () => {
+    setFormData({
+      fullName: "",
+      gender: "",
+      dateOfBirth: "",
+      nationality: "",
+      maritalStatus: "",
+      passportNumber: "",
+      passportExpiry: "",
+      nationalId: "",
+      currentAddress: "",
+      permanentAddress: "",
+      contactNumber: "",
+      email: user?.email || "",
+      emergencyContactName: "",
+      emergencyContactRelation: "",
+      emergencyContactPhone: "",
+      preferredCountries: "",
+      preferredCity: "",
+      preferredCourse: "",
+      preferredIntake: "",
+      studyLevel: "",
+      budget: "",
+      budgetCurrency: "USD",
+      fundingSource: "",
+      openToScholarships: false,
+      institutionType: "",
+      studyMode: "",
+      hasEnglishTest: false,
+      testType: "",
+      testDate: "",
+      overallScore: "",
+      listeningScore: "",
+      readingScore: "",
+      writingScore: "",
+      speakingScore: "",
+      planningTestDate: "",
+      previousStudentVisa: false,
+      countriesVisited: "",
+      visaRefusals: false,
+      visaRefusalDetails: "",
+      familyInDestination: false,
+      familyRelationship: "",
+      familyVisaType: "",
+      additionalInfo: "",
+    });
+    setEducationHistory([{
+      level: "",
+      institution: "",
+      country: "",
+      board: "",
+      fieldOfStudy: "",
+      startDate: "",
+      endDate: "",
+      grade: "",
+      mediumOfInstruction: "",
+      hasGap: false,
+      gapExplanation: "",
+    }]);
+    setWorkExperience([{
+      jobTitle: "",
+      organization: "",
+      startDate: "",
+      endDate: "",
+      employmentType: "",
+      responsibilities: "",
+      relevantToStudy: false,
+    }]);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    const applicationData = {
-      ...formData,
-      budget: parseInt(formData.budget) || 0,
-      educationHistory: educationHistory.filter(edu => edu.level && edu.institution),
-      workExperience: workExperience.filter(work => work.jobTitle && work.organization),
-    };
+    try {
+      // Prepare the data
+      const applicationData = {
+        ...formData,
+        educationHistory: JSON.stringify(educationHistory),
+        workExperience: JSON.stringify(workExperience),
+        userId: user?.id,
+      };
 
-    mutation.mutate(applicationData);
-    setIsLoading(false);
+      await mutation.mutateAsync(applicationData);
+    } catch (error) {
+      console.error("Submission error:", error);
+      toast({
+        title: "Error",
+        description: "Failed to submit application",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const addEducationEntry = () => {
@@ -1215,30 +1311,4 @@ export default function StudentApplication() {
       </div>
     </div>
   );
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-
-    try {
-      // Prepare the data
-      const applicationData = {
-        ...formData,
-        educationHistory: JSON.stringify(educationHistory),
-        workExperience: JSON.stringify(workExperience),
-        userId: user?.id,
-      };
-
-      await mutation.mutateAsync(applicationData);
-    } catch (error) {
-      console.error("Submission error:", error);
-      toast({
-        title: "Error",
-        description: "Failed to submit application",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
 }
