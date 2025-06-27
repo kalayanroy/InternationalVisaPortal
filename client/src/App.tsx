@@ -44,7 +44,7 @@ function Router() {
       <Route path="/country/:id" component={CountryUniversities} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
-      <Route path="/admin" component={AdminDashboard} />
+      <Route path="/admin-dashboard" component={AdminDashboard} />
       <Route path="/student-application" component={StudentApplication} />
       <Route component={NotFound} />
     </Switch>

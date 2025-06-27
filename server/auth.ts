@@ -69,8 +69,11 @@ export const authenticateToken = async (req: AuthRequest, res: Response, next: N
 };
 
 export const requireAdmin = (req: AuthRequest, res: Response, next: NextFunction) => {
+  console.log('Checking admin access for user:', req.user);
   if (!req.user || req.user.role !== 'admin') {
+    console.log('Admin access denied for user:', req.user?.role);
     return res.status(403).json({ message: 'Admin access required' });
   }
+  console.log('Admin access granted');
   next();
 };

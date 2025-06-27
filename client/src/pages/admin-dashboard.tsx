@@ -146,24 +146,28 @@ export default function AdminDashboard() {
   const { data: dashboardData, isLoading } = useQuery({
     queryKey: ['/api/admin/dashboard'],
     enabled: isAuthenticated && isAdmin,
+    retry: false,
   });
 
   // Fetch users
   const { data: users = [], isLoading: usersLoading } = useQuery<User[]>({
     queryKey: ['/api/admin/users'],
     enabled: isAuthenticated && isAdmin,
+    retry: false,
   });
 
   // Fetch universities
   const { data: universities = [] } = useQuery<University[]>({
     queryKey: ['/api/admin/universities'],
     enabled: isAuthenticated && isAdmin,
+    retry: false,
   });
 
   // Fetch student applications
   const { data: studentApplications = [] } = useQuery<StudentApplication[]>({
     queryKey: ['/api/admin/student-applications'],
     enabled: isAuthenticated && isAdmin,
+    retry: false,
   });
 
   const stats = (dashboardData as any)?.stats || {
