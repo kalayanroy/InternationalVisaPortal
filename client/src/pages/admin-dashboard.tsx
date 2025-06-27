@@ -166,15 +166,15 @@ export default function AdminDashboard() {
     enabled: isAuthenticated && isAdmin,
   });
 
-  const stats = dashboardData?.stats || {
+  const stats = (dashboardData as any)?.stats || {
     totalInquiries: 0,
     totalStudents: 0,
     totalAppointments: 0,
     totalApplications: 0,
   };
 
-  const inquiries = dashboardData?.inquiries || [];
-  const appointments = dashboardData?.appointments || [];
+  const inquiries = (dashboardData as any)?.inquiries || [];
+  const appointments = (dashboardData as any)?.appointments || [];
 
   // Mutations for user management
   const updateUserMutation = useMutation({
