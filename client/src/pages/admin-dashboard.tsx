@@ -180,6 +180,16 @@ export default function AdminDashboard() {
   const inquiries = (dashboardData as any)?.inquiries || [];
   const appointments = (dashboardData as any)?.appointments || [];
 
+  console.log('Dashboard render state:', {
+    isLoading,
+    isAuthenticated,
+    isAdmin,
+    hasStats: !!stats,
+    hasUsers: users.length,
+    hasUniversities: universities.length,
+    hasApplications: studentApplications.length
+  });
+
   // Mutations for user management
   const updateUserMutation = useMutation({
     mutationFn: async (userData: { id: number; role: string }) => {
