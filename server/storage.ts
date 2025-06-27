@@ -53,6 +53,7 @@ export interface IStorage {
   createStudentApplication(application: InsertStudentApplication): Promise<StudentApplication>;
   getAllStudentApplications(): Promise<StudentApplication[]>;
   getStudentApplication(id: number): Promise<StudentApplication | undefined>;
+  getStudentApplicationsByUserId(userId: number): Promise<StudentApplication[]>;
   updateStudentApplicationStatus(id: number, status: string): Promise<StudentApplication | undefined>;
 }
 
@@ -227,6 +228,10 @@ export class DatabaseStorage implements IStorage {
   async getStudentApplication(id: number): Promise<StudentApplication | undefined> {
     const [application] = await db.select().from(studentApplications).where(eq(studentApplications.id, id));
     return application || undefined;
+  }
+
+  async getStudentApplicationsByUserId(userId: number): Promise<StudentApplication[]> {
+    return await db.select().from(studentApplications).where(eq(studentApplications.userId, userId));
   }
 
   async updateStudentApplicationStatus(id: number, status: string): Promise<StudentApplication | undefined> {

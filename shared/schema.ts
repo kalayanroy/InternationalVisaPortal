@@ -136,6 +136,7 @@ export type RegisterUser = z.infer<typeof registerSchema>;
 // Student Application Form Schema
 export const studentApplications = pgTable("student_applications", {
   id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id),
   // Personal Information
   fullName: varchar("full_name", { length: 100 }).notNull(),
   gender: varchar("gender", { length: 20 }).notNull(),
