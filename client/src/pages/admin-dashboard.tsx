@@ -113,8 +113,17 @@ export default function AdminDashboard() {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [selectedUniversity, setSelectedUniversity] = useState<University | null>(null);
   const [isUserDialogOpen, setIsUserDialogOpen] = useState(false);
+  const [isAddUserDialogOpen, setIsAddUserDialogOpen] = useState(false);
   const [isUniversityDialogOpen, setIsUniversityDialogOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [newUser, setNewUser] = useState({
+    username: "",
+    email: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    role: "user"
+  });
 
   // Authentication check
   useEffect(() => {
@@ -234,6 +243,87 @@ export default function AdminDashboard() {
       toast({
         title: "Error",
         description: "Failed to update application status",
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Mutation for creating new user
+  const createUserMutation = useMutation({
+    mutationFn: async (userData: typeof newUser) => {
+      const token = localStorage.getItem("token");
+      const response = await fetch("/api/admin/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(userData),
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Failed to create user");
+      }
+      
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/users'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/dashboard'] });
+      toast({
+        title: "Success",
+        description: "User created successfully",
+      });
+      setIsAddUserDialogOpen(false);
+      setNewUser({
+        username: "",
+        email: "",
+        password: "",
+        firstName: "",
+        lastName: "",
+        role: "user"
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Mutation for deleting user
+  const deleteUserMutation = useMutation({
+    mutationFn: async (userId: number) => {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`/api/admin/users/${userId}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Failed to delete user");
+      }
+      
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/users'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/dashboard'] });
+      toast({
+        title: "Success",
+        description: "User deleted successfully",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
         variant: "destructive",
       });
     },
@@ -562,10 +652,113 @@ export default function AdminDashboard() {
                     </CardTitle>
                     <CardDescription>Manage user accounts and permissions</CardDescription>
                   </div>
-                  <Button className="bg-navy hover:bg-navy/90">
-                    <UserPlus className="h-4 w-4 mr-2" />
-                    Add User
-                  </Button>
+                  <Dialog open={isAddUserDialogOpen} onOpenChange={setIsAddUserDialogOpen}>
+                    <DialogTrigger asChild>
+                      <Button className="bg-navy hover:bg-navy/90">
+                        <UserPlus className="h-4 w-4 mr-2" />
+                        Add User
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]">
+                      <DialogHeader>
+                        <DialogTitle>Add New User</DialogTitle>
+                        <DialogDescription>
+                          Create a new user account with specified role and permissions
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4 py-4">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="firstName">First Name</Label>
+                            <Input
+                              id="firstName"
+                              value={newUser.firstName}
+                              onChange={(e) => setNewUser(prev => ({...prev, firstName: e.target.value}))}
+                              placeholder="John"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="lastName">Last Name</Label>
+                            <Input
+                              id="lastName"
+                              value={newUser.lastName}
+                              onChange={(e) => setNewUser(prev => ({...prev, lastName: e.target.value}))}
+                              placeholder="Doe"
+                            />
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="username">Username</Label>
+                          <Input
+                            id="username"
+                            value={newUser.username}
+                            onChange={(e) => setNewUser(prev => ({...prev, username: e.target.value}))}
+                            placeholder="john.doe"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="email">Email</Label>
+                          <Input
+                            id="email"
+                            type="email"
+                            value={newUser.email}
+                            onChange={(e) => setNewUser(prev => ({...prev, email: e.target.value}))}
+                            placeholder="john.doe@example.com"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="password">Password</Label>
+                          <Input
+                            id="password"
+                            type="password"
+                            value={newUser.password}
+                            onChange={(e) => setNewUser(prev => ({...prev, password: e.target.value}))}
+                            placeholder="Enter password"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="role">Role</Label>
+                          <Select 
+                            value={newUser.role}
+                            onValueChange={(value) => setNewUser(prev => ({...prev, role: value}))}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select role" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="user">User</SelectItem>
+                              <SelectItem value="admin">Admin</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="flex justify-end gap-3 pt-4">
+                          <Button 
+                            variant="outline" 
+                            onClick={() => {
+                              setIsAddUserDialogOpen(false);
+                              setNewUser({
+                                username: "",
+                                email: "",
+                                password: "",
+                                firstName: "",
+                                lastName: "",
+                                role: "user"
+                              });
+                            }}
+                          >
+                            Cancel
+                          </Button>
+                          <Button 
+                            className="bg-navy hover:bg-navy/90"
+                            onClick={() => createUserMutation.mutate(newUser)}
+                            disabled={createUserMutation.isPending || !newUser.username || !newUser.email || !newUser.password}
+                          >
+                            {createUserMutation.isPending ? "Creating..." : "Create User"}
+                          </Button>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </CardHeader>
               <CardContent>
@@ -617,7 +810,7 @@ export default function AdminDashboard() {
                                 {new Date(user.createdAt).toLocaleDateString()}
                               </TableCell>
                               <TableCell>
-                                <div className="flex justify-center">
+                                <div className="flex justify-center gap-2">
                                   <Dialog 
                                     open={isUserDialogOpen && selectedUser?.id === user.id} 
                                     onOpenChange={(open) => {
@@ -684,6 +877,21 @@ export default function AdminDashboard() {
                                       </div>
                                     </DialogContent>
                                   </Dialog>
+                                  {user.role !== 'admin' && (
+                                    <Button 
+                                      variant="outline" 
+                                      size="sm"
+                                      className="hover:bg-red-50 text-red-600"
+                                      onClick={() => {
+                                        if (window.confirm(`Are you sure you want to delete user ${user.username}?`)) {
+                                          deleteUserMutation.mutate(user.id);
+                                        }
+                                      }}
+                                      disabled={deleteUserMutation.isPending}
+                                    >
+                                      <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                  )}
                                 </div>
                               </TableCell>
                             </TableRow>

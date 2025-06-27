@@ -402,7 +402,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch('/api/student-applications/:id/status', authenticateToken, async (req: any, res) => {
+  app.patch('/api/student-applications/:id/status', authenticateToken, async (req: AuthRequest, res) => {
     try {
       const { status } = req.body;
       const application = await storage.updateStudentApplicationStatus(parseInt(req.params.id), status);
@@ -413,6 +413,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error updating application status:", error);
       res.status(500).json({ message: "Failed to update application status" });
+    }
+  });
+
+  // Admin student applications
+  app.get('/api/admin/student-applications', authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const applications = await storage.getAllStudentApplications();
+      res.json(applications);
+    } catch (error) {
+      console.error("Error fetching student applications:", error);
+      res.status(500).json({ message: "Failed to fetch student applications" });
+    }
+  });
+
+  app.patch('/api/admin/student-applications/:id', authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const applicationId = parseInt(req.params.id);
+      const { status } = req.body;
+      
+      const updatedApplication = await storage.updateStudentApplicationStatus(applicationId, status);
+      if (!updatedApplication) {
+        return res.status(404).json({ message: "Application not found" });
+      }
+      
+      res.json(updatedApplication);
+    } catch (error) {
+      console.error("Error updating application:", error);
+      res.status(500).json({ message: "Failed to update application" });
+    }
+  });
+
+  // Admin universities
+  app.get('/api/admin/universities', authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const universities = await storage.getAllUniversities();
+      res.json(universities);
+    } catch (error) {
+      console.error("Error fetching universities:", error);
+      res.status(500).json({ message: "Failed to fetch universities" });
     }
   });
 

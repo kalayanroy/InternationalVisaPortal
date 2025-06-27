@@ -59,6 +59,7 @@ export interface IStorage {
   // Admin methods
   getAllUsers(): Promise<User[]>;
   updateUserRole(id: number, role: string): Promise<User | undefined>;
+  deleteUser(id: number): Promise<User | undefined>;
   getAllUniversities(): Promise<any[]>;
 }
 
