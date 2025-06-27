@@ -40,19 +40,24 @@ export const authenticateToken = async (req: AuthRequest, res: Response, next: N
   const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
 
   if (!token) {
+    console.log('No token provided in request');
     return res.status(401).json({ message: 'Access token required' });
   }
 
   try {
     const decoded = verifyToken(token);
     if (!decoded) {
+      console.log('Token verification failed');
       return res.status(403).json({ message: 'Invalid or expired token' });
     }
 
-    // Verify user still exists and is active
-    const user = await storage.getUserById(decoded.id);
-    if (!user || !user.isActive) {
-      return res.status(403).json({ message: 'User not found or inactive' });
+    console.log('Token decoded successfully:', { userId: decoded.userId, role: decoded.role });
+
+    // Verify user still exists
+    const user = await storage.getUserById(decoded.userId);
+    if (!user) {
+      console.log('User not found for ID:', decoded.userId);
+      return res.status(403).json({ message: 'User not found' });
     }
 
     req.user = {
@@ -62,8 +67,10 @@ export const authenticateToken = async (req: AuthRequest, res: Response, next: N
       role: user.role,
     };
 
+    console.log('User authenticated successfully:', { id: user.id, role: user.role });
     next();
   } catch (error) {
+    console.log('Token verification error:', error);
     return res.status(403).json({ message: 'Invalid token' });
   }
 };
