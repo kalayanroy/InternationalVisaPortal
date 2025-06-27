@@ -196,6 +196,25 @@ export const studentApplications = pgTable("student_applications", {
   // Additional Information
   additionalInfo: text("additional_info"),
   
+  // Document Upload Fields
+  passportDocument: text("passport_document"),
+  academicDocuments: text("academic_documents"),
+  englishTestScore: text("english_test_score"),
+  cvResume: text("cv_resume"),
+  statementOfPurpose: text("statement_of_purpose"),
+  experienceLetters: text("experience_letters"),
+  nationalIdDoc: text("national_id_doc"),
+  passportPhoto: text("passport_photo"),
+  birthCertificate: text("birth_certificate"),
+  financialDocuments: text("financial_documents"),
+  
+  // Declaration & Consent Fields
+  dataConsent: boolean("data_consent").default(false),
+  truthDeclaration: boolean("truth_declaration").default(false),
+  termsAcceptance: boolean("terms_acceptance").default(false),
+  digitalSignature: text("digital_signature"),
+  signatureDate: text("signature_date"),
+  
   // Status and Timestamps
   status: varchar("status", { length: 30 }).default("pending").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),

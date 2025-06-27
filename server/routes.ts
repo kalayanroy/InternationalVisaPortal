@@ -365,9 +365,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Student Application routes
-  app.post('/api/student-applications', async (req, res) => {
+  app.post('/api/student-applications', authenticateToken, async (req: AuthRequest, res) => {
     try {
-      const applicationData = req.body;
+      const applicationData = {
+        ...req.body,
+        userId: req.user?.id, // Use the authenticated user's ID
+      };
       const application = await storage.createStudentApplication(applicationData);
       res.status(201).json(application);
     } catch (error) {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,6 +17,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import Header from "@/components/header";
+import { useAuthState } from "@/hooks/useAuth";
 
 interface EducationEntry {
   level: string;
@@ -46,6 +47,7 @@ export default function StudentApplication() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const { isAuthenticated, user } = useAuthState();
 
   // Form state
   const [formData, setFormData] = useState({
@@ -61,7 +63,7 @@ export default function StudentApplication() {
     currentAddress: "",
     permanentAddress: "",
     contactNumber: "",
-    email: "",
+    email: user?.email || "",
     emergencyContactName: "",
     emergencyContactRelation: "",
     emergencyContactPhone: "",
@@ -1203,6 +1205,7 @@ export default function StudentApplication() {
                 size="lg"
                 className="bg-gradient-to-r from-navy to-blue-700 hover:from-navy/90 hover:to-blue-700/90 text-white px-12 py-6 text-lg font-semibold"
                 disabled={isLoading || mutation.isPending}
+                type="submit"
               >
                 {isLoading || mutation.isPending ? "Submitting..." : "Submit Application"}
               </Button>
@@ -1212,4 +1215,30 @@ export default function StudentApplication() {
       </div>
     </div>
   );
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      // Prepare the data
+      const applicationData = {
+        ...formData,
+        educationHistory: JSON.stringify(educationHistory),
+        workExperience: JSON.stringify(workExperience),
+        userId: user?.id,
+      };
+
+      await mutation.mutateAsync(applicationData);
+    } catch (error) {
+      console.error("Submission error:", error);
+      toast({
+        title: "Error",
+        description: "Failed to submit application",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 }
