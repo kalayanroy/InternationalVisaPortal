@@ -59,6 +59,8 @@ export interface IStorage {
   // Admin methods
   getAllUsers(): Promise<User[]>;
   updateUserRole(id: number, role: string): Promise<User | undefined>;
+  updateUser(id: number, updates: Partial<Pick<User, 'firstName' | 'lastName' | 'username' | 'email' | 'role'>>): Promise<User | undefined>;
+  resetUserPassword(id: number, newPassword: string): Promise<User | undefined>;
   deleteUser(id: number): Promise<User | undefined>;
   getAllUniversities(): Promise<any[]>;
 }

@@ -1,28 +1,54 @@
 import { useEffect, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { 
-  Users, 
-  FileText, 
-  Calendar, 
-  GraduationCap, 
-  Eye, 
-  Plus, 
-  Edit, 
-  Trash2, 
-  School, 
-  UserCheck, 
-  Clock, 
+import {
+  Users,
+  FileText,
+  Calendar,
+  GraduationCap,
+  Eye,
+  Plus,
+  Edit,
+  Trash2,
+  School,
+  UserCheck,
+  Clock,
   AlertCircle,
   Activity,
   TrendingUp,
@@ -34,7 +60,7 @@ import {
   UserPlus,
   BarChart3,
   Globe,
-  Mail
+  Mail,
 } from "lucide-react";
 import { useAuthState } from "@/hooks/useAuth";
 import { useLocation } from "wouter";
@@ -111,7 +137,8 @@ export default function AdminDashboard() {
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState("overview");
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [selectedUniversity, setSelectedUniversity] = useState<University | null>(null);
+  const [selectedUniversity, setSelectedUniversity] =
+    useState<University | null>(null);
   const [isUserDialogOpen, setIsUserDialogOpen] = useState(false);
   const [isAddUserDialogOpen, setIsAddUserDialogOpen] = useState(false);
   const [isUniversityDialogOpen, setIsUniversityDialogOpen] = useState(false);
@@ -122,7 +149,7 @@ export default function AdminDashboard() {
     password: "",
     firstName: "",
     lastName: "",
-    role: "user"
+    role: "user",
   });
 
   // Authentication check
@@ -144,28 +171,28 @@ export default function AdminDashboard() {
 
   // Fetch dashboard data
   const { data: dashboardData, isLoading } = useQuery({
-    queryKey: ['/api/admin/dashboard'],
+    queryKey: ["/api/admin/dashboard"],
     enabled: isAuthenticated && isAdmin,
     retry: false,
   });
 
   // Fetch users
   const { data: users = [], isLoading: usersLoading } = useQuery<User[]>({
-    queryKey: ['/api/admin/users'],
+    queryKey: ["/api/admin/users"],
     enabled: isAuthenticated && isAdmin,
     retry: false,
   });
 
   // Fetch universities
   const { data: universities = [] } = useQuery<University[]>({
-    queryKey: ['/api/admin/universities'],
+    queryKey: ["/api/admin/universities"],
     enabled: isAuthenticated && isAdmin,
     retry: false,
   });
 
   // Fetch student applications
   const { data: studentApplications = [] } = useQuery<StudentApplication[]>({
-    queryKey: ['/api/admin/student-applications'],
+    queryKey: ["/api/admin/student-applications"],
     enabled: isAuthenticated && isAdmin,
     retry: false,
   });
@@ -180,14 +207,14 @@ export default function AdminDashboard() {
   const inquiries = (dashboardData as any)?.inquiries || [];
   const appointments = (dashboardData as any)?.appointments || [];
 
-  console.log('Dashboard render state:', {
+  console.log("Dashboard render state:", {
     isLoading,
     isAuthenticated,
     isAdmin,
     hasStats: !!stats,
     hasUsers: users.length,
     hasUniversities: universities.length,
-    hasApplications: studentApplications.length
+    hasApplications: studentApplications.length,
   });
 
   // Mutations for user management
@@ -198,19 +225,19 @@ export default function AdminDashboard() {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ role: userData.role }),
       });
-      
+
       if (!response.ok) {
         throw new Error("Failed to update user");
       }
-      
+
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/admin/users'] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
       toast({
         title: "Success",
         description: "User updated successfully",
@@ -231,23 +258,28 @@ export default function AdminDashboard() {
   const updateApplicationMutation = useMutation({
     mutationFn: async (data: { id: number; status: string }) => {
       const token = localStorage.getItem("token");
-      const response = await fetch(`/api/admin/student-applications/${data.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+      const response = await fetch(
+        `/api/admin/student-applications/${data.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ status: data.status }),
         },
-        body: JSON.stringify({ status: data.status }),
-      });
-      
+      );
+
       if (!response.ok) {
         throw new Error("Failed to update application");
       }
-      
+
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/admin/student-applications'] });
+      queryClient.invalidateQueries({
+        queryKey: ["/api/admin/student-applications"],
+      });
       toast({
         title: "Success",
         description: "Application status updated successfully",
@@ -270,21 +302,21 @@ export default function AdminDashboard() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(userData),
       });
-      
+
       if (!response.ok) {
         const error = await response.json();
         throw new Error(error.message || "Failed to create user");
       }
-      
+
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/admin/users'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/admin/dashboard'] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/dashboard"] });
       toast({
         title: "Success",
         description: "User created successfully",
@@ -296,7 +328,7 @@ export default function AdminDashboard() {
         password: "",
         firstName: "",
         lastName: "",
-        role: "user"
+        role: "user",
       });
     },
     onError: (error: Error) => {
@@ -315,20 +347,20 @@ export default function AdminDashboard() {
       const response = await fetch(`/api/admin/users/${userId}`, {
         method: "DELETE",
         headers: {
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
-      
+
       if (!response.ok) {
         const error = await response.json();
         throw new Error(error.message || "Failed to delete user");
       }
-      
+
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/admin/users'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/admin/dashboard'] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/dashboard"] });
       toast({
         title: "Success",
         description: "User deleted successfully",
@@ -344,13 +376,16 @@ export default function AdminDashboard() {
   });
 
   // Filter users based on search term
-  const filteredUsers = users.filter((user: User) =>
-    user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (user.firstName && user.firstName.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    (user.lastName && user.lastName.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredUsers = users.filter(
+    (user: User) =>
+      user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (user.firstName &&
+        user.firstName.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (user.lastName &&
+        user.lastName.toLowerCase().includes(searchTerm.toLowerCase())),
   );
-
+  console.log("Filtered users:", users);
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
@@ -374,33 +409,39 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <Header />
-      
+
       {/* Dashboard Header */}
       <div className="pt-24 pb-8 bg-gradient-to-r from-navy via-blue-900 to-navy">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
             <div className="mb-6 lg:mb-0">
-              <h1 className="text-4xl font-bold text-white mb-2">Admin Dashboard</h1>
-              <p className="text-blue-100 text-lg">Welcome back, {user?.firstName || user?.username}</p>
-              <p className="text-blue-200 text-sm mt-1">Manage your education platform with comprehensive tools</p>
+              <h1 className="text-4xl font-bold text-white mb-2">
+                Admin Dashboard
+              </h1>
+              <p className="text-blue-100 text-lg">
+                Welcome back, {user?.firstName || user?.username}
+              </p>
+              <p className="text-blue-200 text-sm mt-1">
+                Manage your education platform with comprehensive tools
+              </p>
             </div>
             <div className="flex items-center gap-4">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 className="border-white/20 text-white hover:bg-white/10 backdrop-blur-sm"
               >
                 <Download className="h-4 w-4 mr-2" />
                 Export Data
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 className="border-white/20 text-white hover:bg-white/10 backdrop-blur-sm"
               >
                 <Bell className="h-4 w-4 mr-2" />
                 Notifications
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 className="border-white/20 text-white hover:bg-white/10 backdrop-blur-sm"
               >
                 <Settings className="h-4 w-4 mr-2" />
@@ -412,7 +453,11 @@ export default function AdminDashboard() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
+        <Tabs
+          value={activeTab}
+          onValueChange={setActiveTab}
+          className="space-y-8"
+        >
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <TabsList className="grid w-full sm:w-auto grid-cols-2 lg:grid-cols-4 bg-white/80 backdrop-blur-sm">
               <TabsTrigger value="overview" className="flex items-center gap-2">
@@ -423,16 +468,22 @@ export default function AdminDashboard() {
                 <Users className="h-4 w-4" />
                 Users
               </TabsTrigger>
-              <TabsTrigger value="applications" className="flex items-center gap-2">
+              <TabsTrigger
+                value="applications"
+                className="flex items-center gap-2"
+              >
                 <GraduationCap className="h-4 w-4" />
                 Applications
               </TabsTrigger>
-              <TabsTrigger value="universities" className="flex items-center gap-2">
+              <TabsTrigger
+                value="universities"
+                className="flex items-center gap-2"
+              >
                 <School className="h-4 w-4" />
                 Universities
               </TabsTrigger>
             </TabsList>
-            
+
             <div className="flex items-center gap-3">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -443,7 +494,11 @@ export default function AdminDashboard() {
                   className="pl-10 bg-white/80 backdrop-blur-sm border-gray-200"
                 />
               </div>
-              <Button variant="outline" size="sm" className="bg-white/80 backdrop-blur-sm">
+              <Button
+                variant="outline"
+                size="sm"
+                className="bg-white/80 backdrop-blur-sm"
+              >
                 <Filter className="h-4 w-4" />
               </Button>
             </div>
@@ -457,9 +512,15 @@ export default function AdminDashboard() {
                 <CardContent className="p-6 relative z-10">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-blue-100 text-sm font-medium">Contact Inquiries</p>
-                      <p className="text-3xl font-bold">{stats.totalInquiries}</p>
-                      <p className="text-blue-200 text-xs mt-1">+12% from last month</p>
+                      <p className="text-blue-100 text-sm font-medium">
+                        Contact Inquiries
+                      </p>
+                      <p className="text-3xl font-bold">
+                        {stats.totalInquiries}
+                      </p>
+                      <p className="text-blue-200 text-xs mt-1">
+                        +12% from last month
+                      </p>
                     </div>
                     <div className="p-3 bg-white/20 rounded-xl">
                       <Mail className="h-6 w-6" />
@@ -473,9 +534,13 @@ export default function AdminDashboard() {
                 <CardContent className="p-6 relative z-10">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-green-100 text-sm font-medium">Total Users</p>
+                      <p className="text-green-100 text-sm font-medium">
+                        Total Users
+                      </p>
                       <p className="text-3xl font-bold">{users.length}</p>
-                      <p className="text-green-200 text-xs mt-1">+5% from last month</p>
+                      <p className="text-green-200 text-xs mt-1">
+                        +5% from last month
+                      </p>
                     </div>
                     <div className="p-3 bg-white/20 rounded-xl">
                       <Users className="h-6 w-6" />
@@ -489,9 +554,15 @@ export default function AdminDashboard() {
                 <CardContent className="p-6 relative z-10">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-orange-100 text-sm font-medium">Appointments</p>
-                      <p className="text-3xl font-bold">{stats.totalAppointments}</p>
-                      <p className="text-orange-200 text-xs mt-1">+8% from last month</p>
+                      <p className="text-orange-100 text-sm font-medium">
+                        Appointments
+                      </p>
+                      <p className="text-3xl font-bold">
+                        {stats.totalAppointments}
+                      </p>
+                      <p className="text-orange-200 text-xs mt-1">
+                        +8% from last month
+                      </p>
                     </div>
                     <div className="p-3 bg-white/20 rounded-xl">
                       <Calendar className="h-6 w-6" />
@@ -505,9 +576,15 @@ export default function AdminDashboard() {
                 <CardContent className="p-6 relative z-10">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-purple-100 text-sm font-medium">Applications</p>
-                      <p className="text-3xl font-bold">{studentApplications.length}</p>
-                      <p className="text-purple-200 text-xs mt-1">+15% from last month</p>
+                      <p className="text-purple-100 text-sm font-medium">
+                        Applications
+                      </p>
+                      <p className="text-3xl font-bold">
+                        {studentApplications.length}
+                      </p>
+                      <p className="text-purple-200 text-xs mt-1">
+                        +15% from last month
+                      </p>
                     </div>
                     <div className="p-3 bg-white/20 rounded-xl">
                       <GraduationCap className="h-6 w-6" />
@@ -524,7 +601,9 @@ export default function AdminDashboard() {
                   <Activity className="h-5 w-5" />
                   Quick Actions
                 </CardTitle>
-                <CardDescription>Frequently used administrative actions</CardDescription>
+                <CardDescription>
+                  Frequently used administrative actions
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -542,14 +621,18 @@ export default function AdminDashboard() {
                     onClick={() => setActiveTab("applications")}
                   >
                     <FileText className="h-6 w-6 text-green-600" />
-                    <span className="text-sm font-medium">Review Applications</span>
+                    <span className="text-sm font-medium">
+                      Review Applications
+                    </span>
                   </Button>
                   <Button
                     variant="outline"
                     className="h-24 flex flex-col items-center justify-center gap-2 bg-orange-50 hover:bg-orange-100 border-orange-200"
                   >
                     <Calendar className="h-6 w-6 text-orange-600" />
-                    <span className="text-sm font-medium">View Appointments</span>
+                    <span className="text-sm font-medium">
+                      View Appointments
+                    </span>
                   </Button>
                   <Button
                     variant="outline"
@@ -557,7 +640,9 @@ export default function AdminDashboard() {
                     onClick={() => setActiveTab("universities")}
                   >
                     <School className="h-6 w-6 text-purple-600" />
-                    <span className="text-sm font-medium">Manage Universities</span>
+                    <span className="text-sm font-medium">
+                      Manage Universities
+                    </span>
                   </Button>
                 </div>
               </CardContent>
@@ -572,26 +657,39 @@ export default function AdminDashboard() {
                     <Mail className="h-5 w-5" />
                     Recent Contact Inquiries
                   </CardTitle>
-                  <CardDescription>Latest contact form submissions</CardDescription>
+                  <CardDescription>
+                    Latest contact form submissions
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
                     {inquiries.length > 0 ? (
                       inquiries.slice(0, 5).map((inquiry: ContactInquiry) => (
-                        <div key={inquiry.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-100">
+                        <div
+                          key={inquiry.id}
+                          className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-100"
+                        >
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1">
-                              <h4 className="font-semibold text-navy">{inquiry.firstName} {inquiry.lastName}</h4>
+                              <h4 className="font-semibold text-navy">
+                                {inquiry.firstName} {inquiry.lastName}
+                              </h4>
                               <Badge variant="outline" className="text-xs">
                                 New
                               </Badge>
                             </div>
-                            <p className="text-sm text-gray-600">{inquiry.email}</p>
+                            <p className="text-sm text-gray-600">
+                              {inquiry.email}
+                            </p>
                             <p className="text-xs text-gray-500 mt-1">
                               {new Date(inquiry.createdAt).toLocaleDateString()}
                             </p>
                           </div>
-                          <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-blue-600 hover:text-blue-700"
+                          >
                             <Eye className="h-4 w-4" />
                           </Button>
                         </div>
@@ -613,36 +711,55 @@ export default function AdminDashboard() {
                     <Calendar className="h-5 w-5" />
                     Recent Appointments
                   </CardTitle>
-                  <CardDescription>Latest consultation bookings</CardDescription>
+                  <CardDescription>
+                    Latest consultation bookings
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
                     {appointments.length > 0 ? (
-                      appointments.slice(0, 5).map((appointment: Appointment) => (
-                        <div key={appointment.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-100">
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
-                              <h4 className="font-semibold text-navy">{appointment.firstName} {appointment.lastName}</h4>
-                              <Badge 
-                                variant={
-                                  appointment.status === 'confirmed' ? 'default' : 
-                                  appointment.status === 'pending' ? 'secondary' : 'destructive'
-                                }
-                                className="text-xs"
-                              >
-                                {appointment.status}
-                              </Badge>
+                      appointments
+                        .slice(0, 5)
+                        .map((appointment: Appointment) => (
+                          <div
+                            key={appointment.id}
+                            className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-100"
+                          >
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-1">
+                                <h4 className="font-semibold text-navy">
+                                  {appointment.firstName} {appointment.lastName}
+                                </h4>
+                                <Badge
+                                  variant={
+                                    appointment.status === "confirmed"
+                                      ? "default"
+                                      : appointment.status === "pending"
+                                        ? "secondary"
+                                        : "destructive"
+                                  }
+                                  className="text-xs"
+                                >
+                                  {appointment.status}
+                                </Badge>
+                              </div>
+                              <p className="text-sm text-gray-600">
+                                {appointment.consultationType}
+                              </p>
+                              <p className="text-xs text-gray-500 mt-1">
+                                {appointment.preferredDate} at{" "}
+                                {appointment.preferredTime}
+                              </p>
                             </div>
-                            <p className="text-sm text-gray-600">{appointment.consultationType}</p>
-                            <p className="text-xs text-gray-500 mt-1">
-                              {appointment.preferredDate} at {appointment.preferredTime}
-                            </p>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="text-blue-600 hover:text-blue-700"
+                            >
+                              <Eye className="h-4 w-4" />
+                            </Button>
                           </div>
-                          <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700">
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      ))
+                        ))
                     ) : (
                       <div className="text-center py-8 text-gray-500">
                         <Calendar className="h-12 w-12 mx-auto mb-4 text-gray-300" />
@@ -664,9 +781,14 @@ export default function AdminDashboard() {
                       <Users className="h-5 w-5" />
                       User Management
                     </CardTitle>
-                    <CardDescription>Manage user accounts and permissions</CardDescription>
+                    <CardDescription>
+                      Manage user accounts and permissions
+                    </CardDescription>
                   </div>
-                  <Dialog open={isAddUserDialogOpen} onOpenChange={setIsAddUserDialogOpen}>
+                  <Dialog
+                    open={isAddUserDialogOpen}
+                    onOpenChange={setIsAddUserDialogOpen}
+                  >
                     <DialogTrigger asChild>
                       <Button className="bg-navy hover:bg-navy/90">
                         <UserPlus className="h-4 w-4 mr-2" />
@@ -677,7 +799,8 @@ export default function AdminDashboard() {
                       <DialogHeader>
                         <DialogTitle>Add New User</DialogTitle>
                         <DialogDescription>
-                          Create a new user account with specified role and permissions
+                          Create a new user account with specified role and
+                          permissions
                         </DialogDescription>
                       </DialogHeader>
                       <div className="space-y-4 py-4">
@@ -687,7 +810,12 @@ export default function AdminDashboard() {
                             <Input
                               id="firstName"
                               value={newUser.firstName}
-                              onChange={(e) => setNewUser(prev => ({...prev, firstName: e.target.value}))}
+                              onChange={(e) =>
+                                setNewUser((prev) => ({
+                                  ...prev,
+                                  firstName: e.target.value,
+                                }))
+                              }
                               placeholder="John"
                             />
                           </div>
@@ -696,7 +824,12 @@ export default function AdminDashboard() {
                             <Input
                               id="lastName"
                               value={newUser.lastName}
-                              onChange={(e) => setNewUser(prev => ({...prev, lastName: e.target.value}))}
+                              onChange={(e) =>
+                                setNewUser((prev) => ({
+                                  ...prev,
+                                  lastName: e.target.value,
+                                }))
+                              }
                               placeholder="Doe"
                             />
                           </div>
@@ -706,7 +839,12 @@ export default function AdminDashboard() {
                           <Input
                             id="username"
                             value={newUser.username}
-                            onChange={(e) => setNewUser(prev => ({...prev, username: e.target.value}))}
+                            onChange={(e) =>
+                              setNewUser((prev) => ({
+                                ...prev,
+                                username: e.target.value,
+                              }))
+                            }
                             placeholder="john.doe"
                           />
                         </div>
@@ -716,7 +854,12 @@ export default function AdminDashboard() {
                             id="email"
                             type="email"
                             value={newUser.email}
-                            onChange={(e) => setNewUser(prev => ({...prev, email: e.target.value}))}
+                            onChange={(e) =>
+                              setNewUser((prev) => ({
+                                ...prev,
+                                email: e.target.value,
+                              }))
+                            }
                             placeholder="john.doe@example.com"
                           />
                         </div>
@@ -726,15 +869,22 @@ export default function AdminDashboard() {
                             id="password"
                             type="password"
                             value={newUser.password}
-                            onChange={(e) => setNewUser(prev => ({...prev, password: e.target.value}))}
+                            onChange={(e) =>
+                              setNewUser((prev) => ({
+                                ...prev,
+                                password: e.target.value,
+                              }))
+                            }
                             placeholder="Enter password"
                           />
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="role">Role</Label>
-                          <Select 
+                          <Select
                             value={newUser.role}
-                            onValueChange={(value) => setNewUser(prev => ({...prev, role: value}))}
+                            onValueChange={(value) =>
+                              setNewUser((prev) => ({ ...prev, role: value }))
+                            }
                           >
                             <SelectTrigger>
                               <SelectValue placeholder="Select role" />
@@ -746,8 +896,8 @@ export default function AdminDashboard() {
                           </Select>
                         </div>
                         <div className="flex justify-end gap-3 pt-4">
-                          <Button 
-                            variant="outline" 
+                          <Button
+                            variant="outline"
                             onClick={() => {
                               setIsAddUserDialogOpen(false);
                               setNewUser({
@@ -756,18 +906,25 @@ export default function AdminDashboard() {
                                 password: "",
                                 firstName: "",
                                 lastName: "",
-                                role: "user"
+                                role: "user",
                               });
                             }}
                           >
                             Cancel
                           </Button>
-                          <Button 
+                          <Button
                             className="bg-navy hover:bg-navy/90"
                             onClick={() => createUserMutation.mutate(newUser)}
-                            disabled={createUserMutation.isPending || !newUser.username || !newUser.email || !newUser.password}
+                            disabled={
+                              createUserMutation.isPending ||
+                              !newUser.username ||
+                              !newUser.email ||
+                              !newUser.password
+                            }
                           >
-                            {createUserMutation.isPending ? "Creating..." : "Create User"}
+                            {createUserMutation.isPending
+                              ? "Creating..."
+                              : "Create User"}
                           </Button>
                         </div>
                       </div>
@@ -787,35 +944,56 @@ export default function AdminDashboard() {
                         <TableRow className="bg-gray-50">
                           <TableHead className="font-semibold">Name</TableHead>
                           <TableHead className="font-semibold">Email</TableHead>
-                          <TableHead className="font-semibold">Username</TableHead>
+                          <TableHead className="font-semibold">
+                            Username
+                          </TableHead>
                           <TableHead className="font-semibold">Role</TableHead>
-                          <TableHead className="font-semibold">Joined</TableHead>
-                          <TableHead className="font-semibold text-center">Actions</TableHead>
+                          <TableHead className="font-semibold">
+                            Joined
+                          </TableHead>
+                          <TableHead className="font-semibold text-center">
+                            Actions
+                          </TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
                         {filteredUsers.length > 0 ? (
                           filteredUsers.map((user: User) => (
-                            <TableRow key={user.id} className="hover:bg-gray-50">
+                            <TableRow
+                              key={user.id}
+                              className="hover:bg-gray-50"
+                            >
                               <TableCell>
                                 <div className="flex items-center gap-3">
                                   <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
-                                    {(user.firstName?.charAt(0) || user.username.charAt(0)).toUpperCase()}
+                                    {(
+                                      user.firstName?.charAt(0) ||
+                                      user.username.charAt(0)
+                                    ).toUpperCase()}
                                   </div>
                                   <div className="font-medium">
-                                    {user.firstName && user.lastName 
-                                      ? `${user.firstName} ${user.lastName}` 
-                                      : user.username
-                                    }
+                                    {user.firstName && user.lastName
+                                      ? `${user.firstName} ${user.lastName}`
+                                      : user.username}
                                   </div>
                                 </div>
                               </TableCell>
-                              <TableCell className="text-gray-600">{user.email}</TableCell>
-                              <TableCell className="text-gray-600">{user.username}</TableCell>
+                              <TableCell className="text-gray-600">
+                                {user.email}
+                              </TableCell>
+                              <TableCell className="text-gray-600">
+                                {user.username}
+                              </TableCell>
                               <TableCell>
-                                <Badge 
-                                  variant={user.role === 'admin' ? 'default' : 'secondary'}
-                                  className={user.role === 'admin' ? 'bg-navy' : ''}
+                                <Badge
+                                  variant={
+                                    user.role === "admin"
+                                      ? "default"
+                                      : "secondary"
+                                  }
+                                  className={
+                                    user.role === "admin" ? "bg-navy" : ""
+                                  }
                                 >
                                   {user.role}
                                 </Badge>
@@ -825,16 +1003,19 @@ export default function AdminDashboard() {
                               </TableCell>
                               <TableCell>
                                 <div className="flex justify-center gap-2">
-                                  <Dialog 
-                                    open={isUserDialogOpen && selectedUser?.id === user.id} 
+                                  <Dialog
+                                    open={
+                                      isUserDialogOpen &&
+                                      selectedUser?.id === user.id
+                                    }
                                     onOpenChange={(open) => {
                                       setIsUserDialogOpen(open);
                                       if (!open) setSelectedUser(null);
                                     }}
                                   >
                                     <DialogTrigger asChild>
-                                      <Button 
-                                        variant="outline" 
+                                      <Button
+                                        variant="outline"
                                         size="sm"
                                         className="hover:bg-blue-50"
                                         onClick={() => setSelectedUser(user)}
@@ -844,32 +1025,45 @@ export default function AdminDashboard() {
                                     </DialogTrigger>
                                     <DialogContent className="sm:max-w-[425px]">
                                       <DialogHeader>
-                                        <DialogTitle>Edit User Role</DialogTitle>
+                                        <DialogTitle>
+                                          Edit User Role
+                                        </DialogTitle>
                                         <DialogDescription>
-                                          Update user permissions and role settings
+                                          Update user permissions and role
+                                          settings
                                         </DialogDescription>
                                       </DialogHeader>
                                       <div className="space-y-4 py-4">
                                         <div className="space-y-2">
-                                          <Label htmlFor="role">User Role</Label>
-                                          <Select 
-                                            value={selectedUser?.role || 'user'}
-                                            onValueChange={(value) => 
-                                              setSelectedUser(prev => prev ? {...prev, role: value} : null)
+                                          <Label htmlFor="role">
+                                            User Role
+                                          </Label>
+                                          <Select
+                                            value={selectedUser?.role || "user"}
+                                            onValueChange={(value) =>
+                                              setSelectedUser((prev) =>
+                                                prev
+                                                  ? { ...prev, role: value }
+                                                  : null,
+                                              )
                                             }
                                           >
                                             <SelectTrigger>
                                               <SelectValue placeholder="Select role" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                              <SelectItem value="user">User</SelectItem>
-                                              <SelectItem value="admin">Admin</SelectItem>
+                                              <SelectItem value="user">
+                                                User
+                                              </SelectItem>
+                                              <SelectItem value="admin">
+                                                Admin
+                                              </SelectItem>
                                             </SelectContent>
                                           </Select>
                                         </div>
                                         <div className="flex justify-end gap-3 pt-4">
-                                          <Button 
-                                            variant="outline" 
+                                          <Button
+                                            variant="outline"
                                             onClick={() => {
                                               setIsUserDialogOpen(false);
                                               setSelectedUser(null);
@@ -877,27 +1071,38 @@ export default function AdminDashboard() {
                                           >
                                             Cancel
                                           </Button>
-                                          <Button 
+                                          <Button
                                             className="bg-navy hover:bg-navy/90"
-                                            onClick={() => selectedUser && updateUserMutation.mutate({ 
-                                              id: selectedUser.id, 
-                                              role: selectedUser.role 
-                                            })}
-                                            disabled={updateUserMutation.isPending}
+                                            onClick={() =>
+                                              selectedUser &&
+                                              updateUserMutation.mutate({
+                                                id: selectedUser.id,
+                                                role: selectedUser.role,
+                                              })
+                                            }
+                                            disabled={
+                                              updateUserMutation.isPending
+                                            }
                                           >
-                                            {updateUserMutation.isPending ? "Updating..." : "Update Role"}
+                                            {updateUserMutation.isPending
+                                              ? "Updating..."
+                                              : "Update Role"}
                                           </Button>
                                         </div>
                                       </div>
                                     </DialogContent>
                                   </Dialog>
-                                  {user.role !== 'admin' && (
-                                    <Button 
-                                      variant="outline" 
+                                  {user.role !== "admin" && (
+                                    <Button
+                                      variant="outline"
                                       size="sm"
                                       className="hover:bg-red-50 text-red-600"
                                       onClick={() => {
-                                        if (window.confirm(`Are you sure you want to delete user ${user.username}?`)) {
+                                        if (
+                                          window.confirm(
+                                            `Are you sure you want to delete user ${user.username}?`,
+                                          )
+                                        ) {
                                           deleteUserMutation.mutate(user.id);
                                         }
                                       }}
@@ -912,9 +1117,14 @@ export default function AdminDashboard() {
                           ))
                         ) : (
                           <TableRow>
-                            <TableCell colSpan={6} className="text-center py-12 text-gray-500">
+                            <TableCell
+                              colSpan={6}
+                              className="text-center py-12 text-gray-500"
+                            >
                               <Users className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-                              {searchTerm ? "No users found matching your search" : "No users found"}
+                              {searchTerm
+                                ? "No users found matching your search"
+                                : "No users found"}
                             </TableCell>
                           </TableRow>
                         )}
@@ -933,81 +1143,137 @@ export default function AdminDashboard() {
                   <GraduationCap className="h-5 w-5" />
                   Student Applications
                 </CardTitle>
-                <CardDescription>Review and manage student applications</CardDescription>
+                <CardDescription>
+                  Review and manage student applications
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="rounded-md border">
                   <Table>
                     <TableHeader>
                       <TableRow className="bg-gray-50">
-                        <TableHead className="font-semibold">Student Name</TableHead>
+                        <TableHead className="font-semibold">
+                          Student Name
+                        </TableHead>
                         <TableHead className="font-semibold">Email</TableHead>
-                        <TableHead className="font-semibold">Preferred Countries</TableHead>
-                        <TableHead className="font-semibold">Study Level</TableHead>
+                        <TableHead className="font-semibold">
+                          Preferred Countries
+                        </TableHead>
+                        <TableHead className="font-semibold">
+                          Study Level
+                        </TableHead>
                         <TableHead className="font-semibold">Status</TableHead>
-                        <TableHead className="font-semibold">Submitted</TableHead>
-                        <TableHead className="font-semibold text-center">Actions</TableHead>
+                        <TableHead className="font-semibold">
+                          Submitted
+                        </TableHead>
+                        <TableHead className="font-semibold text-center">
+                          Actions
+                        </TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {studentApplications.length > 0 ? (
-                        studentApplications.map((application: StudentApplication) => (
-                          <TableRow key={application.id} className="hover:bg-gray-50">
-                            <TableCell>
-                              <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
-                                  {application.fullName.charAt(0).toUpperCase()}
+                        studentApplications.map(
+                          (application: StudentApplication) => (
+                            <TableRow
+                              key={application.id}
+                              className="hover:bg-gray-50"
+                            >
+                              <TableCell>
+                                <div className="flex items-center gap-3">
+                                  <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                                    {application.fullName
+                                      .charAt(0)
+                                      .toUpperCase()}
+                                  </div>
+                                  <div className="font-medium">
+                                    {application.fullName}
+                                  </div>
                                 </div>
-                                <div className="font-medium">{application.fullName}</div>
-                              </div>
-                            </TableCell>
-                            <TableCell className="text-gray-600">{application.email}</TableCell>
-                            <TableCell className="text-gray-600">{application.preferredCountries}</TableCell>
-                            <TableCell className="text-gray-600">{application.studyLevel}</TableCell>
-                            <TableCell>
-                              <Badge 
-                                variant={
-                                  application.status === 'approved' ? 'default' : 
-                                  application.status === 'pending' ? 'secondary' : 
-                                  application.status === 'rejected' ? 'destructive' : 'outline'
-                                }
-                                className={application.status === 'approved' ? 'bg-green-600' : 
-                                          application.status === 'pending' ? 'bg-yellow-600' : ''}
-                              >
-                                {application.status}
-                              </Badge>
-                            </TableCell>
-                            <TableCell className="text-gray-600">
-                              {new Date(application.createdAt).toLocaleDateString()}
-                            </TableCell>
-                            <TableCell>
-                              <div className="flex justify-center gap-2">
-                                <Select 
-                                  value={application.status}
-                                  onValueChange={(value) => 
-                                    updateApplicationMutation.mutate({ id: application.id, status: value })
+                              </TableCell>
+                              <TableCell className="text-gray-600">
+                                {application.email}
+                              </TableCell>
+                              <TableCell className="text-gray-600">
+                                {application.preferredCountries}
+                              </TableCell>
+                              <TableCell className="text-gray-600">
+                                {application.studyLevel}
+                              </TableCell>
+                              <TableCell>
+                                <Badge
+                                  variant={
+                                    application.status === "approved"
+                                      ? "default"
+                                      : application.status === "pending"
+                                        ? "secondary"
+                                        : application.status === "rejected"
+                                          ? "destructive"
+                                          : "outline"
+                                  }
+                                  className={
+                                    application.status === "approved"
+                                      ? "bg-green-600"
+                                      : application.status === "pending"
+                                        ? "bg-yellow-600"
+                                        : ""
                                   }
                                 >
-                                  <SelectTrigger className="w-32">
-                                    <SelectValue />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    <SelectItem value="pending">Pending</SelectItem>
-                                    <SelectItem value="approved">Approved</SelectItem>
-                                    <SelectItem value="rejected">Rejected</SelectItem>
-                                    <SelectItem value="under_review">Under Review</SelectItem>
-                                  </SelectContent>
-                                </Select>
-                                <Button variant="outline" size="sm" className="hover:bg-blue-50">
-                                  <Eye className="h-4 w-4" />
-                                </Button>
-                              </div>
-                            </TableCell>
-                          </TableRow>
-                        ))
+                                  {application.status}
+                                </Badge>
+                              </TableCell>
+                              <TableCell className="text-gray-600">
+                                {new Date(
+                                  application.createdAt,
+                                ).toLocaleDateString()}
+                              </TableCell>
+                              <TableCell>
+                                <div className="flex justify-center gap-2">
+                                  <Select
+                                    value={application.status}
+                                    onValueChange={(value) =>
+                                      updateApplicationMutation.mutate({
+                                        id: application.id,
+                                        status: value,
+                                      })
+                                    }
+                                  >
+                                    <SelectTrigger className="w-32">
+                                      <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      <SelectItem value="pending">
+                                        Pending
+                                      </SelectItem>
+                                      <SelectItem value="approved">
+                                        Approved
+                                      </SelectItem>
+                                      <SelectItem value="rejected">
+                                        Rejected
+                                      </SelectItem>
+                                      <SelectItem value="under_review">
+                                        Under Review
+                                      </SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="hover:bg-blue-50"
+                                  >
+                                    <Eye className="h-4 w-4" />
+                                  </Button>
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          ),
+                        )
                       ) : (
                         <TableRow>
-                          <TableCell colSpan={7} className="text-center py-12 text-gray-500">
+                          <TableCell
+                            colSpan={7}
+                            className="text-center py-12 text-gray-500"
+                          >
                             <GraduationCap className="h-12 w-12 mx-auto mb-4 text-gray-300" />
                             <p>No applications found</p>
                           </TableCell>
@@ -1029,7 +1295,9 @@ export default function AdminDashboard() {
                       <School className="h-5 w-5" />
                       University Management
                     </CardTitle>
-                    <CardDescription>Manage university listings and information</CardDescription>
+                    <CardDescription>
+                      Manage university listings and information
+                    </CardDescription>
                   </div>
                   <Button className="bg-navy hover:bg-navy/90">
                     <Plus className="h-4 w-4 mr-2" />
@@ -1042,24 +1310,35 @@ export default function AdminDashboard() {
                   <Table>
                     <TableHeader>
                       <TableRow className="bg-gray-50">
-                        <TableHead className="font-semibold">University Name</TableHead>
+                        <TableHead className="font-semibold">
+                          University Name
+                        </TableHead>
                         <TableHead className="font-semibold">Country</TableHead>
                         <TableHead className="font-semibold">City</TableHead>
                         <TableHead className="font-semibold">Ranking</TableHead>
-                        <TableHead className="font-semibold">Tuition Fee</TableHead>
-                        <TableHead className="font-semibold text-center">Actions</TableHead>
+                        <TableHead className="font-semibold">
+                          Tuition Fee
+                        </TableHead>
+                        <TableHead className="font-semibold text-center">
+                          Actions
+                        </TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {universities.length > 0 ? (
                         universities.map((university: University) => (
-                          <TableRow key={university.id} className="hover:bg-gray-50">
+                          <TableRow
+                            key={university.id}
+                            className="hover:bg-gray-50"
+                          >
                             <TableCell>
                               <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
                                   {university.name.charAt(0)}
                                 </div>
-                                <div className="font-medium">{university.name}</div>
+                                <div className="font-medium">
+                                  {university.name}
+                                </div>
                               </div>
                             </TableCell>
                             <TableCell className="text-gray-600">
@@ -1068,19 +1347,31 @@ export default function AdminDashboard() {
                                 {university.country}
                               </div>
                             </TableCell>
-                            <TableCell className="text-gray-600">{university.city}</TableCell>
+                            <TableCell className="text-gray-600">
+                              {university.city}
+                            </TableCell>
                             <TableCell>
                               <Badge variant="outline" className="font-medium">
                                 #{university.ranking}
                               </Badge>
                             </TableCell>
-                            <TableCell className="text-gray-600 font-medium">{university.tuitionFee}</TableCell>
+                            <TableCell className="text-gray-600 font-medium">
+                              {university.tuitionFee}
+                            </TableCell>
                             <TableCell>
                               <div className="flex justify-center gap-2">
-                                <Button variant="outline" size="sm" className="hover:bg-blue-50">
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="hover:bg-blue-50"
+                                >
                                   <Edit className="h-4 w-4" />
                                 </Button>
-                                <Button variant="outline" size="sm" className="hover:bg-red-50 text-red-600">
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="hover:bg-red-50 text-red-600"
+                                >
                                   <Trash2 className="h-4 w-4" />
                                 </Button>
                               </div>
@@ -1089,7 +1380,10 @@ export default function AdminDashboard() {
                         ))
                       ) : (
                         <TableRow>
-                          <TableCell colSpan={6} className="text-center py-12 text-gray-500">
+                          <TableCell
+                            colSpan={6}
+                            className="text-center py-12 text-gray-500"
+                          >
                             <School className="h-12 w-12 mx-auto mb-4 text-gray-300" />
                             <p>No universities found</p>
                           </TableCell>
