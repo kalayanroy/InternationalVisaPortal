@@ -142,7 +142,19 @@ export default function AdminDashboard() {
   const [isUserDialogOpen, setIsUserDialogOpen] = useState(false);
   const [isAddUserDialogOpen, setIsAddUserDialogOpen] = useState(false);
   const [isUniversityDialogOpen, setIsUniversityDialogOpen] = useState(false);
+  const [isPasswordResetDialogOpen, setIsPasswordResetDialogOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [editUserData, setEditUserData] = useState({
+    firstName: "",
+    lastName: "",
+    username: "",
+    email: "",
+    role: "user"
+  });
+  const [resetPasswordData, setResetPasswordData] = useState({
+    newPassword: "",
+    confirmPassword: ""
+  });
   const [newUser, setNewUser] = useState({
     username: "",
     email: "",
@@ -219,7 +231,14 @@ export default function AdminDashboard() {
 
   // Mutations for user management
   const updateUserMutation = useMutation({
-    mutationFn: async (userData: { id: number; firstName?: string; lastName?: string; username?: string; email?: string; role?: string }) => {
+    mutationFn: async (userData: {
+      id: number;
+      firstName?: string;
+      lastName?: string;
+      username?: string;
+      email?: string;
+      role?: string;
+    }) => {
       const token = localStorage.getItem("token");
       const response = await fetch(`/api/admin/users/${userData.id}`, {
         method: "PATCH",
@@ -244,7 +263,13 @@ export default function AdminDashboard() {
       });
       setIsUserDialogOpen(false);
       setSelectedUser(null);
-      setEditUserData({ firstName: "", lastName: "", username: "", email: "", role: "user" });
+      setEditUserData({
+        firstName: "",
+        lastName: "",
+        username: "",
+        email: "",
+        role: "user",
+      });
     },
     onError: (error: Error) => {
       toast({
@@ -259,19 +284,22 @@ export default function AdminDashboard() {
   const resetPasswordMutation = useMutation({
     mutationFn: async (data: { userId: number; newPassword: string }) => {
       const token = localStorage.getItem("token");
-      const response = await fetch(`/api/admin/users/${data.userId}/reset-password`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+      const response = await fetch(
+        `/api/admin/users/${data.userId}/reset-password`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ newPassword: data.newPassword }),
         },
-        body: JSON.stringify({ newPassword: data.newPassword }),
-      });
-      
+      );
+
       if (!response.ok) {
         throw new Error("Failed to reset password");
       }
-      
+
       return response.json();
     },
     onSuccess: () => {
