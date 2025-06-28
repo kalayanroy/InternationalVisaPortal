@@ -142,19 +142,7 @@ export default function AdminDashboard() {
   const [isUserDialogOpen, setIsUserDialogOpen] = useState(false);
   const [isAddUserDialogOpen, setIsAddUserDialogOpen] = useState(false);
   const [isUniversityDialogOpen, setIsUniversityDialogOpen] = useState(false);
-  const [isPasswordResetDialogOpen, setIsPasswordResetDialogOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [editUserData, setEditUserData] = useState({
-    firstName: "",
-    lastName: "",
-    username: "",
-    email: "",
-    role: "user"
-  });
-  const [resetPasswordData, setResetPasswordData] = useState({
-    newPassword: "",
-    confirmPassword: ""
-  });
   const [newUser, setNewUser] = useState({
     username: "",
     email: "",
@@ -1099,6 +1087,40 @@ export default function AdminDashboard() {
                                         </DialogDescription>
                                       </DialogHeader>
                                       <div className="space-y-4 py-4">
+                                        <div className="grid grid-cols-2 gap-4">
+                                          <div className="space-y-2">
+                                            <Label htmlFor="firstName">
+                                              First Name
+                                            </Label>
+                                            <Input
+                                              id="firstName"
+                                              value={newUser.firstName}
+                                              onChange={(e) =>
+                                                setNewUser((prev) => ({
+                                                  ...prev,
+                                                  firstName: e.target.value,
+                                                }))
+                                              }
+                                              placeholder="John"
+                                            />
+                                          </div>
+                                          <div className="space-y-2">
+                                            <Label htmlFor="lastName">
+                                              Last Name
+                                            </Label>
+                                            <Input
+                                              id="lastName"
+                                              value={newUser.lastName}
+                                              onChange={(e) =>
+                                                setNewUser((prev) => ({
+                                                  ...prev,
+                                                  lastName: e.target.value,
+                                                }))
+                                              }
+                                              placeholder="Doe"
+                                            />
+                                          </div>
+                                        </div>
                                         <div className="space-y-2">
                                           <Label htmlFor="role">
                                             User Role
