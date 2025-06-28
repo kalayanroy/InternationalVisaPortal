@@ -219,7 +219,7 @@ export default function AdminDashboard() {
 
   // Mutations for user management
   const updateUserMutation = useMutation({
-    mutationFn: async (userData: { id: number; role: string }) => {
+    mutationFn: async (userData: { id: number; firstName?: string; lastName?: string; username?: string; email?: string; role?: string }) => {
       const token = localStorage.getItem("token");
       const response = await fetch(`/api/admin/users/${userData.id}`, {
         method: "PATCH",
@@ -227,7 +227,7 @@ export default function AdminDashboard() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ role: userData.role }),
+        body: JSON.stringify(userData),
       });
 
       if (!response.ok) {
@@ -244,11 +244,49 @@ export default function AdminDashboard() {
       });
       setIsUserDialogOpen(false);
       setSelectedUser(null);
+      setEditUserData({ firstName: "", lastName: "", username: "", email: "", role: "user" });
     },
-    onError: () => {
+    onError: (error: Error) => {
       toast({
         title: "Error",
-        description: "Failed to update user",
+        description: error.message || "Failed to update user",
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Reset password mutation
+  const resetPasswordMutation = useMutation({
+    mutationFn: async (data: { userId: number; newPassword: string }) => {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`/api/admin/users/${data.userId}/reset-password`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ newPassword: data.newPassword }),
+      });
+      
+      if (!response.ok) {
+        throw new Error("Failed to reset password");
+      }
+      
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Password reset successfully",
+      });
+      setIsPasswordResetDialogOpen(false);
+      setSelectedUser(null);
+      setResetPasswordData({ newPassword: "", confirmPassword: "" });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to reset password",
         variant: "destructive",
       });
     },
@@ -385,7 +423,6 @@ export default function AdminDashboard() {
       (user.lastName &&
         user.lastName.toLowerCase().includes(searchTerm.toLowerCase())),
   );
-  console.log("Filtered users:", users);
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">

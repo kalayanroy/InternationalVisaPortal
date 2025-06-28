@@ -268,6 +268,35 @@ export class DatabaseStorage implements IStorage {
     return user || undefined;
   }
 
+  async updateUser(id: number, updates: Partial<Pick<User, 'firstName' | 'lastName' | 'username' | 'email' | 'role'>>): Promise<User | undefined> {
+    const updateData = {
+      ...updates,
+      updatedAt: new Date()
+    };
+    
+    const [updatedUser] = await db
+      .update(users)
+      .set(updateData)
+      .where(eq(users.id, id))
+      .returning();
+    return updatedUser;
+  }
+
+  async resetUserPassword(id: number, newPassword: string): Promise<User | undefined> {
+    const bcrypt = await import('bcryptjs');
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+    
+    const [updatedUser] = await db
+      .update(users)
+      .set({ 
+        password: hashedPassword,
+        updatedAt: new Date()
+      })
+      .where(eq(users.id, id))
+      .returning();
+    return updatedUser;
+  }
+
   async getAllUniversities(): Promise<any[]> {
     // Return sample university data for now
     return [
