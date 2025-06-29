@@ -15,7 +15,10 @@ import {
   insertApplicationSchema,
 } from "@shared/schema";
 import { z } from "zod";
-
+// It's good practice to have password complexity requirements here.
+const passwordResetSchema = z.object({
+  password: z.string().min(8, "Password must be at least 8 characters long"),
+});
 export async function registerRoutes(app: Express): Promise<Server> {
   // Authentication routes
   app.post("/api/auth/register", async (req, res) => {
@@ -407,6 +410,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
           ...req.body,
           userId: req.user?.id, // Use the authenticated user's ID
         };
+        if (!applicationData.planningTestDate) {
+          applicationData.planningTestDate = new Date();
+        }
+        console.log("Creating student application with data:", applicationData);
+
         const application =
           await storage.createStudentApplication(applicationData);
         res.status(201).json(application);
@@ -610,6 +618,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
       } catch (error) {
         console.error("Error updating user role:", error);
         res.status(500).json({ message: "Failed to update user role" });
+      }
+    },
+  );
+
+  // New endpoint for resetting user password
+  app.patch(
+    "/api/admin/users/:id/reset-password", // Correct endpoint path
+    authenticateToken,
+    requireAdmin,
+    async (req: AuthRequest, res) => {
+      try {
+        const userId = parseInt(req.params.id);
+        // Validate the new password using Zod schema
+        const { password } = passwordResetSchema.parse(req.body);
+
+        // Assume storage.updateUserPassword handles hashing and database update
+        const updatedUser = await storage.resetUserPassword(userId, password);
+
+        if (!updatedUser) {
+          return res.status(404).json({ message: "User not found" });
+        }
+
+        res.json({ message: "Password reset successfully" });
+      } catch (error) {
+        console.error("Error resetting user password:", error);
+        if (error instanceof z.ZodError) {
+          // Handle Zod validation errors
+          return res
+            .status(400)
+            .json({ message: "Validation error", errors: error.errors });
+        }
+        res.status(500).json({ message: "Failed to reset user password" });
       }
     },
   );
