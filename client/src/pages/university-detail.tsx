@@ -59,7 +59,8 @@ const countryData = {
         ranking: "#32",
         acceptance: "35%",
         tuition: "AUD 27,916",
-        image: "https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        image:
+          "https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
         specialties: ["Business", "Medicine", "Law", "Engineering"],
         topCourses: [
           "Undergraduate",
@@ -67,7 +68,8 @@ const countryData = {
           "PhD (HDR)",
           "OSHC (Health Cover)",
         ],
-        description: "Leading Australian university with world-class research and academic programs.",
+        description:
+          "Leading Australian university with world-class research and academic programs.",
         students: "25,000+",
         international: "40%",
         founded: 1946,
@@ -79,7 +81,8 @@ const countryData = {
         ranking: "#600",
         acceptance: "60-70%",
         tuition: "AUD 33,000",
-        image: "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=400&h=300&fit=crop&auto=format",
+        image:
+          "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=400&h=300&fit=crop&auto=format",
         specialties: [
           "Computer Science",
           "Engineering",
@@ -87,7 +90,8 @@ const countryData = {
           "Medicine",
         ],
         topCourses: ["Undergraduate", "Postgraduate", "MBA Program"],
-        description: "Private university known for small class sizes and personalized education.",
+        description:
+          "Private university known for small class sizes and personalized education.",
         students: "5,000+",
         international: "50%",
         founded: 1989,
@@ -362,28 +366,43 @@ const countryData = {
 
 export default function UniversityDetail() {
   const [location] = useLocation();
-  
-  // Extract university and country from URL path
+
+  // Extract university and country from URL path and query parameters
   const universityData = useMemo(() => {
-    // Parse URL like /university/harvard/usa or /university/nationalUniversity/australia
-    const pathParts = location.split('/');
-    if (pathParts.length >= 4 && pathParts[1] === 'university') {
+    // Parse URL like /university/harvard?country=usa
+    const [path, queryString] = location.split("?");
+    const pathParts = path.split("/");
+    console.log("Path Parts:", pathParts);
+    console.log("Query String:", queryString);
+    
+    if (pathParts.length >= 3 && pathParts[1] === "university") {
       const universityId = pathParts[2];
-      const countryId = pathParts[3];
+      console.log("University ID:", universityId);
       
-      const country = (countryData as any)[countryId];
-      if (country && country.universities) {
-        const university = country.universities.find((u: any) => u.id === universityId);
-        if (university) {
-          return { university, country };
+      // Parse query parameters
+      const urlParams = new URLSearchParams(queryString || "");
+      const countryId = urlParams.get("country");
+      console.log("Country ID:", countryId);
+      
+      if (countryId) {
+        const country = (countryData as any)[countryId];
+        if (country && country.universities) {
+          const university = country.universities.find(
+            (u: any) => u.id === universityId,
+          );
+          if (university) {
+            console.log("Found university:", university.name);
+            return { university, country };
+          }
         }
       }
     }
-    
+
     // Default fallback to Harvard
+    console.log("Using fallback to Harvard");
     return {
       university: countryData.usa.universities[0],
-      country: countryData.usa
+      country: countryData.usa,
     };
   }, [location]);
 
@@ -395,16 +414,22 @@ export default function UniversityDetail() {
   const { university, country } = universityData;
 
   // Generate school programs based on university specialties
-  const schools = university.specialties.map((specialty: string, index: number) => ({
-    name: `${university.name} - ${specialty}`,
-    tuition: university.tuition,
-    duration: index % 2 === 0 ? "4 years" : "2 years",
-    requirements: specialty === "Medicine" ? "MCAT, Pre-med courses" : 
-                  specialty === "Business" ? "GMAT/GRE, Work experience" :
-                  specialty === "Law" ? "LSAT, Bachelor's degree" :
-                  "SAT/ACT, Strong academic background",
-    deadline: "Application deadlines vary by program",
-  }));
+  const schools = university.specialties.map(
+    (specialty: string, index: number) => ({
+      name: `${university.name} - ${specialty}`,
+      tuition: university.tuition,
+      duration: index % 2 === 0 ? "4 years" : "2 years",
+      requirements:
+        specialty === "Medicine"
+          ? "MCAT, Pre-med courses"
+          : specialty === "Business"
+            ? "GMAT/GRE, Work experience"
+            : specialty === "Law"
+              ? "LSAT, Bachelor's degree"
+              : "SAT/ACT, Strong academic background",
+      deadline: "Application deadlines vary by program",
+    }),
+  );
 
   const visaRequirements = {
     f1Visa: {
@@ -551,9 +576,7 @@ export default function UniversityDetail() {
                 </div>
                 <div className="flex items-center">
                   <Users className="h-5 w-5 mr-2 text-gold" />
-                  <span>
-                    {university.students.toLocaleString()} students
-                  </span>
+                  <span>{university.students.toLocaleString()} students</span>
                 </div>
               </div>
             </div>
