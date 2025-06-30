@@ -263,6 +263,7 @@ export type StudentApplication = typeof studentApplications.$inferSelect;
 // Schools table for attachment system
 export const schools = pgTable("schools", {
   id: serial("id").primaryKey(),
+  universityId: integer("university_id").references(() => universities.id, { onDelete: "cascade" }).notNull(),
   name: varchar("name", { length: 255 }).notNull(),
   tuition: varchar("tuition", { length: 100 }),
   duration: varchar("duration", { length: 100 }),
@@ -285,6 +286,7 @@ export type School = typeof schools.$inferSelect;
 // Visa Requirements table
 export const visaRequirements = pgTable("visa_requirements", {
   id: serial("id").primaryKey(),
+  universityId: integer("university_id").references(() => universities.id, { onDelete: "cascade" }).notNull(),
   visaType: varchar("visa_type", { length: 50 }).notNull(), // f1Visa, j1Visa
   processing: varchar("processing", { length: 100 }),
   fee: varchar("fee", { length: 50 }),
@@ -306,6 +308,7 @@ export type VisaRequirement = typeof visaRequirements.$inferSelect;
 // Costs table
 export const costs = pgTable("costs", {
   id: serial("id").primaryKey(),
+  universityId: integer("university_id").references(() => universities.id, { onDelete: "cascade" }).notNull(),
   category: varchar("category", { length: 100 }).notNull(), // undergraduate, graduate
   tuition: varchar("tuition", { length: 100 }),
   fees: varchar("fees", { length: 100 }),
@@ -329,6 +332,7 @@ export type Cost = typeof costs.$inferSelect;
 // Scholarships table
 export const scholarships = pgTable("scholarships", {
   id: serial("id").primaryKey(),
+  universityId: integer("university_id").references(() => universities.id, { onDelete: "cascade" }).notNull(),
   name: varchar("name", { length: 255 }).notNull(),
   amount: varchar("amount", { length: 100 }),
   criteria: text("criteria"),
@@ -349,6 +353,7 @@ export type Scholarship = typeof scholarships.$inferSelect;
 // Admission Timeline table
 export const admissionTimeline = pgTable("admission_timeline", {
   id: serial("id").primaryKey(),
+  universityId: integer("university_id").references(() => universities.id, { onDelete: "cascade" }).notNull(),
   date: varchar("date", { length: 100 }).notNull(),
   task: text("task").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
