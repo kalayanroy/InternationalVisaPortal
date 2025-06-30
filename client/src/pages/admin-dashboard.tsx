@@ -1632,7 +1632,10 @@ export default function AdminDashboard() {
                       Manage university listings and information
                     </CardDescription>
                   </div>
-                  <Button className="bg-navy hover:bg-navy/90">
+                  <Button 
+                    className="bg-navy hover:bg-navy/90"
+                    onClick={() => setLocation("/add-university")}
+                  >
                     <Plus className="h-4 w-4 mr-2" />
                     Add University
                   </Button>
