@@ -162,7 +162,7 @@ export default function Navigation() {
               <Link href="/login">
                 <Button
                   variant="outline"
-                  className="text-black border-navy w-full mt-4"
+                  className="text-blacks border-navy w-full mt-4"
                   onClick={closeMenu}
                 >
                   Login

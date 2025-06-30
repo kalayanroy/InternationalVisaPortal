@@ -14,6 +14,68 @@ import {
 } from "lucide-react";
 // Country data - in a real app this would come from an API
 const countryData = {
+  australia: {
+    id: "australia",
+    name: "Australia",
+    code: "AU",
+    flag: "🇦🇺",
+    description:
+      "World-class education in a vibrant multicultural environment with great weather.",
+    image:
+      "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    stats: {
+      universities: "4,000+",
+      internationalStudents: "1M+",
+      programs: "15,000+",
+      states: "50",
+    },
+    topUniversities: [
+      "Australian National University",
+      "Bond University",
+      "University of Sydney",
+      "More +",
+    ],
+    keyBenefits: [
+      //"Silicon Valley Access",
+      //"Research Excellence",
+      //"Career Opportunities",
+    ],
+    universities: [
+      {
+        id: "nationalUniversity",
+        name: "Australian National University",
+        location: "Canberra, the capital city of Australia",
+        ranking: "#32",
+        acceptance: "35%",
+        tuition: "AUD 27,916",
+        image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        specialties: ["Business", "Medicine", "Law", "Engineering"],
+        topCourses: [
+          "Undergraduate",
+          "Postgraduate",
+          "PhD (HDR)",
+          "OSHC (Health Cover)",
+        ],
+      },
+      {
+        id: "bond",
+        name: "Bond University",
+        location: "Robina on the Gold Coast in Queensland, Australia",
+        ranking: "#600",
+        acceptance: "60-70%",
+        tuition: "AUD 33,000",
+        image:
+          "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=400&h=300&fit=crop&auto=format",
+        specialties: [
+          "Computer Science",
+          "Engineering",
+          "Business",
+          "Medicine",
+        ],
+        topCourses: ["Undergraduate", "Postgraduate", "MBA Program"],
+      },
+    ],
+  },
   usa: {
     id: "usa",
     name: "United States",
@@ -410,7 +472,7 @@ export default function CountryUniversities() {
 
                     <div className="mb-4">
                       <h4 className="font-semibold text-navy mb-2 text-sm">
-                        Key Specialties
+                        Specialties
                       </h4>
                       <div className="flex flex-wrap gap-1">
                         {university.specialties

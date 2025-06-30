@@ -245,7 +245,7 @@ export default function UniversityDetail() {
               <Card className="bg-white/95 backdrop-blur-sm border-0 shadow-2xl">
                 <CardContent className="p-8">
                   <h3 className="text-2xl font-bold text-navy mb-6">
-                    Key Statistics
+                    Statistics
                   </h3>
                   <div className="space-y-4">
                     <div className="flex justify-between items-center">

@@ -24,6 +24,69 @@ import {
 
 // Country data - in a real app this would come from an API
 const countryData = {
+  australia: {
+    id: "australia",
+    name: "Australia",
+    code: "AU",
+    flag: "🇦🇺",
+    description:
+      "World-class education in a vibrant multicultural environment with great weather.",
+    image:
+      "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    stats: {
+      universities: "4,000+",
+      internationalStudents: "1M+",
+      programs: "15,000+",
+      states: "50",
+    },
+    topUniversities: [
+      "Australian National University",
+      "Bond University",
+      "University of Sydney",
+      "More +",
+    ],
+    keyBenefits: [
+      //"Silicon Valley Access",
+      //"Research Excellence",
+      //"Career Opportunities",
+    ],
+    universities: [
+      {
+        id: "nationalUniversity",
+        name: "Australian National University",
+        location: "Canberra, the capital city of Australia",
+        ranking: "#32",
+        acceptance: "35%",
+        tuition: "AUD 27,916",
+        image:
+          "https://images.unsplash.com/photo-1562774053-701939374585?w=400&h=300&fit=crop&auto=format",
+        specialties: ["Business", "Medicine", "Law", "Engineering"],
+        topCourses: [
+          "Undergraduate",
+          "Postgraduate",
+          "PhD (HDR)",
+          "OSHC (Health Cover)",
+        ],
+      },
+      {
+        id: "bond",
+        name: "Bond University",
+        location: "Robina on the Gold Coast in Queensland, Australia",
+        ranking: "#600",
+        acceptance: "60-70%",
+        tuition: "AUD 33,000",
+        image:
+          "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=400&h=300&fit=crop&auto=format",
+        specialties: [
+          "Computer Science",
+          "Engineering",
+          "Business",
+          "Medicine",
+        ],
+        topCourses: ["Undergraduate", "Postgraduate", "MBA Program"],
+      },
+    ],
+  },
   usa: {
     id: "usa",
     name: "United States",
@@ -302,9 +365,7 @@ export default function CountryUniversities() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-white ">
-     c
-
-      {/* Hero Section with Video Background */}
+      c{/* Hero Section with Video Background */}
       <div className="relative h-screen overflow-hidden bg-slate-100">
         <div className="absolute inset-0">
           {/* Video Background */}
@@ -345,7 +406,6 @@ export default function CountryUniversities() {
           </div>
         </div>
       </div>
-
       {/* Statistics Banner - Premium Design */}
       <div className="relative bg-gradient-to-r from-slate-50 to-white overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-50/50 to-indigo-50/50"></div>
@@ -371,7 +431,6 @@ export default function CountryUniversities() {
           </div>
         </div>
       </div>
-
       {/* Universities Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-12">
