@@ -5,6 +5,7 @@ import {
   appointments, 
   applications,
   studentApplications,
+  universities,
   type User, 
   type InsertUser, 
   type ContactInquiry, 
@@ -17,6 +18,8 @@ import {
   type InsertApplication,
   type StudentApplication,
   type InsertStudentApplication,
+  type University,
+  type InsertUniversity,
   type LoginUser,
   type RegisterUser,
 } from "@shared/schema";

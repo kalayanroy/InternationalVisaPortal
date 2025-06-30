@@ -23,6 +23,7 @@ import Login from "@/pages/login";
 import Register from "@/pages/register";
 import AdminDashboard from "@/pages/admin-dashboard";
 import StudentApplication from "@/pages/student-application";
+import AddUniversity from "@/pages/add-university";
 
 function Router() {
   return (
@@ -46,6 +47,7 @@ function Router() {
       <Route path="/register" component={Register} />
       <Route path="/admin-dashboard" component={AdminDashboard} />
       <Route path="/student-application" component={StudentApplication} />
+      <Route path="/add-university" component={AddUniversity} />
       <Route component={NotFound} />
     </Switch>
   );
