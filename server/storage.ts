@@ -468,6 +468,10 @@ export class DatabaseStorage implements IStorage {
     return await db.select().from(costs).orderBy(desc(costs.createdAt));
   }
 
+  async getCostsByUniversity(universityId: number): Promise<Cost[]> {
+    return await db.select().from(costs).where(eq(costs.universityId, universityId)).orderBy(desc(costs.createdAt));
+  }
+
   async createCost(insertCost: InsertCost): Promise<Cost> {
     const [cost] = await db
       .insert(costs)
@@ -498,6 +502,10 @@ export class DatabaseStorage implements IStorage {
     return await db.select().from(scholarships).orderBy(desc(scholarships.createdAt));
   }
 
+  async getScholarshipsByUniversity(universityId: number): Promise<Scholarship[]> {
+    return await db.select().from(scholarships).where(eq(scholarships.universityId, universityId)).orderBy(desc(scholarships.createdAt));
+  }
+
   async createScholarship(insertScholarship: InsertScholarship): Promise<Scholarship> {
     const [scholarship] = await db
       .insert(scholarships)
@@ -526,6 +534,10 @@ export class DatabaseStorage implements IStorage {
   // Admission Timeline methods
   async getAllAdmissionTimeline(): Promise<AdmissionTimeline[]> {
     return await db.select().from(admissionTimeline).orderBy(desc(admissionTimeline.createdAt));
+  }
+
+  async getAdmissionTimelineByUniversity(universityId: number): Promise<AdmissionTimeline[]> {
+    return await db.select().from(admissionTimeline).where(eq(admissionTimeline.universityId, universityId)).orderBy(desc(admissionTimeline.createdAt));
   }
 
   async createAdmissionTimeline(insertTimeline: InsertAdmissionTimeline): Promise<AdmissionTimeline> {

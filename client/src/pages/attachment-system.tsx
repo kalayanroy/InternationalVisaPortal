@@ -25,26 +25,41 @@ export default function AttachmentSystem() {
   // Fetch all attachment data (now filtered by university)
   const { data: schools = [], isLoading: schoolsLoading } = useQuery({
     queryKey: ["/api/admin/schools", selectedUniversityId],
+    queryFn: () => fetch(`/api/admin/schools?universityId=${selectedUniversityId}`, {
+      headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+    }).then(res => res.json()),
     enabled: !!selectedUniversityId,
   });
 
   const { data: visaRequirements = [], isLoading: visaLoading } = useQuery({
     queryKey: ["/api/admin/visa-requirements", selectedUniversityId],
+    queryFn: () => fetch(`/api/admin/visa-requirements?universityId=${selectedUniversityId}`, {
+      headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+    }).then(res => res.json()),
     enabled: !!selectedUniversityId,
   });
 
   const { data: costs = [], isLoading: costsLoading } = useQuery({
     queryKey: ["/api/admin/costs", selectedUniversityId],
+    queryFn: () => fetch(`/api/admin/costs?universityId=${selectedUniversityId}`, {
+      headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+    }).then(res => res.json()),
     enabled: !!selectedUniversityId,
   });
 
   const { data: scholarships = [], isLoading: scholarshipsLoading } = useQuery({
     queryKey: ["/api/admin/scholarships", selectedUniversityId],
+    queryFn: () => fetch(`/api/admin/scholarships?universityId=${selectedUniversityId}`, {
+      headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+    }).then(res => res.json()),
     enabled: !!selectedUniversityId,
   });
 
   const { data: admissionTimeline = [], isLoading: timelineLoading } = useQuery({
     queryKey: ["/api/admin/admission-timeline", selectedUniversityId],
+    queryFn: () => fetch(`/api/admin/admission-timeline?universityId=${selectedUniversityId}`, {
+      headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+    }).then(res => res.json()),
     enabled: !!selectedUniversityId,
   });
 

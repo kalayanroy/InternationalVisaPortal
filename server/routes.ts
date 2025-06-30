@@ -771,7 +771,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Visa Requirements routes
   app.get('/api/admin/visa-requirements', authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
     try {
-      const visaReqs = await storage.getAllVisaRequirements();
+      const universityId = req.query.universityId as string;
+      const visaReqs = await storage.getVisaRequirementsByUniversity(parseInt(universityId));
       res.json(visaReqs);
     } catch (error) {
       console.error("Error fetching visa requirements:", error);
@@ -793,7 +794,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Costs routes
   app.get('/api/admin/costs', authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
     try {
-      const costs = await storage.getAllCosts();
+      const universityId = req.query.universityId as string;
+      const costs = await storage.getCostsByUniversity(parseInt(universityId));
       res.json(costs);
     } catch (error) {
       console.error("Error fetching costs:", error);
@@ -815,7 +817,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Scholarships routes
   app.get('/api/admin/scholarships', authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
     try {
-      const scholarships = await storage.getAllScholarships();
+      const universityId = req.query.universityId as string;
+      const scholarships = await storage.getScholarshipsByUniversity(parseInt(universityId));
       res.json(scholarships);
     } catch (error) {
       console.error("Error fetching scholarships:", error);
@@ -837,7 +840,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Admission Timeline routes
   app.get('/api/admin/admission-timeline', authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
     try {
-      const timeline = await storage.getAllAdmissionTimeline();
+      const universityId = req.query.universityId as string;
+      const timeline = await storage.getAdmissionTimelineByUniversity(parseInt(universityId));
       res.json(timeline);
     } catch (error) {
       console.error("Error fetching admission timeline:", error);
