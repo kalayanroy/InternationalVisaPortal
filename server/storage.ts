@@ -62,7 +62,12 @@ export interface IStorage {
   updateUser(id: number, updates: Partial<Pick<User, 'firstName' | 'lastName' | 'username' | 'email' | 'role'>>): Promise<User | undefined>;
   resetUserPassword(id: number, newPassword: string): Promise<User | undefined>;
   deleteUser(id: number): Promise<User | undefined>;
-  getAllUniversities(): Promise<any[]>;
+  
+  // University management
+  getAllUniversities(): Promise<University[]>;
+  createUniversity(university: InsertUniversity): Promise<University>;
+  updateUniversity(id: number, updates: Partial<University>): Promise<University | undefined>;
+  deleteUniversity(id: number): Promise<University | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -297,40 +302,41 @@ export class DatabaseStorage implements IStorage {
     return updatedUser;
   }
 
-  async getAllUniversities(): Promise<any[]> {
-    // Return sample university data for now
-    return [
-      {
-        id: 1,
-        name: "Harvard University",
-        country: "USA",
-        city: "Cambridge",
-        ranking: 1,
-        tuitionFee: "$50,000/year",
-        requirements: "SAT: 1520+, GPA: 3.9+",
-        createdAt: new Date().toISOString(),
-      },
-      {
-        id: 2,
-        name: "Oxford University",
-        country: "UK",
-        city: "Oxford",
-        ranking: 2,
-        tuitionFee: "£35,000/year",
-        requirements: "A-Levels: A*A*A",
-        createdAt: new Date().toISOString(),
-      },
-      {
-        id: 3,
-        name: "University of Toronto",
-        country: "Canada",
-        city: "Toronto",
-        ranking: 15,
-        tuitionFee: "CAD 45,000/year",
-        requirements: "GPA: 3.7+, IELTS: 7.0+",
-        createdAt: new Date().toISOString(),
-      },
-    ];
+  async getAllUniversities(): Promise<University[]> {
+    const allUniversities = await db.select().from(universities);
+    return allUniversities;
+  }
+
+  async createUniversity(insertUniversity: InsertUniversity): Promise<University> {
+    const [university] = await db
+      .insert(universities)
+      .values({
+        ...insertUniversity,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })
+      .returning();
+    return university;
+  }
+
+  async updateUniversity(id: number, updates: Partial<University>): Promise<University | undefined> {
+    const [university] = await db
+      .update(universities)
+      .set({
+        ...updates,
+        updatedAt: new Date(),
+      })
+      .where(eq(universities.id, id))
+      .returning();
+    return university;
+  }
+
+  async deleteUniversity(id: number): Promise<University | undefined> {
+    const [deletedUniversity] = await db
+      .delete(universities)
+      .where(eq(universities.id, id))
+      .returning();
+    return deletedUniversity;
   }
 }
 

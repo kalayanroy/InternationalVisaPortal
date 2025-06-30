@@ -136,6 +136,60 @@ export default function AdminDashboard() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
+
+  // Mutation for creating university
+  const createUniversityMutation = useMutation({
+    mutationFn: async (universityData: any) => {
+      const token = localStorage.getItem("token");
+      const response = await fetch('/api/admin/universities', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(universityData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to create university');
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/universities"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/dashboard"] });
+      toast({
+        title: "Success",
+        description: "University created successfully",
+      });
+      setIsAddUniversityDialogOpen(false);
+      setNewUniversity({
+        countryId: "",
+        name: "",
+        country: "",
+        flag: "",
+        city: "",
+        ranking: "",
+        tuitionFee: "",
+        requirements: "",
+        programs: "",
+        students: "",
+        image: "",
+        description: "",
+        highlights: "",
+        topUniversities: "",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
   const [activeTab, setActiveTab] = useState("overview");
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [selectedUniversity, setSelectedUniversity] =

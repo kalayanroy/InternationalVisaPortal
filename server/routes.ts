@@ -546,6 +546,67 @@ export async function registerRoutes(app: Express): Promise<Server> {
     },
   );
 
+  app.post(
+    "/api/admin/universities",
+    authenticateToken,
+    requireAdmin,
+    async (req: AuthRequest, res) => {
+      try {
+        const universityData = req.body;
+        console.log('Creating university:', universityData);
+        
+        const newUniversity = await storage.createUniversity(universityData);
+        res.status(201).json(newUniversity);
+      } catch (error) {
+        console.error("Error creating university:", error);
+        res.status(500).json({ message: "Failed to create university" });
+      }
+    },
+  );
+
+  app.patch(
+    "/api/admin/universities/:id",
+    authenticateToken,
+    requireAdmin,
+    async (req: AuthRequest, res) => {
+      try {
+        const universityId = parseInt(req.params.id);
+        const updates = req.body;
+        
+        const updatedUniversity = await storage.updateUniversity(universityId, updates);
+        if (!updatedUniversity) {
+          return res.status(404).json({ message: "University not found" });
+        }
+        
+        res.json(updatedUniversity);
+      } catch (error) {
+        console.error("Error updating university:", error);
+        res.status(500).json({ message: "Failed to update university" });
+      }
+    },
+  );
+
+  app.delete(
+    "/api/admin/universities/:id",
+    authenticateToken,
+    requireAdmin,
+    async (req: AuthRequest, res) => {
+      try {
+        const universityId = parseInt(req.params.id);
+        
+        const deletedUniversity = await storage.deleteUniversity(universityId);
+        if (!deletedUniversity) {
+          return res.status(404).json({ message: "University not found" });
+        }
+        
+        res.json({ message: "University deleted successfully" });
+      } catch (error) {
+        console.error("Error deleting university:", error);
+        res.status(500).json({ message: "Failed to delete university" });
+      }
+    },
+  );
+
   // Admin user management routes
   app.get(
     "/api/admin/users",
