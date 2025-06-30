@@ -12,6 +12,11 @@ import {
   Star,
   BookOpen,
 } from "lucide-react";
+
+// Import available assets
+import dashboardImage from "@assets/image_1751013500039.png";
+import universityManagementImage from "@assets/image_1751297651502.png";
+import formImage from "@assets/image_1751004684136.png";
 // Country data - in a real app this would come from an API
 const countryData = {
   australia: {
@@ -48,7 +53,7 @@ const countryData = {
         ranking: "#32",
         acceptance: "35%",
         tuition: "AUD 27,916",
-        image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        image: "https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
         specialties: ["Business", "Medicine", "Law", "Engineering"],
         topCourses: [
           "Undergraduate",
