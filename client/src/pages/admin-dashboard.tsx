@@ -1658,8 +1658,8 @@ export default function AdminDashboard() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {universities.length > 0 ? (
-                        universities.map((university: University) => (
+                      {universities && universities.length > 0 ? (
+                        universities.map((university: any) => (
                           <TableRow
                             key={university.id}
                             className="hover:bg-gray-50"
@@ -1667,29 +1667,34 @@ export default function AdminDashboard() {
                             <TableCell>
                               <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
-                                  {university.name.charAt(0)}
+                                  {university.name ? university.name.charAt(0) : 'U'}
                                 </div>
                                 <div className="font-medium">
-                                  {university.name}
+                                  {university.name || 'Unknown University'}
                                 </div>
                               </div>
                             </TableCell>
                             <TableCell className="text-gray-600">
                               <div className="flex items-center gap-2">
+                                {university.flag && <span className="text-lg">{university.flag}</span>}
                                 <Globe className="h-4 w-4 text-gray-400" />
-                                {university.country}
+                                {university.country || 'Unknown'}
                               </div>
                             </TableCell>
                             <TableCell className="text-gray-600">
-                              {university.city}
+                              {university.city || 'N/A'}
                             </TableCell>
                             <TableCell>
-                              <Badge variant="outline" className="font-medium">
-                                #{university.ranking}
-                              </Badge>
+                              {university.ranking ? (
+                                <Badge variant="outline" className="font-medium">
+                                  #{university.ranking}
+                                </Badge>
+                              ) : (
+                                <span className="text-gray-400">N/A</span>
+                              )}
                             </TableCell>
                             <TableCell className="text-gray-600 font-medium">
-                              {university.tuitionFee}
+                              {university.tuitionFee || 'N/A'}
                             </TableCell>
                             <TableCell>
                               <div className="flex justify-center gap-2">

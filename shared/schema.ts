@@ -2,6 +2,36 @@ import { pgTable, text, serial, timestamp, json, boolean, varchar, date, integer
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+// Universities table for comprehensive university management
+export const universities = pgTable("universities", {
+  id: serial("id").primaryKey(),
+  countryId: varchar("country_id", { length: 50 }).notNull(), // e.g., "australia"
+  name: varchar("name", { length: 255 }).notNull(),
+  country: varchar("country", { length: 100 }).notNull(), // e.g., "Australia"
+  flag: varchar("flag", { length: 10 }), // e.g., "🇦🇺"
+  city: varchar("city", { length: 100 }),
+  ranking: integer("ranking"),
+  tuitionFee: varchar("tuition_fee", { length: 100 }),
+  requirements: text("requirements"),
+  programs: varchar("programs", { length: 100 }), // e.g., "22,000+ Programs"
+  students: varchar("students", { length: 100 }), // e.g., "400K+ International Students"
+  image: text("image"), // URL to university/country image
+  description: text("description"),
+  highlights: jsonb("highlights"), // Array of highlights like ["Work Rights", "Beautiful Cities"]
+  topUniversities: jsonb("top_universities"), // Array of top university names
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertUniversitySchema = createInsertSchema(universities).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertUniversity = z.infer<typeof insertUniversitySchema>;
+export type University = typeof universities.$inferSelect;
+
 export const contactInquiries = pgTable("contact_inquiries", {
   id: serial("id").primaryKey(),
   firstName: text("first_name").notNull(),
