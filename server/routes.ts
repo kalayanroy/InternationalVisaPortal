@@ -748,7 +748,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Schools routes
   app.get('/api/admin/schools', authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
     try {
-      const schools = await storage.getAllSchools();
+      const universityId = req.query.universityId as string;
+      const schools = await storage.getSchoolsByUniversity(parseInt(universityId));
       res.json(schools);
     } catch (error) {
       console.error("Error fetching schools:", error);

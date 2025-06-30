@@ -90,30 +90,35 @@ export interface IStorage {
   // Attachment/Text System methods
   // Schools
   getAllSchools(): Promise<School[]>;
+  getSchoolsByUniversity(universityId: number): Promise<School[]>;
   createSchool(school: InsertSchool): Promise<School>;
   updateSchool(id: number, updates: Partial<School>): Promise<School | undefined>;
   deleteSchool(id: number): Promise<School | undefined>;
   
   // Visa Requirements
   getAllVisaRequirements(): Promise<VisaRequirement[]>;
+  getVisaRequirementsByUniversity(universityId: number): Promise<VisaRequirement[]>;
   createVisaRequirement(visaReq: InsertVisaRequirement): Promise<VisaRequirement>;
   updateVisaRequirement(id: number, updates: Partial<VisaRequirement>): Promise<VisaRequirement | undefined>;
   deleteVisaRequirement(id: number): Promise<VisaRequirement | undefined>;
   
   // Costs
   getAllCosts(): Promise<Cost[]>;
+  getCostsByUniversity(universityId: number): Promise<Cost[]>;
   createCost(cost: InsertCost): Promise<Cost>;
   updateCost(id: number, updates: Partial<Cost>): Promise<Cost | undefined>;
   deleteCost(id: number): Promise<Cost | undefined>;
   
   // Scholarships
   getAllScholarships(): Promise<Scholarship[]>;
+  getScholarshipsByUniversity(universityId: number): Promise<Scholarship[]>;
   createScholarship(scholarship: InsertScholarship): Promise<Scholarship>;
   updateScholarship(id: number, updates: Partial<Scholarship>): Promise<Scholarship | undefined>;
   deleteScholarship(id: number): Promise<Scholarship | undefined>;
   
   // Admission Timeline
   getAllAdmissionTimeline(): Promise<AdmissionTimeline[]>;
+  getAdmissionTimelineByUniversity(universityId: number): Promise<AdmissionTimeline[]>;
   createAdmissionTimeline(timeline: InsertAdmissionTimeline): Promise<AdmissionTimeline>;
   updateAdmissionTimeline(id: number, updates: Partial<AdmissionTimeline>): Promise<AdmissionTimeline | undefined>;
   deleteAdmissionTimeline(id: number): Promise<AdmissionTimeline | undefined>;
@@ -395,6 +400,10 @@ export class DatabaseStorage implements IStorage {
     return await db.select().from(schools).orderBy(desc(schools.createdAt));
   }
 
+  async getSchoolsByUniversity(universityId: number): Promise<School[]> {
+    return await db.select().from(schools).where(eq(schools.universityId, universityId)).orderBy(desc(schools.createdAt));
+  }
+
   async createSchool(insertSchool: InsertSchool): Promise<School> {
     const [school] = await db
       .insert(schools)
@@ -423,6 +432,10 @@ export class DatabaseStorage implements IStorage {
   // Visa Requirements methods
   async getAllVisaRequirements(): Promise<VisaRequirement[]> {
     return await db.select().from(visaRequirements).orderBy(desc(visaRequirements.createdAt));
+  }
+
+  async getVisaRequirementsByUniversity(universityId: number): Promise<VisaRequirement[]> {
+    return await db.select().from(visaRequirements).where(eq(visaRequirements.universityId, universityId)).orderBy(desc(visaRequirements.createdAt));
   }
 
   async createVisaRequirement(insertVisaReq: InsertVisaRequirement): Promise<VisaRequirement> {

@@ -15,26 +15,37 @@ export default function AttachmentSystem() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [selectedUniversityId, setSelectedUniversityId] = useState<string>("");
 
-  // Fetch all attachment data
+  // Fetch universities for the selector
+  const { data: universities = [] } = useQuery({
+    queryKey: ["/api/admin/universities"],
+  });
+
+  // Fetch all attachment data (now filtered by university)
   const { data: schools = [], isLoading: schoolsLoading } = useQuery({
-    queryKey: ["/api/admin/schools"],
+    queryKey: ["/api/admin/schools", selectedUniversityId],
+    enabled: !!selectedUniversityId,
   });
 
   const { data: visaRequirements = [], isLoading: visaLoading } = useQuery({
-    queryKey: ["/api/admin/visa-requirements"],
+    queryKey: ["/api/admin/visa-requirements", selectedUniversityId],
+    enabled: !!selectedUniversityId,
   });
 
   const { data: costs = [], isLoading: costsLoading } = useQuery({
-    queryKey: ["/api/admin/costs"],
+    queryKey: ["/api/admin/costs", selectedUniversityId],
+    enabled: !!selectedUniversityId,
   });
 
   const { data: scholarships = [], isLoading: scholarshipsLoading } = useQuery({
-    queryKey: ["/api/admin/scholarships"],
+    queryKey: ["/api/admin/scholarships", selectedUniversityId],
+    enabled: !!selectedUniversityId,
   });
 
   const { data: admissionTimeline = [], isLoading: timelineLoading } = useQuery({
-    queryKey: ["/api/admin/admission-timeline"],
+    queryKey: ["/api/admin/admission-timeline", selectedUniversityId],
+    enabled: !!selectedUniversityId,
   });
 
   // Import Harvard data mutation
@@ -111,6 +122,30 @@ export default function AttachmentSystem() {
           </CardHeader>
 
           <CardContent>
+            {/* University Selector */}
+            <div className="mb-6 p-4 bg-gray-50 rounded-lg border">
+              <div className="flex items-center gap-4">
+                <label className="text-sm font-medium text-gray-700">Select University:</label>
+                <Select value={selectedUniversityId} onValueChange={setSelectedUniversityId}>
+                  <SelectTrigger className="w-64">
+                    <SelectValue placeholder="Choose a university..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {universities.map((university: any) => (
+                      <SelectItem key={university.id} value={university.id.toString()}>
+                        {university.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              {!selectedUniversityId && (
+                <p className="text-sm text-gray-500 mt-2">
+                  Please select a university to view and manage its attachment data.
+                </p>
+              )}
+            </div>
+
             <Tabs defaultValue="schools" className="space-y-6">
               <TabsList className="grid w-full grid-cols-5">
                 <TabsTrigger value="schools" className="flex items-center gap-2">
