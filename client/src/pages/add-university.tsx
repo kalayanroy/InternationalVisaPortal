@@ -38,6 +38,41 @@ export default function AddUniversity() {
     topUniversities: "",
   });
 
+  // Attachment form states
+  const [schoolData, setSchoolData] = useState({
+    name: "",
+    category: "",
+    tuition: "",
+    duration: "",
+    deadline: "",
+    requirements: "",
+  });
+
+  const [visaData, setVisaData] = useState({
+    visaType: "",
+    fee: "",
+    processing: "",
+    interview: "",
+    requirements: "",
+  });
+
+  const [costData, setCostData] = useState({
+    category: "",
+    tuition: "",
+    fees: "",
+    roomBoard: "",
+    books: "",
+    personal: "",
+    total: "",
+  });
+
+  const [scholarshipData, setScholarshipData] = useState({
+    name: "",
+    amount: "",
+    criteria: "",
+    coverage: "",
+  });
+
   // Create university mutation
   const createUniversityMutation = useMutation({
     mutationFn: async (data: any) => {
@@ -52,6 +87,95 @@ export default function AddUniversity() {
         description: "University created successfully",
       });
       setLocation("/admin-dashboard");
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Attachment mutations
+  const createSchoolMutation = useMutation({
+    mutationFn: async (data: any) => {
+      const response = await apiRequest('POST', '/api/admin/schools', data);
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/schools"] });
+      setSchoolData({ name: "", category: "", tuition: "", duration: "", deadline: "", requirements: "" });
+      toast({
+        title: "Success",
+        description: "School program added successfully",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const createVisaMutation = useMutation({
+    mutationFn: async (data: any) => {
+      const response = await apiRequest('POST', '/api/admin/visa-requirements', data);
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/visa-requirements"] });
+      setVisaData({ visaType: "", fee: "", processing: "", interview: "", requirements: "" });
+      toast({
+        title: "Success",
+        description: "Visa requirement added successfully",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const createCostMutation = useMutation({
+    mutationFn: async (data: any) => {
+      const response = await apiRequest('POST', '/api/admin/costs', data);
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/costs"] });
+      setCostData({ category: "", tuition: "", fees: "", roomBoard: "", books: "", personal: "", total: "" });
+      toast({
+        title: "Success",
+        description: "Cost information added successfully",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const createScholarshipMutation = useMutation({
+    mutationFn: async (data: any) => {
+      const response = await apiRequest('POST', '/api/admin/scholarships', data);
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/scholarships"] });
+      setScholarshipData({ name: "", amount: "", criteria: "", coverage: "" });
+      toast({
+        title: "Success",
+        description: "Scholarship added successfully",
+      });
     },
     onError: (error: Error) => {
       toast({
@@ -120,6 +244,67 @@ export default function AddUniversity() {
     };
     console.log("Submitting university data:", submitData);
     createUniversityMutation.mutate(submitData);
+  };
+
+  // Handle attachment form submissions
+  const handleSchoolSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!schoolData.name || !schoolData.category) {
+      toast({
+        title: "Error",
+        description: "Please fill in required fields",
+        variant: "destructive",
+      });
+      return;
+    }
+    createSchoolMutation.mutate(schoolData);
+  };
+
+  const handleVisaSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!visaData.visaType) {
+      toast({
+        title: "Error",
+        description: "Please fill in visa type",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    const submitData = {
+      ...visaData,
+      requirements: visaData.requirements 
+        ? visaData.requirements.split(',').map(req => req.trim()).filter(req => req)
+        : [],
+    };
+    
+    createVisaMutation.mutate(submitData);
+  };
+
+  const handleCostSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!costData.category) {
+      toast({
+        title: "Error",
+        description: "Please fill in cost category",
+        variant: "destructive",
+      });
+      return;
+    }
+    createCostMutation.mutate(costData);
+  };
+
+  const handleScholarshipSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!scholarshipData.name) {
+      toast({
+        title: "Error",
+        description: "Please fill in scholarship name",
+        variant: "destructive",
+      });
+      return;
+    }
+    createScholarshipMutation.mutate(scholarshipData);
   };
 
   return (
@@ -570,6 +755,8 @@ export default function AddUniversity() {
                               </Label>
                               <Input
                                 id="schoolName"
+                                value={schoolData.name}
+                                onChange={(e) => setSchoolData(prev => ({ ...prev, name: e.target.value }))}
                                 placeholder="e.g., Harvard Medical School"
                                 className="border-gray-300 focus:border-navy focus:ring-navy"
                               />
@@ -580,6 +767,8 @@ export default function AddUniversity() {
                               </Label>
                               <Input
                                 id="schoolCategory"
+                                value={schoolData.category}
+                                onChange={(e) => setSchoolData(prev => ({ ...prev, category: e.target.value }))}
                                 placeholder="e.g., medical, business, law"
                                 className="border-gray-300 focus:border-navy focus:ring-navy"
                               />
@@ -593,6 +782,8 @@ export default function AddUniversity() {
                               </Label>
                               <Input
                                 id="schoolTuition"
+                                value={schoolData.tuition}
+                                onChange={(e) => setSchoolData(prev => ({ ...prev, tuition: e.target.value }))}
                                 placeholder="e.g., $69,300"
                                 className="border-gray-300 focus:border-navy focus:ring-navy"
                               />
@@ -603,6 +794,8 @@ export default function AddUniversity() {
                               </Label>
                               <Input
                                 id="schoolDuration"
+                                value={schoolData.duration}
+                                onChange={(e) => setSchoolData(prev => ({ ...prev, duration: e.target.value }))}
                                 placeholder="e.g., 4 years"
                                 className="border-gray-300 focus:border-navy focus:ring-navy"
                               />
@@ -613,6 +806,8 @@ export default function AddUniversity() {
                               </Label>
                               <Input
                                 id="schoolDeadline"
+                                value={schoolData.deadline}
+                                onChange={(e) => setSchoolData(prev => ({ ...prev, deadline: e.target.value }))}
                                 placeholder="e.g., October 15"
                                 className="border-gray-300 focus:border-navy focus:ring-navy"
                               />
@@ -625,15 +820,21 @@ export default function AddUniversity() {
                             </Label>
                             <textarea
                               id="schoolRequirements"
+                              value={schoolData.requirements}
+                              onChange={(e) => setSchoolData(prev => ({ ...prev, requirements: e.target.value }))}
                               className="w-full p-3 border border-gray-300 rounded-md resize-none focus:border-navy focus:ring-navy"
                               rows={3}
                               placeholder="e.g., MCAT, Pre-med courses, GPA requirements"
                             />
                           </div>
                           
-                          <Button className="bg-navy hover:bg-navy/90 text-white">
+                          <Button 
+                            onClick={handleSchoolSubmit}
+                            disabled={createSchoolMutation.isPending}
+                            className="bg-navy hover:bg-navy/90 text-white"
+                          >
                             <Plus className="h-4 w-4 mr-2" />
-                            Add School Program
+                            {createSchoolMutation.isPending ? "Adding..." : "Add School Program"}
                           </Button>
                         </div>
                       </CardContent>
@@ -655,6 +856,8 @@ export default function AddUniversity() {
                               </Label>
                               <Input
                                 id="visaType"
+                                value={visaData.visaType}
+                                onChange={(e) => setVisaData(prev => ({ ...prev, visaType: e.target.value }))}
                                 placeholder="e.g., F1 Visa, J1 Visa"
                                 className="border-gray-300 focus:border-navy focus:ring-navy"
                               />
@@ -665,6 +868,8 @@ export default function AddUniversity() {
                               </Label>
                               <Input
                                 id="visaFee"
+                                value={visaData.fee}
+                                onChange={(e) => setVisaData(prev => ({ ...prev, fee: e.target.value }))}
                                 placeholder="e.g., $185"
                                 className="border-gray-300 focus:border-navy focus:ring-navy"
                               />
@@ -678,6 +883,8 @@ export default function AddUniversity() {
                               </Label>
                               <Input
                                 id="visaProcessing"
+                                value={visaData.processing}
+                                onChange={(e) => setVisaData(prev => ({ ...prev, processing: e.target.value }))}
                                 placeholder="e.g., 3-5 weeks"
                                 className="border-gray-300 focus:border-navy focus:ring-navy"
                               />
@@ -688,6 +895,8 @@ export default function AddUniversity() {
                               </Label>
                               <Input
                                 id="visaInterview"
+                                value={visaData.interview}
+                                onChange={(e) => setVisaData(prev => ({ ...prev, interview: e.target.value }))}
                                 placeholder="e.g., Required"
                                 className="border-gray-300 focus:border-navy focus:ring-navy"
                               />
@@ -700,15 +909,21 @@ export default function AddUniversity() {
                             </Label>
                             <textarea
                               id="visaRequirements"
+                              value={visaData.requirements}
+                              onChange={(e) => setVisaData(prev => ({ ...prev, requirements: e.target.value }))}
                               className="w-full p-3 border border-gray-300 rounded-md resize-none focus:border-navy focus:ring-navy"
                               rows={4}
                               placeholder="Form I-20, SEVIS fee payment, DS-160 application, Valid passport, Financial documentation"
                             />
                           </div>
                           
-                          <Button className="bg-navy hover:bg-navy/90 text-white">
+                          <Button 
+                            onClick={handleVisaSubmit}
+                            disabled={createVisaMutation.isPending}
+                            className="bg-navy hover:bg-navy/90 text-white"
+                          >
                             <Plus className="h-4 w-4 mr-2" />
-                            Add Visa Requirement
+                            {createVisaMutation.isPending ? "Adding..." : "Add Visa Requirement"}
                           </Button>
                         </div>
                       </CardContent>
@@ -739,6 +954,8 @@ export default function AddUniversity() {
                           </Label>
                           <Input
                             id="costCategory"
+                            value={costData.category}
+                            onChange={(e) => setCostData(prev => ({ ...prev, category: e.target.value }))}
                             placeholder="e.g., undergraduate, graduate"
                             className="border-gray-300 focus:border-navy focus:ring-navy"
                           />
@@ -751,6 +968,8 @@ export default function AddUniversity() {
                             </Label>
                             <Input
                               id="costTuition"
+                              value={costData.tuition}
+                              onChange={(e) => setCostData(prev => ({ ...prev, tuition: e.target.value }))}
                               placeholder="e.g., $59,076"
                               className="border-gray-300 focus:border-navy focus:ring-navy"
                             />
@@ -761,6 +980,8 @@ export default function AddUniversity() {
                             </Label>
                             <Input
                               id="costFees"
+                              value={costData.fees}
+                              onChange={(e) => setCostData(prev => ({ ...prev, fees: e.target.value }))}
                               placeholder="e.g., $4,195"
                               className="border-gray-300 focus:border-navy focus:ring-navy"
                             />
@@ -774,6 +995,8 @@ export default function AddUniversity() {
                             </Label>
                             <Input
                               id="costRoomBoard"
+                              value={costData.roomBoard}
+                              onChange={(e) => setCostData(prev => ({ ...prev, roomBoard: e.target.value }))}
                               placeholder="e.g., $20,374"
                               className="border-gray-300 focus:border-navy focus:ring-navy"
                             />
@@ -784,6 +1007,8 @@ export default function AddUniversity() {
                             </Label>
                             <Input
                               id="costBooks"
+                              value={costData.books}
+                              onChange={(e) => setCostData(prev => ({ ...prev, books: e.target.value }))}
                               placeholder="e.g., $1,000"
                               className="border-gray-300 focus:border-navy focus:ring-navy"
                             />
@@ -794,6 +1019,8 @@ export default function AddUniversity() {
                             </Label>
                             <Input
                               id="costPersonal"
+                              value={costData.personal}
+                              onChange={(e) => setCostData(prev => ({ ...prev, personal: e.target.value }))}
                               placeholder="e.g., $2,500"
                               className="border-gray-300 focus:border-navy focus:ring-navy"
                             />
@@ -806,14 +1033,20 @@ export default function AddUniversity() {
                           </Label>
                           <Input
                             id="costTotal"
+                            value={costData.total}
+                            onChange={(e) => setCostData(prev => ({ ...prev, total: e.target.value }))}
                             placeholder="e.g., $87,145"
                             className="border-gray-300 focus:border-navy focus:ring-navy font-semibold"
                           />
                         </div>
                         
-                        <Button className="bg-navy hover:bg-navy/90 text-white">
+                        <Button 
+                          onClick={handleCostSubmit}
+                          disabled={createCostMutation.isPending}
+                          className="bg-navy hover:bg-navy/90 text-white"
+                        >
                           <Plus className="h-4 w-4 mr-2" />
-                          Add Cost Information
+                          {createCostMutation.isPending ? "Adding..." : "Add Cost Information"}
                         </Button>
                       </div>
                     </CardContent>
@@ -835,6 +1068,8 @@ export default function AddUniversity() {
                             </Label>
                             <Input
                               id="scholarshipName"
+                              value={scholarshipData.name}
+                              onChange={(e) => setScholarshipData(prev => ({ ...prev, name: e.target.value }))}
                               placeholder="e.g., Harvard Financial Aid"
                               className="border-gray-300 focus:border-navy focus:ring-navy"
                             />
@@ -845,6 +1080,8 @@ export default function AddUniversity() {
                             </Label>
                             <Input
                               id="scholarshipAmount"
+                              value={scholarshipData.amount}
+                              onChange={(e) => setScholarshipData(prev => ({ ...prev, amount: e.target.value }))}
                               placeholder="e.g., Up to full tuition"
                               className="border-gray-300 focus:border-navy focus:ring-navy"
                             />
@@ -857,6 +1094,8 @@ export default function AddUniversity() {
                           </Label>
                           <textarea
                             id="scholarshipCriteria"
+                            value={scholarshipData.criteria}
+                            onChange={(e) => setScholarshipData(prev => ({ ...prev, criteria: e.target.value }))}
                             className="w-full p-3 border border-gray-300 rounded-md resize-none focus:border-navy focus:ring-navy"
                             rows={2}
                             placeholder="e.g., Need-based, family income under $85,000"
@@ -869,15 +1108,21 @@ export default function AddUniversity() {
                           </Label>
                           <textarea
                             id="scholarshipCoverage"
+                            value={scholarshipData.coverage}
+                            onChange={(e) => setScholarshipData(prev => ({ ...prev, coverage: e.target.value }))}
                             className="w-full p-3 border border-gray-300 rounded-md resize-none focus:border-navy focus:ring-navy"
                             rows={2}
                             placeholder="e.g., 100% of families earning less than $85,000 pay nothing"
                           />
                         </div>
                         
-                        <Button className="bg-navy hover:bg-navy/90 text-white">
+                        <Button 
+                          onClick={handleScholarshipSubmit}
+                          disabled={createScholarshipMutation.isPending}
+                          className="bg-navy hover:bg-navy/90 text-white"
+                        >
                           <Plus className="h-4 w-4 mr-2" />
-                          Add Scholarship
+                          {createScholarshipMutation.isPending ? "Adding..." : "Add Scholarship"}
                         </Button>
                       </div>
                     </CardContent>
