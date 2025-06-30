@@ -40,10 +40,8 @@ export default function AddUniversity() {
   // Create university mutation
   const createUniversityMutation = useMutation({
     mutationFn: async (data: any) => {
-      return await apiRequest('/api/admin/universities', {
-        method: 'POST',
-        body: data,
-      });
+      const response = await apiRequest('POST', '/api/admin/universities', data);
+      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/universities"] });
