@@ -1,5 +1,5 @@
 import Header from "@/components/header";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -21,73 +21,390 @@ import {
   CheckCircle,
   Building,
 } from "lucide-react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
+
+// Country data with university details
+const countryData = {
+  australia: {
+    id: "australia",
+    name: "Australia",
+    code: "AU",
+    flag: "🇦🇺",
+    description:
+      "World-class education in a vibrant multicultural environment with great weather.",
+    image:
+      "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    stats: {
+      universities: "4,000+",
+      internationalStudents: "1M+",
+      programs: "15,000+",
+      states: "50",
+    },
+    topUniversities: [
+      "Australian National University",
+      "Bond University",
+      "University of Sydney",
+      "More +",
+    ],
+    keyBenefits: [
+      //"Silicon Valley Access",
+      //"Research Excellence",
+      //"Career Opportunities",
+    ],
+    universities: [
+      {
+        id: "nationalUniversity",
+        name: "Australian National University",
+        location: "Canberra, the capital city of Australia",
+        ranking: "#32",
+        acceptance: "35%",
+        tuition: "AUD 27,916",
+        image: "https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        specialties: ["Business", "Medicine", "Law", "Engineering"],
+        topCourses: [
+          "Undergraduate",
+          "Postgraduate",
+          "PhD (HDR)",
+          "OSHC (Health Cover)",
+        ],
+        description: "Leading Australian university with world-class research and academic programs.",
+        students: "25,000+",
+        international: "40%",
+        founded: 1946,
+      },
+      {
+        id: "bond",
+        name: "Bond University",
+        location: "Robina on the Gold Coast in Queensland, Australia",
+        ranking: "#600",
+        acceptance: "60-70%",
+        tuition: "AUD 33,000",
+        image: "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=400&h=300&fit=crop&auto=format",
+        specialties: [
+          "Computer Science",
+          "Engineering",
+          "Business",
+          "Medicine",
+        ],
+        topCourses: ["Undergraduate", "Postgraduate", "MBA Program"],
+        description: "Private university known for small class sizes and personalized education.",
+        students: "5,000+",
+        international: "50%",
+        founded: 1989,
+      },
+    ],
+  },
+  usa: {
+    id: "usa",
+    name: "United States",
+    code: "US",
+    flag: "🇺🇸",
+    description:
+      "Home to the world's most prestigious institutions with cutting-edge research and innovation.",
+    image:
+      "https://images.unsplash.com/photo-1626157150198-4cdec90f15a8?q=80&w=2069&auto=format&fit=crop",
+    stats: {
+      universities: "4,000+",
+      internationalStudents: "1M+",
+      programs: "15,000+",
+      states: "50",
+    },
+    universities: [
+      {
+        id: "harvard",
+        name: "Harvard University",
+        location: "Cambridge, Massachusetts",
+        ranking: "#1",
+        acceptance: "3.4%",
+        tuition: "$59,076",
+        students: "23,000",
+        country: "USA",
+        programs: "200+",
+        image:
+          "https://images.unsplash.com/photo-1562774053-701939374585?w=400&h=300&fit=crop&auto=format",
+        specialties: ["Business", "Medicine", "Law", "Engineering"],
+        topCourses: [
+          "MBA Program",
+          "Medical School",
+          "Law School",
+          "Computer Science",
+          "Economics",
+          "Machine Learning",
+        ],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
+        international: "22%",
+        founded: 1636,
+      },
+      {
+        id: "stanford",
+        name: "Stanford University",
+        location: "Stanford, California",
+        ranking: "#2",
+        acceptance: "3.9%",
+        tuition: "$61,731",
+        students: "23,000",
+        country: "USA",
+        programs: "200+",
+        image:
+          "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=400&h=300&fit=crop&auto=format",
+        specialties: [
+          "Computer Science",
+          "Engineering",
+          "Business",
+          "Medicine",
+        ],
+        topCourses: [
+          "Computer Science",
+          "Artificial Intelligence",
+          "Engineering",
+          "MBA Program",
+          "Data Science",
+        ],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
+        international: "24%",
+        founded: 1885,
+      },
+      {
+        id: "mit",
+        name: "Massachusetts Institute of Technology",
+        location: "Cambridge, Massachusetts",
+        ranking: "#3",
+        acceptance: "4.1%",
+        tuition: "$59,750",
+        students: "23,000",
+        country: "USA",
+        programs: "200+",
+        image:
+          "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=400&h=300&fit=crop&auto=format",
+        specialties: [
+          "Engineering",
+          "Computer Science",
+          "Physics",
+          "Economics",
+        ],
+        topCourses: [
+          "Electrical Engineering",
+          "Computer Science",
+          "Physics",
+          "Mathematics",
+          "Aerospace Engineering",
+        ],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
+        international: "35%",
+        founded: 1861,
+      },
+    ],
+  },
+  uk: {
+    id: "uk",
+    name: "United Kingdom",
+    code: "GB",
+    flag: "🇬🇧",
+    description:
+      "Rich academic heritage with world-renowned universities and shorter degree programs.",
+    image:
+      "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=2069&auto=format&fit=crop",
+    stats: {
+      universities: "500+",
+      internationalStudents: "500K+",
+      programs: "50,000+",
+      cities: "100+",
+    },
+    universities: [
+      {
+        id: "oxford",
+        name: "Oxford University",
+        location: "Oxford, England",
+        ranking: "#1",
+        acceptance: "17.5%",
+        tuition: "£28,950",
+        students: "23,000",
+        country: "UK",
+        programs: "200+",
+        image:
+          "https://images.unsplash.com/photo-1566408669057-4cd39b3bb1a0?w=400&h=300&fit=crop&auto=format",
+        specialties: ["Philosophy", "Politics", "Economics", "Medicine"],
+        topCourses: ["PPE", "Medicine", "Law", "History", "English Literature"],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
+        international: "45%",
+        founded: 1096,
+      },
+      {
+        id: "cambridge",
+        name: "Cambridge University",
+        location: "Cambridge, England",
+        ranking: "#2",
+        acceptance: "21%",
+        tuition: "£28,950",
+        students: "23,000",
+        country: "UK",
+        programs: "200+",
+        image:
+          "https://images.unsplash.com/photo-1559409030-0b0fb6d6b23e?w=400&h=300&fit=crop&auto=format",
+        specialties: [
+          "Mathematics",
+          "Physics",
+          "Engineering",
+          "Natural Sciences",
+        ],
+        topCourses: [
+          "Mathematics",
+          "Natural Sciences",
+          "Engineering",
+          "Computer Science",
+          "Medicine",
+        ],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
+        international: "38%",
+        founded: 1209,
+      },
+      {
+        id: "imperial",
+        name: "Imperial College London",
+        location: "London, England",
+        ranking: "#8",
+        acceptance: "14.3%",
+        tuition: "£32,000",
+        students: "23,000",
+        country: "UK",
+        programs: "200+",
+        image:
+          "https://images.unsplash.com/photo-1551740952-9ba0661ba9be?w=400&h=300&fit=crop&auto=format",
+        specialties: ["Engineering", "Medicine", "Business", "Science"],
+        topCourses: [
+          "Engineering",
+          "Medicine",
+          "Business School",
+          "Computing",
+          "Physics",
+        ],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
+        international: "59%",
+        founded: 1907,
+      },
+    ],
+  },
+  canada: {
+    id: "canada",
+    name: "Canada",
+    code: "CA",
+    flag: "🇨🇦",
+    description:
+      "High-quality education with affordable tuition and post-graduation work opportunities.",
+    image:
+      "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?q=80&w=2069&auto=format&fit=crop",
+    stats: {
+      universities: "400+",
+      internationalStudents: "650K+",
+      programs: "25,000+",
+      provinces: "10",
+    },
+    universities: [
+      {
+        id: "toronto",
+        name: "University of Toronto",
+        location: "Toronto, Ontario",
+        ranking: "#21",
+        acceptance: "43%",
+        tuition: "CAD $58,160",
+        students: "23,000",
+        country: "CA",
+        programs: "200+",
+        image:
+          "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=400&h=300&fit=crop&auto=format",
+        specialties: ["Medicine", "Engineering", "Business", "Arts"],
+        topCourses: [
+          "Medicine",
+          "Engineering",
+          "Business",
+          "Computer Science",
+          "Law",
+        ],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
+        international: "25%",
+        founded: 1827,
+      },
+      {
+        id: "mcgill",
+        name: "McGill University",
+        location: "Montreal, Quebec",
+        ranking: "#31",
+        acceptance: "46%",
+        tuition: "CAD $50,000",
+        students: "23,000",
+        country: "CA",
+        programs: "200+",
+        image:
+          "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop&auto=format",
+        specialties: ["Medicine", "Engineering", "Arts", "Science"],
+        topCourses: [
+          "Medicine",
+          "Engineering",
+          "Arts",
+          "Management",
+          "Science",
+        ],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
+        international: "30%",
+        founded: 1821,
+      },
+    ],
+  },
+};
 
 export default function UniversityDetail() {
+  const [location] = useLocation();
+  
+  // Extract university and country from URL path
+  const universityData = useMemo(() => {
+    // Parse URL like /university/harvard/usa or /university/nationalUniversity/australia
+    const pathParts = location.split('/');
+    if (pathParts.length >= 4 && pathParts[1] === 'university') {
+      const universityId = pathParts[2];
+      const countryId = pathParts[3];
+      
+      const country = (countryData as any)[countryId];
+      if (country && country.universities) {
+        const university = country.universities.find((u: any) => u.id === universityId);
+        if (university) {
+          return { university, country };
+        }
+      }
+    }
+    
+    // Default fallback to Harvard
+    return {
+      university: countryData.usa.universities[0],
+      country: countryData.usa
+    };
+  }, [location]);
+
   // Scroll to top on route change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [location]);
 
-  const universityInfo = {
-    name: "Harvard University",
-    location: "Cambridge, Massachusetts, USA",
-    founded: 1636,
-    worldRanking: 1,
-    usRanking: 1,
-    acceptance: "3.4%",
-    students: 23000,
-    international: "22%",
-    endowment: "$53.2 billion",
-    facultyRatio: "6:1",
-    image:
-      "https://images.unsplash.com/photo-1562774053-701939374585?w=800&h=600&fit=crop&auto=format",
-  };
+  const { university, country } = universityData;
 
-  const schools = [
-    {
-      name: "Harvard Medical School",
-      tuition: "$69,300",
-      duration: "4 years",
-      requirements: "MCAT, Pre-med courses",
-      deadline: "October 15",
-    },
-    {
-      name: "Harvard Business School",
-      tuition: "$73,440",
-      duration: "2 years",
-      requirements: "GMAT/GRE, Work experience",
-      deadline: "April 2",
-    },
-    {
-      name: "Harvard Law School",
-      tuition: "$70,430",
-      duration: "3 years",
-      requirements: "LSAT, Bachelor's degree",
-      deadline: "February 15",
-    },
-    {
-      name: "School of Engineering",
-      tuition: "$59,076",
-      duration: "4 years",
-      requirements: "SAT/ACT, Strong math/science",
-      deadline: "January 1",
-    },
-    {
-      name: "Graduate School of Education",
-      tuition: "$55,272",
-      duration: "1-2 years",
-      requirements: "GRE, Teaching experience preferred",
-      deadline: "January 2",
-    },
-    {
-      name: "Kennedy School of Government",
-      tuition: "$65,875",
-      duration: "2 years",
-      requirements: "GRE/GMAT, Policy experience",
-      deadline: "December 1",
-    },
-  ];
+  // Generate school programs based on university specialties
+  const schools = university.specialties.map((specialty: string, index: number) => ({
+    name: `${university.name} - ${specialty}`,
+    tuition: university.tuition,
+    duration: index % 2 === 0 ? "4 years" : "2 years",
+    requirements: specialty === "Medicine" ? "MCAT, Pre-med courses" : 
+                  specialty === "Business" ? "GMAT/GRE, Work experience" :
+                  specialty === "Law" ? "LSAT, Bachelor's degree" :
+                  "SAT/ACT, Strong academic background",
+    deadline: "Application deadlines vary by program",
+  }));
 
   const visaRequirements = {
     f1Visa: {
@@ -177,15 +494,15 @@ export default function UniversityDetail() {
         {/* Background Image */}
         <div className="absolute inset-0">
           <img
-            src={universityInfo.image}
-            alt={universityInfo.name}
+            src={university.image}
+            alt={university.name}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30" />
         </div>
         <div className="absolute bottom-8 left-8 text-white z-10">
-          <h1 className="text-4xl font-bold">{universityInfo.name}</h1>
-          <p className="text-lg">{universityInfo.location}</p>
+          <h1 className="text-4xl font-bold">{university.name}</h1>
+          <p className="text-lg">{university.location}</p>
         </div>
 
         {/* Decorative Elements */}
@@ -213,12 +530,12 @@ export default function UniversityDetail() {
                   variant="outline"
                   className="border-white text-white bg-white/10 backdrop-blur-sm"
                 >
-                  Founded {universityInfo.founded}
+                  Founded {university.founded}
                 </Badge>
               </div>
 
               <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
-                {universityInfo.name}
+                {university.name}
               </h1>
 
               <p className="text-xl text-white/90 mb-8 leading-relaxed">
@@ -230,12 +547,12 @@ export default function UniversityDetail() {
               <div className="flex flex-col sm:flex-row gap-4 text-white">
                 <div className="flex items-center">
                   <MapPin className="h-5 w-5 mr-2 text-gold" />
-                  <span>{universityInfo.location}</span>
+                  <span>{university.location}</span>
                 </div>
                 <div className="flex items-center">
                   <Users className="h-5 w-5 mr-2 text-gold" />
                   <span>
-                    {universityInfo.students.toLocaleString()} students
+                    {university.students.toLocaleString()} students
                   </span>
                 </div>
               </div>
@@ -251,7 +568,7 @@ export default function UniversityDetail() {
                     <div className="flex justify-between items-center">
                       <span className="text-slate-600">Acceptance Rate</span>
                       <span className="font-bold text-navy">
-                        {universityInfo.acceptance}
+                        {university.acceptance}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
@@ -259,7 +576,7 @@ export default function UniversityDetail() {
                         Student-Faculty Ratio
                       </span>
                       <span className="font-bold text-navy">
-                        {universityInfo.facultyRatio}
+                        {university.facultyRatio}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
@@ -267,13 +584,13 @@ export default function UniversityDetail() {
                         International Students
                       </span>
                       <span className="font-bold text-navy">
-                        {universityInfo.international}
+                        {university.international}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-slate-600">Endowment</span>
                       <span className="font-bold text-navy">
-                        {universityInfo.endowment}
+                        {university.endowment}
                       </span>
                     </div>
                   </div>

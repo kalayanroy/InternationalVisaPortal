@@ -1,0 +1,311 @@
+const countryData = {
+  australia: {
+    id: "australia",
+    name: "Australia",
+    code: "AU",
+    flag: "🇦🇺",
+    description:
+      "World-class education in a vibrant multicultural environment with great weather.",
+    image:
+      "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    stats: {
+      universities: "4,000+",
+      internationalStudents: "1M+",
+      programs: "15,000+",
+      states: "50",
+    },
+    topUniversities: [
+      "Australian National University",
+      "Bond University",
+      "University of Sydney",
+      "More +",
+    ],
+    keyBenefits: [
+      //"Silicon Valley Access",
+      //"Research Excellence",
+      //"Career Opportunities",
+    ],
+    universities: [
+      {
+        id: "nationalUniversity",
+        name: "Australian National University",
+        location: "Canberra, the capital city of Australia",
+        ranking: "#32",
+        acceptance: "35%",
+        tuition: "AUD 27,916",
+        image: ausNationUniversity,
+        specialties: ["Business", "Medicine", "Law", "Engineering"],
+        topCourses: [
+          "Undergraduate",
+          "Postgraduate",
+          "PhD (HDR)",
+          "OSHC (Health Cover)",
+        ],
+      },
+      {
+        id: "bond",
+        name: "Bond University",
+        location: "Robina on the Gold Coast in Queensland, Australia",
+        ranking: "#600",
+        acceptance: "60-70%",
+        tuition: "AUD 33,000",
+        image: bondUniversity,
+        specialties: [
+          "Computer Science",
+          "Engineering",
+          "Business",
+          "Medicine",
+        ],
+        topCourses: ["Undergraduate", "Postgraduate", "MBA Program"],
+      },
+    ],
+  },
+  usa: {
+    id: "usa",
+    name: "United States",
+    code: "US",
+    flag: "🇺🇸",
+    description:
+      "Home to the world's most prestigious institutions with cutting-edge research and innovation.",
+    image:
+      "https://images.unsplash.com/photo-1626157150198-4cdec90f15a8?q=80&w=2069&auto=format&fit=crop",
+    stats: {
+      universities: "4,000+",
+      internationalStudents: "1M+",
+      programs: "15,000+",
+      states: "50",
+    },
+    universities: [
+      {
+        id: "harvard",
+        name: "Harvard University",
+        location: "Cambridge, Massachusetts",
+        ranking: "#1",
+        acceptance: "3.4%",
+        tuition: "$59,076",
+        students: "23,000",
+        country: "USA",
+        programs: "200+",
+        image:
+          "https://images.unsplash.com/photo-1562774053-701939374585?w=400&h=300&fit=crop&auto=format",
+        specialties: ["Business", "Medicine", "Law", "Engineering"],
+        topCourses: [
+          "MBA Program",
+          "Medical School",
+          "Law School",
+          "Computer Science",
+          "Economics",
+          "Machine Learning",
+        ],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
+      },
+      {
+        id: "stanford",
+        name: "Stanford University",
+        location: "Stanford, California",
+        ranking: "#2",
+        acceptance: "3.9%",
+        tuition: "$61,731",
+        students: "23,000",
+        country: "USA",
+        programs: "200+",
+        image:
+          "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=400&h=300&fit=crop&auto=format",
+        specialties: [
+          "Computer Science",
+          "Engineering",
+          "Business",
+          "Medicine",
+        ],
+        topCourses: [
+          "Computer Science",
+          "Artificial Intelligence",
+          "Engineering",
+          "MBA Program",
+          "Data Science",
+        ],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
+      },
+      {
+        id: "mit",
+        name: "Massachusetts Institute of Technology",
+        location: "Cambridge, Massachusetts",
+        ranking: "#3",
+        acceptance: "4.1%",
+        tuition: "$59,750",
+        students: "23,000",
+        country: "USA",
+        programs: "200+",
+        image:
+          "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=400&h=300&fit=crop&auto=format",
+        specialties: [
+          "Engineering",
+          "Computer Science",
+          "Physics",
+          "Economics",
+        ],
+        topCourses: [
+          "Electrical Engineering",
+          "Computer Science",
+          "Physics",
+          "Mathematics",
+          "Aerospace Engineering",
+        ],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
+      },
+    ],
+  },
+  uk: {
+    id: "uk",
+    name: "United Kingdom",
+    code: "GB",
+    flag: "🇬🇧",
+    description:
+      "Rich academic heritage with world-renowned universities and shorter degree programs.",
+    image:
+      "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=2069&auto=format&fit=crop",
+    stats: {
+      universities: "500+",
+      internationalStudents: "500K+",
+      programs: "50,000+",
+      cities: "100+",
+    },
+    universities: [
+      {
+        id: "oxford",
+        name: "Oxford University",
+        location: "Oxford, England",
+        ranking: "#1",
+        acceptance: "17.5%",
+        tuition: "£28,950",
+        students: "23,000",
+        country: "UK",
+        programs: "200+",
+        image:
+          "https://images.unsplash.com/photo-1566408669057-4cd39b3bb1a0?w=400&h=300&fit=crop&auto=format",
+        specialties: ["Philosophy", "Politics", "Economics", "Medicine"],
+        topCourses: ["PPE", "Medicine", "Law", "History", "English Literature"],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
+      },
+      {
+        id: "cambridge",
+        name: "Cambridge University",
+        location: "Cambridge, England",
+        ranking: "#2",
+        acceptance: "21%",
+        tuition: "£28,950",
+        students: "23,000",
+        country: "UK",
+        programs: "200+",
+        image:
+          "https://images.unsplash.com/photo-1559409030-0b0fb6d6b23e?w=400&h=300&fit=crop&auto=format",
+        specialties: [
+          "Mathematics",
+          "Physics",
+          "Engineering",
+          "Natural Sciences",
+        ],
+        topCourses: [
+          "Mathematics",
+          "Natural Sciences",
+          "Engineering",
+          "Computer Science",
+          "Medicine",
+        ],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
+      },
+      {
+        id: "imperial",
+        name: "Imperial College London",
+        location: "London, England",
+        ranking: "#8",
+        acceptance: "14.3%",
+        tuition: "£32,000",
+        students: "23,000",
+        country: "UK",
+        programs: "200+",
+        image:
+          "https://images.unsplash.com/photo-1551740952-9ba0661ba9be?w=400&h=300&fit=crop&auto=format",
+        specialties: ["Engineering", "Medicine", "Business", "Science"],
+        topCourses: [
+          "Engineering",
+          "Medicine",
+          "Business School",
+          "Computing",
+          "Physics",
+        ],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
+      },
+    ],
+  },
+  canada: {
+    id: "canada",
+    name: "Canada",
+    code: "CA",
+    flag: "🇨🇦",
+    description:
+      "High-quality education with affordable tuition and post-graduation work opportunities.",
+    image:
+      "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?q=80&w=2069&auto=format&fit=crop",
+    stats: {
+      universities: "400+",
+      internationalStudents: "650K+",
+      programs: "25,000+",
+      provinces: "10",
+    },
+    universities: [
+      {
+        id: "toronto",
+        name: "University of Toronto",
+        location: "Toronto, Ontario",
+        ranking: "#21",
+        acceptance: "43%",
+        tuition: "CAD $58,160",
+        students: "23,000",
+        country: "CA",
+        programs: "200+",
+        image:
+          "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=400&h=300&fit=crop&auto=format",
+        specialties: ["Medicine", "Engineering", "Business", "Arts"],
+        topCourses: [
+          "Medicine",
+          "Engineering",
+          "Business",
+          "Computer Science",
+          "Law",
+        ],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
+      },
+      {
+        id: "mcgill",
+        name: "McGill University",
+        location: "Montreal, Quebec",
+        ranking: "#31",
+        acceptance: "46%",
+        tuition: "CAD $50,000",
+        students: "23,000",
+        country: "CA",
+        programs: "200+",
+        image:
+          "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop&auto=format",
+        specialties: ["Medicine", "Engineering", "Arts", "Science"],
+        topCourses: [
+          "Medicine",
+          "Engineering",
+          "Arts",
+          "Management",
+          "Science",
+        ],
+        description:
+          "World's leading research university with exceptional academic programs and distinguished faculty.",
+      },
+    ],
+  },
+};

@@ -15,8 +15,8 @@ import {
 
 // Import available assets
 import dashboardImage from "@assets/image_1751013500039.png";
-import universityManagementImage from "@assets/image_1751297651502.png";
-import formImage from "@assets/image_1751004684136.png";
+import ausNationUniversity from "@assets/audNationUniversity1.png";
+import bondUniversity from "@assets/BondUniversity.jpg";
 // Country data - in a real app this would come from an API
 const countryData = {
   australia: {
@@ -53,7 +53,7 @@ const countryData = {
         ranking: "#32",
         acceptance: "35%",
         tuition: "AUD 27,916",
-        image: "https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        image: ausNationUniversity,
         specialties: ["Business", "Medicine", "Law", "Engineering"],
         topCourses: [
           "Undergraduate",
@@ -69,8 +69,7 @@ const countryData = {
         ranking: "#600",
         acceptance: "60-70%",
         tuition: "AUD 33,000",
-        image:
-          "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=400&h=300&fit=crop&auto=format",
+        image: bondUniversity,
         specialties: [
           "Computer Science",
           "Engineering",
