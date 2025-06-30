@@ -871,7 +871,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       ];
 
       for (const school of harvardSchools) {
-        await storage.createSchool(school);
+        await storage.createSchool({ ...school, universityId: 1 }); // Harvard University ID
       }
 
       // Import Visa Requirements
@@ -906,8 +906,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ]
       };
 
-      await storage.createVisaRequirement(f1Visa);
-      await storage.createVisaRequirement(j1Visa);
+      await storage.createVisaRequirement({ ...f1Visa, universityId: 1 });
+      await storage.createVisaRequirement({ ...j1Visa, universityId: 1 });
 
       // Import Costs
       const undergraduateCosts = {
@@ -930,8 +930,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         total: "$80,972 - $107,640"
       };
 
-      await storage.createCost(undergraduateCosts);
-      await storage.createCost(graduateCosts);
+      await storage.createCost({ ...undergraduateCosts, universityId: 1 });
+      await storage.createCost({ ...graduateCosts, universityId: 1 });
 
       // Import Scholarships
       const harvardScholarships = [
@@ -941,7 +941,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       ];
 
       for (const scholarship of harvardScholarships) {
-        await storage.createScholarship(scholarship);
+        await storage.createScholarship({ ...scholarship, universityId: 1 });
       }
 
       // Import Admission Timeline
@@ -955,7 +955,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       ];
 
       for (const item of timeline) {
-        await storage.createAdmissionTimeline(item);
+        await storage.createAdmissionTimeline({ ...item, universityId: 1 });
       }
 
       res.json({ message: "Harvard data imported successfully", imported: { schools: 6, visaRequirements: 2, costs: 2, scholarships: 3, timeline: 6 } });
