@@ -653,7 +653,7 @@ export default function UniversityDetail() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {schools.map((school, index) => (
+              {schools.map((school: any, index: number) => (
                 <Card
                   key={index}
                   className="group overflow-hidden hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-gold/40 bg-gradient-to-br from-white via-white to-slate-50/30 hover:-translate-y-3 hover:scale-105"
