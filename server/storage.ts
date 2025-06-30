@@ -22,6 +22,21 @@ import {
   type InsertUniversity,
   type LoginUser,
   type RegisterUser,
+  schools,
+  type School,
+  type InsertSchool,
+  visaRequirements,
+  type VisaRequirement,
+  type InsertVisaRequirement,
+  costs,
+  type Cost,
+  type InsertCost,
+  scholarships,
+  type Scholarship,
+  type InsertScholarship,
+  admissionTimeline,
+  type AdmissionTimeline,
+  type InsertAdmissionTimeline,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc } from "drizzle-orm";
@@ -371,6 +386,167 @@ export class DatabaseStorage implements IStorage {
       .where(eq(universities.id, id))
       .returning();
     return deletedUniversity;
+  }
+
+  // Attachment/Text System implementations
+  
+  // Schools methods
+  async getAllSchools(): Promise<School[]> {
+    return await db.select().from(schools).orderBy(desc(schools.createdAt));
+  }
+
+  async createSchool(insertSchool: InsertSchool): Promise<School> {
+    const [school] = await db
+      .insert(schools)
+      .values(insertSchool)
+      .returning();
+    return school;
+  }
+
+  async updateSchool(id: number, updates: Partial<School>): Promise<School | undefined> {
+    const [updated] = await db
+      .update(schools)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(schools.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteSchool(id: number): Promise<School | undefined> {
+    const [deleted] = await db
+      .delete(schools)
+      .where(eq(schools.id, id))
+      .returning();
+    return deleted;
+  }
+
+  // Visa Requirements methods
+  async getAllVisaRequirements(): Promise<VisaRequirement[]> {
+    return await db.select().from(visaRequirements).orderBy(desc(visaRequirements.createdAt));
+  }
+
+  async createVisaRequirement(insertVisaReq: InsertVisaRequirement): Promise<VisaRequirement> {
+    const [visaReq] = await db
+      .insert(visaRequirements)
+      .values(insertVisaReq)
+      .returning();
+    return visaReq;
+  }
+
+  async updateVisaRequirement(id: number, updates: Partial<VisaRequirement>): Promise<VisaRequirement | undefined> {
+    const [updated] = await db
+      .update(visaRequirements)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(visaRequirements.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteVisaRequirement(id: number): Promise<VisaRequirement | undefined> {
+    const [deleted] = await db
+      .delete(visaRequirements)
+      .where(eq(visaRequirements.id, id))
+      .returning();
+    return deleted;
+  }
+
+  // Costs methods
+  async getAllCosts(): Promise<Cost[]> {
+    return await db.select().from(costs).orderBy(desc(costs.createdAt));
+  }
+
+  async createCost(insertCost: InsertCost): Promise<Cost> {
+    const [cost] = await db
+      .insert(costs)
+      .values(insertCost)
+      .returning();
+    return cost;
+  }
+
+  async updateCost(id: number, updates: Partial<Cost>): Promise<Cost | undefined> {
+    const [updated] = await db
+      .update(costs)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(costs.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteCost(id: number): Promise<Cost | undefined> {
+    const [deleted] = await db
+      .delete(costs)
+      .where(eq(costs.id, id))
+      .returning();
+    return deleted;
+  }
+
+  // Scholarships methods
+  async getAllScholarships(): Promise<Scholarship[]> {
+    return await db.select().from(scholarships).orderBy(desc(scholarships.createdAt));
+  }
+
+  async createScholarship(insertScholarship: InsertScholarship): Promise<Scholarship> {
+    const [scholarship] = await db
+      .insert(scholarships)
+      .values(insertScholarship)
+      .returning();
+    return scholarship;
+  }
+
+  async updateScholarship(id: number, updates: Partial<Scholarship>): Promise<Scholarship | undefined> {
+    const [updated] = await db
+      .update(scholarships)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(scholarships.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteScholarship(id: number): Promise<Scholarship | undefined> {
+    const [deleted] = await db
+      .delete(scholarships)
+      .where(eq(scholarships.id, id))
+      .returning();
+    return deleted;
+  }
+
+  // Admission Timeline methods
+  async getAllAdmissionTimeline(): Promise<AdmissionTimeline[]> {
+    return await db.select().from(admissionTimeline).orderBy(desc(admissionTimeline.createdAt));
+  }
+
+  async createAdmissionTimeline(insertTimeline: InsertAdmissionTimeline): Promise<AdmissionTimeline> {
+    const [timeline] = await db
+      .insert(admissionTimeline)
+      .values(insertTimeline)
+      .returning();
+    return timeline;
+  }
+
+  async updateAdmissionTimeline(id: number, updates: Partial<AdmissionTimeline>): Promise<AdmissionTimeline | undefined> {
+    const [updated] = await db
+      .update(admissionTimeline)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(admissionTimeline.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteAdmissionTimeline(id: number): Promise<AdmissionTimeline | undefined> {
+    const [deleted] = await db
+      .delete(admissionTimeline)
+      .where(eq(admissionTimeline.id, id))
+      .returning();
+    return deleted;
+  }
+
+  // Missing deleteUser method to fix interface error
+  async deleteUser(id: number): Promise<User | undefined> {
+    const [deleted] = await db
+      .delete(users)
+      .where(eq(users.id, id))
+      .returning();
+    return deleted;
   }
 }
 

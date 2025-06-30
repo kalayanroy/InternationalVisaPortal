@@ -167,7 +167,24 @@ export default function AddUniversity() {
           </CardHeader>
 
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-8">
+            <Tabs defaultValue="university" className="space-y-6">
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="university" className="flex items-center gap-2">
+                  <School className="h-4 w-4" />
+                  University Info
+                </TabsTrigger>
+                <TabsTrigger value="attachments" className="flex items-center gap-2">
+                  <FileText className="h-4 w-4" />
+                  Attachments
+                </TabsTrigger>
+                <TabsTrigger value="costs" className="flex items-center gap-2">
+                  <DollarSign className="h-4 w-4" />
+                  Cost Details
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="university">
+                <form onSubmit={handleSubmit} className="space-y-8">
               {/* Basic Information */}
               <div className="space-y-6">
                 <h3 className="text-lg font-semibold text-navy border-b border-gray-200 pb-2">
@@ -525,7 +542,348 @@ export default function AddUniversity() {
                   )}
                 </Button>
               </div>
-            </form>
+                </form>
+              </TabsContent>
+
+              {/* Attachments Tab */}
+              <TabsContent value="attachments" className="space-y-6">
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold text-navy border-b border-gray-200 pb-2">
+                    Attachment Text System
+                  </h3>
+                  
+                  <div className="grid gap-6">
+                    <Card className="border border-gray-200">
+                      <CardHeader>
+                        <CardTitle className="text-navy">School Programs</CardTitle>
+                        <CardDescription>
+                          Manage school programs and course information
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-4">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                              <Label htmlFor="schoolName" className="text-sm font-medium text-gray-700">
+                                School Name
+                              </Label>
+                              <Input
+                                id="schoolName"
+                                placeholder="e.g., Harvard Medical School"
+                                className="border-gray-300 focus:border-navy focus:ring-navy"
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="schoolCategory" className="text-sm font-medium text-gray-700">
+                                Category
+                              </Label>
+                              <Input
+                                id="schoolCategory"
+                                placeholder="e.g., medical, business, law"
+                                className="border-gray-300 focus:border-navy focus:ring-navy"
+                              />
+                            </div>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div className="space-y-2">
+                              <Label htmlFor="schoolTuition" className="text-sm font-medium text-gray-700">
+                                Tuition
+                              </Label>
+                              <Input
+                                id="schoolTuition"
+                                placeholder="e.g., $69,300"
+                                className="border-gray-300 focus:border-navy focus:ring-navy"
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="schoolDuration" className="text-sm font-medium text-gray-700">
+                                Duration
+                              </Label>
+                              <Input
+                                id="schoolDuration"
+                                placeholder="e.g., 4 years"
+                                className="border-gray-300 focus:border-navy focus:ring-navy"
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="schoolDeadline" className="text-sm font-medium text-gray-700">
+                                Deadline
+                              </Label>
+                              <Input
+                                id="schoolDeadline"
+                                placeholder="e.g., October 15"
+                                className="border-gray-300 focus:border-navy focus:ring-navy"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="space-y-2">
+                            <Label htmlFor="schoolRequirements" className="text-sm font-medium text-gray-700">
+                              Requirements
+                            </Label>
+                            <textarea
+                              id="schoolRequirements"
+                              className="w-full p-3 border border-gray-300 rounded-md resize-none focus:border-navy focus:ring-navy"
+                              rows={3}
+                              placeholder="e.g., MCAT, Pre-med courses, GPA requirements"
+                            />
+                          </div>
+                          
+                          <Button className="bg-navy hover:bg-navy/90 text-white">
+                            <Plus className="h-4 w-4 mr-2" />
+                            Add School Program
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="border border-gray-200">
+                      <CardHeader>
+                        <CardTitle className="text-navy">Visa Requirements</CardTitle>
+                        <CardDescription>
+                          Manage student visa requirements and documentation
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-4">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                              <Label htmlFor="visaType" className="text-sm font-medium text-gray-700">
+                                Visa Type
+                              </Label>
+                              <Input
+                                id="visaType"
+                                placeholder="e.g., F1 Visa, J1 Visa"
+                                className="border-gray-300 focus:border-navy focus:ring-navy"
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="visaFee" className="text-sm font-medium text-gray-700">
+                                Fee
+                              </Label>
+                              <Input
+                                id="visaFee"
+                                placeholder="e.g., $185"
+                                className="border-gray-300 focus:border-navy focus:ring-navy"
+                              />
+                            </div>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                              <Label htmlFor="visaProcessing" className="text-sm font-medium text-gray-700">
+                                Processing Time
+                              </Label>
+                              <Input
+                                id="visaProcessing"
+                                placeholder="e.g., 3-5 weeks"
+                                className="border-gray-300 focus:border-navy focus:ring-navy"
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="visaInterview" className="text-sm font-medium text-gray-700">
+                                Interview Required
+                              </Label>
+                              <Input
+                                id="visaInterview"
+                                placeholder="e.g., Required"
+                                className="border-gray-300 focus:border-navy focus:ring-navy"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="space-y-2">
+                            <Label htmlFor="visaRequirements" className="text-sm font-medium text-gray-700">
+                              Requirements <span className="text-gray-500">(comma-separated)</span>
+                            </Label>
+                            <textarea
+                              id="visaRequirements"
+                              className="w-full p-3 border border-gray-300 rounded-md resize-none focus:border-navy focus:ring-navy"
+                              rows={4}
+                              placeholder="Form I-20, SEVIS fee payment, DS-160 application, Valid passport, Financial documentation"
+                            />
+                          </div>
+                          
+                          <Button className="bg-navy hover:bg-navy/90 text-white">
+                            <Plus className="h-4 w-4 mr-2" />
+                            Add Visa Requirement
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
+              </TabsContent>
+
+              {/* Costs Tab */}
+              <TabsContent value="costs" className="space-y-6">
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold text-navy border-b border-gray-200 pb-2">
+                    Cost Information
+                  </h3>
+                  
+                  <Card className="border border-gray-200">
+                    <CardHeader>
+                      <CardTitle className="text-navy">Annual Cost Breakdown</CardTitle>
+                      <CardDescription>
+                        Detailed cost information for different study levels
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-6">
+                        <div className="space-y-2">
+                          <Label htmlFor="costCategory" className="text-sm font-medium text-gray-700">
+                            Category
+                          </Label>
+                          <Input
+                            id="costCategory"
+                            placeholder="e.g., undergraduate, graduate"
+                            className="border-gray-300 focus:border-navy focus:ring-navy"
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="costTuition" className="text-sm font-medium text-gray-700">
+                              Tuition
+                            </Label>
+                            <Input
+                              id="costTuition"
+                              placeholder="e.g., $59,076"
+                              className="border-gray-300 focus:border-navy focus:ring-navy"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="costFees" className="text-sm font-medium text-gray-700">
+                              Fees
+                            </Label>
+                            <Input
+                              id="costFees"
+                              placeholder="e.g., $4,195"
+                              className="border-gray-300 focus:border-navy focus:ring-navy"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="costRoomBoard" className="text-sm font-medium text-gray-700">
+                              Room & Board
+                            </Label>
+                            <Input
+                              id="costRoomBoard"
+                              placeholder="e.g., $20,374"
+                              className="border-gray-300 focus:border-navy focus:ring-navy"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="costBooks" className="text-sm font-medium text-gray-700">
+                              Books
+                            </Label>
+                            <Input
+                              id="costBooks"
+                              placeholder="e.g., $1,000"
+                              className="border-gray-300 focus:border-navy focus:ring-navy"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="costPersonal" className="text-sm font-medium text-gray-700">
+                              Personal
+                            </Label>
+                            <Input
+                              id="costPersonal"
+                              placeholder="e.g., $2,500"
+                              className="border-gray-300 focus:border-navy focus:ring-navy"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="costTotal" className="text-sm font-medium text-gray-700">
+                            Total Annual Cost
+                          </Label>
+                          <Input
+                            id="costTotal"
+                            placeholder="e.g., $87,145"
+                            className="border-gray-300 focus:border-navy focus:ring-navy font-semibold"
+                          />
+                        </div>
+                        
+                        <Button className="bg-navy hover:bg-navy/90 text-white">
+                          <Plus className="h-4 w-4 mr-2" />
+                          Add Cost Information
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border border-gray-200">
+                    <CardHeader>
+                      <CardTitle className="text-navy">Scholarships & Financial Aid</CardTitle>
+                      <CardDescription>
+                        Available funding opportunities for students
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="scholarshipName" className="text-sm font-medium text-gray-700">
+                              Scholarship Name
+                            </Label>
+                            <Input
+                              id="scholarshipName"
+                              placeholder="e.g., Harvard Financial Aid"
+                              className="border-gray-300 focus:border-navy focus:ring-navy"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="scholarshipAmount" className="text-sm font-medium text-gray-700">
+                              Amount
+                            </Label>
+                            <Input
+                              id="scholarshipAmount"
+                              placeholder="e.g., Up to full tuition"
+                              className="border-gray-300 focus:border-navy focus:ring-navy"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="scholarshipCriteria" className="text-sm font-medium text-gray-700">
+                            Criteria
+                          </Label>
+                          <textarea
+                            id="scholarshipCriteria"
+                            className="w-full p-3 border border-gray-300 rounded-md resize-none focus:border-navy focus:ring-navy"
+                            rows={2}
+                            placeholder="e.g., Need-based, family income under $85,000"
+                          />
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="scholarshipCoverage" className="text-sm font-medium text-gray-700">
+                            Coverage Details
+                          </Label>
+                          <textarea
+                            id="scholarshipCoverage"
+                            className="w-full p-3 border border-gray-300 rounded-md resize-none focus:border-navy focus:ring-navy"
+                            rows={2}
+                            placeholder="e.g., 100% of families earning less than $85,000 pay nothing"
+                          />
+                        </div>
+                        
+                        <Button className="bg-navy hover:bg-navy/90 text-white">
+                          <Plus className="h-4 w-4 mr-2" />
+                          Add Scholarship
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </TabsContent>
+            </Tabs>
           </CardContent>
         </Card>
       </div>
