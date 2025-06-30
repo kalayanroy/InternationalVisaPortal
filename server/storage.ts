@@ -71,6 +71,37 @@ export interface IStorage {
   createUniversity(university: InsertUniversity): Promise<University>;
   updateUniversity(id: number, updates: Partial<University>): Promise<University | undefined>;
   deleteUniversity(id: number): Promise<University | undefined>;
+  
+  // Attachment/Text System methods
+  // Schools
+  getAllSchools(): Promise<School[]>;
+  createSchool(school: InsertSchool): Promise<School>;
+  updateSchool(id: number, updates: Partial<School>): Promise<School | undefined>;
+  deleteSchool(id: number): Promise<School | undefined>;
+  
+  // Visa Requirements
+  getAllVisaRequirements(): Promise<VisaRequirement[]>;
+  createVisaRequirement(visaReq: InsertVisaRequirement): Promise<VisaRequirement>;
+  updateVisaRequirement(id: number, updates: Partial<VisaRequirement>): Promise<VisaRequirement | undefined>;
+  deleteVisaRequirement(id: number): Promise<VisaRequirement | undefined>;
+  
+  // Costs
+  getAllCosts(): Promise<Cost[]>;
+  createCost(cost: InsertCost): Promise<Cost>;
+  updateCost(id: number, updates: Partial<Cost>): Promise<Cost | undefined>;
+  deleteCost(id: number): Promise<Cost | undefined>;
+  
+  // Scholarships
+  getAllScholarships(): Promise<Scholarship[]>;
+  createScholarship(scholarship: InsertScholarship): Promise<Scholarship>;
+  updateScholarship(id: number, updates: Partial<Scholarship>): Promise<Scholarship | undefined>;
+  deleteScholarship(id: number): Promise<Scholarship | undefined>;
+  
+  // Admission Timeline
+  getAllAdmissionTimeline(): Promise<AdmissionTimeline[]>;
+  createAdmissionTimeline(timeline: InsertAdmissionTimeline): Promise<AdmissionTimeline>;
+  updateAdmissionTimeline(id: number, updates: Partial<AdmissionTimeline>): Promise<AdmissionTimeline | undefined>;
+  deleteAdmissionTimeline(id: number): Promise<AdmissionTimeline | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {

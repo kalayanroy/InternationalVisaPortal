@@ -1,0 +1,123 @@
+const schools = [
+    {
+      name: "Harvard Medical School",
+      tuition: "$69,300",
+      duration: "4 years",
+      requirements: "MCAT, Pre-med courses",
+      deadline: "October 15",
+    },
+    {
+      name: "Harvard Business School",
+      tuition: "$73,440",
+      duration: "2 years",
+      requirements: "GMAT/GRE, Work experience",
+      deadline: "April 2",
+    },
+    {
+      name: "Harvard Law School",
+      tuition: "$70,430",
+      duration: "3 years",
+      requirements: "LSAT, Bachelor's degree",
+      deadline: "February 15",
+    },
+    {
+      name: "School of Engineering",
+      tuition: "$59,076",
+      duration: "4 years",
+      requirements: "SAT/ACT, Strong math/science",
+      deadline: "January 1",
+    },
+    {
+      name: "Graduate School of Education",
+      tuition: "$55,272",
+      duration: "1-2 years",
+      requirements: "GRE, Teaching experience preferred",
+      deadline: "January 2",
+    },
+    {
+      name: "Kennedy School of Government",
+      tuition: "$65,875",
+      duration: "2 years",
+      requirements: "GRE/GMAT, Policy experience",
+      deadline: "December 1",
+    },
+  ];
+
+  const visaRequirements = {
+    f1Visa: {
+      processing: "3-5 weeks",
+      fee: "$185",
+      interview: "Required",
+      requirements: [
+        "Form I-20 from Harvard University",
+        "SEVIS fee payment ($350)",
+        "DS-160 application completed online",
+        "Valid passport (6+ months validity)",
+        "Financial documentation ($85,000+ for first year)",
+        "Academic transcripts and test scores",
+        "Visa interview at US Embassy/Consulate",
+        "Biometric appointment if required",
+      ],
+    },
+    j1Visa: {
+      processing: "2-4 weeks",
+      fee: "$185",
+      interview: "Required",
+      requirements: [
+        "Form DS-2019 from Harvard",
+        "SEVIS fee payment ($220)",
+        "Two-year home residency requirement",
+        "Health insurance mandatory",
+        "Program sponsor verification",
+      ],
+    },
+  };
+
+  const costs = {
+    undergraduate: {
+      tuition: "$59,076",
+      fees: "$4,195",
+      roomBoard: "$20,374",
+      books: "$1,000",
+      personal: "$2,500",
+      total: "$87,145",
+    },
+    graduate: {
+      tuition: "$55,272 - $73,440",
+      fees: "$3,500 - $5,000",
+      roomBoard: "$18,000 - $25,000",
+      books: "$1,200",
+      personal: "$3,000",
+      total: "$80,972 - $107,640",
+    },
+  };
+
+  const scholarships = [
+    {
+      name: "Harvard Financial Aid",
+      amount: "Up to full tuition",
+      criteria: "Need-based, family income under $85,000",
+      coverage: "100% of families earning less than $85,000 pay nothing",
+    },
+    {
+      name: "Harvard Merit Scholarships",
+      amount: "$5,000 - $25,000",
+      criteria: "Academic excellence, leadership",
+      coverage: "Various partial awards",
+    },
+    {
+      name: "International Student Aid",
+      amount: "Variable",
+      criteria: "Financial need demonstration",
+      coverage: "Same aid policy as domestic students",
+    },
+  ];
+
+  const admissionTimeline = [
+    { date: "August - October", task: "Prepare application materials" },
+    { date: "November 1", task: "Early Action deadline" },
+    { date: "January 1", task: "Regular Decision deadline" },
+    { date: "Mid-December", task: "Early Action results" },
+    { date: "Late March", task: "Regular Decision results" },
+    { date: "May 1", task: "Enrollment deposit deadline" },
+  ];

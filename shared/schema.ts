@@ -259,3 +259,107 @@ export const insertStudentApplicationSchema = createInsertSchema(studentApplicat
 
 export type InsertStudentApplication = z.infer<typeof insertStudentApplicationSchema>;
 export type StudentApplication = typeof studentApplications.$inferSelect;
+
+// Schools table for attachment system
+export const schools = pgTable("schools", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  tuition: varchar("tuition", { length: 100 }),
+  duration: varchar("duration", { length: 100 }),
+  requirements: text("requirements"),
+  deadline: varchar("deadline", { length: 100 }),
+  category: varchar("category", { length: 100 }), // undergraduate, graduate, medical, etc.
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertSchoolSchema = createInsertSchema(schools).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertSchool = z.infer<typeof insertSchoolSchema>;
+export type School = typeof schools.$inferSelect;
+
+// Visa Requirements table
+export const visaRequirements = pgTable("visa_requirements", {
+  id: serial("id").primaryKey(),
+  visaType: varchar("visa_type", { length: 50 }).notNull(), // f1Visa, j1Visa
+  processing: varchar("processing", { length: 100 }),
+  fee: varchar("fee", { length: 50 }),
+  interview: varchar("interview", { length: 50 }),
+  requirements: text("requirements").array(), // array of requirements
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertVisaRequirementSchema = createInsertSchema(visaRequirements).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertVisaRequirement = z.infer<typeof insertVisaRequirementSchema>;
+export type VisaRequirement = typeof visaRequirements.$inferSelect;
+
+// Costs table
+export const costs = pgTable("costs", {
+  id: serial("id").primaryKey(),
+  category: varchar("category", { length: 100 }).notNull(), // undergraduate, graduate
+  tuition: varchar("tuition", { length: 100 }),
+  fees: varchar("fees", { length: 100 }),
+  roomBoard: varchar("room_board", { length: 100 }),
+  books: varchar("books", { length: 100 }),
+  personal: varchar("personal", { length: 100 }),
+  total: varchar("total", { length: 100 }),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertCostSchema = createInsertSchema(costs).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertCost = z.infer<typeof insertCostSchema>;
+export type Cost = typeof costs.$inferSelect;
+
+// Scholarships table
+export const scholarships = pgTable("scholarships", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  amount: varchar("amount", { length: 100 }),
+  criteria: text("criteria"),
+  coverage: text("coverage"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertScholarshipSchema = createInsertSchema(scholarships).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertScholarship = z.infer<typeof insertScholarshipSchema>;
+export type Scholarship = typeof scholarships.$inferSelect;
+
+// Admission Timeline table
+export const admissionTimeline = pgTable("admission_timeline", {
+  id: serial("id").primaryKey(),
+  date: varchar("date", { length: 100 }).notNull(),
+  task: text("task").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertAdmissionTimelineSchema = createInsertSchema(admissionTimeline).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertAdmissionTimeline = z.infer<typeof insertAdmissionTimelineSchema>;
+export type AdmissionTimeline = typeof admissionTimeline.$inferSelect;

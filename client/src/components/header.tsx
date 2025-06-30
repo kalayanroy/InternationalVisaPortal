@@ -130,7 +130,10 @@ export default function Header() {
                   </DropdownMenuItem>
                   {user?.role === "admin" && (
                     <DropdownMenuItem>
-                      <Link href="/admin" className="flex items-center w-full">
+                      <Link
+                        href="/admin-dashboard"
+                        className="flex items-center w-full"
+                      >
                         <Settings className="h-4 w-4 mr-2" />
                         Admin Dashboard
                       </Link>

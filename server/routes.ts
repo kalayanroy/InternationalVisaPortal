@@ -743,6 +743,228 @@ export async function registerRoutes(app: Express): Promise<Server> {
     },
   );
 
+  // Attachment System API Routes
+  
+  // Schools routes
+  app.get('/api/admin/schools', authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const schools = await storage.getAllSchools();
+      res.json(schools);
+    } catch (error) {
+      console.error("Error fetching schools:", error);
+      res.status(500).json({ message: "Failed to fetch schools" });
+    }
+  });
+
+  app.post('/api/admin/schools', authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const schoolData = req.body;
+      const newSchool = await storage.createSchool(schoolData);
+      res.status(201).json(newSchool);
+    } catch (error) {
+      console.error("Error creating school:", error);
+      res.status(500).json({ message: "Failed to create school" });
+    }
+  });
+
+  // Visa Requirements routes
+  app.get('/api/admin/visa-requirements', authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const visaReqs = await storage.getAllVisaRequirements();
+      res.json(visaReqs);
+    } catch (error) {
+      console.error("Error fetching visa requirements:", error);
+      res.status(500).json({ message: "Failed to fetch visa requirements" });
+    }
+  });
+
+  app.post('/api/admin/visa-requirements', authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const visaReqData = req.body;
+      const newVisaReq = await storage.createVisaRequirement(visaReqData);
+      res.status(201).json(newVisaReq);
+    } catch (error) {
+      console.error("Error creating visa requirement:", error);
+      res.status(500).json({ message: "Failed to create visa requirement" });
+    }
+  });
+
+  // Costs routes
+  app.get('/api/admin/costs', authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const costs = await storage.getAllCosts();
+      res.json(costs);
+    } catch (error) {
+      console.error("Error fetching costs:", error);
+      res.status(500).json({ message: "Failed to fetch costs" });
+    }
+  });
+
+  app.post('/api/admin/costs', authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const costData = req.body;
+      const newCost = await storage.createCost(costData);
+      res.status(201).json(newCost);
+    } catch (error) {
+      console.error("Error creating cost:", error);
+      res.status(500).json({ message: "Failed to create cost" });
+    }
+  });
+
+  // Scholarships routes
+  app.get('/api/admin/scholarships', authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const scholarships = await storage.getAllScholarships();
+      res.json(scholarships);
+    } catch (error) {
+      console.error("Error fetching scholarships:", error);
+      res.status(500).json({ message: "Failed to fetch scholarships" });
+    }
+  });
+
+  app.post('/api/admin/scholarships', authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const scholarshipData = req.body;
+      const newScholarship = await storage.createScholarship(scholarshipData);
+      res.status(201).json(newScholarship);
+    } catch (error) {
+      console.error("Error creating scholarship:", error);
+      res.status(500).json({ message: "Failed to create scholarship" });
+    }
+  });
+
+  // Admission Timeline routes
+  app.get('/api/admin/admission-timeline', authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const timeline = await storage.getAllAdmissionTimeline();
+      res.json(timeline);
+    } catch (error) {
+      console.error("Error fetching admission timeline:", error);
+      res.status(500).json({ message: "Failed to fetch admission timeline" });
+    }
+  });
+
+  app.post('/api/admin/admission-timeline', authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const timelineData = req.body;
+      const newTimeline = await storage.createAdmissionTimeline(timelineData);
+      res.status(201).json(newTimeline);
+    } catch (error) {
+      console.error("Error creating admission timeline:", error);
+      res.status(500).json({ message: "Failed to create admission timeline" });
+    }
+  });
+
+  // Bulk import route for Harvard data
+  app.post('/api/admin/import-harvard-data', authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      console.log("Importing Harvard data...");
+
+      // Import Schools
+      const harvardSchools = [
+        { name: "Harvard Medical School", tuition: "$69,300", duration: "4 years", requirements: "MCAT, Pre-med courses", deadline: "October 15", category: "medical" },
+        { name: "Harvard Business School", tuition: "$73,440", duration: "2 years", requirements: "GMAT/GRE, Work experience", deadline: "April 2", category: "business" },
+        { name: "Harvard Law School", tuition: "$70,430", duration: "3 years", requirements: "LSAT, Bachelor's degree", deadline: "February 15", category: "law" },
+        { name: "School of Engineering", tuition: "$59,076", duration: "4 years", requirements: "SAT/ACT, Strong math/science", deadline: "January 1", category: "engineering" },
+        { name: "Graduate School of Education", tuition: "$55,272", duration: "1-2 years", requirements: "GRE, Teaching experience preferred", deadline: "January 2", category: "education" },
+        { name: "Kennedy School of Government", tuition: "$65,875", duration: "2 years", requirements: "GRE/GMAT, Policy experience", deadline: "December 1", category: "government" },
+      ];
+
+      for (const school of harvardSchools) {
+        await storage.createSchool(school);
+      }
+
+      // Import Visa Requirements
+      const f1Visa = {
+        visaType: "F1 Visa",
+        processing: "3-5 weeks",
+        fee: "$185",
+        interview: "Required",
+        requirements: [
+          "Form I-20 from Harvard University",
+          "SEVIS fee payment ($350)",
+          "DS-160 application completed online",
+          "Valid passport (6+ months validity)",
+          "Financial documentation ($85,000+ for first year)",
+          "Academic transcripts and test scores",
+          "Visa interview at US Embassy/Consulate",
+          "Biometric appointment if required"
+        ]
+      };
+
+      const j1Visa = {
+        visaType: "J1 Visa",
+        processing: "2-4 weeks",
+        fee: "$185",
+        interview: "Required",
+        requirements: [
+          "Form DS-2019 from Harvard",
+          "SEVIS fee payment ($220)",
+          "Two-year home residency requirement",
+          "Health insurance mandatory",
+          "Program sponsor verification"
+        ]
+      };
+
+      await storage.createVisaRequirement(f1Visa);
+      await storage.createVisaRequirement(j1Visa);
+
+      // Import Costs
+      const undergraduateCosts = {
+        category: "undergraduate",
+        tuition: "$59,076",
+        fees: "$4,195",
+        roomBoard: "$20,374",
+        books: "$1,000",
+        personal: "$2,500",
+        total: "$87,145"
+      };
+
+      const graduateCosts = {
+        category: "graduate",
+        tuition: "$55,272 - $73,440",
+        fees: "$3,500 - $5,000",
+        roomBoard: "$18,000 - $25,000",
+        books: "$1,200",
+        personal: "$3,000",
+        total: "$80,972 - $107,640"
+      };
+
+      await storage.createCost(undergraduateCosts);
+      await storage.createCost(graduateCosts);
+
+      // Import Scholarships
+      const harvardScholarships = [
+        { name: "Harvard Financial Aid", amount: "Up to full tuition", criteria: "Need-based, family income under $85,000", coverage: "100% of families earning less than $85,000 pay nothing" },
+        { name: "Harvard Merit Scholarships", amount: "$5,000 - $25,000", criteria: "Academic excellence, leadership", coverage: "Various partial awards" },
+        { name: "International Student Aid", amount: "Variable", criteria: "Financial need demonstration", coverage: "Same aid policy as domestic students" }
+      ];
+
+      for (const scholarship of harvardScholarships) {
+        await storage.createScholarship(scholarship);
+      }
+
+      // Import Admission Timeline
+      const timeline = [
+        { date: "August - October", task: "Prepare application materials" },
+        { date: "November 1", task: "Early Action deadline" },
+        { date: "January 1", task: "Regular Decision deadline" },
+        { date: "Mid-December", task: "Early Action results" },
+        { date: "Late March", task: "Regular Decision results" },
+        { date: "May 1", task: "Enrollment deposit deadline" }
+      ];
+
+      for (const item of timeline) {
+        await storage.createAdmissionTimeline(item);
+      }
+
+      res.json({ message: "Harvard data imported successfully", imported: { schools: 6, visaRequirements: 2, costs: 2, scholarships: 3, timeline: 6 } });
+    } catch (error) {
+      console.error("Error importing Harvard data:", error);
+      res.status(500).json({ message: "Failed to import Harvard data" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

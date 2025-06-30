@@ -24,6 +24,7 @@ import Register from "@/pages/register";
 import AdminDashboard from "@/pages/admin-dashboard";
 import StudentApplication from "@/pages/student-application";
 import AddUniversity from "@/pages/add-university";
+import AttachmentSystem from "@/pages/attachment-system";
 
 function Router() {
   return (
@@ -48,6 +49,7 @@ function Router() {
       <Route path="/admin-dashboard" component={AdminDashboard} />
       <Route path="/student-application" component={StudentApplication} />
       <Route path="/add-university" component={AddUniversity} />
+      <Route path="/attachment-system" component={AttachmentSystem} />
       <Route component={NotFound} />
     </Switch>
   );
