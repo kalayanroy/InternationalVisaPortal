@@ -64,9 +64,9 @@ export default function Header() {
                 href="/"
                 className={`font-medium transition-colors hover:scale-105 ${
                   isScrolled
-                    ? "text-navy hover:text-gold"
-                    : "text-white hover:text-gold"
-                } ${location === "/" ? "border-b-2 border-gold" : ""}`}
+                    ? "text-navy hover:text-main"
+                    : "text-white hover:text-main"
+                } ${location === "/" ? "border-b-2 border-main" : ""}`}
               >
                 Home
               </Link>
@@ -74,9 +74,9 @@ export default function Header() {
                 href="/about"
                 className={`font-medium transition-colors hover:scale-105 ${
                   isScrolled
-                    ? "text-navy hover:text-gold"
-                    : "text-white hover:text-gold"
-                } ${location === "/about" ? "border-b-2 border-gold" : ""}`}
+                    ? "text-navy hover:text-main"
+                    : "text-white hover:text-main"
+                } ${location === "/about" ? "border-b-2 border-main" : ""}`}
               >
                 About
               </Link>
@@ -84,9 +84,9 @@ export default function Header() {
                 href="/services"
                 className={`font-medium transition-colors hover:scale-105 ${
                   isScrolled
-                    ? "text-navy hover:text-gold"
-                    : "text-white hover:text-gold"
-                } ${location === "/services" ? "border-b-2 border-gold" : ""}`}
+                    ? "text-navy hover:text-main"
+                    : "text-white hover:text-main"
+                } ${location === "/services" ? "border-b-2 border-main" : ""}`}
               >
                 Services
               </Link>
@@ -94,9 +94,9 @@ export default function Header() {
                 href="/universities"
                 className={`font-medium transition-colors hover:scale-105 ${
                   isScrolled
-                    ? "text-navy hover:text-gold"
-                    : "text-white hover:text-gold"
-                } ${location === "/universities" ? "border-b-2 border-gold" : ""}`}
+                    ? "text-navy hover:text-main"
+                    : "text-white hover:text-main"
+                } ${location === "/universities" ? "border-b-2 border-main" : ""}`}
               >
                 Universities
               </Link>
@@ -104,9 +104,9 @@ export default function Header() {
                 href="/success-stories"
                 className={`font-medium transition-colors hover:scale-105 ${
                   isScrolled
-                    ? "text-navy hover:text-gold"
-                    : "text-white hover:text-gold"
-                } ${location === "/success-stories" ? "border-b-2 border-gold" : ""}`}
+                    ? "text-navy hover:text-main"
+                    : "text-white hover:text-main"
+                } ${location === "/success-stories" ? "border-b-2 border-main" : ""}`}
               >
                 Success Stories
               </Link>
@@ -119,8 +119,8 @@ export default function Header() {
                     variant="ghost"
                     className={`flex items-center space-x-2 ${
                       isScrolled
-                        ? "text-navy hover:text-gold hover:bg-navy/10"
-                        : "text-white hover:text-gold hover:bg-white/10"
+                        ? "text-navy hover:text-main hover:bg-navy/10"
+                        : "text-white hover:text-main hover:bg-white/10"
                     }`}
                   >
                     <User className="h-4 w-4" />
@@ -160,8 +160,8 @@ export default function Header() {
                   <Button
                     className={`font-semibold px-6 py-2 rounded-lg transition-all duration-300 ${
                       isScrolled
-                        ? "bg-gold text-navy hover:bg-gold/90 hover:scale-105"
-                        : "bg-gold text-navy hover:bg-gold/90 hover:scale-105"
+                        ? "bg-main text-navy hover:bg-main/90 hover:scale-105"
+                        : "bg-main text-navy hover:bg-main/90 hover:scale-105"
                     }`}
                   >
                     Book Consultation
@@ -206,35 +206,35 @@ export default function Header() {
             <div className="px-2 pt-2 pb-3 space-y-1">
               <Link
                 href="/"
-                className="block px-3 py-2 text-navy hover:text-gold font-medium"
+                className="block px-3 py-2 text-navy hover:text-main font-medium"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Home
               </Link>
               <Link
                 href="/about"
-                className="block px-3 py-2 text-navy hover:text-gold font-medium"
+                className="block px-3 py-2 text-navy hover:text-main font-medium"
                 onClick={() => setIsMenuOpen(false)}
               >
                 About
               </Link>
               <Link
                 href="/services"
-                className="block px-3 py-2 text-navy hover:text-gold font-medium"
+                className="block px-3 py-2 text-navy hover:text-main font-medium"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Services
               </Link>
               <Link
                 href="/universities"
-                className="block px-3 py-2 text-navy hover:text-gold font-medium"
+                className="block px-3 py-2 text-navy hover:text-main font-medium"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Universities
               </Link>
               <Link
                 href="/success-stories"
-                className="block px-3 py-2 text-navy hover:text-gold font-medium"
+                className="block px-3 py-2 text-navy hover:text-main font-medium"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Success Stories
@@ -276,7 +276,7 @@ export default function Header() {
                 <div className="flex flex-col space-y-3 px-3">
                   <Link href="/consultation">
                     <Button
-                      className="w-full bg-gold text-navy hover:bg-gold/90"
+                      className="w-full bg-main text-navy hover:bg-main/90"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Book Consultation

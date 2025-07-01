@@ -532,7 +532,7 @@ export default function UniversityDetail() {
           <div className="mb-8">
             <Link
               href="/universities"
-              className="inline-flex items-center text-gold hover:text-white transition-colors bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full"
+              className="inline-flex items-center text-main hover:text-white transition-colors bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Universities
@@ -542,7 +542,7 @@ export default function UniversityDetail() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <div className="flex items-center space-x-4 mb-6">
-                <Badge className="bg-gold text-navy px-4 py-2 text-lg font-bold">
+                <Badge className="bg-main text-navy px-4 py-2 text-lg font-bold">
                   #1 World Ranking
                 </Badge>
                 <Badge
@@ -565,11 +565,11 @@ export default function UniversityDetail() {
 
               <div className="flex flex-col sm:flex-row gap-4 text-white">
                 <div className="flex items-center">
-                  <MapPin className="h-5 w-5 mr-2 text-gold" />
+                  <MapPin className="h-5 w-5 mr-2 text-main" />
                   <span>{university.location}</span>
                 </div>
                 <div className="flex items-center">
-                  <Users className="h-5 w-5 mr-2 text-gold" />
+                  <Users className="h-5 w-5 mr-2 text-main" />
                   <span>{university.students.toLocaleString()} students</span>
                 </div>
               </div>
@@ -673,7 +673,7 @@ export default function UniversityDetail() {
               {schools.map((school: any, index: number) => (
                 <Card
                   key={index}
-                  className="group overflow-hidden hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-gold/40 bg-gradient-to-br from-white via-white to-slate-50/30 hover:-translate-y-3 hover:scale-105"
+                  className="group overflow-hidden hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-main/40 bg-gradient-to-br from-white via-white to-slate-50/30 hover:-translate-y-3 hover:scale-105"
                 >
                   <div className="relative">
                     {/* Decorative Gradient */}
@@ -682,14 +682,14 @@ export default function UniversityDetail() {
 
                     <CardHeader className="relative pb-4">
                       <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-navy/10 via-navy/5 to-transparent rounded-2xl border border-navy/10 group-hover:border-gold/30 transition-all duration-300">
-                          <Building className="h-7 w-7 text-navy group-hover:text-gold transition-colors duration-300" />
+                        <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-navy/10 via-navy/5 to-transparent rounded-2xl border border-navy/10 group-hover:border-main/30 transition-all duration-300">
+                          <Building className="h-7 w-7 text-navy group-hover:text-main transition-colors duration-300" />
                         </div>
                         <Badge className="bg-[#ffc105] text-navy font-bold border border-navy/20 px-3 py-1 text-xs">
                           {school.duration}
                         </Badge>
                       </div>
-                      <CardTitle className="text-lg font-bold text-navy group-hover:text-gold transition-colors duration-300 leading-tight">
+                      <CardTitle className="text-lg font-bold text-navy group-hover:text-main transition-colors duration-300 leading-tight">
                         {school.name}
                       </CardTitle>
                     </CardHeader>
@@ -716,7 +716,7 @@ export default function UniversityDetail() {
 
                       <div className="space-y-3 pt-2">
                         <h4 className="font-bold text-navy flex items-center text-sm">
-                          <CheckCircle className="h-4 w-4 mr-2 text-gold" />
+                          <CheckCircle className="h-4 w-4 mr-2 text-main" />
                           Requirements
                         </h4>
                         <p className="text-slate-600 text-xs leading-relaxed bg-slate-50/70 p-3 rounded-xl border border-slate-100">
@@ -881,10 +881,10 @@ export default function UniversityDetail() {
                 <CardHeader className="relative">
                   <div className="absolute -top-8 -right-8 w-20 h-20 bg-gradient-to-br from-gold/30 to-transparent rounded-full blur-xl opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
                   <div className="flex items-center mb-4">
-                    <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-gold/20 via-gold/10 to-gold/20 rounded-2xl mr-4 border border-gold/30 group-hover:border-gold/50 transition-all duration-300">
-                      <Calendar className="h-7 w-7 text-navy group-hover:text-gold transition-colors duration-300" />
+                    <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-gold/20 via-gold/10 to-gold/20 rounded-2xl mr-4 border border-main/30 group-hover:border-main/50 transition-all duration-300">
+                      <Calendar className="h-7 w-7 text-navy group-hover:text-main transition-colors duration-300" />
                     </div>
-                    <CardTitle className="text-xl font-bold text-navy group-hover:text-gold transition-colors duration-300">
+                    <CardTitle className="text-xl font-bold text-navy group-hover:text-main transition-colors duration-300">
                       Timeline
                     </CardTitle>
                   </div>
@@ -894,7 +894,7 @@ export default function UniversityDetail() {
                     {admissionTimeline.slice(0, 6).map((item, index) => (
                       <div
                         key={index}
-                        className="flex items-center p-2 rounded-lg hover:bg-gold/5 transition-colors duration-200"
+                        className="flex items-center p-2 rounded-lg hover:bg-main/5 transition-colors duration-200"
                       >
                         <div className="w-6 h-6 bg-navy rounded-full flex items-center justify-center mr-3 flex-shrink-0">
                           <span className="text-white text-xs font-bold">
@@ -1279,9 +1279,9 @@ export default function UniversityDetail() {
               <Card className="border-0 shadow-xl bg-gradient-to-br from-gold/10 via-white to-gold/5 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:scale-105 group">
                 <CardHeader className="relative">
                   <div className="absolute -top-8 -right-8 w-20 h-20 bg-gradient-to-br from-gold/30 to-transparent rounded-full blur-xl opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
-                  <CardTitle className="text-xl font-bold text-navy group-hover:text-gold transition-colors duration-300 flex items-center">
-                    <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-gold/20 via-gold/10 to-gold/20 rounded-2xl mr-4 border border-gold/30 group-hover:border-gold/50 transition-all duration-300">
-                      <DollarSign className="h-7 w-7 text-navy group-hover:text-gold transition-colors duration-300" />
+                  <CardTitle className="text-xl font-bold text-navy group-hover:text-main transition-colors duration-300 flex items-center">
+                    <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-gold/20 via-gold/10 to-gold/20 rounded-2xl mr-4 border border-main/30 group-hover:border-main/50 transition-all duration-300">
+                      <DollarSign className="h-7 w-7 text-navy group-hover:text-main transition-colors duration-300" />
                     </div>
                     Financial Aid
                   </CardTitle>
@@ -1291,12 +1291,12 @@ export default function UniversityDetail() {
                     {scholarships.map((scholarship, index) => (
                       <div
                         key={index}
-                        className="p-4 bg-gradient-to-r from-gold/10 to-gold/5 rounded-xl border border-gold/20 hover:border-gold/40 transition-all duration-300 hover:shadow-lg"
+                        className="p-4 bg-gradient-to-r from-gold/10 to-gold/5 rounded-xl border border-main/20 hover:border-main/40 transition-all duration-300 hover:shadow-lg"
                       >
                         <div className="text-sm font-bold text-navy mb-1">
                           {scholarship.name}
                         </div>
-                        <div className="text-xs font-bold text-gold mb-2">
+                        <div className="text-xs font-bold text-main mb-2">
                           {scholarship.amount}
                         </div>
                         <div className="text-xs text-slate-600">
@@ -1378,7 +1378,7 @@ export default function UniversityDetail() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/consultation">
-              <Button className="bg-gold hover:bg-gold/90 text-navy font-semibold px-8 py-4 text-lg rounded-lg shadow-lg">
+              <Button className="bg-main hover:bg-main/90 text-navy font-semibold px-8 py-4 text-lg rounded-lg shadow-lg">
                 Book Application Consultation
               </Button>
             </Link>

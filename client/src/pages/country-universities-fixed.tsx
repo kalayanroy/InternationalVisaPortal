@@ -353,7 +353,7 @@ export default function CountryUniversities() {
             The country you're looking for doesn't exist.
           </p>
           <Link href="/">
-            <Button className="bg-gold hover:bg-gold/90 text-navy">
+            <Button className="bg-main hover:bg-main/90 text-navy">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Home
             </Button>
@@ -387,7 +387,7 @@ export default function CountryUniversities() {
               {country.description}
             </p>
             <div className="mb-8">
-              <Button className="bg-gold hover:bg-gold/90 text-navy font-semibold px-8 py-3 rounded-md">
+              <Button className="bg-main hover:bg-main/90 text-navy font-semibold px-8 py-3 rounded-md">
                 Explore Universities
               </Button>
             </div>
@@ -401,7 +401,7 @@ export default function CountryUniversities() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {Object.entries(country.stats).map(([key, value], index) => (
               <div key={index} className="group">
-                <div className="text-4xl md:text-5xl font-bold text-navy mb-2 group-hover:text-gold transition-colors duration-300">
+                <div className="text-4xl md:text-5xl font-bold text-navy mb-2 group-hover:text-main transition-colors duration-300">
                   {value}
                 </div>
                 <div className="text-slate-700 font-medium capitalize">
@@ -441,7 +441,7 @@ export default function CountryUniversities() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute top-4 right-4">
-                  <Badge className="bg-gold text-navy shadow-lg">
+                  <Badge className="bg-main text-navy shadow-lg">
                     {university.ranking} Ranking
                   </Badge>
                 </div>
@@ -524,7 +524,7 @@ export default function CountryUniversities() {
                           key={idx}
                           variant="outline"
                           size="sm"
-                          className="w-full text-left justify-start bg-gold hover:bg-gold/90 border-gold text-navy hover:text-navy font-medium text-xs px-3 py-2 h-auto"
+                          className="w-full text-left justify-start bg-main hover:bg-main/90 border-main text-navy hover:text-navy font-medium text-xs px-3 py-2 h-auto"
                         >
                           {course}
                         </Button>
@@ -552,7 +552,7 @@ export default function CountryUniversities() {
         <div className="text-center mt-16">
           <Card className="bg-navy text-white">
             <CardContent className="p-12">
-              <h3 className="text-3xl font-bold mb-6 text-gold">
+              <h3 className="text-3xl font-bold mb-6 text-main">
                 Ready to Study in {country.name}?
               </h3>
               <p className="text-xl mb-8 text-slate-200 max-w-2xl mx-auto">
@@ -560,7 +560,7 @@ export default function CountryUniversities() {
                 unique requirements, from application to visa approval.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button className="bg-gold text-navy hover:bg-gold/90 px-8 py-3">
+                <Button className="bg-main text-navy hover:bg-main/90 px-8 py-3">
                   Schedule Free Consultation
                 </Button>
                 <Button
