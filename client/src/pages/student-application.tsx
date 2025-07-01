@@ -1714,7 +1714,6 @@ export default function StudentApplication() {
                 size="lg"
                 className="bg-main hover:bg-main/90 text-white px-6 sm:px-8 py-3 text-sm sm:text-base font-semibold"
                 disabled={isLoading || mutation.isPending}
-                type="submit"
               >
                 {isLoading || mutation.isPending
                   ? "Submitting..."
