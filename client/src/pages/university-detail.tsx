@@ -367,23 +367,23 @@ const countryData = {
 export default function UniversityDetail() {
   const [location] = useLocation();
 
-  // Extract university and country from URL path and query parameters
+  // Extract university and country from URL path
   const universityData = useMemo(() => {
+    // Parse URL like /university/harvard/usa or /university/nationalUniversity/australia
     // Parse URL like /university/harvard?country=usa
     const [path, queryString] = location.split("?");
     const pathParts = path.split("/");
-    console.log("Path Parts:", pathParts);
     console.log("Query String:", queryString);
-    
+    console.log("Path Parts:", pathParts);
+    console.log("path:", path);
+    console.log("location:", location.split("?"));
     if (pathParts.length >= 3 && pathParts[1] === "university") {
       const universityId = pathParts[2];
-      console.log("University ID:", universityId);
-      
       // Parse query parameters
       const urlParams = new URLSearchParams(queryString || "");
       const countryId = urlParams.get("country");
       console.log("Country ID:", countryId);
-      
+
       if (countryId) {
         const country = (countryData as any)[countryId];
         if (country && country.universities) {
@@ -399,7 +399,6 @@ export default function UniversityDetail() {
     }
 
     // Default fallback to Harvard
-    console.log("Using fallback to Harvard");
     return {
       university: countryData.usa.universities[0],
       country: countryData.usa,

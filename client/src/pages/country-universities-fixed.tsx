@@ -502,11 +502,14 @@ export default function CountryUniversities() {
                     </div>
 
                     <div className="mt-auto">
-                      <Link href={`/university/${university.id}`}>
-                        <Button className="w-full bg-navy hover:bg-navy/90 text-white">
-                          View Details
-                        </Button>
-                      </Link>
+                      <Button 
+                        className="w-full bg-navy hover:bg-navy/90 text-white"
+                        onClick={() => {
+                          window.location.href = `/university/${university.id}?country=${country.id}`;
+                        }}
+                      >
+                        View Details
+                      </Button>
                     </div>
                   </div>
 
