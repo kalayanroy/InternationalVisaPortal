@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
+import websiteLogo from "@assets/logoForWebsite.png";
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -42,12 +42,17 @@ export default function Header() {
           {/* Logo */}
           <Link href="/">
             <div className="flex items-center">
+              <img
+                src={websiteLogo} // Place your logo in the /public directory
+                alt="EduVisa Global Logo"
+                className="h-8 w-auto transition-all duration-300"
+              />
               <span
                 className={`text-2xl font-bold transition-colors ${
                   isScrolled ? "text-navy" : "text-white"
                 }`}
               >
-                EduVisa Global
+                DTR Consultation
               </span>
             </div>
           </Link>

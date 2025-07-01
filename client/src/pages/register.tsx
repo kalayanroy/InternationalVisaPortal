@@ -30,14 +30,15 @@ export default function Register() {
     try {
       await register(formData);
       toast({
-        title: "Registration Successful", 
-        description: "Welcome to EduVisa Global!",
+        title: "Registration Successful",
+        description: "Welcome to DTR Consultation!",
       });
       setLocation("/");
     } catch (error) {
       toast({
         title: "Registration Failed",
-        description: error instanceof Error ? error.message : "Please try again",
+        description:
+          error instanceof Error ? error.message : "Please try again",
         variant: "destructive",
       });
     } finally {
@@ -46,7 +47,7 @@ export default function Register() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
@@ -55,26 +56,35 @@ export default function Register() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-white">
       <Header />
-      
+
       <div className="pt-24 pb-20">
         <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-navy to-navy/80 rounded-2xl mb-6">
               <UserPlus className="h-8 w-8 text-white" />
             </div>
-            <h1 className="text-3xl font-bold text-navy mb-2">Create Account</h1>
-            <p className="text-slate-600">Join EduVisa Global today</p>
+            <h1 className="text-3xl font-bold text-navy mb-2">
+              Create Account
+            </h1>
+            <p className="text-slate-600">Join DTR today</p>
           </div>
 
           <Card className="border-0 shadow-2xl bg-white/95 backdrop-blur-sm">
             <CardHeader className="text-center pb-4">
-              <CardTitle className="text-2xl font-bold text-navy">Register</CardTitle>
+              <CardTitle className="text-2xl font-bold text-navy">
+                Register
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="firstName" className="text-navy font-semibold">First Name</Label>
+                    <Label
+                      htmlFor="firstName"
+                      className="text-navy font-semibold"
+                    >
+                      First Name
+                    </Label>
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
                       <Input
@@ -91,7 +101,12 @@ export default function Register() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="lastName" className="text-navy font-semibold">Last Name</Label>
+                    <Label
+                      htmlFor="lastName"
+                      className="text-navy font-semibold"
+                    >
+                      Last Name
+                    </Label>
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
                       <Input
@@ -109,7 +124,9 @@ export default function Register() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="username" className="text-navy font-semibold">Username</Label>
+                  <Label htmlFor="username" className="text-navy font-semibold">
+                    Username
+                  </Label>
                   <div className="relative">
                     <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
                     <Input
@@ -126,7 +143,9 @@ export default function Register() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-navy font-semibold">Email</Label>
+                  <Label htmlFor="email" className="text-navy font-semibold">
+                    Email
+                  </Label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
                     <Input
@@ -143,7 +162,9 @@ export default function Register() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-navy font-semibold">Password</Label>
+                  <Label htmlFor="password" className="text-navy font-semibold">
+                    Password
+                  </Label>
                   <div className="relative">
                     <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
                     <Input
@@ -161,10 +182,16 @@ export default function Register() {
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600"
                     >
-                      {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                      {showPassword ? (
+                        <EyeOff className="h-5 w-5" />
+                      ) : (
+                        <Eye className="h-5 w-5" />
+                      )}
                     </button>
                   </div>
-                  <p className="text-xs text-slate-500">Password must be at least 6 characters</p>
+                  <p className="text-xs text-slate-500">
+                    Password must be at least 6 characters
+                  </p>
                 </div>
 
                 <Button
@@ -186,7 +213,10 @@ export default function Register() {
               <div className="mt-6 text-center">
                 <p className="text-slate-600">
                   Already have an account?{" "}
-                  <Link href="/login" className="text-gold hover:text-gold/80 font-semibold">
+                  <Link
+                    href="/login"
+                    className="text-gold hover:text-gold/80 font-semibold"
+                  >
                     Sign in
                   </Link>
                 </p>

@@ -372,10 +372,6 @@ export default function UniversityDetail() {
     // Parse URL like /university/harvard?country=usa
     const [path, queryString] = location.split("?");
     const pathParts = path.split("/");
-    console.log("Query String:", queryString);
-    console.log("Path Parts:", pathParts);
-    console.log("path:", path);
-    console.log("location:", location.split("?"));
     if (pathParts.length >= 3 && pathParts[1] === "university") {
       const universityId = pathParts[2];
       // Parse query parameters
