@@ -22,7 +22,8 @@ import {
   Building,
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
-
+import ausNationUniversity from "@assets/audNationUniversity1.png";
+import bondUniversity from "@assets/BondUniversity.jpg";
 // Country data with university details
 const countryData = {
   australia: {
@@ -59,8 +60,7 @@ const countryData = {
         ranking: "#32",
         acceptance: "35%",
         tuition: "AUD 27,916",
-        image:
-          "https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        image: ausNationUniversity,
         specialties: ["Business", "Medicine", "Law", "Engineering"],
         topCourses: [
           "Undergraduate",
@@ -81,8 +81,7 @@ const countryData = {
         ranking: "#600",
         acceptance: "60-70%",
         tuition: "AUD 33,000",
-        image:
-          "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=400&h=300&fit=crop&auto=format",
+        image: bondUniversity,
         specialties: [
           "Computer Science",
           "Engineering",
@@ -380,7 +379,7 @@ export default function UniversityDetail() {
     if (pathParts.length >= 3 && pathParts[1] === "university") {
       const universityId = pathParts[2];
       // Parse query parameters
-      const urlParams = new URLSearchParams(queryString || "");
+      const urlParams = new URLSearchParams(window.location.search);
       const countryId = urlParams.get("country");
       console.log("Country ID:", countryId);
 
@@ -666,7 +665,7 @@ export default function UniversityDetail() {
                 </span>
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-navy mb-6">
-                Schools & Programs
+                Scholarships & Financial Aid
               </h2>
               <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
                 Harvard offers undergraduate and graduate programs across
