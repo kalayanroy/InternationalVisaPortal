@@ -120,6 +120,38 @@ const countryData = {
               "Regional (e.g., Indonesian), discipline-based (Law, Business, Engineering), Indigenous support",
           },
         ],
+        whyChoose: [
+          {
+            name: "Australia’s National University",
+            description:
+              "Founded in 1946 and ranked among the top 30 globally in QS 2025, ANU is recognized for academic and research excellence .",
+          },
+          {
+            name: "Elite Group of Eight Member",
+            description:
+              "ANU is part of Australia’s leading research universities with strong global partnerships (Oxford, Harvard, Yale, MIT).",
+          },
+          {
+            name: "Outstanding Academic Environment",
+            description:
+              "13 disciplines rank #1 nationally; boasts a 5-star student‑staff ratio of 11:1, ensuring small classes and close faculty interaction.",
+          },
+          {
+            name: "Capitol-Based Opportunities",
+            description:
+              "Located in Canberra, ANU students benefit from internships and engagement with government, embassies, NGOs, and policy-making bodies.",
+          },
+          {
+            name: "Supportive & Vibrant Campus Life",
+            description:
+              "With 110+ student clubs, residential colleges, and strong welfare programs, ANU fosters a welcoming environment.",
+          },
+          {
+            name: "Graduate Employability",
+            description:
+              "ANU graduates are ranked #1 in Australia for employability; graduate employment rates are ~81% undergrad and ~88% postgrad.",
+          },
+        ],
       },
       {
         id: "bond",
@@ -662,120 +694,6 @@ export default function UniversityDetail() {
               </Card>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Why Choose Section */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-16 bg-gradient-to-br from-slate-50 to-white">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-main/10 rounded-full px-6 py-3 mb-6">
-            <Award className="h-5 w-5 text-main" />
-            <span className="text-sm font-medium text-main">Excellence in Education</span>
-          </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-navy mb-6">
-            Why Choose {university.name}?
-          </h2>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-            Discover what makes {university.name} a world-class destination for international students seeking academic excellence and career opportunities.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {/* Article 1: Academic Excellence */}
-          <Card className="group hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-main/20 bg-gradient-to-br from-white via-white to-slate-50/30">
-            <div className="relative overflow-hidden rounded-t-lg">
-              <div className="absolute inset-0 bg-gradient-to-br from-main/20 via-main/10 to-transparent" />
-              <div className="relative p-8">
-                <div className="flex items-center justify-center w-16 h-16 bg-main/10 rounded-2xl mb-6 group-hover:bg-main/20 transition-colors">
-                  <BookOpen className="h-8 w-8 text-main" />
-                </div>
-                <h3 className="text-xl font-bold text-navy mb-4">Academic Excellence</h3>
-                <p className="text-slate-600 leading-relaxed">
-                  Ranked #{university.ranking} globally, {university.name} offers world-class programs taught by Nobel laureates and industry leaders. Our rigorous curriculum ensures graduates are prepared for tomorrow's challenges.
-                </p>
-              </div>
-            </div>
-          </Card>
-
-          {/* Article 2: Global Network */}
-          <Card className="group hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-main/20 bg-gradient-to-br from-white via-white to-slate-50/30">
-            <div className="relative overflow-hidden rounded-t-lg">
-              <div className="absolute inset-0 bg-gradient-to-br from-main/20 via-main/10 to-transparent" />
-              <div className="relative p-8">
-                <div className="flex items-center justify-center w-16 h-16 bg-main/10 rounded-2xl mb-6 group-hover:bg-main/20 transition-colors">
-                  <Globe className="h-8 w-8 text-main" />
-                </div>
-                <h3 className="text-xl font-bold text-navy mb-4">Global Alumni Network</h3>
-                <p className="text-slate-600 leading-relaxed">
-                  Join a prestigious network of over 400,000 alumni worldwide, including CEOs, presidents, Nobel Prize winners, and innovators who are shaping the future across every industry.
-                </p>
-              </div>
-            </div>
-          </Card>
-
-          {/* Article 3: Research Opportunities */}
-          <Card className="group hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-main/20 bg-gradient-to-br from-white via-white to-slate-50/30">
-            <div className="relative overflow-hidden rounded-t-lg">
-              <div className="absolute inset-0 bg-gradient-to-br from-main/20 via-main/10 to-transparent" />
-              <div className="relative p-8">
-                <div className="flex items-center justify-center w-16 h-16 bg-main/10 rounded-2xl mb-6 group-hover:bg-main/20 transition-colors">
-                  <TrendingUp className="h-8 w-8 text-main" />
-                </div>
-                <h3 className="text-xl font-bold text-navy mb-4">Cutting-Edge Research</h3>
-                <p className="text-slate-600 leading-relaxed">
-                  Access to world-renowned research facilities and work alongside leading researchers on groundbreaking projects that are solving real-world problems and advancing human knowledge.
-                </p>
-              </div>
-            </div>
-          </Card>
-
-          {/* Article 4: Career Success */}
-          <Card className="group hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-main/20 bg-gradient-to-br from-white via-white to-slate-50/30">
-            <div className="relative overflow-hidden rounded-t-lg">
-              <div className="absolute inset-0 bg-gradient-to-br from-main/20 via-main/10 to-transparent" />
-              <div className="relative p-8">
-                <div className="flex items-center justify-center w-16 h-16 bg-main/10 rounded-2xl mb-6 group-hover:bg-main/20 transition-colors">
-                  <Building className="h-8 w-8 text-main" />
-                </div>
-                <h3 className="text-xl font-bold text-navy mb-4">Career Opportunities</h3>
-                <p className="text-slate-600 leading-relaxed">
-                  95% of graduates secure employment within 6 months. Our career services, internship programs, and industry partnerships provide unparalleled access to top employers worldwide.
-                </p>
-              </div>
-            </div>
-          </Card>
-
-          {/* Article 5: Financial Support */}
-          <Card className="group hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-main/20 bg-gradient-to-br from-white via-white to-slate-50/30">
-            <div className="relative overflow-hidden rounded-t-lg">
-              <div className="absolute inset-0 bg-gradient-to-br from-main/20 via-main/10 to-transparent" />
-              <div className="relative p-8">
-                <div className="flex items-center justify-center w-16 h-16 bg-main/10 rounded-2xl mb-6 group-hover:bg-main/20 transition-colors">
-                  <DollarSign className="h-8 w-8 text-main" />
-                </div>
-                <h3 className="text-xl font-bold text-navy mb-4">Financial Support</h3>
-                <p className="text-slate-600 leading-relaxed">
-                  Over $180 million in financial aid awarded annually. Need-blind admissions ensure talented students can attend regardless of financial circumstances, with generous scholarship programs.
-                </p>
-              </div>
-            </div>
-          </Card>
-
-          {/* Article 6: Campus Life */}
-          <Card className="group hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-main/20 bg-gradient-to-br from-white via-white to-slate-50/30">
-            <div className="relative overflow-hidden rounded-t-lg">
-              <div className="absolute inset-0 bg-gradient-to-br from-main/20 via-main/10 to-transparent" />
-              <div className="relative p-8">
-                <div className="flex items-center justify-center w-16 h-16 bg-main/10 rounded-2xl mb-6 group-hover:bg-main/20 transition-colors">
-                  <Users className="h-8 w-8 text-main" />
-                </div>
-                <h3 className="text-xl font-bold text-navy mb-4">Vibrant Campus Life</h3>
-                <p className="text-slate-600 leading-relaxed">
-                  Experience diverse campus culture with 450+ student organizations, world-class athletics, cultural events, and a supportive community that fosters lifelong friendships and networking.
-                </p>
-              </div>
-            </div>
-          </Card>
         </div>
       </div>
 
@@ -1528,7 +1446,150 @@ export default function UniversityDetail() {
           </TabsContent>
         </Tabs>
       </div>
+      {/* Why Choose Section */}
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-16 bg-gradient-to-br from-slate-50 to-white">
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 bg-main/10 rounded-full px-6 py-3 mb-6">
+            <Award className="h-5 w-5 text-main" />
+            <span className="text-sm font-medium text-main">
+              Excellence in Education
+            </span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold text-navy mb-6">
+            Why Choose {university.name}?
+          </h2>
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+            Discover what makes {university.name} a world-class destination for
+            international students seeking academic excellence and career
+            opportunities.
+          </p>
+        </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          {/* Article 1: Academic Excellence */}
+          <Card className="group hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-main/20 bg-gradient-to-br from-white via-white to-slate-50/30">
+            <div className="relative overflow-hidden rounded-t-lg">
+              <div className="absolute inset-0 bg-gradient-to-br from-main/20 via-main/10 to-transparent" />
+              <div className="relative p-8">
+                <div className="flex items-center justify-center w-16 h-16 bg-main/10 rounded-2xl mb-6 group-hover:bg-main/20 transition-colors">
+                  <BookOpen className="h-8 w-8 text-main" />
+                </div>
+                <h3 className="text-xl font-bold text-navy mb-4">
+                  Academic Excellence
+                </h3>
+                <p className="text-slate-600 leading-relaxed">
+                  Ranked #{university.ranking} globally, {university.name}{" "}
+                  offers world-class programs taught by Nobel laureates and
+                  industry leaders. Our rigorous curriculum ensures graduates
+                  are prepared for tomorrow's challenges.
+                </p>
+              </div>
+            </div>
+          </Card>
+
+          {/* Article 2: Global Network */}
+          <Card className="group hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-main/20 bg-gradient-to-br from-white via-white to-slate-50/30">
+            <div className="relative overflow-hidden rounded-t-lg">
+              <div className="absolute inset-0 bg-gradient-to-br from-main/20 via-main/10 to-transparent" />
+              <div className="relative p-8">
+                <div className="flex items-center justify-center w-16 h-16 bg-main/10 rounded-2xl mb-6 group-hover:bg-main/20 transition-colors">
+                  <Globe className="h-8 w-8 text-main" />
+                </div>
+                <h3 className="text-xl font-bold text-navy mb-4">
+                  Global Alumni Network
+                </h3>
+                <p className="text-slate-600 leading-relaxed">
+                  Join a prestigious network of over 400,000 alumni worldwide,
+                  including CEOs, presidents, Nobel Prize winners, and
+                  innovators who are shaping the future across every industry.
+                </p>
+              </div>
+            </div>
+          </Card>
+
+          {/* Article 3: Research Opportunities */}
+          <Card className="group hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-main/20 bg-gradient-to-br from-white via-white to-slate-50/30">
+            <div className="relative overflow-hidden rounded-t-lg">
+              <div className="absolute inset-0 bg-gradient-to-br from-main/20 via-main/10 to-transparent" />
+              <div className="relative p-8">
+                <div className="flex items-center justify-center w-16 h-16 bg-main/10 rounded-2xl mb-6 group-hover:bg-main/20 transition-colors">
+                  <TrendingUp className="h-8 w-8 text-main" />
+                </div>
+                <h3 className="text-xl font-bold text-navy mb-4">
+                  Cutting-Edge Research
+                </h3>
+                <p className="text-slate-600 leading-relaxed">
+                  Access to world-renowned research facilities and work
+                  alongside leading researchers on groundbreaking projects that
+                  are solving real-world problems and advancing human knowledge.
+                </p>
+              </div>
+            </div>
+          </Card>
+
+          {/* Article 4: Career Success */}
+          <Card className="group hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-main/20 bg-gradient-to-br from-white via-white to-slate-50/30">
+            <div className="relative overflow-hidden rounded-t-lg">
+              <div className="absolute inset-0 bg-gradient-to-br from-main/20 via-main/10 to-transparent" />
+              <div className="relative p-8">
+                <div className="flex items-center justify-center w-16 h-16 bg-main/10 rounded-2xl mb-6 group-hover:bg-main/20 transition-colors">
+                  <Building className="h-8 w-8 text-main" />
+                </div>
+                <h3 className="text-xl font-bold text-navy mb-4">
+                  Career Opportunities
+                </h3>
+                <p className="text-slate-600 leading-relaxed">
+                  95% of graduates secure employment within 6 months. Our career
+                  services, internship programs, and industry partnerships
+                  provide unparalleled access to top employers worldwide.
+                </p>
+              </div>
+            </div>
+          </Card>
+
+          {/* Article 5: Financial Support */}
+          <Card className="group hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-main/20 bg-gradient-to-br from-white via-white to-slate-50/30">
+            <div className="relative overflow-hidden rounded-t-lg">
+              <div className="absolute inset-0 bg-gradient-to-br from-main/20 via-main/10 to-transparent" />
+              <div className="relative p-8">
+                <div className="flex items-center justify-center w-16 h-16 bg-main/10 rounded-2xl mb-6 group-hover:bg-main/20 transition-colors">
+                  <DollarSign className="h-8 w-8 text-main" />
+                </div>
+                <h3 className="text-xl font-bold text-navy mb-4">
+                  Financial Support
+                </h3>
+                <p className="text-slate-600 leading-relaxed">
+                  Over $180 million in financial aid awarded annually.
+                  Need-blind admissions ensure talented students can attend
+                  regardless of financial circumstances, with generous
+                  scholarship programs.
+                </p>
+              </div>
+            </div>
+          </Card>
+
+          {/* Article 6: Campus Life */}
+          <Card className="group hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-main/20 bg-gradient-to-br from-white via-white to-slate-50/30">
+            <div className="relative overflow-hidden rounded-t-lg">
+              <div className="absolute inset-0 bg-gradient-to-br from-main/20 via-main/10 to-transparent" />
+              <div className="relative p-8">
+                <div className="flex items-center justify-center w-16 h-16 bg-main/10 rounded-2xl mb-6 group-hover:bg-main/20 transition-colors">
+                  <Users className="h-8 w-8 text-main" />
+                </div>
+                <h3 className="text-xl font-bold text-navy mb-4">
+                  Vibrant Campus Life
+                </h3>
+                <p className="text-slate-600 leading-relaxed">
+                  Experience diverse campus culture with 450+ student
+                  organizations, world-class athletics, cultural events, and a
+                  supportive community that fosters lifelong friendships and
+                  networking.
+                </p>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </div>
       {/* Call to Action */}
       <div className="py-20 bg-gradient-to-br from-navy to-navy/90 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,215,0,0.1),transparent)]"></div>
