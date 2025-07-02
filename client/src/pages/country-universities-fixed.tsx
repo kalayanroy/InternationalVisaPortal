@@ -387,7 +387,7 @@ export default function CountryUniversities() {
               {country.description}
             </p>
             <div className="mb-8">
-              <Button className="bg-main hover:bg-main/90 text-navy font-semibold px-8 py-3 rounded-md">
+              <Button className="bg-main hover:bg-main/90 text-white font-semibold px-8 py-3 rounded-md">
                 Explore Universities
               </Button>
             </div>
@@ -441,7 +441,7 @@ export default function CountryUniversities() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute top-4 right-4">
-                  <Badge className="bg-main text-navy shadow-lg">
+                  <Badge className="bg-main text-white shadow-lg">
                     {university.ranking} Ranking
                   </Badge>
                 </div>
@@ -464,7 +464,7 @@ export default function CountryUniversities() {
                         <div className="text-base font-bold text-navy">
                           {university.acceptance}
                         </div>
-                        <div className="text-xs text-slate-600">Acceptance</div>
+                        <div className="text-xs text-slate-600">Accept</div>
                       </div>
                       <div className="text-center p-2 bg-slate-50 rounded-lg">
                         <div className="text-base font-bold text-navy">
@@ -502,7 +502,7 @@ export default function CountryUniversities() {
                     </div>
 
                     <div className="mt-auto">
-                      <Button 
+                      <Button
                         className="w-full bg-navy hover:bg-navy/90 text-white"
                         onClick={() => {
                           window.location.href = `/university/${university.id}?country=${country.id}`;
@@ -524,7 +524,7 @@ export default function CountryUniversities() {
                           key={idx}
                           variant="outline"
                           size="sm"
-                          className="w-full text-left justify-start bg-main hover:bg-main/90 border-main text-navy hover:text-navy font-medium text-xs px-3 py-2 h-auto"
+                          className="w-full text-left justify-start bg-main hover:bg-main/90 border-main text-white hover:text-black font-medium text-xs px-3 py-2 h-auto"
                         >
                           {course}
                         </Button>
@@ -560,7 +560,10 @@ export default function CountryUniversities() {
                 unique requirements, from application to visa approval.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button className="bg-main text-navy hover:bg-main/90 px-8 py-3">
+                <Button
+                  variant="outline"
+                  className="border-white text-black hover:bg-main/90 px-8 py-3"
+                >
                   Schedule Free Consultation
                 </Button>
                 <Button

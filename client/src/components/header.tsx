@@ -45,7 +45,7 @@ export default function Header() {
               <img
                 src={websiteLogo} // Place your logo in the /public directory
                 alt="EduVisa Global Logo"
-                className="h-8 w-auto transition-all duration-300"
+                className="h-20 w-auto transition-all duration-300"
               />
               <span
                 className={`text-2xl font-bold transition-colors ${
@@ -100,7 +100,7 @@ export default function Header() {
               >
                 Universities
               </Link>
-              <Link
+              {/* <Link
                 href="/success-stories"
                 className={`font-medium transition-colors hover:scale-105 ${
                   isScrolled
@@ -109,7 +109,7 @@ export default function Header() {
                 } ${location === "/success-stories" ? "border-b-2 border-main" : ""}`}
               >
                 Success Stories
-              </Link>
+              </Link>*/}
             </nav>
 
             {isAuthenticated ? (
