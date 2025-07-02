@@ -20,10 +20,14 @@ import {
   Calendar,
   CheckCircle,
   Building,
+  Download,
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import ausNationUniversity from "@assets/audNationUniversity1.png";
 import bondUniversity from "@assets/BondUniversity.jpg";
+import cqUniversity from "@assets/CNSUniversity.jpg";
+import cduUniversity from "@assets/CDU.jpg";
+import courseGuidePdf from "@assets/Client Enquiry Form (1)_1751003185657.pdf";
 // Country data with university details
 const countryData = {
   australia: {
@@ -154,34 +158,124 @@ const countryData = {
         ],
       },
       {
-        id: "nationalUniversity",
-        name: "Australian National University",
-        location: "Canberra, the capital city of Australia",
-        ranking: "32",
-        acceptance: "35%",
-        tuition: "AUD 27,916",
-        image: ausNationUniversity,
-        specialties: ["Business", "Medicine", "Law", "Engineering"],
+        id: "bond",
+        name: "Bond University",
+        location: "Robina on the Gold Coast in Queensland, Australia",
+        ranking: "600",
+        acceptance: "60%",
+        tuition: "AUD 33,000",
+        image: bondUniversity,
+        specialties: [
+          "Computer Science",
+          "Engineering",
+          "Business",
+          "Medicine",
+        ],
         topCourses: [
           {
             Name: "Undergraduate",
-            amount: "A$39,000 – A$49,000/year",
+            amount: "A$30,000–A$35,000/year",
             criteria:
-              "depending on program (e.g., bachelor’s degrees A$39K–48.9K)",
+              "Approximately AUD $30,000–$35,000 per year for international students",
           },
           {
             Name: "Postgraduate",
-            amount: "A$38,000 – A$50,400/year",
-            criteria: "masters and professional degrees on higher end",
+            amount: "A$58,000 for 16 units",
+            criteria:
+              "the Master of Business Administration (MBA) is AUD $58,000 for 16 units",
+          },
+        ],
+        description:
+          "Leading Australian university with world-class research and academic programs.",
+        students: "25,000+",
+        international: "40%",
+        founded: 1946,
+        scholarships: [
+          {
+            name: "International Undergraduate Excellence Scholarship",
+            amount: "",
+            criteria: "",
+            coverage:
+              "50% tuition fee remission for high-achieving undergraduate students",
           },
           {
-            Name: "PhD (HDR)",
-            amount: "~A$40,000/year",
-            criteria: "(often scholarship-subsidized)",
+            name: "International Stand Out Scholarship",
+            amount: "",
+            criteria: "",
+            coverage:
+              "25% tuition fee remission for standout students applying to study at an undergraduate or postgraduate level",
           },
           {
-            Name: "OSHC (Health Cover)",
-            amount: "A$600 – 700/year",
+            name: "Transformer Scholarship",
+            amount: "",
+            criteria: "",
+            coverage:
+              "50% tuition fee remission for students demonstrating strong leadership skills and community involvement.",
+          },
+          {
+            name: "Student Loyalty Discount",
+            amount: "",
+            criteria: "",
+            coverage:
+              "10% discount for students with direct family members attending Bond University or alumni graduates.bond.edu.au",
+          },
+        ],
+        whyChoose: [
+          {
+            name: "Accelerated Learning Model",
+            description:
+              "Bond operates on a three-semester-per-year schedule, allowing students to complete their degrees faster—up to a year ahead of peers at traditional universities. ",
+          },
+          {
+            name: "High Graduate Employment Rates",
+            description:
+              "Bond boasts a full-time employment rate of 79.2% for undergraduates and 89.1% for postgraduates, surpassing the national average.",
+          },
+          {
+            name: "Exceptional Student Satisfaction",
+            description:
+              "Undergraduate students rate their overall educational experience at 89.2%, well above the national average of 76.7%.",
+          },
+          {
+            name: "Small Class Sizes",
+            description:
+              "With an average student-to-teacher ratio of 11:1, Bond ensures personalized attention and a supportive learning environment.",
+          },
+          {
+            name: "State-of-the-Art Facilities",
+            description:
+              "The campus features modern amenities, including the Bond Institute of Health and Sport, Moot Courtrooms, and extensive sports facilities.",
+          },
+        ],
+      },
+      {
+        id: "cq",
+        name: "Central Queensland University(CQ)",
+        location: "Rockhampton, Norman Gardens Australia",
+        ranking: "499",
+        acceptance: "65%",
+        tuition: "AUD 23,000",
+        image: cqUniversity,
+        specialties: [
+          "Business and Accounting",
+          "Creative",
+          "Engineering",
+          "Built Environment and Aviation",
+        ],
+        topCourses: [
+          {
+            Name: "Undergraduate",
+            amount: "A$36,960–≈A$40,000/year",
+            criteria: "",
+          },
+          {
+            Name: "Postgraduate",
+            amount: "A$28,000–40,000/year",
+            criteria: "",
+          },
+          {
+            Name: "Living Expenses",
+            amount: "A$55,000 total",
             criteria: "",
           },
         ],
@@ -192,67 +286,168 @@ const countryData = {
         founded: 1946,
         scholarships: [
           {
-            name: "Chancellor’s International Scholarship",
+            name: "International Merit Scholarship",
             amount: "",
             criteria: "",
-            coverage:
-              "25–50% tuition reduction for high-achieving undergrad/postgrad applicants",
+            coverage: "up to 25% tuition award",
           },
           {
-            name: "Higher Degrees by Research (HDR)",
+            name: "Research Training (RTP) Stipend",
             amount: "",
             criteria: "",
-            coverage:
-              "Fee merit scholarships often include stipend for research students",
+            coverage: "up to A$36,000/year for HDR candidates ",
           },
           {
-            name: "Tuckwell Scholarship",
+            name: "Australia Awards & LPDP Scholarships",
             amount: "",
             criteria: "",
-            coverage:
-              "Prestigious award (~A $76K–136K total) covering accommodation, living allowance, mentorship, and more        study.anu.edu.au",
+            coverage: " full funding via government schemes ",
           },
           {
-            name: "Specialised Scholarships",
+            name: "Destination Australia Scholarship",
             amount: "",
             criteria: "",
-            coverage:
-              "Regional (e.g., Indonesian), discipline-based (Law, Business, Engineering), Indigenous support",
+            coverage: "A$15,000/year + 25% tuition for regional campuses ",
+          },
+          {
+            name: "A$20 million annual scholarship pool",
+            amount: "",
+            criteria: "",
+            coverage: "diverse awards and auto-consideration",
           },
         ],
         whyChoose: [
           {
-            name: "Australia’s National University",
+            name: "Nationally Vast and Unique",
             description:
-              "Founded in 1946 and ranked among the top 30 globally in QS 2025, ANU is recognized for academic and research excellence .",
+              "The only Australian university with campuses in every mainland state, including Rockhampton (main), Brisbane, Sydney, Melbourne, Cairns, Bundaberg, Townsville, and more",
           },
           {
-            name: "Elite Group of Eight Member",
+            name: "Growing Global Reputation",
             description:
-              "ANU is part of Australia’s leading research universities with strong global partnerships (Oxford, Harvard, Yale, MIT).",
+              "Ranked #495 globally (QS 2025) and in the top 2% worldwide for graduate employability . Rated five stars for teaching, employability, global engagement, facilities, and student support (QS Stars 2024) ",
           },
           {
-            name: "Outstanding Academic Environment",
+            name: "Outstanding Graduate Outcomes",
             description:
-              "13 disciplines rank #1 nationally; boasts a 5-star student‑staff ratio of 11:1, ensuring small classes and close faculty interaction.",
+              "Among top 4 in Australia for undergraduate employment rates and #1 for postgraduate starting salaries ",
           },
           {
-            name: "Capitol-Based Opportunities",
+            name: "Work‑Integrated, Practical Teaching",
             description:
-              "Located in Canberra, ANU students benefit from internships and engagement with government, embassies, NGOs, and policy-making bodies.",
+              "Courses co-developed with industry, offering internships, career workshops, volunteering, and the unique Graduate Guarantee—free graduate certificate if you don’t secure a job within 6 months",
           },
           {
-            name: "Supportive & Vibrant Campus Life",
+            name: "Supportive and Inclusive Community",
             description:
-              "With 110+ student clubs, residential colleges, and strong welfare programs, ANU fosters a welcoming environment.",
-          },
-          {
-            name: "Graduate Employability",
-            description:
-              "ANU graduates are ranked #1 in Australia for employability; graduate employment rates are ~81% undergrad and ~88% postgrad.",
+              "Welcomes ~33,500 students, including ~5,200 international from 50+ countries (16%); ranked #1 for social equity nationally. Offers robust academic support, welfare, mentoring, and career services",
           },
         ],
-      },,
+      },
+      {
+        id: "cdu",
+        name: "Charles Darwin University",
+        location: "Casuarina, Northern Territory, Australia",
+        ranking: "436",
+        acceptance: "59%",
+        tuition: "AUD 20,000",
+        image: cduUniversity,
+        specialties: ["Health", "Engineering", "Indigenous Studies"],
+        topCourses: [
+          {
+            Name: "Undergraduate",
+            amount: "A$24,000–29,000/year",
+            criteria: "",
+          },
+          {
+            Name: "Postgraduate",
+            amount: "A$25,000–32,000/year",
+            criteria: "",
+          },
+          {
+            Name: "VET/TAFE",
+            amount: "A$8,000–15,000",
+            criteria: "(program-dependent)",
+          },
+          {
+            Name: "Living Expenses",
+            amount: "Around A$21,000/year",
+            criteria:
+              "Around A$21,000/year in Darwin, covering accommodation, food, and transport; somewhat lower in regional centres",
+          },
+        ],
+        description:
+          "Leading Australian university with world-class research and academic programs.",
+        students: "25,000+",
+        international: "40%",
+        founded: 1946,
+        scholarships: [
+          {
+            name: "Vice-Chancellor’s International High Achievers",
+            amount: "",
+            criteria: "",
+            coverage: "50% tuition waiver",
+          },
+          {
+            name: "Global Merit Scholarship",
+            amount: "",
+            criteria: "",
+            coverage: "30% off fees",
+          },
+          {
+            name: "Bachelor of Nursing Scholarship",
+            amount: "",
+            criteria: "",
+            coverage: "20% off tuition",
+          },
+          {
+            name: "International College Pathway Scholarship",
+            amount: "",
+            criteria: "",
+            coverage: "20–30% for selected pathway courses",
+          },
+          {
+            name: "Dili International School Scholarship",
+            amount: "",
+            criteria: "",
+            coverage: "A$12,900/year + accommodation support",
+          },
+          {
+            name: "Destination Australia",
+            amount: "",
+            criteria: "",
+            coverage: "A$15,000/year for regional campus study",
+          },
+          {
+            name: "General region & research scholarships",
+            amount: "",
+            criteria: "",
+            coverage: "Including RTP for HDR students",
+          },
+        ],
+        whyChoose: [
+          {
+            name: "Unique Location & Campuses",
+            description:
+              "As the only university based in Australia’s Northern Territory, CDU serves a vast region. Its main campus is in Casuarina (Darwin), with additional study sites in the Darwin Waterfront (Danala Precinct), Palmerston, Alice Springs, Tennant Creek, Katherine, Nhulunbuy, plus urban learning hubs in Sydney and Brisbane ",
+          },
+          {
+            name: "Dual-Sector Focus & Cultural Links",
+            description:
+              "Established in 2003 through a merger of university, VET, and research institutions, CDU offers everything from TAFE to PhD. It’s deeply connected with Northern Territory’s Indigenous communities and tropical savanna ecosystems .",
+          },
+          {
+            name: "Strong Graduate Outcomes & Practical Focus",
+            description:
+              "Ranked in the global top 2%, with QS putting CDU in the #621–630 band. Notably, 86% of employers rate CDU grads positively, and around 85% of students find full-time employment within 4 months post-graduation .",
+          },
+          {
+            name: "Modern Campus & Urban Expansion",
+            description:
+              "The newly opened Danala Education & Community Precinct is equipped with contemporary learning spaces and integrated with Darwin CBD, emphasizing community engagement and climate-sensitive design .",
+          },
+        ],
+      },
     ],
   },
 };
@@ -360,7 +555,7 @@ export default function UniversityDetail() {
                 world leaders across all fields.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 text-white">
+              <div className="flex flex-col sm:flex-row gap-4 text-white mb-8">
                 <div className="flex items-center">
                   <MapPin className="h-5 w-5 mr-2 text-main" />
                   <span>{university.location}</span>
@@ -369,6 +564,25 @@ export default function UniversityDetail() {
                   <Users className="h-5 w-5 mr-2 text-main" />
                   <span>{university.students.toLocaleString()} students</span>
                 </div>
+              </div>
+
+              {/* Course Guide Button */}
+              <div className="flex gap-4">
+                <Button
+                  onClick={() => {
+                    const link = document.createElement('a');
+                    link.href = courseGuidePdf;
+                    link.download = `${university.name}-Course-Guide.pdf`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                  }}
+                  className="bg-main hover:bg-main/90 text-white px-6 py-3 text-base font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
+                  size="lg"
+                >
+                  <Download className="h-5 w-5 mr-2" />
+                  Download Course Guide
+                </Button>
               </div>
             </div>
 

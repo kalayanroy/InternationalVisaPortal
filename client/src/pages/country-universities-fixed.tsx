@@ -17,6 +17,8 @@ import {
 import dashboardImage from "@assets/image_1751013500039.png";
 import ausNationUniversity from "@assets/audNationUniversity1.png";
 import bondUniversity from "@assets/BondUniversity.jpg";
+import cqUniversity from "@assets/CNSUniversity.jpg";
+import cduUniversity from "@assets/CDU.jpg";
 // Country data - in a real app this would come from an API
 const countryData = {
   australia: {
@@ -77,6 +79,33 @@ const countryData = {
           "Medicine",
         ],
         topCourses: ["Undergraduate", "Postgraduate", "MBA Program"],
+      },
+      {
+        id: "cq",
+        name: "Central Queensland University(CQ)",
+        location: "Rockhampton, Norman Gardens Australia",
+        ranking: "#499",
+        acceptance: "65%",
+        tuition: "AUD 23,000",
+        image: cqUniversity,
+        specialties: [
+          "Business and Accounting",
+          "Creative",
+          "Engineering",
+          "Built Environment and Aviation",
+        ],
+        topCourses: ["Undergraduate", "Postgraduate"],
+      },
+      {
+        id: "cdu",
+        name: "Charles Darwin University",
+        location: "Casuarina, Northern Territory, Australia",
+        ranking: "#436",
+        acceptance: "59%",
+        tuition: "AUD 20,000",
+        image: cduUniversity,
+        specialties: ["Health", "Engineering", "Indigenous Studies"],
+        topCourses: ["Undergraduate", "Postgraduate", "VET/TAFE"],
       },
     ],
   },
