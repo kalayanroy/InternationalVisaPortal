@@ -66,6 +66,7 @@ const countryData = {
         tuition: "AUD 27,916",
         image: ausNationUniversity,
         specialties: ["Business", "Medicine", "Law", "Engineering"],
+        courseGuid:"https://drive.google.com/file/d/1l-fM7BaCIeH4UZUZpJYUcJUl_6BXmqyA/view?usp=sharing",
         topCourses: [
           {
             Name: "Undergraduate",
@@ -571,6 +572,7 @@ export default function UniversityDetail() {
                 <Button
                   onClick={() => {
                     const link = document.createElement("a");
+                    link.target = "_blank";
                     link.href =
                       "https://drive.google.com/file/d/1l-fM7BaCIeH4UZUZpJYUcJUl_6BXmqyA/view?usp=sharing";
                     link.download = `${university.name}-Course-Guide.pdf`;
