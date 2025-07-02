@@ -555,19 +555,19 @@ export default function UniversityDetail() {
                 world leaders across all fields.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 text-white mb-8">
-                <div className="flex items-center">
-                  <MapPin className="h-5 w-5 mr-2 text-main" />
-                  <span>{university.location}</span>
+              <div className="flex flex-col sm:flex-row justify-between items-end gap-4">
+                <div className="flex flex-col sm:flex-row gap-4 text-white">
+                  <div className="flex items-center">
+                    <MapPin className="h-5 w-5 mr-2 text-main" />
+                    <span>{university.location}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Users className="h-5 w-5 mr-2 text-main" />
+                    <span>{university.students.toLocaleString()} students</span>
+                  </div>
                 </div>
-                <div className="flex items-center">
-                  <Users className="h-5 w-5 mr-2 text-main" />
-                  <span>{university.students.toLocaleString()} students</span>
-                </div>
-              </div>
 
-              {/* Course Guide Button */}
-              <div className="flex gap-4">
+                {/* Course Guide Button - Positioned on the right */}
                 <Button
                   onClick={() => {
                     const link = document.createElement('a');
@@ -577,11 +577,11 @@ export default function UniversityDetail() {
                     link.click();
                     document.body.removeChild(link);
                   }}
-                  className="bg-main hover:bg-main/90 text-white px-6 py-3 text-base font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
+                  className="bg-main hover:bg-main/90 text-white px-6 py-3 text-base font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 flex-shrink-0"
                   size="lg"
                 >
                   <Download className="h-5 w-5 mr-2" />
-                  Download Course Guide
+                  Course Guide
                 </Button>
               </div>
             </div>
