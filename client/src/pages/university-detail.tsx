@@ -154,26 +154,105 @@ const countryData = {
         ],
       },
       {
-        id: "bond",
-        name: "Bond University",
-        location: "Robina on the Gold Coast in Queensland, Australia",
-        ranking: "600",
-        acceptance: "60-70%",
-        tuition: "AUD 33,000",
-        image: bondUniversity,
-        specialties: [
-          "Computer Science",
-          "Engineering",
-          "Business",
-          "Medicine",
+        id: "nationalUniversity",
+        name: "Australian National University",
+        location: "Canberra, the capital city of Australia",
+        ranking: "32",
+        acceptance: "35%",
+        tuition: "AUD 27,916",
+        image: ausNationUniversity,
+        specialties: ["Business", "Medicine", "Law", "Engineering"],
+        topCourses: [
+          {
+            Name: "Undergraduate",
+            amount: "A$39,000 – A$49,000/year",
+            criteria:
+              "depending on program (e.g., bachelor’s degrees A$39K–48.9K)",
+          },
+          {
+            Name: "Postgraduate",
+            amount: "A$38,000 – A$50,400/year",
+            criteria: "masters and professional degrees on higher end",
+          },
+          {
+            Name: "PhD (HDR)",
+            amount: "~A$40,000/year",
+            criteria: "(often scholarship-subsidized)",
+          },
+          {
+            Name: "OSHC (Health Cover)",
+            amount: "A$600 – 700/year",
+            criteria: "",
+          },
         ],
-        topCourses: ["Undergraduate", "Postgraduate", "MBA Program"],
         description:
-          "Private university known for small class sizes and personalized education.",
-        students: "5,000+",
-        international: "50%",
-        founded: 1989,
-      },
+          "Leading Australian university with world-class research and academic programs.",
+        students: "25,000+",
+        international: "40%",
+        founded: 1946,
+        scholarships: [
+          {
+            name: "Chancellor’s International Scholarship",
+            amount: "",
+            criteria: "",
+            coverage:
+              "25–50% tuition reduction for high-achieving undergrad/postgrad applicants",
+          },
+          {
+            name: "Higher Degrees by Research (HDR)",
+            amount: "",
+            criteria: "",
+            coverage:
+              "Fee merit scholarships often include stipend for research students",
+          },
+          {
+            name: "Tuckwell Scholarship",
+            amount: "",
+            criteria: "",
+            coverage:
+              "Prestigious award (~A $76K–136K total) covering accommodation, living allowance, mentorship, and more        study.anu.edu.au",
+          },
+          {
+            name: "Specialised Scholarships",
+            amount: "",
+            criteria: "",
+            coverage:
+              "Regional (e.g., Indonesian), discipline-based (Law, Business, Engineering), Indigenous support",
+          },
+        ],
+        whyChoose: [
+          {
+            name: "Australia’s National University",
+            description:
+              "Founded in 1946 and ranked among the top 30 globally in QS 2025, ANU is recognized for academic and research excellence .",
+          },
+          {
+            name: "Elite Group of Eight Member",
+            description:
+              "ANU is part of Australia’s leading research universities with strong global partnerships (Oxford, Harvard, Yale, MIT).",
+          },
+          {
+            name: "Outstanding Academic Environment",
+            description:
+              "13 disciplines rank #1 nationally; boasts a 5-star student‑staff ratio of 11:1, ensuring small classes and close faculty interaction.",
+          },
+          {
+            name: "Capitol-Based Opportunities",
+            description:
+              "Located in Canberra, ANU students benefit from internships and engagement with government, embassies, NGOs, and policy-making bodies.",
+          },
+          {
+            name: "Supportive & Vibrant Campus Life",
+            description:
+              "With 110+ student clubs, residential colleges, and strong welfare programs, ANU fosters a welcoming environment.",
+          },
+          {
+            name: "Graduate Employability",
+            description:
+              "ANU graduates are ranked #1 in Australia for employability; graduate employment rates are ~81% undergrad and ~88% postgrad.",
+          },
+        ],
+      },,
     ],
   },
 };
@@ -1114,7 +1193,7 @@ export default function UniversityDetail() {
                     <Globe className="h-8 w-8 text-main" />
                   </div>
                   <h3 className="text-xl font-bold text-navy mb-4">
-                    {choose.Name}
+                    {choose.name}
                   </h3>
                   <p className="text-slate-600 leading-relaxed">
                     {choose.description}
