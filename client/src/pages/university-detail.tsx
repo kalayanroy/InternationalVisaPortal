@@ -176,270 +176,6 @@ const countryData = {
       },
     ],
   },
-  usa: {
-    id: "usa",
-    name: "United States",
-    code: "US",
-    flag: "🇺🇸",
-    description:
-      "Home to the world's most prestigious institutions with cutting-edge research and innovation.",
-    image:
-      "https://images.unsplash.com/photo-1626157150198-4cdec90f15a8?q=80&w=2069&auto=format&fit=crop",
-    stats: {
-      universities: "4,000+",
-      internationalStudents: "1M+",
-      programs: "15,000+",
-      states: "50",
-    },
-    universities: [
-      {
-        id: "harvard",
-        name: "Harvard University",
-        location: "Cambridge, Massachusetts",
-        ranking: "#1",
-        acceptance: "3.4%",
-        tuition: "$59,076",
-        students: "23,000",
-        country: "USA",
-        programs: "200+",
-        image:
-          "https://images.unsplash.com/photo-1562774053-701939374585?w=400&h=300&fit=crop&auto=format",
-        specialties: ["Business", "Medicine", "Law", "Engineering"],
-        topCourses: [
-          "MBA Program",
-          "Medical School",
-          "Law School",
-          "Computer Science",
-          "Economics",
-          "Machine Learning",
-        ],
-        description:
-          "World's leading research university with exceptional academic programs and distinguished faculty.",
-        international: "22%",
-        founded: 1636,
-      },
-      {
-        id: "stanford",
-        name: "Stanford University",
-        location: "Stanford, California",
-        ranking: "#2",
-        acceptance: "3.9%",
-        tuition: "$61,731",
-        students: "23,000",
-        country: "USA",
-        programs: "200+",
-        image:
-          "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=400&h=300&fit=crop&auto=format",
-        specialties: [
-          "Computer Science",
-          "Engineering",
-          "Business",
-          "Medicine",
-        ],
-        topCourses: [
-          "Computer Science",
-          "Artificial Intelligence",
-          "Engineering",
-          "MBA Program",
-          "Data Science",
-        ],
-        description:
-          "World's leading research university with exceptional academic programs and distinguished faculty.",
-        international: "24%",
-        founded: 1885,
-      },
-      {
-        id: "mit",
-        name: "Massachusetts Institute of Technology",
-        location: "Cambridge, Massachusetts",
-        ranking: "#3",
-        acceptance: "4.1%",
-        tuition: "$59,750",
-        students: "23,000",
-        country: "USA",
-        programs: "200+",
-        image:
-          "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=400&h=300&fit=crop&auto=format",
-        specialties: [
-          "Engineering",
-          "Computer Science",
-          "Physics",
-          "Economics",
-        ],
-        topCourses: [
-          "Electrical Engineering",
-          "Computer Science",
-          "Physics",
-          "Mathematics",
-          "Aerospace Engineering",
-        ],
-        description:
-          "World's leading research university with exceptional academic programs and distinguished faculty.",
-        international: "35%",
-        founded: 1861,
-      },
-    ],
-  },
-  uk: {
-    id: "uk",
-    name: "United Kingdom",
-    code: "GB",
-    flag: "🇬🇧",
-    description:
-      "Rich academic heritage with world-renowned universities and shorter degree programs.",
-    image:
-      "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=2069&auto=format&fit=crop",
-    stats: {
-      universities: "500+",
-      internationalStudents: "500K+",
-      programs: "50,000+",
-      cities: "100+",
-    },
-    universities: [
-      {
-        id: "oxford",
-        name: "Oxford University",
-        location: "Oxford, England",
-        ranking: "#1",
-        acceptance: "17.5%",
-        tuition: "£28,950",
-        students: "23,000",
-        country: "UK",
-        programs: "200+",
-        image:
-          "https://images.unsplash.com/photo-1566408669057-4cd39b3bb1a0?w=400&h=300&fit=crop&auto=format",
-        specialties: ["Philosophy", "Politics", "Economics", "Medicine"],
-        topCourses: ["PPE", "Medicine", "Law", "History", "English Literature"],
-        description:
-          "World's leading research university with exceptional academic programs and distinguished faculty.",
-        international: "45%",
-        founded: 1096,
-      },
-      {
-        id: "cambridge",
-        name: "Cambridge University",
-        location: "Cambridge, England",
-        ranking: "#2",
-        acceptance: "21%",
-        tuition: "£28,950",
-        students: "23,000",
-        country: "UK",
-        programs: "200+",
-        image:
-          "https://images.unsplash.com/photo-1559409030-0b0fb6d6b23e?w=400&h=300&fit=crop&auto=format",
-        specialties: [
-          "Mathematics",
-          "Physics",
-          "Engineering",
-          "Natural Sciences",
-        ],
-        topCourses: [
-          "Mathematics",
-          "Natural Sciences",
-          "Engineering",
-          "Computer Science",
-          "Medicine",
-        ],
-        description:
-          "World's leading research university with exceptional academic programs and distinguished faculty.",
-        international: "38%",
-        founded: 1209,
-      },
-      {
-        id: "imperial",
-        name: "Imperial College London",
-        location: "London, England",
-        ranking: "8",
-        acceptance: "14.3%",
-        tuition: "£32,000",
-        students: "23,000",
-        country: "UK",
-        programs: "200+",
-        image:
-          "https://images.unsplash.com/photo-1551740952-9ba0661ba9be?w=400&h=300&fit=crop&auto=format",
-        specialties: ["Engineering", "Medicine", "Business", "Science"],
-        topCourses: [
-          "Engineering",
-          "Medicine",
-          "Business School",
-          "Computing",
-          "Physics",
-        ],
-        description:
-          "World's leading research university with exceptional academic programs and distinguished faculty.",
-        international: "59%",
-        founded: 1907,
-      },
-    ],
-  },
-  canada: {
-    id: "canada",
-    name: "Canada",
-    code: "CA",
-    flag: "🇨🇦",
-    description:
-      "High-quality education with affordable tuition and post-graduation work opportunities.",
-    image:
-      "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?q=80&w=2069&auto=format&fit=crop",
-    stats: {
-      universities: "400+",
-      internationalStudents: "650K+",
-      programs: "25,000+",
-      provinces: "10",
-    },
-    universities: [
-      {
-        id: "toronto",
-        name: "University of Toronto",
-        location: "Toronto, Ontario",
-        ranking: "21",
-        acceptance: "43%",
-        tuition: "CAD $58,160",
-        students: "23,000",
-        country: "CA",
-        programs: "200+",
-        image:
-          "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=400&h=300&fit=crop&auto=format",
-        specialties: ["Medicine", "Engineering", "Business", "Arts"],
-        topCourses: [
-          "Medicine",
-          "Engineering",
-          "Business",
-          "Computer Science",
-          "Law",
-        ],
-        description:
-          "World's leading research university with exceptional academic programs and distinguished faculty.",
-        international: "25%",
-        founded: 1827,
-      },
-      {
-        id: "mcgill",
-        name: "McGill University",
-        location: "Montreal, Quebec",
-        ranking: "#31",
-        acceptance: "46%",
-        tuition: "CAD $50,000",
-        students: "23,000",
-        country: "CA",
-        programs: "200+",
-        image:
-          "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop&auto=format",
-        specialties: ["Medicine", "Engineering", "Arts", "Science"],
-        topCourses: [
-          "Medicine",
-          "Engineering",
-          "Arts",
-          "Management",
-          "Science",
-        ],
-        description:
-          "World's leading research university with exceptional academic programs and distinguished faculty.",
-        international: "30%",
-        founded: 1821,
-      },
-    ],
-  },
 };
 
 export default function UniversityDetail() {
@@ -474,8 +210,8 @@ export default function UniversityDetail() {
 
     // Default fallback to Harvard
     return {
-      university: countryData.usa.universities[0],
-      country: countryData.usa,
+      university: countryData.australia.universities[0],
+      country: countryData.australia,
     };
   }, [location]);
 
@@ -485,103 +221,6 @@ export default function UniversityDetail() {
   }, [location]);
 
   const { university, country } = universityData;
-
-  // Generate school programs based on university specialties
-  const schools = university.specialties.map(
-    (specialty: string, index: number) => ({
-      name: `${university.name} - ${specialty}`,
-      tuition: university.tuition,
-      duration: index % 2 === 0 ? "4 years" : "2 years",
-      requirements:
-        specialty === "Medicine"
-          ? "MCAT, Pre-med courses"
-          : specialty === "Business"
-            ? "GMAT/GRE, Work experience"
-            : specialty === "Law"
-              ? "LSAT, Bachelor's degree"
-              : "SAT/ACT, Strong academic background",
-      deadline: "Application deadlines vary by program",
-    }),
-  );
-
-  const visaRequirements = {
-    f1Visa: {
-      processing: "3-5 weeks",
-      fee: "$185",
-      interview: "Required",
-      requirements: [
-        "Form I-20 from Harvard University",
-        "SEVIS fee payment ($350)",
-        "DS-160 application completed online",
-        "Valid passport (6+ months validity)",
-        "Financial documentation ($85,000+ for first year)",
-        "Academic transcripts and test scores",
-        "Visa interview at US Embassy/Consulate",
-        "Biometric appointment if required",
-      ],
-    },
-    j1Visa: {
-      processing: "2-4 weeks",
-      fee: "$185",
-      interview: "Required",
-      requirements: [
-        "Form DS-2019 from Harvard",
-        "SEVIS fee payment ($220)",
-        "Two-year home residency requirement",
-        "Health insurance mandatory",
-        "Program sponsor verification",
-      ],
-    },
-  };
-
-  const costs = {
-    undergraduate: {
-      tuition: "$59,076",
-      fees: "$4,195",
-      roomBoard: "$20,374",
-      books: "$1,000",
-      personal: "$2,500",
-      total: "$87,145",
-    },
-    graduate: {
-      tuition: "$55,272 - $73,440",
-      fees: "$3,500 - $5,000",
-      roomBoard: "$18,000 - $25,000",
-      books: "$1,200",
-      personal: "$3,000",
-      total: "$80,972 - $107,640",
-    },
-  };
-
-  const scholarships = [
-    {
-      name: "Harvard Financial Aid",
-      amount: "Up to full tuition",
-      criteria: "Need-based, family income under $85,000",
-      coverage: "100% of families earning less than $85,000 pay nothing",
-    },
-    {
-      name: "Harvard Merit Scholarships",
-      amount: "$5,000 - $25,000",
-      criteria: "Academic excellence, leadership",
-      coverage: "Various partial awards",
-    },
-    {
-      name: "International Student Aid",
-      amount: "Variable",
-      criteria: "Financial need demonstration",
-      coverage: "Same aid policy as domestic students",
-    },
-  ];
-
-  const admissionTimeline = [
-    { date: "August - October", task: "Prepare application materials" },
-    { date: "November 1", task: "Early Action deadline" },
-    { date: "January 1", task: "Regular Decision deadline" },
-    { date: "Mid-December", task: "Early Action results" },
-    { date: "Late March", task: "Regular Decision results" },
-    { date: "May 1", task: "Enrollment deposit deadline" },
-  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-white ">
@@ -1037,7 +676,7 @@ export default function UniversityDetail() {
                   <div className="grid grid-cols-1 gap-3">
                     <div className="p-4 bg-gradient-to-br from-green-100/80 to-green-50 rounded-2xl border border-green-200/60 text-center hover:shadow-lg transition-all duration-300">
                       <div className="font-bold text-green-800">
-                        {visaRequirements.f1Visa.processing}
+                        {/*{visaRequirements.f1Visa.processing}*/}
                       </div>
                       <div className="text-xs text-green-700 font-medium">
                         Processing Time
@@ -1045,7 +684,7 @@ export default function UniversityDetail() {
                     </div>
                     <div className="p-4 bg-gradient-to-br from-emerald-100/80 to-emerald-50 rounded-2xl border border-emerald-200/60 text-center hover:shadow-lg transition-all duration-300">
                       <div className="font-bold text-emerald-800">
-                        {visaRequirements.f1Visa.fee}
+                        {/*{visaRequirements.f1Visa.fee}*/}
                       </div>
                       <div className="text-xs text-emerald-700 font-medium">
                         Visa Fee
@@ -1064,7 +703,7 @@ export default function UniversityDetail() {
                       Requirements:
                     </h4>
                     <ul className="space-y-2 max-h-40 overflow-y-auto">
-                      {visaRequirements.f1Visa.requirements
+                      {/*{visaRequirements.f1Visa.requirements
                         .slice(0, 4)
                         .map((req, index) => (
                           <li
@@ -1074,7 +713,7 @@ export default function UniversityDetail() {
                             <CheckCircle className="h-3 w-3 text-green-600 mr-2 mt-0.5 flex-shrink-0" />
                             {req}
                           </li>
-                        ))}
+                        ))}*/}
                     </ul>
                   </div>
 
@@ -1098,7 +737,7 @@ export default function UniversityDetail() {
                   <div className="grid grid-cols-1 gap-3">
                     <div className="p-4 bg-gradient-to-br from-blue-100/80 to-blue-50 rounded-2xl border border-blue-200/60 text-center hover:shadow-lg transition-all duration-300">
                       <div className="font-bold text-blue-800">
-                        {visaRequirements.j1Visa.processing}
+                        {/*{visaRequirements.j1Visa.processing}*/}
                       </div>
                       <div className="text-xs text-blue-700 font-medium">
                         Processing Time
@@ -1106,7 +745,7 @@ export default function UniversityDetail() {
                     </div>
                     <div className="p-4 bg-gradient-to-br from-sky-100/80 to-sky-50 rounded-2xl border border-sky-200/60 text-center hover:shadow-lg transition-all duration-300">
                       <div className="font-bold text-sky-800">
-                        {visaRequirements.j1Visa.fee}
+                        {/* {visaRequirements.j1Visa.fee}*/}
                       </div>
                       <div className="text-xs text-sky-700 font-medium">
                         Visa Fee
@@ -1125,7 +764,7 @@ export default function UniversityDetail() {
                       Requirements:
                     </h4>
                     <ul className="space-y-2 max-h-40 overflow-y-auto">
-                      {visaRequirements.j1Visa.requirements.map(
+                      {/* {visaRequirements.j1Visa.requirements.map(
                         (req, index) => (
                           <li
                             key={index}
@@ -1135,7 +774,7 @@ export default function UniversityDetail() {
                             {req}
                           </li>
                         ),
-                      )}
+                      )}*/}
                     </ul>
                   </div>
 
@@ -1466,128 +1105,24 @@ export default function UniversityDetail() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {/* Article 1: Academic Excellence */}
-          <Card className="group hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-main/20 bg-gradient-to-br from-white via-white to-slate-50/30">
-            <div className="relative overflow-hidden rounded-t-lg">
-              <div className="absolute inset-0 bg-gradient-to-br from-main/20 via-main/10 to-transparent" />
-              <div className="relative p-8">
-                <div className="flex items-center justify-center w-16 h-16 bg-main/10 rounded-2xl mb-6 group-hover:bg-main/20 transition-colors">
-                  <BookOpen className="h-8 w-8 text-main" />
+          {university.whyChoose?.map((choose: any, index: number) => (
+            <Card className="group hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-main/20 bg-gradient-to-br from-white via-white to-slate-50/30">
+              <div className="relative overflow-hidden rounded-t-lg">
+                <div className="absolute inset-0 bg-gradient-to-br from-main/20 via-main/10 to-transparent" />
+                <div className="relative p-8">
+                  <div className="flex items-center justify-center w-16 h-16 bg-main/10 rounded-2xl mb-6 group-hover:bg-main/20 transition-colors">
+                    <Globe className="h-8 w-8 text-main" />
+                  </div>
+                  <h3 className="text-xl font-bold text-navy mb-4">
+                    {choose.Name}
+                  </h3>
+                  <p className="text-slate-600 leading-relaxed">
+                    {choose.description}
+                  </p>
                 </div>
-                <h3 className="text-xl font-bold text-navy mb-4">
-                  Academic Excellence
-                </h3>
-                <p className="text-slate-600 leading-relaxed">
-                  Ranked #{university.ranking} globally, {university.name}{" "}
-                  offers world-class programs taught by Nobel laureates and
-                  industry leaders. Our rigorous curriculum ensures graduates
-                  are prepared for tomorrow's challenges.
-                </p>
               </div>
-            </div>
-          </Card>
-
-          {/* Article 2: Global Network */}
-          <Card className="group hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-main/20 bg-gradient-to-br from-white via-white to-slate-50/30">
-            <div className="relative overflow-hidden rounded-t-lg">
-              <div className="absolute inset-0 bg-gradient-to-br from-main/20 via-main/10 to-transparent" />
-              <div className="relative p-8">
-                <div className="flex items-center justify-center w-16 h-16 bg-main/10 rounded-2xl mb-6 group-hover:bg-main/20 transition-colors">
-                  <Globe className="h-8 w-8 text-main" />
-                </div>
-                <h3 className="text-xl font-bold text-navy mb-4">
-                  Global Alumni Network
-                </h3>
-                <p className="text-slate-600 leading-relaxed">
-                  Join a prestigious network of over 400,000 alumni worldwide,
-                  including CEOs, presidents, Nobel Prize winners, and
-                  innovators who are shaping the future across every industry.
-                </p>
-              </div>
-            </div>
-          </Card>
-
-          {/* Article 3: Research Opportunities */}
-          <Card className="group hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-main/20 bg-gradient-to-br from-white via-white to-slate-50/30">
-            <div className="relative overflow-hidden rounded-t-lg">
-              <div className="absolute inset-0 bg-gradient-to-br from-main/20 via-main/10 to-transparent" />
-              <div className="relative p-8">
-                <div className="flex items-center justify-center w-16 h-16 bg-main/10 rounded-2xl mb-6 group-hover:bg-main/20 transition-colors">
-                  <TrendingUp className="h-8 w-8 text-main" />
-                </div>
-                <h3 className="text-xl font-bold text-navy mb-4">
-                  Cutting-Edge Research
-                </h3>
-                <p className="text-slate-600 leading-relaxed">
-                  Access to world-renowned research facilities and work
-                  alongside leading researchers on groundbreaking projects that
-                  are solving real-world problems and advancing human knowledge.
-                </p>
-              </div>
-            </div>
-          </Card>
-
-          {/* Article 4: Career Success */}
-          <Card className="group hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-main/20 bg-gradient-to-br from-white via-white to-slate-50/30">
-            <div className="relative overflow-hidden rounded-t-lg">
-              <div className="absolute inset-0 bg-gradient-to-br from-main/20 via-main/10 to-transparent" />
-              <div className="relative p-8">
-                <div className="flex items-center justify-center w-16 h-16 bg-main/10 rounded-2xl mb-6 group-hover:bg-main/20 transition-colors">
-                  <Building className="h-8 w-8 text-main" />
-                </div>
-                <h3 className="text-xl font-bold text-navy mb-4">
-                  Career Opportunities
-                </h3>
-                <p className="text-slate-600 leading-relaxed">
-                  95% of graduates secure employment within 6 months. Our career
-                  services, internship programs, and industry partnerships
-                  provide unparalleled access to top employers worldwide.
-                </p>
-              </div>
-            </div>
-          </Card>
-
-          {/* Article 5: Financial Support */}
-          <Card className="group hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-main/20 bg-gradient-to-br from-white via-white to-slate-50/30">
-            <div className="relative overflow-hidden rounded-t-lg">
-              <div className="absolute inset-0 bg-gradient-to-br from-main/20 via-main/10 to-transparent" />
-              <div className="relative p-8">
-                <div className="flex items-center justify-center w-16 h-16 bg-main/10 rounded-2xl mb-6 group-hover:bg-main/20 transition-colors">
-                  <DollarSign className="h-8 w-8 text-main" />
-                </div>
-                <h3 className="text-xl font-bold text-navy mb-4">
-                  Financial Support
-                </h3>
-                <p className="text-slate-600 leading-relaxed">
-                  Over $180 million in financial aid awarded annually.
-                  Need-blind admissions ensure talented students can attend
-                  regardless of financial circumstances, with generous
-                  scholarship programs.
-                </p>
-              </div>
-            </div>
-          </Card>
-
-          {/* Article 6: Campus Life */}
-          <Card className="group hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-main/20 bg-gradient-to-br from-white via-white to-slate-50/30">
-            <div className="relative overflow-hidden rounded-t-lg">
-              <div className="absolute inset-0 bg-gradient-to-br from-main/20 via-main/10 to-transparent" />
-              <div className="relative p-8">
-                <div className="flex items-center justify-center w-16 h-16 bg-main/10 rounded-2xl mb-6 group-hover:bg-main/20 transition-colors">
-                  <Users className="h-8 w-8 text-main" />
-                </div>
-                <h3 className="text-xl font-bold text-navy mb-4">
-                  Vibrant Campus Life
-                </h3>
-                <p className="text-slate-600 leading-relaxed">
-                  Experience diverse campus culture with 450+ student
-                  organizations, world-class athletics, cultural events, and a
-                  supportive community that fosters lifelong friendships and
-                  networking.
-                </p>
-              </div>
-            </div>
-          </Card>
+            </Card>
+          ))}
         </div>
       </div>
       {/* Call to Action */}
