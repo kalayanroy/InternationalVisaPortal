@@ -66,7 +66,8 @@ const countryData = {
         tuition: "AUD 27,916",
         image: ausNationUniversity,
         specialties: ["Business", "Medicine", "Law", "Engineering"],
-        courseGuid:"https://drive.google.com/file/d/1l-fM7BaCIeH4UZUZpJYUcJUl_6BXmqyA/view?usp=sharing",
+        courseGuid:
+          "https://drive.google.com/file/d/1l-fM7BaCIeH4UZUZpJYUcJUl_6BXmqyA/view?usp=sharing",
         topCourses: [
           {
             Name: "Undergraduate",
@@ -166,6 +167,8 @@ const countryData = {
         acceptance: "60%",
         tuition: "AUD 33,000",
         image: bondUniversity,
+        courseGuid:
+          "https://drive.google.com/file/d/1nOA_u-y-5vGydxx7UoNeaK1nCkF2HQrO/view?usp=sharing",
         specialties: [
           "Computer Science",
           "Engineering",
@@ -257,6 +260,8 @@ const countryData = {
         acceptance: "65%",
         tuition: "AUD 23,000",
         image: cqUniversity,
+        courseGuid:
+          "https://drive.google.com/file/d/15bAsAW7lFi92A9k2XzJF8e8sHPVP8HkU/view?usp=sharing",
         specialties: [
           "Business and Accounting",
           "Creative",
@@ -353,6 +358,8 @@ const countryData = {
         acceptance: "59%",
         tuition: "AUD 20,000",
         image: cduUniversity,
+        courseGuid:
+          "https://drive.google.com/file/d/1j-beQhJ6aHu_6FBweBH9cSY2ubiZYsdn/view?usp=sharing",
         specialties: ["Health", "Engineering", "Indigenous Studies"],
         topCourses: [
           {
@@ -573,8 +580,7 @@ export default function UniversityDetail() {
                   onClick={() => {
                     const link = document.createElement("a");
                     link.target = "_blank";
-                    link.href =
-                      "https://drive.google.com/file/d/1l-fM7BaCIeH4UZUZpJYUcJUl_6BXmqyA/view?usp=sharing";
+                    link.href = `${university.courseGuid}`;
                     link.download = `${university.name}-Course-Guide.pdf`;
                     document.body.appendChild(link);
                     link.click();
