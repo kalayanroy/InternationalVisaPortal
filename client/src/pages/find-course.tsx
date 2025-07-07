@@ -5,7 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Search, Clock, MapPin, GraduationCap, DollarSign } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Search, Clock, MapPin, GraduationCap, DollarSign, X, Download, MessageCircle, Award, BookOpen } from "lucide-react";
 import Header from "@/components/header";
 
 interface Course {
@@ -21,6 +22,12 @@ interface Course {
   description: string;
   ranking: string;
   logo: string;
+  about: string;
+  requirements: string[];
+  scholarships: Array<{
+    name: string;
+    amount: string;
+  }>;
 }
 
 const sampleCourses: Course[] = [
@@ -36,7 +43,13 @@ const sampleCourses: Course[] = [
     currency: "AUD",
     description: "Comprehensive MBA program focusing on leadership, strategy, and global business practices.",
     ranking: "#1 in Australia",
-    logo: "🎓"
+    logo: "🎓",
+    about: "The Melbourne Business School MBA is designed for ambitious professionals seeking to accelerate their careers and make a meaningful impact in the business world.",
+    requirements: ["Bachelor's degree", "GMAT 650+", "Work experience 2+ years"],
+    scholarships: [
+      { name: "Merit Scholarship", amount: "Up to $20,000" },
+      { name: "International Excellence Award", amount: "$15,000" }
+    ]
   },
   {
     id: "2",
@@ -50,7 +63,13 @@ const sampleCourses: Course[] = [
     currency: "USD",
     description: "Advanced computer science program with specializations in AI, machine learning, and software engineering.",
     ranking: "#1 in USA",
-    logo: "🖥️"
+    logo: "🖥️",
+    about: "Advanced computer science program with specializations in AI, machine learning, and software engineering.",
+    requirements: ["Bachelor's in CS or related field", "GRE 320+", "Programming experience"],
+    scholarships: [
+      { name: "Stanford Fellowship", amount: "Full tuition" },
+      { name: "Merit Award", amount: "$25,000" }
+    ]
   },
   {
     id: "3",
@@ -64,7 +83,13 @@ const sampleCourses: Course[] = [
     currency: "GBP",
     description: "Prestigious engineering program with focus on innovation and practical application.",
     ranking: "#2 in UK",
-    logo: "⚙️"
+    logo: "⚙️",
+    about: "Prestigious engineering program with focus on innovation and practical application.",
+    requirements: ["A-levels or equivalent", "Mathematics A*", "Physics A"],
+    scholarships: [
+      { name: "Cambridge Scholarship", amount: "£20,000" },
+      { name: "Engineering Excellence", amount: "£10,000" }
+    ]
   },
   {
     id: "4",
@@ -78,7 +103,13 @@ const sampleCourses: Course[] = [
     currency: "CAD",
     description: "Comprehensive business program with emphasis on entrepreneurship and global markets.",
     ranking: "#1 in Canada",
-    logo: "💼"
+    logo: "💼",
+    about: "Comprehensive business program with emphasis on entrepreneurship and global markets.",
+    requirements: ["High school diploma", "SAT 1200+", "English proficiency"],
+    scholarships: [
+      { name: "International Scholarship", amount: "CAD $15,000" },
+      { name: "Merit Award", amount: "CAD $8,000" }
+    ]
   },
   {
     id: "5",
@@ -92,7 +123,13 @@ const sampleCourses: Course[] = [
     currency: "EUR",
     description: "Advanced data science program with focus on machine learning and big data analytics.",
     ranking: "#1 in Germany",
-    logo: "📊"
+    logo: "📊",
+    about: "Advanced data science program with focus on machine learning and big data analytics.",
+    requirements: ["Bachelor's in CS/Math", "GRE required", "Programming skills"],
+    scholarships: [
+      { name: "DAAD Scholarship", amount: "€12,000" },
+      { name: "Excellence Grant", amount: "€5,000" }
+    ]
   },
   {
     id: "6",
@@ -106,7 +143,13 @@ const sampleCourses: Course[] = [
     currency: "SGD",
     description: "Comprehensive computer science program with emphasis on software development and AI.",
     ranking: "#1 in Singapore",
-    logo: "💻"
+    logo: "💻",
+    about: "Comprehensive computer science program with emphasis on software development and AI.",
+    requirements: ["A-levels", "Mathematics H2", "Strong academic record"],
+    scholarships: [
+      { name: "NUS Scholarship", amount: "SGD $20,000" },
+      { name: "Tech Excellence", amount: "SGD $12,000" }
+    ]
   },
   {
     id: "7",
@@ -120,7 +163,13 @@ const sampleCourses: Course[] = [
     currency: "USD",
     description: "Leading public health program focusing on global health challenges and policy.",
     ranking: "#1 in USA",
-    logo: "🏥"
+    logo: "🏥",
+    about: "Leading public health program focusing on global health challenges and policy.",
+    requirements: ["Bachelor's degree", "GRE 310+", "Health-related experience"],
+    scholarships: [
+      { name: "Harvard Fellowship", amount: "Full tuition" },
+      { name: "Public Health Award", amount: "$30,000" }
+    ]
   },
   {
     id: "8",
@@ -134,7 +183,13 @@ const sampleCourses: Course[] = [
     currency: "GBP",
     description: "Comprehensive psychology program with focus on research and clinical applications.",
     ranking: "#1 in UK",
-    logo: "🧠"
+    logo: "🧠",
+    about: "Comprehensive psychology program with focus on research and clinical applications.",
+    requirements: ["A-levels AAA", "Psychology A-level", "Interview required"],
+    scholarships: [
+      { name: "Oxford Scholarship", amount: "£25,000" },
+      { name: "Psychology Excellence", amount: "£15,000" }
+    ]
   }
 ];
 
@@ -145,6 +200,8 @@ const fields = ["All Fields", "Business", "Computer Science", "Engineering", "Da
 export default function FindCourse() {
   const [location] = useLocation();
   const [filteredCourses, setFilteredCourses] = useState<Course[]>(sampleCourses);
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [filters, setFilters] = useState({
     country: "All Countries",
     level: "All Levels",
@@ -197,6 +254,16 @@ export default function FindCourse() {
   const handleSearch = () => {
     // Filter is already applied through useEffect
     console.log("Searching with filters:", filters);
+  };
+
+  const handleViewDetails = (course: Course) => {
+    setSelectedCourse(course);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedCourse(null);
   };
 
   return (
@@ -367,6 +434,7 @@ export default function FindCourse() {
                     <Button
                       size="sm"
                       className="bg-main hover:bg-main/90 text-navy"
+                      onClick={() => handleViewDetails(course)}
                     >
                       View Details
                     </Button>
@@ -388,6 +456,122 @@ export default function FindCourse() {
             </div>
           )}
         </div>
+
+        {/* Course Details Modal */}
+        <Dialog open={isModalOpen} onOpenChange={handleCloseModal}>
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            {selectedCourse && (
+              <>
+                <DialogHeader className="relative">
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="text-3xl">{selectedCourse.logo}</div>
+                      <div>
+                        <DialogTitle className="text-xl font-bold text-navy">
+                          {selectedCourse.name}
+                        </DialogTitle>
+                        <p className="text-main font-semibold">
+                          {selectedCourse.university}
+                        </p>
+                        <Badge variant="secondary" className="bg-main/10 text-main mt-1">
+                          {selectedCourse.ranking}
+                        </Badge>
+                      </div>
+                    </div>
+                  </div>
+                </DialogHeader>
+
+                <div className="space-y-6">
+                  {/* About the Program */}
+                  <div>
+                    <div className="flex items-center space-x-2 mb-3">
+                      <BookOpen className="h-5 w-5 text-main" />
+                      <h3 className="text-lg font-semibold text-navy">About the Program</h3>
+                    </div>
+                    <p className="text-gray-600 leading-relaxed">
+                      {selectedCourse.about}
+                    </p>
+                  </div>
+
+                  {/* Fees & Duration and Requirements */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Fees & Duration */}
+                    <div className="bg-yellow-50 p-4 rounded-lg">
+                      <div className="flex items-center space-x-2 mb-3">
+                        <DollarSign className="h-5 w-5 text-yellow-600" />
+                        <h4 className="font-semibold text-gray-800">Fees & Duration</h4>
+                      </div>
+                      <div className="space-y-2 text-sm">
+                        <div>
+                          <span className="text-gray-600">Tuition: </span>
+                          <span className="font-medium">
+                            {selectedCourse.fee} {selectedCourse.currency} per year
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-gray-600">Duration: </span>
+                          <span className="font-medium">{selectedCourse.duration}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Requirements */}
+                    <div className="bg-green-50 p-4 rounded-lg">
+                      <div className="flex items-center space-x-2 mb-3">
+                        <GraduationCap className="h-5 w-5 text-green-600" />
+                        <h4 className="font-semibold text-gray-800">Requirements</h4>
+                      </div>
+                      <ul className="space-y-1 text-sm">
+                        {selectedCourse.requirements.map((req, index) => (
+                          <li key={index} className="flex items-start space-x-2">
+                            <span className="text-green-600 mt-1">•</span>
+                            <span className="text-gray-600">{req}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  {/* Available Scholarships */}
+                  <div className="bg-purple-50 p-4 rounded-lg">
+                    <div className="flex items-center space-x-2 mb-3">
+                      <Award className="h-5 w-5 text-purple-600" />
+                      <h4 className="font-semibold text-gray-800">Available Scholarships</h4>
+                    </div>
+                    <div className="space-y-2">
+                      {selectedCourse.scholarships.map((scholarship, index) => (
+                        <div key={index} className="flex justify-between items-center text-sm">
+                          <span className="text-gray-600">{scholarship.name}</span>
+                          <span className="font-medium text-purple-700">{scholarship.amount}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-4">
+                    <Button className="bg-purple-600 hover:bg-purple-700 text-white">
+                      <MessageCircle className="h-4 w-4 mr-2" />
+                      Explain How
+                    </Button>
+                    <Button className="bg-green-600 hover:bg-green-700 text-white">
+                      <Download className="h-4 w-4 mr-2" />
+                      Download Brochure
+                    </Button>
+                    <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                      <MessageCircle className="h-4 w-4 mr-2" />
+                      Contact
+                    </Button>
+                    <Button className="bg-orange-600 hover:bg-orange-700 text-white">
+                      <Award className="h-4 w-4 mr-2" />
+                      Scholarships
+                    </Button>
+                  </div>
+                </div>
+              </>
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
