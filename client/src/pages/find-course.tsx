@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Search, Clock, MapPin, GraduationCap, DollarSign, X, Download, MessageCircle, Award, BookOpen } from "lucide-react";
+import { Search, Clock, MapPin, GraduationCap, DollarSign, X, Download, MessageCircle, Award, BookOpen, FileText } from "lucide-react";
 import Header from "@/components/header";
 
 interface Course {
@@ -549,7 +549,7 @@ export default function FindCourse() {
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-4">
+                  <div className="grid grid-cols-2 md:grid-cols-5 gap-3 pt-4">
                     <Button className="bg-purple-600 hover:bg-purple-700 text-white">
                       <MessageCircle className="h-4 w-4 mr-2" />
                       Explain How
@@ -566,6 +566,12 @@ export default function FindCourse() {
                       <Award className="h-4 w-4 mr-2" />
                       Scholarships
                     </Button>
+                    <Link href="/sop-generator" onClick={handleCloseModal}>
+                      <Button className="bg-teal-600 hover:bg-teal-700 text-white w-full">
+                        <FileText className="h-4 w-4 mr-2" />
+                        SOP Generate
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </>

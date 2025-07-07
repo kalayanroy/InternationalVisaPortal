@@ -970,6 +970,69 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // SOP Generation routes
+  app.post("/api/generate-sop", async (req, res) => {
+    try {
+      const { generateSOPWithAI, generateSOPDocument } = await import("./sopGenerator");
+      const { formData, aiProvider = 'gemini' } = req.body;
+      
+      if (!formData) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "Form data is required" 
+        });
+      }
+
+      // Generate SOP text using AI
+      const sopText = await generateSOPWithAI(formData, aiProvider);
+      
+      res.json({
+        success: true,
+        sopText: sopText,
+        message: "SOP generated successfully"
+      });
+    } catch (error) {
+      console.error("Error generating SOP:", error);
+      res.status(500).json({
+        success: false,
+        message: error instanceof Error ? error.message : "Failed to generate SOP"
+      });
+    }
+  });
+
+  app.post("/api/generate-sop-document", async (req, res) => {
+    try {
+      const { generateSOPDocument } = await import("./sopGenerator");
+      const { sopText, studentName, format = 'docx' } = req.body;
+      
+      if (!sopText || !studentName) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "SOP text and student name are required" 
+        });
+      }
+
+      if (format === 'docx') {
+        const docBuffer = await generateSOPDocument(sopText, studentName);
+        
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        res.setHeader('Content-Disposition', `attachment; filename="${studentName.replace(/\s+/g, '_')}_SOP.docx"`);
+        res.send(docBuffer);
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "Currently only DOCX format is supported"
+        });
+      }
+    } catch (error) {
+      console.error("Error generating SOP document:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to generate SOP document"
+      });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

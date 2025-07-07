@@ -26,6 +26,7 @@ import StudentApplication from "@/pages/student-application";
 import AddUniversity from "@/pages/add-university";
 import AttachmentSystem from "@/pages/attachment-system";
 import FindCourse from "@/pages/find-course";
+import SOPGenerator from "@/pages/sop-generator";
 
 function Router() {
   return (
@@ -53,6 +54,7 @@ function Router() {
       <Route path="/attachment-system" component={AttachmentSystem} />
       <Route path="/courses" component={FindCourse} />
       <Route path="/courses/:level" component={FindCourse} />
+      <Route path="/sop-generator" component={SOPGenerator} />
       <Route component={NotFound} />
     </Switch>
   );
