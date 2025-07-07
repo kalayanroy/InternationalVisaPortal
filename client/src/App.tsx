@@ -25,6 +25,7 @@ import AdminDashboard from "@/pages/admin-dashboard";
 import StudentApplication from "@/pages/student-application";
 import AddUniversity from "@/pages/add-university";
 import AttachmentSystem from "@/pages/attachment-system";
+import FindCourse from "@/pages/find-course";
 
 function Router() {
   return (
@@ -50,6 +51,8 @@ function Router() {
       <Route path="/student-application" component={StudentApplication} />
       <Route path="/add-university" component={AddUniversity} />
       <Route path="/attachment-system" component={AttachmentSystem} />
+      <Route path="/courses" component={FindCourse} />
+      <Route path="/courses/:level" component={FindCourse} />
       <Route component={NotFound} />
     </Switch>
   );
