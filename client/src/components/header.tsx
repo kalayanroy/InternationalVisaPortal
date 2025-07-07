@@ -211,41 +211,60 @@ export default function Header() {
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>
-                    <Link href="/visa/student" className="w-full">
-                      Student Visa
-                    </Link>
+                  <DropdownMenuItem className="relative">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger className="w-full text-left flex items-center justify-between">
+                        Visa Services
+                        <ChevronDown className="h-4 w-4" />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-48" side="right">
+                        <DropdownMenuItem>
+                          <Link href="/visa/student" className="w-full">
+                            Student Visa
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          <Link href="/visa/182" className="w-full">
+                            182 Visa
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          <Link href="/visa/186" className="w-full">
+                            186 Visa
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          <Link href="/visa/student-extension" className="w-full">
+                            Student Visa Extension
+                          </Link>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link href="/visa/182" className="w-full">
-                      182 Visa
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link href="/visa/186" className="w-full">
-                      186 Visa
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link href="/visa/student-extension" className="w-full">
-                      Student Visa Extension
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
                   <DropdownMenuItem>
                     <Link href="/e-ticketing" className="w-full">
                       E-Ticketing
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link href="/migration/skilled" className="w-full">
-                      Skilled Migration
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link href="/migration/family" className="w-full">
-                      Family Migration
-                    </Link>
+                  <DropdownMenuItem className="relative">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger className="w-full text-left flex items-center justify-between">
+                        Migration Service
+                        <ChevronDown className="h-4 w-4" />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-48" side="right">
+                        <DropdownMenuItem>
+                          <Link href="/migration/skilled" className="w-full">
+                            Skilled Migration
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          <Link href="/migration/family" className="w-full">
+                            Family Migration
+                          </Link>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
