@@ -67,9 +67,9 @@ export default function Navigation() {
             </Link>
           ))}
 
-          <Button className="bg-gold hover:bg-gold/90 text-navy font-semibold text-sm px-4 py-2 rounded-md">
+          {/*<Button className="bg-gold hover:bg-gold/90 text-navy font-semibold text-sm px-4 py-2 rounded-md">
             Book Consultation
-          </Button>
+          </Button>*/}
 
           {isLoggedIn ? (
             <DropdownMenu>

@@ -59,21 +59,21 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-8">
-            <nav className="flex items-center space-x-6">
+          <div className="hidden lg:flex items-center space-x-2">
+            <nav className="flex items-center space-x-1">
               {/* 1. Offers in Australia */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 ${
+                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${
                       isScrolled
                         ? "text-navy hover:text-main hover:bg-navy/10"
                         : "text-white hover:text-main hover:bg-white/10"
                     }`}
                   >
                     <span>Offers in Australia</span>
-                    <ChevronDown className="h-4 w-4" />
+                    <ChevronDown className="h-3 w-3" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-48">
@@ -95,14 +95,14 @@ export default function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 ${
+                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${
                       isScrolled
                         ? "text-navy hover:text-main hover:bg-navy/10"
                         : "text-white hover:text-main hover:bg-white/10"
                     }`}
                   >
                     <span>Study Destination</span>
-                    <ChevronDown className="h-4 w-4" />
+                    <ChevronDown className="h-3 w-3" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-48">
@@ -145,14 +145,14 @@ export default function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 ${
+                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${
                       isScrolled
                         ? "text-navy hover:text-main hover:bg-navy/10"
                         : "text-white hover:text-main hover:bg-white/10"
                     }`}
                   >
                     <span>Find Course</span>
-                    <ChevronDown className="h-4 w-4" />
+                    <ChevronDown className="h-3 w-3" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-48">
@@ -184,14 +184,14 @@ export default function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 ${
+                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${
                       isScrolled
                         ? "text-navy hover:text-main hover:bg-navy/10"
                         : "text-white hover:text-main hover:bg-white/10"
                     }`}
                   >
                     <span>Our Services</span>
-                    <ChevronDown className="h-4 w-4" />
+                    <ChevronDown className="h-3 w-3" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56">
@@ -253,7 +253,7 @@ export default function Header() {
               {/* 5. Apply Now */}
               <Link
                 href="/student-application"
-                className={`font-medium transition-colors hover:scale-105 ${
+                className={`font-medium transition-colors hover:scale-105 px-2 py-1 text-sm ${
                   isScrolled
                     ? "text-navy hover:text-main"
                     : "text-white hover:text-main"
@@ -267,14 +267,14 @@ export default function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 ${
+                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${
                       isScrolled
                         ? "text-navy hover:text-main hover:bg-navy/10"
                         : "text-white hover:text-main hover:bg-white/10"
                     }`}
                   >
                     <span>About Us</span>
-                    <ChevronDown className="h-4 w-4" />
+                    <ChevronDown className="h-3 w-3" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-48">
@@ -356,7 +356,7 @@ export default function Header() {
               </DropdownMenu>
             ) : (
               <div className="flex items-center space-x-4">
-                <Link href="/consultation">
+                {/*<Link href="/consultation">
                   <Button
                     className={`font-semibold px-6 py-2 rounded-lg transition-all duration-300 ${
                       isScrolled
@@ -366,7 +366,7 @@ export default function Header() {
                   >
                     Book Consultation
                   </Button>
-                </Link>
+                </Link>*/}
                 <Link href="/login">
                   <Button
                     variant="outline"
@@ -406,7 +406,9 @@ export default function Header() {
             <div className="px-2 pt-2 pb-3 space-y-1 max-h-96 overflow-y-auto">
               {/* Offers in Australia */}
               <div className="px-3 py-2">
-                <span className="text-sm font-semibold text-gray-500 uppercase tracking-wide">Offers in Australia</span>
+                <span className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+                  Offers in Australia
+                </span>
                 <div className="mt-1 space-y-1">
                   <Link
                     href="/student-visa-extension"
@@ -427,7 +429,9 @@ export default function Header() {
 
               {/* Study Destination */}
               <div className="px-3 py-2">
-                <span className="text-sm font-semibold text-gray-500 uppercase tracking-wide">Study Destination</span>
+                <span className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+                  Study Destination
+                </span>
                 <div className="mt-1 space-y-1">
                   <Link
                     href="/usa-universities"
@@ -476,7 +480,9 @@ export default function Header() {
 
               {/* Find Course */}
               <div className="px-3 py-2">
-                <span className="text-sm font-semibold text-gray-500 uppercase tracking-wide">Find Course</span>
+                <span className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+                  Find Course
+                </span>
                 <div className="mt-1 space-y-1">
                   <Link
                     href="/courses/undergraduate"
@@ -511,7 +517,9 @@ export default function Header() {
 
               {/* Our Services */}
               <div className="px-3 py-2">
-                <span className="text-sm font-semibold text-gray-500 uppercase tracking-wide">Our Services</span>
+                <span className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+                  Our Services
+                </span>
                 <div className="mt-1 space-y-1">
                   <Link
                     href="/consultation"
@@ -535,7 +543,9 @@ export default function Header() {
                     Insurance
                   </Link>
                   <div className="px-3 py-1">
-                    <span className="text-xs font-medium text-gray-400">Visa Services</span>
+                    <span className="text-xs font-medium text-gray-400">
+                      Visa Services
+                    </span>
                     <div className="ml-2 space-y-1">
                       <Link
                         href="/visa/student"
@@ -575,7 +585,9 @@ export default function Header() {
                     E-Ticketing
                   </Link>
                   <div className="px-3 py-1">
-                    <span className="text-xs font-medium text-gray-400">Migration Service</span>
+                    <span className="text-xs font-medium text-gray-400">
+                      Migration Service
+                    </span>
                     <div className="ml-2 space-y-1">
                       <Link
                         href="/migration/skilled"
@@ -607,7 +619,9 @@ export default function Header() {
 
               {/* About Us */}
               <div className="px-3 py-2">
-                <span className="text-sm font-semibold text-gray-500 uppercase tracking-wide">About Us</span>
+                <span className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+                  About Us
+                </span>
                 <div className="mt-1 space-y-1">
                   <Link
                     href="/contact"
@@ -687,14 +701,14 @@ export default function Header() {
                   </div>
                 ) : (
                   <div className="flex flex-col space-y-3 px-3">
-                    <Link href="/consultation">
+                    {/*<Link href="/consultation">
                       <Button
                         className="w-full bg-main text-navy hover:bg-main/90"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         Book Consultation
                       </Button>
-                    </Link>
+                    </Link>*/}
                     <Link href="/login">
                       <Button
                         variant="outline"

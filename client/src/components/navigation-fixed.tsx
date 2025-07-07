@@ -16,7 +16,7 @@ const navItems = [
   { id: "universities", label: "Universities", path: "/universities" },
   { id: "services", label: "Services", path: "/services" },
   { id: "about", label: "About", path: "/about" },
-  { id: "success-stories", label: "Success Stories", path: "/success-stories" }
+  { id: "success-stories", label: "Success Stories", path: "/success-stories" },
 ];
 
 export default function Navigation() {
@@ -68,11 +68,11 @@ export default function Navigation() {
             </Link>
           ))}
 
-          <Link href="/consultation">
+          {/*<Link href="/consultation">
             <Button className="bg-gold hover:bg-gold/90 text-navy font-semibold text-sm px-4 py-2 rounded-md">
               Book Consultation
             </Button>
-          </Link>
+          </Link>*/}
 
           {isLoggedIn ? (
             <DropdownMenu>
