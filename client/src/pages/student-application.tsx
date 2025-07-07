@@ -20,7 +20,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CalendarIcon, Plus, Trash2 } from "lucide-react";
+import { CalendarIcon, Plus, Trash2, Upload, FileText, Image, FileImage, DollarSign, ClipboardCheck } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
@@ -51,6 +51,19 @@ interface WorkEntry {
   employmentType: string;
   responsibilities: string;
   relevantToStudy: boolean;
+}
+
+interface AdditionalDocument {
+  id: string;
+  name: string;
+  file?: File;
+  notes: string;
+}
+
+interface ServiceSelection {
+  studyAbroadConsultation: boolean;
+  australiaLegalServices: boolean;
+  premiumMigrationService: boolean;
 }
 
 export default function StudentApplication() {
@@ -105,6 +118,7 @@ export default function StudentApplication() {
     // Visa & Travel History
     previousStudentVisa: false,
     countriesVisited: "",
+    travelDates: "",
     visaRefusals: false,
     visaRefusalDetails: "",
     familyInDestination: false,
@@ -142,6 +156,16 @@ export default function StudentApplication() {
       relevantToStudy: false,
     },
   ]);
+
+  const [additionalDocuments, setAdditionalDocuments] = useState<AdditionalDocument[]>([
+    { id: "1", name: "", file: undefined, notes: "" }
+  ]);
+
+  const [serviceSelection, setServiceSelection] = useState<ServiceSelection>({
+    studyAbroadConsultation: false,
+    australiaLegalServices: false,
+    premiumMigrationService: false,
+  });
 
   // Check authentication
   useEffect(() => {
@@ -683,7 +707,7 @@ export default function StudentApplication() {
                         />
                       </div>
                       <div>
-                        <Label>Country *</Label>
+                        <Label>Country of Institution*</Label>
                         <Input
                           value={edu.country}
                           onChange={(e) =>
@@ -707,7 +731,7 @@ export default function StudentApplication() {
                         />
                       </div>
                       <div>
-                        <Label>Field of Study *</Label>
+                        <Label>Field of Study/Major *</Label>
                         <Input
                           value={edu.fieldOfStudy}
                           onChange={(e) =>
@@ -901,7 +925,9 @@ export default function StudentApplication() {
                     </Select>
                   </div>
                   <div>
-                    <Label htmlFor="studyLevel">Study Level *</Label>
+                    <Label htmlFor="studyLevel">
+                      Study Level Interested In*
+                    </Label>
                     <Select
                       value={formData.studyLevel}
                       onValueChange={(value) =>
@@ -922,7 +948,9 @@ export default function StudentApplication() {
                   <div className="md:col-span-2">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
-                        <Label htmlFor="budget">Budget per year *</Label>
+                        <Label htmlFor="budget">
+                          Budget per year (Tuition+Living)*
+                        </Label>
                         <Input
                           id="budget"
                           type="number"
@@ -933,26 +961,7 @@ export default function StudentApplication() {
                           required
                         />
                       </div>
-                      <div>
-                        <Label htmlFor="budgetCurrency">Currency *</Label>
-                        <Select
-                          value={formData.budgetCurrency}
-                          onValueChange={(value) =>
-                            setFormData({ ...formData, budgetCurrency: value })
-                          }
-                        >
-                          <SelectTrigger>
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="USD">USD</SelectItem>
-                            <SelectItem value="CAD">CAD</SelectItem>
-                            <SelectItem value="GBP">GBP</SelectItem>
-                            <SelectItem value="AUD">AUD</SelectItem>
-                            <SelectItem value="EUR">EUR</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
+
                       <div>
                         <Label htmlFor="fundingSource">Funding Source *</Label>
                         <Select
@@ -978,7 +987,9 @@ export default function StudentApplication() {
                     </div>
                   </div>
                   <div>
-                    <Label htmlFor="institutionType">Institution Type *</Label>
+                    <Label htmlFor="institutionType">
+                      Preferred Institution Type *
+                    </Label>
                     <Select
                       value={formData.institutionType}
                       onValueChange={(value) =>
@@ -999,7 +1010,7 @@ export default function StudentApplication() {
                     </Select>
                   </div>
                   <div>
-                    <Label htmlFor="studyMode">Study Mode *</Label>
+                    <Label htmlFor="studyMode">Mode of Study*</Label>
                     <Select
                       value={formData.studyMode}
                       onValueChange={(value) =>
@@ -1237,7 +1248,7 @@ export default function StudentApplication() {
                         />
                       </div>
                       <div>
-                        <Label>Organization</Label>
+                        <Label>Organization Name</Label>
                         <Input
                           value={work.organization}
                           onChange={(e) =>
@@ -1362,7 +1373,20 @@ export default function StudentApplication() {
                     placeholder="List countries you have visited"
                   />
                 </div>
-
+                <div>
+                  <Label htmlFor="travelDates">Travel Dates</Label>
+                  <Textarea
+                    id="travelDates"
+                    value={formData.travelDates}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        travelDates: e.target.value,
+                      })
+                    }
+                    placeholder="Please provide dates for each country visited (e.g., USA: Jan 2020 - Feb 2020, UK: Mar 2021 - Apr 2021)"
+                  />
+                </div>
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="visaRefusals"
@@ -1444,169 +1468,398 @@ export default function StudentApplication() {
               </CardContent>
             </Card>
 
-            {/* Additional Information */}
-            <Card>
+            {/* Document Upload Section */}
+            <Card className="bg-gradient-to-r from-teal-50 to-cyan-50 border-teal-200">
               <CardHeader>
-                <CardTitle className="text-2xl text-navy">
-                  Additional Information
+                <CardTitle className="text-2xl text-white bg-gradient-to-r from-teal-500 to-cyan-500 p-4 rounded-lg flex items-center space-x-2">
+                  <Upload className="h-6 w-6" />
+                  <span>Document Upload Section</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div>
-                  <Label htmlFor="additionalInfo">
-                    Any additional information you'd like to share
-                  </Label>
-                  <Textarea
-                    id="additionalInfo"
-                    value={formData.additionalInfo}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        additionalInfo: e.target.value,
-                      })
-                    }
-                    placeholder="Share any additional information that might be relevant to your application"
-                    rows={4}
-                  />
+              <CardContent className="bg-gradient-to-r from-teal-400 to-cyan-500 p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Passport Upload */}
+                  <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg border-2 border-dashed border-white/50 hover:border-white transition-all">
+                    <div className="text-center">
+                      <FileText className="h-12 w-12 text-teal-600 mx-auto mb-3" />
+                      <h3 className="font-medium text-gray-700 mb-1">Passport (Front and Back Page) *</h3>
+                      <p className="text-sm text-gray-500 mb-3">Click to upload passport pages</p>
+                      <p className="text-xs text-gray-400">PDF, JPG, PNG (Max 5MB each)</p>
+                      <input
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        className="hidden"
+                        id="passport-upload"
+                      />
+                      <label htmlFor="passport-upload" className="cursor-pointer">
+                        <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-teal-500 transition-colors">
+                          <Upload className="h-5 w-5 text-gray-400" />
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Academic Certificates */}
+                  <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg border-2 border-dashed border-white/50 hover:border-white transition-all">
+                    <div className="text-center">
+                      <FileText className="h-12 w-12 text-orange-600 mx-auto mb-3" />
+                      <h3 className="font-medium text-gray-700 mb-1">Academic Certificates and Transcripts *</h3>
+                      <p className="text-sm text-gray-500 mb-3">Click to upload academic documents</p>
+                      <p className="text-xs text-gray-400">PDF, JPG, PNG (Max 5MB each)</p>
+                      <input
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        multiple
+                        className="hidden"
+                        id="academic-upload"
+                      />
+                      <label htmlFor="academic-upload" className="cursor-pointer">
+                        <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-orange-500 transition-colors">
+                          <Upload className="h-5 w-5 text-gray-400" />
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* English Test Score */}
+                  <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg border-2 border-dashed border-white/50 hover:border-white transition-all">
+                    <div className="text-center">
+                      <FileText className="h-12 w-12 text-blue-600 mx-auto mb-3" />
+                      <h3 className="font-medium text-gray-700 mb-1">English Test Score Report</h3>
+                      <p className="text-sm text-gray-500 mb-3">Click to upload test scores</p>
+                      <p className="text-xs text-gray-400">PDF, JPG, PNG (Max 5MB)</p>
+                      <input
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        className="hidden"
+                        id="test-upload"
+                      />
+                      <label htmlFor="test-upload" className="cursor-pointer">
+                        <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-blue-500 transition-colors">
+                          <Upload className="h-5 w-5 text-gray-400" />
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* CV/Resume */}
+                  <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg border-2 border-dashed border-white/50 hover:border-white transition-all">
+                    <div className="text-center">
+                      <FileText className="h-12 w-12 text-green-600 mx-auto mb-3" />
+                      <h3 className="font-medium text-gray-700 mb-1">CV/Resume *</h3>
+                      <p className="text-sm text-gray-500 mb-3">Click to upload CV/Resume</p>
+                      <p className="text-xs text-gray-400">PDF, DOC, DOCX (Max 5MB)</p>
+                      <input
+                        type="file"
+                        accept=".pdf,.doc,.docx"
+                        className="hidden"
+                        id="cv-upload"
+                      />
+                      <label htmlFor="cv-upload" className="cursor-pointer">
+                        <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-green-500 transition-colors">
+                          <Upload className="h-5 w-5 text-gray-400" />
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Statement of Purpose */}
+                  <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg border-2 border-dashed border-white/50 hover:border-white transition-all">
+                    <div className="text-center">
+                      <FileText className="h-12 w-12 text-purple-600 mx-auto mb-3" />
+                      <h3 className="font-medium text-gray-700 mb-1">Statement of Purpose (SOP)</h3>
+                      <p className="text-sm text-gray-500 mb-3">Click to upload SOP</p>
+                      <p className="text-xs text-gray-400">PDF, DOC, DOCX (Max 5MB)</p>
+                      <input
+                        type="file"
+                        accept=".pdf,.doc,.docx"
+                        className="hidden"
+                        id="sop-upload"
+                      />
+                      <label htmlFor="sop-upload" className="cursor-pointer">
+                        <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-purple-500 transition-colors">
+                          <Upload className="h-5 w-5 text-gray-400" />
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Experience Letter */}
+                  <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg border-2 border-dashed border-white/50 hover:border-white transition-all">
+                    <div className="text-center">
+                      <FileText className="h-12 w-12 text-indigo-600 mx-auto mb-3" />
+                      <h3 className="font-medium text-gray-700 mb-1">Experience Letter</h3>
+                      <p className="text-sm text-gray-500 mb-3">Click to upload experience letter</p>
+                      <p className="text-xs text-gray-400">PDF, JPG, PNG (Max 5MB each)</p>
+                      <input
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        multiple
+                        className="hidden"
+                        id="experience-upload"
+                      />
+                      <label htmlFor="experience-upload" className="cursor-pointer">
+                        <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-indigo-500 transition-colors">
+                          <Upload className="h-5 w-5 text-gray-400" />
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* National ID */}
+                  <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg border-2 border-dashed border-white/50 hover:border-white transition-all">
+                    <div className="text-center">
+                      <FileImage className="h-12 w-12 text-pink-600 mx-auto mb-3" />
+                      <h3 className="font-medium text-gray-700 mb-1">National ID</h3>
+                      <p className="text-sm text-gray-500 mb-3">Click to upload National ID</p>
+                      <p className="text-xs text-gray-400">PDF, JPG, PNG (Max 5MB)</p>
+                      <input
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        className="hidden"
+                        id="id-upload"
+                      />
+                      <label htmlFor="id-upload" className="cursor-pointer">
+                        <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-pink-500 transition-colors">
+                          <Upload className="h-5 w-5 text-gray-400" />
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Passport Photo */}
+                  <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg border-2 border-dashed border-white/50 hover:border-white transition-all">
+                    <div className="text-center">
+                      <Image className="h-12 w-12 text-red-600 mx-auto mb-3" />
+                      <h3 className="font-medium text-gray-700 mb-1">Passport-size Photo *</h3>
+                      <p className="text-sm text-gray-500 mb-3">Click to upload photo</p>
+                      <p className="text-xs text-gray-400">JPG, PNG (Max 2MB)</p>
+                      <input
+                        type="file"
+                        accept=".jpg,.jpeg,.png"
+                        className="hidden"
+                        id="photo-upload"
+                      />
+                      <label htmlFor="photo-upload" className="cursor-pointer">
+                        <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-red-500 transition-colors">
+                          <Upload className="h-5 w-5 text-gray-400" />
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Birth Certificate */}
+                  <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg border-2 border-dashed border-white/50 hover:border-white transition-all">
+                    <div className="text-center">
+                      <FileText className="h-12 w-12 text-yellow-600 mx-auto mb-3" />
+                      <h3 className="font-medium text-gray-700 mb-1">Birth Certificate</h3>
+                      <p className="text-sm text-gray-500 mb-3">Click to upload birth certificate</p>
+                      <p className="text-xs text-gray-400">PDF, JPG, PNG (Max 5MB)</p>
+                      <input
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        className="hidden"
+                        id="birth-upload"
+                      />
+                      <label htmlFor="birth-upload" className="cursor-pointer">
+                        <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-yellow-500 transition-colors">
+                          <Upload className="h-5 w-5 text-gray-400" />
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Financial Documents */}
+                  <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg border-2 border-dashed border-white/50 hover:border-white transition-all">
+                    <div className="text-center">
+                      <DollarSign className="h-12 w-12 text-emerald-600 mx-auto mb-3" />
+                      <h3 className="font-medium text-gray-700 mb-1">Financial Documents</h3>
+                      <p className="text-sm text-gray-500 mb-3">Click to upload financial documents</p>
+                      <p className="text-xs text-gray-400">PDF, JPG, PNG (Max 5MB each)</p>
+                      <input
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        multiple
+                        className="hidden"
+                        id="financial-upload"
+                      />
+                      <label htmlFor="financial-upload" className="cursor-pointer">
+                        <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-emerald-500 transition-colors">
+                          <Upload className="h-5 w-5 text-gray-400" />
+                        </div>
+                      </label>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Document Upload Section */}
-            <Card>
+            {/* Additional Documents Section */}
+            <Card className="bg-gradient-to-r from-teal-50 to-cyan-50 border-teal-200">
               <CardHeader>
-                <CardTitle className="text-2xl text-navy">
-                  Document Upload
+                <CardTitle className="text-2xl text-white bg-gradient-to-r from-teal-500 to-cyan-500 p-4 rounded-lg flex items-center space-x-2">
+                  <FileText className="h-6 w-6" />
+                  <span>Additional Documents</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <p className="text-gray-600 mb-4">
-                    Please upload the following documents. All documents should
-                    be in PDF, JPG, or PNG format (max 5MB each).
-                  </p>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <Label className="block text-sm font-medium text-gray-700 mb-2">
-                        Passport (Front and Back Page) *
-                      </Label>
-                      <input
-                        type="file"
-                        accept=".pdf,.jpg,.jpeg,.png"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent"
-                      />
+              <CardContent className="bg-gradient-to-r from-teal-400 to-cyan-500 p-6">
+                <p className="text-white mb-4">
+                  Have more documents to upload? Add them below and specify what they are.
+                </p>
+                
+                {additionalDocuments.map((doc, index) => (
+                  <div key={doc.id} className="bg-white/90 backdrop-blur-sm p-4 rounded-lg mb-4">
+                    <div className="flex justify-between items-center mb-4">
+                      <h4 className="font-medium text-gray-700">Additional Document {index + 1}</h4>
+                      {additionalDocuments.length > 1 && (
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => setAdditionalDocuments(prev => prev.filter(d => d.id !== doc.id))}
+                        >
+                          Remove
+                        </Button>
+                      )}
                     </div>
-
-                    <div>
-                      <Label className="block text-sm font-medium text-gray-700 mb-2">
-                        Academic Certificates and Transcripts *
-                      </Label>
-                      <input
-                        type="file"
-                        accept=".pdf,.jpg,.jpeg,.png"
-                        multiple
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent"
-                      />
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor={`docName-${doc.id}`}>Document Name/Description *</Label>
+                        <Input
+                          id={`docName-${doc.id}`}
+                          placeholder="e.g., Medical Certificate, Police Clearance, etc."
+                          value={doc.name}
+                          onChange={(e) => setAdditionalDocuments(prev => 
+                            prev.map(d => d.id === doc.id ? { ...d, name: e.target.value } : d)
+                          )}
+                        />
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor={`docUpload-${doc.id}`}>Upload Document *</Label>
+                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-teal-500 transition-colors">
+                          <Upload className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                          <p className="text-sm text-gray-500 mb-1">Click to upload files</p>
+                          <p className="text-xs text-gray-400">PDF, JPG, PNG, DOC, DOCX (Max 5MB each)</p>
+                          <input
+                            type="file"
+                            accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                            multiple
+                            className="hidden"
+                            id={`docUpload-${doc.id}`}
+                          />
+                          <label htmlFor={`docUpload-${doc.id}`} className="cursor-pointer block w-full h-full" />
+                        </div>
+                      </div>
                     </div>
-
-                    <div>
-                      <Label className="block text-sm font-medium text-gray-700 mb-2">
-                        English Test Score Report
-                      </Label>
-                      <input
-                        type="file"
-                        accept=".pdf,.jpg,.jpeg,.png"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent"
-                      />
-                    </div>
-
-                    <div>
-                      <Label className="block text-sm font-medium text-gray-700 mb-2">
-                        CV/Resume *
-                      </Label>
-                      <input
-                        type="file"
-                        accept=".pdf,.doc,.docx"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent"
-                      />
-                    </div>
-
-                    <div>
-                      <Label className="block text-sm font-medium text-gray-700 mb-2">
-                        Statement of Purpose (SOP) or Motivation Letter *
-                      </Label>
-                      <input
-                        type="file"
-                        accept=".pdf,.doc,.docx"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent"
-                      />
-                    </div>
-
-                    <div>
-                      <Label className="block text-sm font-medium text-gray-700 mb-2">
-                        Experience Letter (if applicable)
-                      </Label>
-                      <input
-                        type="file"
-                        accept=".pdf,.jpg,.jpeg,.png"
-                        multiple
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent"
-                      />
-                    </div>
-
-                    <div>
-                      <Label className="block text-sm font-medium text-gray-700 mb-2">
-                        National ID *
-                      </Label>
-                      <input
-                        type="file"
-                        accept=".pdf,.jpg,.jpeg,.png"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent"
-                      />
-                    </div>
-
-                    <div>
-                      <Label className="block text-sm font-medium text-gray-700 mb-2">
-                        Passport-size Photo *
-                      </Label>
-                      <input
-                        type="file"
-                        accept=".jpg,.jpeg,.png"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent"
-                      />
-                    </div>
-
-                    <div>
-                      <Label className="block text-sm font-medium text-gray-700 mb-2">
-                        Birth Certificate (if required by country)
-                      </Label>
-                      <input
-                        type="file"
-                        accept=".pdf,.jpg,.jpeg,.png"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent"
-                      />
-                    </div>
-
-                    <div>
-                      <Label className="block text-sm font-medium text-gray-700 mb-2">
-                        Financial Documents (if available or required)
-                      </Label>
-                      <input
-                        type="file"
-                        accept=".pdf,.jpg,.jpeg,.png"
-                        multiple
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent"
+                    
+                    <div className="mt-4">
+                      <Label htmlFor={`docNotes-${doc.id}`}>Additional Notes (Optional)</Label>
+                      <Textarea
+                        id={`docNotes-${doc.id}`}
+                        placeholder="Any additional information about this document..."
+                        value={doc.notes}
+                        onChange={(e) => setAdditionalDocuments(prev => 
+                          prev.map(d => d.id === doc.id ? { ...d, notes: e.target.value } : d)
+                        )}
+                        className="mt-1"
                       />
                     </div>
                   </div>
+                ))}
+                
+                <Button
+                  type="button"
+                  onClick={() => setAdditionalDocuments(prev => [...prev, { 
+                    id: Date.now().toString(), 
+                    name: "", 
+                    file: undefined, 
+                    notes: "" 
+                  }])}
+                  className="bg-white text-teal-600 hover:bg-white/90 border border-white"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Another Document
+                </Button>
+              </CardContent>
+            </Card>
 
-                  <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mt-4">
-                    <p className="text-sm text-blue-800">
-                      <strong>Note:</strong> All documents must be clear and
-                      legible. Documents in languages other than English must be
-                      accompanied by certified translations.
-                    </p>
+            {/* Service Selection Section */}
+            <Card className="bg-gradient-to-r from-teal-50 to-cyan-50 border-teal-200">
+              <CardHeader>
+                <CardTitle className="text-2xl text-white bg-gradient-to-r from-teal-500 to-cyan-500 p-4 rounded-lg flex items-center space-x-2">
+                  <ClipboardCheck className="h-6 w-6" />
+                  <span>Service Selection</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="bg-gradient-to-r from-teal-400 to-cyan-500 p-6">
+                <div className="space-y-4">
+                  <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg">
+                    <div className="flex items-start space-x-3">
+                      <Checkbox 
+                        id="studyAbroad"
+                        checked={serviceSelection.studyAbroadConsultation}
+                        onCheckedChange={(checked) => 
+                          setServiceSelection(prev => ({ ...prev, studyAbroadConsultation: !!checked }))
+                        }
+                        className="mt-1"
+                      />
+                      <div>
+                        <Label htmlFor="studyAbroad" className="font-medium text-gray-800">
+                          Study Abroad Consultation
+                        </Label>
+                        <p className="text-sm text-gray-600 mt-1">
+                          Complete guidance for international education opportunities
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg">
+                    <div className="flex items-start space-x-3">
+                      <Checkbox 
+                        id="australiaLegal"
+                        checked={serviceSelection.australiaLegalServices}
+                        onCheckedChange={(checked) => 
+                          setServiceSelection(prev => ({ ...prev, australiaLegalServices: !!checked }))
+                        }
+                        className="mt-1"
+                      />
+                      <div>
+                        <Label htmlFor="australiaLegal" className="font-medium text-gray-800">
+                          Australia Legal Services
+                        </Label>
+                        <p className="text-sm text-gray-600 mt-1">
+                          Professional legal assistance for visa issues and document verification in Australia
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg">
+                    <div className="flex items-start space-x-3">
+                      <Checkbox 
+                        id="premiumMigration"
+                        checked={serviceSelection.premiumMigrationService}
+                        onCheckedChange={(checked) => 
+                          setServiceSelection(prev => ({ ...prev, premiumMigrationService: !!checked }))
+                        }
+                        className="mt-1"
+                      />
+                      <div>
+                        <Label htmlFor="premiumMigration" className="font-medium text-gray-800 flex items-center space-x-2">
+                          <span>Premium Migration Service</span>
+                          <span className="bg-yellow-500 text-yellow-900 text-xs px-2 py-1 rounded-full">⭐</span>
+                        </Label>
+                        <p className="text-sm text-gray-600 mt-1">
+                          A qualified Australian lawyer will review all your documents before submission and submit the application on your behalf. Additional fees may apply.
+                        </p>
+                        <p className="text-xs text-gray-500 mt-2">
+                          ✓ Document review by Australian lawyer ✓ Professional application submission ✓ Legal compliance assurance
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </CardContent>
