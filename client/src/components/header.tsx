@@ -78,8 +78,8 @@ export default function Header() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-48">
                   <DropdownMenuItem>
-                    <Link href="/student-visa-extension" className="w-full">
-                      Student Visa Extension
+                    <Link href="/migration-service" className="w-full">
+                      Migration Service
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
@@ -107,28 +107,30 @@ export default function Header() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-48">
                   <DropdownMenuItem>
-                    <Link href="/usa-universities" className="w-full">
-                      USA
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link href="/uk-universities" className="w-full">
-                      United Kingdom
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link href="/canada-universities" className="w-full">
-                      Canada
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
                     <Link href="/australia-universities" className="w-full">
                       Australia
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <Link href="/germany-universities" className="w-full">
-                      Germany
+                    <Link href="/uk-universities" className="w-full">
+                      UK
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link href="/usa-universities" className="w-full">
+                      USA
+                    </Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem>
+                    <Link href="/canada-universities" className="w-full">
+                      Canada
+                    </Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem>
+                    <Link href="/ireland-universities" className="w-full">
+                      Ireland
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
@@ -234,7 +236,10 @@ export default function Header() {
                           </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem>
-                          <Link href="/visa/student-extension" className="w-full">
+                          <Link
+                            href="/visa/student-extension"
+                            className="w-full"
+                          >
                             Student Visa Extension
                           </Link>
                         </DropdownMenuItem>

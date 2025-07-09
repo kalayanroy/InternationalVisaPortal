@@ -20,7 +20,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CalendarIcon, Plus, Trash2, Upload, FileText, Image, FileImage, DollarSign, ClipboardCheck } from "lucide-react";
+import {
+  CalendarIcon,
+  Plus,
+  Trash2,
+  Upload,
+  FileText,
+  Image,
+  FileImage,
+  DollarSign,
+  ClipboardCheck,
+} from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
@@ -157,9 +167,9 @@ export default function StudentApplication() {
     },
   ]);
 
-  const [additionalDocuments, setAdditionalDocuments] = useState<AdditionalDocument[]>([
-    { id: "1", name: "", file: undefined, notes: "" }
-  ]);
+  const [additionalDocuments, setAdditionalDocuments] = useState<
+    AdditionalDocument[]
+  >([{ id: "1", name: "", file: undefined, notes: "" }]);
 
   const [serviceSelection, setServiceSelection] = useState<ServiceSelection>({
     studyAbroadConsultation: false,
@@ -1469,29 +1479,38 @@ export default function StudentApplication() {
             </Card>
 
             {/* Document Upload Section */}
-            <Card className="bg-gradient-to-r from-teal-50 to-cyan-50 border-teal-200">
+            <Card>
               <CardHeader>
-                <CardTitle className="text-2xl text-white bg-gradient-to-r from-teal-500 to-cyan-500 p-4 rounded-lg flex items-center space-x-2">
+                <CardTitle className="text-2xl text-navy from-teal-500 to-cyan-500 p-4 rounded-lg flex items-center space-x-2">
                   <Upload className="h-6 w-6" />
-                  <span>Document Upload Section</span>
+                  <span>Document Upload</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent className="bg-gradient-to-r from-teal-400 to-cyan-500 p-6">
+              <CardContent className="">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Passport Upload */}
                   <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg border-2 border-dashed border-white/50 hover:border-white transition-all">
                     <div className="text-center">
                       <FileText className="h-12 w-12 text-teal-600 mx-auto mb-3" />
-                      <h3 className="font-medium text-gray-700 mb-1">Passport (Front and Back Page) *</h3>
-                      <p className="text-sm text-gray-500 mb-3">Click to upload passport pages</p>
-                      <p className="text-xs text-gray-400">PDF, JPG, PNG (Max 5MB each)</p>
+                      <h3 className="font-medium text-gray-700 mb-1">
+                        Passport (Front and Back Page) *
+                      </h3>
+                      <p className="text-sm text-gray-500 mb-3">
+                        Click to upload passport pages
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        PDF, JPG, PNG (Max 1MB each)
+                      </p>
                       <input
                         type="file"
                         accept=".pdf,.jpg,.jpeg,.png"
                         className="hidden"
                         id="passport-upload"
                       />
-                      <label htmlFor="passport-upload" className="cursor-pointer">
+                      <label
+                        htmlFor="passport-upload"
+                        className="cursor-pointer"
+                      >
                         <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-teal-500 transition-colors">
                           <Upload className="h-5 w-5 text-gray-400" />
                         </div>
@@ -1503,9 +1522,15 @@ export default function StudentApplication() {
                   <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg border-2 border-dashed border-white/50 hover:border-white transition-all">
                     <div className="text-center">
                       <FileText className="h-12 w-12 text-orange-600 mx-auto mb-3" />
-                      <h3 className="font-medium text-gray-700 mb-1">Academic Certificates and Transcripts *</h3>
-                      <p className="text-sm text-gray-500 mb-3">Click to upload academic documents</p>
-                      <p className="text-xs text-gray-400">PDF, JPG, PNG (Max 5MB each)</p>
+                      <h3 className="font-medium text-gray-700 mb-1">
+                        Academic Certificates and Transcripts *
+                      </h3>
+                      <p className="text-sm text-gray-500 mb-3">
+                        Click to upload academic documents
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        PDF, JPG, PNG (Max 1MB each)
+                      </p>
                       <input
                         type="file"
                         accept=".pdf,.jpg,.jpeg,.png"
@@ -1513,7 +1538,10 @@ export default function StudentApplication() {
                         className="hidden"
                         id="academic-upload"
                       />
-                      <label htmlFor="academic-upload" className="cursor-pointer">
+                      <label
+                        htmlFor="academic-upload"
+                        className="cursor-pointer"
+                      >
                         <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-orange-500 transition-colors">
                           <Upload className="h-5 w-5 text-gray-400" />
                         </div>
@@ -1525,9 +1553,15 @@ export default function StudentApplication() {
                   <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg border-2 border-dashed border-white/50 hover:border-white transition-all">
                     <div className="text-center">
                       <FileText className="h-12 w-12 text-blue-600 mx-auto mb-3" />
-                      <h3 className="font-medium text-gray-700 mb-1">English Test Score Report</h3>
-                      <p className="text-sm text-gray-500 mb-3">Click to upload test scores</p>
-                      <p className="text-xs text-gray-400">PDF, JPG, PNG (Max 5MB)</p>
+                      <h3 className="font-medium text-gray-700 mb-1">
+                        English Test Score Report
+                      </h3>
+                      <p className="text-sm text-gray-500 mb-3">
+                        Click to upload test scores
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        PDF, JPG, PNG (Max 1MB)
+                      </p>
                       <input
                         type="file"
                         accept=".pdf,.jpg,.jpeg,.png"
@@ -1546,9 +1580,15 @@ export default function StudentApplication() {
                   <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg border-2 border-dashed border-white/50 hover:border-white transition-all">
                     <div className="text-center">
                       <FileText className="h-12 w-12 text-green-600 mx-auto mb-3" />
-                      <h3 className="font-medium text-gray-700 mb-1">CV/Resume *</h3>
-                      <p className="text-sm text-gray-500 mb-3">Click to upload CV/Resume</p>
-                      <p className="text-xs text-gray-400">PDF, DOC, DOCX (Max 5MB)</p>
+                      <h3 className="font-medium text-gray-700 mb-1">
+                        CV/Resume *
+                      </h3>
+                      <p className="text-sm text-gray-500 mb-3">
+                        Click to upload CV/Resume
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        PDF, DOC, DOCX (Max 1MB)
+                      </p>
                       <input
                         type="file"
                         accept=".pdf,.doc,.docx"
@@ -1567,9 +1607,15 @@ export default function StudentApplication() {
                   <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg border-2 border-dashed border-white/50 hover:border-white transition-all">
                     <div className="text-center">
                       <FileText className="h-12 w-12 text-purple-600 mx-auto mb-3" />
-                      <h3 className="font-medium text-gray-700 mb-1">Statement of Purpose (SOP)</h3>
-                      <p className="text-sm text-gray-500 mb-3">Click to upload SOP</p>
-                      <p className="text-xs text-gray-400">PDF, DOC, DOCX (Max 5MB)</p>
+                      <h3 className="font-medium text-gray-700 mb-1">
+                        Statement of Purpose (SOP)
+                      </h3>
+                      <p className="text-sm text-gray-500 mb-3">
+                        Click to upload SOP
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        PDF, DOC, DOCX (Max 1MB)
+                      </p>
                       <input
                         type="file"
                         accept=".pdf,.doc,.docx"
@@ -1588,9 +1634,15 @@ export default function StudentApplication() {
                   <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg border-2 border-dashed border-white/50 hover:border-white transition-all">
                     <div className="text-center">
                       <FileText className="h-12 w-12 text-indigo-600 mx-auto mb-3" />
-                      <h3 className="font-medium text-gray-700 mb-1">Experience Letter</h3>
-                      <p className="text-sm text-gray-500 mb-3">Click to upload experience letter</p>
-                      <p className="text-xs text-gray-400">PDF, JPG, PNG (Max 5MB each)</p>
+                      <h3 className="font-medium text-gray-700 mb-1">
+                        Experience Letter
+                      </h3>
+                      <p className="text-sm text-gray-500 mb-3">
+                        Click to upload experience letter
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        PDF, JPG, PNG (Max 1MB each)
+                      </p>
                       <input
                         type="file"
                         accept=".pdf,.jpg,.jpeg,.png"
@@ -1598,7 +1650,10 @@ export default function StudentApplication() {
                         className="hidden"
                         id="experience-upload"
                       />
-                      <label htmlFor="experience-upload" className="cursor-pointer">
+                      <label
+                        htmlFor="experience-upload"
+                        className="cursor-pointer"
+                      >
                         <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-indigo-500 transition-colors">
                           <Upload className="h-5 w-5 text-gray-400" />
                         </div>
@@ -1610,9 +1665,15 @@ export default function StudentApplication() {
                   <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg border-2 border-dashed border-white/50 hover:border-white transition-all">
                     <div className="text-center">
                       <FileImage className="h-12 w-12 text-pink-600 mx-auto mb-3" />
-                      <h3 className="font-medium text-gray-700 mb-1">National ID</h3>
-                      <p className="text-sm text-gray-500 mb-3">Click to upload National ID</p>
-                      <p className="text-xs text-gray-400">PDF, JPG, PNG (Max 5MB)</p>
+                      <h3 className="font-medium text-gray-700 mb-1">
+                        National ID
+                      </h3>
+                      <p className="text-sm text-gray-500 mb-3">
+                        Click to upload National ID
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        PDF, JPG, PNG (Max 1MB)
+                      </p>
                       <input
                         type="file"
                         accept=".pdf,.jpg,.jpeg,.png"
@@ -1631,9 +1692,15 @@ export default function StudentApplication() {
                   <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg border-2 border-dashed border-white/50 hover:border-white transition-all">
                     <div className="text-center">
                       <Image className="h-12 w-12 text-red-600 mx-auto mb-3" />
-                      <h3 className="font-medium text-gray-700 mb-1">Passport-size Photo *</h3>
-                      <p className="text-sm text-gray-500 mb-3">Click to upload photo</p>
-                      <p className="text-xs text-gray-400">JPG, PNG (Max 2MB)</p>
+                      <h3 className="font-medium text-gray-700 mb-1">
+                        Passport-size Photo *
+                      </h3>
+                      <p className="text-sm text-gray-500 mb-3">
+                        Click to upload photo
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        JPG, PNG (Max 1MB)
+                      </p>
                       <input
                         type="file"
                         accept=".jpg,.jpeg,.png"
@@ -1652,9 +1719,15 @@ export default function StudentApplication() {
                   <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg border-2 border-dashed border-white/50 hover:border-white transition-all">
                     <div className="text-center">
                       <FileText className="h-12 w-12 text-yellow-600 mx-auto mb-3" />
-                      <h3 className="font-medium text-gray-700 mb-1">Birth Certificate</h3>
-                      <p className="text-sm text-gray-500 mb-3">Click to upload birth certificate</p>
-                      <p className="text-xs text-gray-400">PDF, JPG, PNG (Max 5MB)</p>
+                      <h3 className="font-medium text-gray-700 mb-1">
+                        Birth Certificate
+                      </h3>
+                      <p className="text-sm text-gray-500 mb-3">
+                        Click to upload birth certificate
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        PDF, JPG, PNG (Max 1MB)
+                      </p>
                       <input
                         type="file"
                         accept=".pdf,.jpg,.jpeg,.png"
@@ -1673,9 +1746,15 @@ export default function StudentApplication() {
                   <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg border-2 border-dashed border-white/50 hover:border-white transition-all">
                     <div className="text-center">
                       <DollarSign className="h-12 w-12 text-emerald-600 mx-auto mb-3" />
-                      <h3 className="font-medium text-gray-700 mb-1">Financial Documents</h3>
-                      <p className="text-sm text-gray-500 mb-3">Click to upload financial documents</p>
-                      <p className="text-xs text-gray-400">PDF, JPG, PNG (Max 5MB each)</p>
+                      <h3 className="font-medium text-gray-700 mb-1">
+                        Financial Documents
+                      </h3>
+                      <p className="text-sm text-gray-500 mb-3">
+                        Click to upload financial documents
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        PDF, JPG, PNG (Max 1MB each)
+                      </p>
                       <input
                         type="file"
                         accept=".pdf,.jpg,.jpeg,.png"
@@ -1683,7 +1762,10 @@ export default function StudentApplication() {
                         className="hidden"
                         id="financial-upload"
                       />
-                      <label htmlFor="financial-upload" className="cursor-pointer">
+                      <label
+                        htmlFor="financial-upload"
+                        className="cursor-pointer"
+                      >
                         <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-emerald-500 transition-colors">
                           <Upload className="h-5 w-5 text-gray-400" />
                         </div>
@@ -1695,53 +1777,77 @@ export default function StudentApplication() {
             </Card>
 
             {/* Additional Documents Section */}
-            <Card className="bg-gradient-to-r from-teal-50 to-cyan-50 border-teal-200">
+            <Card>
               <CardHeader>
-                <CardTitle className="text-2xl text-white bg-gradient-to-r from-teal-500 to-cyan-500 p-4 rounded-lg flex items-center space-x-2">
+                <CardTitle className="text-2xl text-navy from-teal-500 to-cyan-500 p-4 rounded-lg flex items-center space-x-2">
                   <FileText className="h-6 w-6" />
                   <span>Additional Documents</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent className="bg-gradient-to-r from-teal-400 to-cyan-500 p-6">
-                <p className="text-white mb-4">
-                  Have more documents to upload? Add them below and specify what they are.
+              <CardContent className="from-teal-400 to-cyan-500 p-6">
+                <p className="text-navy mb-4">
+                  Have more documents to upload? Add them below and specify what
+                  they are.
                 </p>
-                
+
                 {additionalDocuments.map((doc, index) => (
-                  <div key={doc.id} className="bg-white/90 backdrop-blur-sm p-4 rounded-lg mb-4">
+                  <div
+                    key={doc.id}
+                    className="bg-white/90 backdrop-blur-sm p-4 rounded-lg mb-4"
+                  >
                     <div className="flex justify-between items-center mb-4">
-                      <h4 className="font-medium text-gray-700">Additional Document {index + 1}</h4>
+                      <h4 className="font-medium text-gray-700">
+                        Additional Document {index + 1}
+                      </h4>
                       {additionalDocuments.length > 1 && (
                         <Button
                           type="button"
                           variant="destructive"
                           size="sm"
-                          onClick={() => setAdditionalDocuments(prev => prev.filter(d => d.id !== doc.id))}
+                          onClick={() =>
+                            setAdditionalDocuments((prev) =>
+                              prev.filter((d) => d.id !== doc.id),
+                            )
+                          }
                         >
                           Remove
                         </Button>
                       )}
                     </div>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <Label htmlFor={`docName-${doc.id}`}>Document Name/Description *</Label>
+                        <Label htmlFor={`docName-${doc.id}`}>
+                          Document Name/Description *
+                        </Label>
                         <Input
                           id={`docName-${doc.id}`}
                           placeholder="e.g., Medical Certificate, Police Clearance, etc."
                           value={doc.name}
-                          onChange={(e) => setAdditionalDocuments(prev => 
-                            prev.map(d => d.id === doc.id ? { ...d, name: e.target.value } : d)
-                          )}
+                          onChange={(e) =>
+                            setAdditionalDocuments((prev) =>
+                              prev.map((d) =>
+                                d.id === doc.id
+                                  ? { ...d, name: e.target.value }
+                                  : d,
+                              ),
+                            )
+                          }
                         />
                       </div>
-                      
+
                       <div>
-                        <Label htmlFor={`docUpload-${doc.id}`}>Upload Document *</Label>
+                        <Label htmlFor={`docUpload-${doc.id}`}>
+                          Upload Document *
+                        </Label>
                         <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-teal-500 transition-colors">
                           <Upload className="h-8 w-8 text-gray-400 mx-auto mb-2" />
-                          <p className="text-sm text-gray-500 mb-1">Click to upload files</p>
-                          <p className="text-xs text-gray-400">PDF, JPG, PNG, DOC, DOCX (Max 5MB each)</p>
+                          <p className="text-sm text-gray-500 mb-1">
+                            Click to upload files
+                          </p>
+                          <p className="text-xs text-gray-400">
+                            PDF, JPG, PNG, DOC, DOCX (Max 1MB each)
+                          </p>
                           <input
                             type="file"
                             accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
@@ -1749,34 +1855,50 @@ export default function StudentApplication() {
                             className="hidden"
                             id={`docUpload-${doc.id}`}
                           />
-                          <label htmlFor={`docUpload-${doc.id}`} className="cursor-pointer block w-full h-full" />
+                          <label
+                            htmlFor={`docUpload-${doc.id}`}
+                            className="cursor-pointer block w-full h-full"
+                          />
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="mt-4">
-                      <Label htmlFor={`docNotes-${doc.id}`}>Additional Notes (Optional)</Label>
+                      <Label htmlFor={`docNotes-${doc.id}`}>
+                        Additional Notes (Optional)
+                      </Label>
                       <Textarea
                         id={`docNotes-${doc.id}`}
                         placeholder="Any additional information about this document..."
                         value={doc.notes}
-                        onChange={(e) => setAdditionalDocuments(prev => 
-                          prev.map(d => d.id === doc.id ? { ...d, notes: e.target.value } : d)
-                        )}
+                        onChange={(e) =>
+                          setAdditionalDocuments((prev) =>
+                            prev.map((d) =>
+                              d.id === doc.id
+                                ? { ...d, notes: e.target.value }
+                                : d,
+                            ),
+                          )
+                        }
                         className="mt-1"
                       />
                     </div>
                   </div>
                 ))}
-                
+
                 <Button
                   type="button"
-                  onClick={() => setAdditionalDocuments(prev => [...prev, { 
-                    id: Date.now().toString(), 
-                    name: "", 
-                    file: undefined, 
-                    notes: "" 
-                  }])}
+                  onClick={() =>
+                    setAdditionalDocuments((prev) => [
+                      ...prev,
+                      {
+                        id: Date.now().toString(),
+                        name: "",
+                        file: undefined,
+                        notes: "",
+                      },
+                    ])
+                  }
                   className="bg-white text-teal-600 hover:bg-white/90 border border-white"
                 >
                   <Plus className="h-4 w-4 mr-2" />
@@ -1786,31 +1908,38 @@ export default function StudentApplication() {
             </Card>
 
             {/* Service Selection Section */}
-            <Card className="bg-gradient-to-r from-teal-50 to-cyan-50 border-teal-200">
+            <Card>
               <CardHeader>
-                <CardTitle className="text-2xl text-white bg-gradient-to-r from-teal-500 to-cyan-500 p-4 rounded-lg flex items-center space-x-2">
+                <CardTitle className="text-2xl text-navy from-teal-500 to-cyan-500 p-4 rounded-lg flex items-center space-x-2">
                   <ClipboardCheck className="h-6 w-6" />
                   <span>Service Selection</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent className="bg-gradient-to-r from-teal-400 to-cyan-500 p-6">
+              <CardContent className="from-teal-400 to-cyan-500 p-6">
                 <div className="space-y-4">
                   <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg">
                     <div className="flex items-start space-x-3">
-                      <Checkbox 
+                      <Checkbox
                         id="studyAbroad"
                         checked={serviceSelection.studyAbroadConsultation}
-                        onCheckedChange={(checked) => 
-                          setServiceSelection(prev => ({ ...prev, studyAbroadConsultation: !!checked }))
+                        onCheckedChange={(checked) =>
+                          setServiceSelection((prev) => ({
+                            ...prev,
+                            studyAbroadConsultation: !!checked,
+                          }))
                         }
                         className="mt-1"
                       />
                       <div>
-                        <Label htmlFor="studyAbroad" className="font-medium text-gray-800">
+                        <Label
+                          htmlFor="studyAbroad"
+                          className="font-medium text-gray-800"
+                        >
                           Study Abroad Consultation
                         </Label>
                         <p className="text-sm text-gray-600 mt-1">
-                          Complete guidance for international education opportunities
+                          Complete guidance for international education
+                          opportunities
                         </p>
                       </div>
                     </div>
@@ -1818,20 +1947,27 @@ export default function StudentApplication() {
 
                   <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg">
                     <div className="flex items-start space-x-3">
-                      <Checkbox 
+                      <Checkbox
                         id="australiaLegal"
                         checked={serviceSelection.australiaLegalServices}
-                        onCheckedChange={(checked) => 
-                          setServiceSelection(prev => ({ ...prev, australiaLegalServices: !!checked }))
+                        onCheckedChange={(checked) =>
+                          setServiceSelection((prev) => ({
+                            ...prev,
+                            australiaLegalServices: !!checked,
+                          }))
                         }
                         className="mt-1"
                       />
                       <div>
-                        <Label htmlFor="australiaLegal" className="font-medium text-gray-800">
+                        <Label
+                          htmlFor="australiaLegal"
+                          className="font-medium text-gray-800"
+                        >
                           Australia Legal Services
                         </Label>
                         <p className="text-sm text-gray-600 mt-1">
-                          Professional legal assistance for visa issues and document verification in Australia
+                          Professional legal assistance for visa issues and
+                          document verification in Australia
                         </p>
                       </div>
                     </div>
@@ -1839,24 +1975,35 @@ export default function StudentApplication() {
 
                   <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg">
                     <div className="flex items-start space-x-3">
-                      <Checkbox 
+                      <Checkbox
                         id="premiumMigration"
                         checked={serviceSelection.premiumMigrationService}
-                        onCheckedChange={(checked) => 
-                          setServiceSelection(prev => ({ ...prev, premiumMigrationService: !!checked }))
+                        onCheckedChange={(checked) =>
+                          setServiceSelection((prev) => ({
+                            ...prev,
+                            premiumMigrationService: !!checked,
+                          }))
                         }
                         className="mt-1"
                       />
                       <div>
-                        <Label htmlFor="premiumMigration" className="font-medium text-gray-800 flex items-center space-x-2">
+                        <Label
+                          htmlFor="premiumMigration"
+                          className="font-medium text-gray-800 flex items-center space-x-2"
+                        >
                           <span>Premium Migration Service</span>
-                          <span className="bg-yellow-500 text-yellow-900 text-xs px-2 py-1 rounded-full">⭐</span>
+                          <span className="bg-yellow-500 text-yellow-900 text-xs px-2 py-1 rounded-full">
+                            ⭐
+                          </span>
                         </Label>
                         <p className="text-sm text-gray-600 mt-1">
-                          A qualified Australian lawyer will review all your documents before submission and submit the application on your behalf. Additional fees may apply.
+                          A qualified Australian lawyer will review all your
+                          documents before submission and submit the application
+                          on your behalf. Additional fees may apply.
                         </p>
                         <p className="text-xs text-gray-500 mt-2">
-                          ✓ Document review by Australian lawyer ✓ Professional application submission ✓ Legal compliance assurance
+                          ✓ Document review by Australian lawyer ✓ Professional
+                          application submission ✓ Legal compliance assurance
                         </p>
                       </div>
                     </div>
