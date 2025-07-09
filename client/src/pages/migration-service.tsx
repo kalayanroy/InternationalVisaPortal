@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Users, Scale, Shield, Calendar, FileText, Globe, Phone, Mail, MapPin } from "lucide-react";
+import Header from "@/components/header";
 
 export default function MigrationService() {
   const employerServices = [
@@ -125,9 +126,11 @@ export default function MigrationService() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <>
+      <Header />
+      <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-teal-500 to-cyan-500 text-white py-20">
+      <div className="bg-gradient-to-r from-teal-500 to-cyan-500 text-white py-20 mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
             Professional Migration & Legal Services
@@ -473,5 +476,6 @@ export default function MigrationService() {
         </div>
       </div>
     </div>
+    </>
   );
 }
