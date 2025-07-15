@@ -1,580 +1,537 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
-  ArrowLeft, 
-  Star, 
-  DollarSign, 
+  BookOpen, 
+  Laptop, 
+  Heart, 
+  Plane, 
   FileText, 
-  Users, 
-  MapPin, 
+  CreditCard, 
+  Languages, 
+  DollarSign,
+  GraduationCap,
+  CheckCircle,
+  Trophy,
+  Briefcase,
   Clock,
-  Award,
-  TrendingUp,
+  Users,
   Globe,
-  BookOpen,
-  GraduationCap
+  MapPin,
+  Star,
+  Award,
+  Camera,
+  TrendingUp
 } from "lucide-react";
-import { Link } from "wouter";
+import Header from "@/components/header";
 
 export default function AustraliaUniversities() {
+  const popularCourses = [
+    {
+      title: "Bachelor of Business Administration",
+      duration: "3 Years",
+      tuition: "$28,000 AUD/year",
+      ielts: "6.0 Overall (5.5 minimum)",
+      icon: <BookOpen className="h-8 w-8" />
+    },
+    {
+      title: "Master of Information Technology",
+      duration: "2 Years",
+      tuition: "$32,000 AUD/year",
+      ielts: "6.5 Overall",
+      icon: <Laptop className="h-8 w-8" />
+    },
+    {
+      title: "Bachelor of Nursing",
+      duration: "3 Years",
+      tuition: "$33,000 AUD/year",
+      ielts: "7.0 Overall (7.0 minimum)",
+      icon: <Heart className="h-8 w-8" />
+    },
+    {
+      title: "Diploma of Hospitality Management",
+      duration: "1-2 Years",
+      tuition: "$18,000 AUD/year",
+      ielts: "5.5 Overall",
+      icon: <Plane className="h-8 w-8" />
+    }
+  ];
+
+  const admissionRequirements = [
+    {
+      title: "Academic Transcripts",
+      description: "Completed academic records",
+      icon: <FileText className="h-8 w-8" />
+    },
+    {
+      title: "Valid Passport",
+      description: "Current passport copy",
+      icon: <CreditCard className="h-8 w-8" />
+    },
+    {
+      title: "English Proficiency",
+      description: "IELTS, PTE, or TOEFL",
+      icon: <Languages className="h-8 w-8" />
+    },
+    {
+      title: "Financial Proof",
+      description: "Sufficient funds evidence",
+      icon: <DollarSign className="h-8 w-8" />
+    },
+    {
+      title: "Statement of Purpose",
+      description: "Personal statement (SOP)",
+      icon: <FileText className="h-8 w-8" />
+    },
+    {
+      title: "GTE Statement",
+      description: "Genuine Temporary Entrant",
+      icon: <GraduationCap className="h-8 w-8" />
+    },
+    {
+      title: "Health Cover",
+      description: "OSHC Insurance",
+      icon: <Heart className="h-8 w-8" />
+    },
+    {
+      title: "Passport Photos",
+      description: "Recent passport-size photos",
+      icon: <Camera className="h-8 w-8" />
+    }
+  ];
+
   const topUniversities = [
     {
-      name: "University of Melbourne",
-      location: "Melbourne, Victoria",
-      worldRanking: 14,
-      australiaRanking: 1,
-      acceptanceRate: "70-80%",
-      tuitionFee: "AUD $45,824",
-      averageIELTS: "6.5-7.0",
-      averageGPA: "3.0+",
-      image: "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=400&h=300&fit=crop&auto=format",
-      specialties: ["Medicine", "Law", "Engineering", "Business"],
-      founded: 1853,
-      students: 50000,
-      internationalStudents: "45%"
-    },
-    {
-      name: "Australian National University",
-      location: "Canberra, ACT",
-      worldRanking: 27,
-      australiaRanking: 2,
-      acceptanceRate: "35%",
-      tuitionFee: "AUD $46,910",
-      averageIELTS: "6.5-7.0",
-      averageGPA: "3.5+",
-      image: "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=400&h=300&fit=crop&auto=format",
-      specialties: ["Politics", "International Relations", "Economics", "Sciences"],
-      founded: 1946,
-      students: 25000,
-      internationalStudents: "42%"
-    },
-    {
       name: "University of Sydney",
-      location: "Sydney, New South Wales",
-      worldRanking: 41,
-      australiaRanking: 3,
-      acceptanceRate: "30%",
-      tuitionFee: "AUD $50,000",
-      averageIELTS: "6.5-7.5",
-      averageGPA: "3.2+",
-      image: "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=400&h=300&fit=crop&auto=format",
-      specialties: ["Medicine", "Engineering", "Architecture", "Business"],
-      founded: 1850,
-      students: 73000,
-      internationalStudents: "40%"
+      location: "Sydney, NSW",
+      code: "US",
+      ranking: "#30",
+      fees: "$45,000+ AUD/year",
+      color: "bg-blue-50 border-blue-200",
+      codeColor: "bg-blue-500 text-white"
     },
     {
-      name: "University of New South Wales",
-      location: "Sydney, New South Wales",
-      worldRanking: 45,
-      australiaRanking: 4,
-      acceptanceRate: "25%",
-      tuitionFee: "AUD $47,760",
-      averageIELTS: "6.5-7.0",
-      averageGPA: "3.0+",
-      image: "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=400&h=300&fit=crop&auto=format",
-      specialties: ["Engineering", "Business", "Medicine", "Art & Design"],
-      founded: 1949,
-      students: 65000,
-      internationalStudents: "38%"
+      name: "University of Melbourne",
+      location: "Melbourne, VIC",
+      code: "UM",
+      ranking: "#34",
+      fees: "$44,000+ AUD/year",
+      color: "bg-purple-50 border-purple-200",
+      codeColor: "bg-purple-500 text-white"
     },
     {
       name: "University of Queensland",
-      location: "Brisbane, Queensland",
-      worldRanking: 50,
-      australiaRanking: 5,
-      acceptanceRate: "63%",
-      tuitionFee: "AUD $45,120",
-      averageIELTS: "6.5",
-      averageGPA: "3.0+",
-      image: "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=400&h=300&fit=crop&auto=format",
-      specialties: ["Mining Engineering", "Agriculture", "Veterinary Science", "Business"],
-      founded: 1909,
-      students: 53000,
-      internationalStudents: "37%"
+      location: "Brisbane, QLD",
+      code: "UQ",
+      ranking: "#43",
+      fees: "$42,000+ AUD/year",
+      color: "bg-red-50 border-red-200",
+      codeColor: "bg-red-500 text-white"
     },
     {
       name: "Monash University",
-      location: "Melbourne, Victoria",
-      worldRanking: 57,
-      australiaRanking: 6,
-      acceptanceRate: "40%",
-      tuitionFee: "AUD $45,800",
-      averageIELTS: "6.5",
-      averageGPA: "3.0+",
-      image: "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=400&h=300&fit=crop&auto=format",
-      specialties: ["Medicine", "Pharmacy", "Engineering", "Business"],
-      founded: 1958,
-      students: 86000,
-      internationalStudents: "44%"
+      location: "Melbourne, VIC",
+      code: "MU",
+      ranking: "#42",
+      fees: "$41,000+ AUD/year",
+      color: "bg-green-50 border-green-200",
+      codeColor: "bg-green-500 text-white"
+    },
+    {
+      name: "RMIT University",
+      location: "Melbourne, VIC",
+      code: "RM",
+      ranking: "#340",
+      fees: "$38,000+ AUD/year",
+      color: "bg-orange-50 border-orange-200",
+      codeColor: "bg-orange-500 text-white"
+    },
+    {
+      name: "University of Technology Sydney",
+      location: "Sydney, NSW",
+      code: "UTS",
+      ranking: "#90",
+      fees: "$40,000+ AUD/year",
+      color: "bg-cyan-50 border-cyan-200",
+      codeColor: "bg-cyan-500 text-white"
     }
   ];
 
-  const popularCourses = {
-    "Engineering & Technology": [
-      "Computer Science & IT",
-      "Civil Engineering",
-      "Mechanical Engineering",
-      "Electrical Engineering",
-      "Mining Engineering",
-      "Software Engineering"
-    ],
-    "Business & Management": [
-      "Master of Business Administration (MBA)",
-      "Accounting",
-      "Finance",
-      "Marketing",
-      "International Business",
-      "Project Management"
-    ],
-    "Health Sciences": [
-      "Medicine",
-      "Nursing",
-      "Dentistry",
-      "Pharmacy",
-      "Public Health",
-      "Physiotherapy"
-    ],
-    "Natural Sciences": [
-      "Environmental Science",
-      "Marine Biology",
-      "Agriculture",
-      "Veterinary Science",
-      "Geology",
-      "Biotechnology"
-    ],
-    "Liberal Arts": [
-      "Psychology",
-      "Education",
-      "Communications",
-      "International Relations",
-      "Social Work",
-      "Criminology"
-    ]
-  };
-
-  const visaRequirements = [
-    {
-      type: "Student Visa (Subclass 500)",
-      description: "Primary visa for international students",
-      requirements: [
-        "Confirmation of Enrolment (CoE)",
-        "Genuine Temporary Entrant (GTE) statement",
-        "Financial evidence (AUD $21,041 + tuition)",
-        "English proficiency (IELTS/TOEFL/PTE)",
-        "Health insurance (OSHC)",
-        "Health examination",
-        "Character requirements",
-        "Visa application fee (AUD $650)"
-      ]
-    },
-    {
-      type: "Student Guardian Visa (Subclass 590)",
-      description: "For guardians of students under 18",
-      requirements: [
-        "Relationship evidence with student",
-        "Financial capacity evidence",
-        "Health insurance",
-        "Character requirements",
-        "Adequate welfare arrangements",
-        "Visa application fee (AUD $650)"
-      ]
-    }
+  const whyChoosePoints = [
+    "Innovative teaching methods and cutting-edge research facilities",
+    "Strong industry connections and practical learning opportunities",
+    "Globally recognized degrees and qualifications",
+    "English-speaking environment for international students"
   ];
 
-  const costBreakdown = [
-    {
-      category: "Tuition Fees",
-      range: "AUD $30,000 - $55,000",
-      description: "Annual fees vary by program and university"
-    },
-    {
-      category: "Living Expenses",
-      range: "AUD $21,041 - $25,000",
-      description: "Government minimum requirement plus comfortable living"
-    },
-    {
-      category: "Health Insurance (OSHC)",
-      range: "AUD $500 - $700",
-      description: "Mandatory Overseas Student Health Cover"
-    },
-    {
-      category: "Books & Materials",
-      range: "AUD $1,000 - $2,000",
-      description: "Textbooks and academic supplies"
-    },
-    {
-      category: "Transportation",
-      range: "AUD $1,500 - $3,000",
-      description: "Public transport and domestic travel"
-    }
+  const workRightsPoints = [
+    "Work up to 20 hours per week during studies",
+    "Full-time work during semester breaks",
+    "Post-study work visa for 2-4 years after graduation",
+    "Pathway to permanent residency for skilled graduates"
+  ];
+
+  const lifestylePoints = [
+    "Safe and welcoming environment for international students",
+    "Multicultural society with students from 200+ countries",
+    "Beautiful beaches, national parks, and outdoor activities",
+    "Modern cities with excellent public transport and healthcare"
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-white">
-      {/* Header */}
-      <div className="bg-navy text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link href="/" className="inline-flex items-center text-gold mb-6 hover:text-white transition-colors">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Home
-          </Link>
-          
-          <div className="flex items-center space-x-6">
-            <span className="text-6xl">🇦🇺</span>
-            <div>
-              <h1 className="text-4xl md:text-5xl font-playfair font-bold mb-4">
-                Study in Australia
-              </h1>
-              <p className="text-xl text-slate-200 max-w-3xl">
-                Experience world-class education in a vibrant multicultural environment with excellent work opportunities and beautiful cities.
-              </p>
+    <>
+      <Header />
+      <div className="min-h-screen bg-gray-50">
+        {/* Hero Section */}
+        <div className="bg-gradient-to-r from-cyan-400 to-cyan-600 text-white py-20 mt-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <h1 className="text-4xl md:text-5xl font-bold mb-6">
+                  Study in Australia with
+                  <br />
+                  DTR Consultancy
+                </h1>
+                <p className="text-xl mb-8 opacity-90">
+                  Your trusted partner for international education and migration services in
+                  Australia. Turn your dreams into reality with world-class education.
+                </p>
+                <Button 
+                  size="lg" 
+                  className="bg-black hover:bg-gray-800 text-white px-8 py-3 text-lg font-semibold rounded-full"
+                >
+                  🌟 Get Free Consultation
+                </Button>
+              </div>
+              <div className="flex justify-center">
+                <Card className="bg-white text-black p-8 text-center max-w-sm">
+                  <div className="text-4xl font-bold text-cyan-600 mb-2">AU</div>
+                  <h3 className="text-2xl font-bold mb-2">Australia Awaits</h3>
+                  <p className="text-gray-600">Join 700,000+ international students</p>
+                </Card>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Statistics Banner */}
-      <div className="bg-white shadow-lg border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-3xl font-playfair font-bold text-navy mb-2">43</div>
-              <div className="text-slate-600">Universities</div>
+        {/* Popular Courses Section */}
+        <div className="bg-white py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">Popular Courses in Australia</h2>
+              <p className="text-lg text-gray-600">Discover the most sought-after programs for international students</p>
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-playfair font-bold text-navy mb-2">400K+</div>
-              <div className="text-slate-600">International Students</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-playfair font-bold text-navy mb-2">22,000+</div>
-              <div className="text-slate-600">Programs</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-playfair font-bold text-navy mb-2">2-4</div>
-              <div className="text-slate-600">Years Work Rights</div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {popularCourses.map((course, index) => (
+                <Card key={index} className="border-gray-200 hover:shadow-lg transition-shadow">
+                  <CardHeader className="pb-4">
+                    <div className="w-16 h-16 bg-cyan-100 rounded-lg flex items-center justify-center mb-4 text-cyan-600">
+                      {course.icon}
+                    </div>
+                    <CardTitle className="text-lg text-gray-900">{course.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    <div className="flex items-center text-sm text-gray-600">
+                      <Clock className="h-4 w-4 mr-2" />
+                      Duration: {course.duration}
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <DollarSign className="h-4 w-4 mr-2" />
+                      Tuition: {course.tuition}
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <Languages className="h-4 w-4 mr-2" />
+                      IELTS: {course.ielts}
+                    </div>
+                    <Button className="w-full bg-cyan-500 hover:bg-cyan-600 text-white mt-4">
+                      Learn More
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <Tabs defaultValue="universities" className="space-y-8">
-          <TabsList className="grid w-full grid-cols-4 bg-slate-100">
-            <TabsTrigger value="universities" className="data-[state=active]:bg-navy data-[state=active]:text-white">
-              Top Universities
-            </TabsTrigger>
-            <TabsTrigger value="courses" className="data-[state=active]:bg-navy data-[state=active]:text-white">
-              Popular Courses
-            </TabsTrigger>
-            <TabsTrigger value="visa" className="data-[state=active]:bg-navy data-[state=active]:text-white">
-              Student Visa
-            </TabsTrigger>
-            <TabsTrigger value="costs" className="data-[state=active]:bg-navy data-[state=active]:text-white">
-              Cost Information
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="universities" className="space-y-8">
+        {/* Admission Requirements Section */}
+        <div className="bg-gray-50 py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-playfair font-bold text-navy mb-4">
-                Top Australian Universities
-              </h2>
-              <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-                Discover Australia's leading institutions known for research excellence, innovation, and strong industry connections.
-              </p>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">Admission Requirements</h2>
+              <p className="text-lg text-gray-600">Everything you need to know for your application</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {topUniversities.map((university, index) => (
-                <Card key={index} className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                  <div className="relative h-48">
-                    <img
-                      src={university.image}
-                      alt={university.name}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                    <div className="absolute top-4 right-4">
-                      <Badge className="bg-gold text-navy">
-                        #{university.worldRanking} World
-                      </Badge>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {admissionRequirements.map((requirement, index) => (
+                <Card key={index} className="border-gray-200 hover:shadow-lg transition-shadow text-center">
+                  <CardHeader className="pb-4">
+                    <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-4 text-gray-600">
+                      {requirement.icon}
                     </div>
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <h3 className="text-xl font-playfair font-bold text-white mb-1">
-                        {university.name}
-                      </h3>
-                      <p className="text-white/90 text-sm flex items-center">
-                        <MapPin className="h-4 w-4 mr-1" />
-                        {university.location}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <CardContent className="p-6">
-                    <div className="grid grid-cols-2 gap-4 mb-6">
-                      <div className="text-center p-3 bg-slate-50 rounded-lg">
-                        <div className="text-lg font-bold text-navy">{university.acceptanceRate}</div>
-                        <div className="text-sm text-slate-600">Acceptance Rate</div>
-                      </div>
-                      <div className="text-center p-3 bg-slate-50 rounded-lg">
-                        <div className="text-lg font-bold text-navy">{university.tuitionFee}</div>
-                        <div className="text-sm text-slate-600">Annual Tuition</div>
-                      </div>
-                    </div>
-
-                    <div className="space-y-4">
-                      <div>
-                        <h4 className="font-semibold text-navy mb-2">Key Information</h4>
-                        <div className="grid grid-cols-2 gap-2 text-sm">
-                          <div className="flex items-center">
-                            <Users className="h-4 w-4 mr-2 text-slate-500" />
-                            {university.students.toLocaleString()} students
-                          </div>
-                          <div className="flex items-center">
-                            <Globe className="h-4 w-4 mr-2 text-slate-500" />
-                            {university.internationalStudents} international
-                          </div>
-                          <div className="flex items-center">
-                            <Clock className="h-4 w-4 mr-2 text-slate-500" />
-                            Founded {university.founded}
-                          </div>
-                          <div className="flex items-center">
-                            <Star className="h-4 w-4 mr-2 text-slate-500" />
-                            IELTS: {university.averageIELTS}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div>
-                        <h4 className="font-semibold text-navy mb-2">Popular Specialties</h4>
-                        <div className="flex flex-wrap gap-2">
-                          {university.specialties.map((specialty, idx) => (
-                            <Badge key={idx} variant="outline" className="text-xs">
-                              {specialty}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="courses" className="space-y-8">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-playfair font-bold text-navy mb-4">
-                Popular Academic Programs
-              </h2>
-              <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-                Explore diverse academic opportunities across top fields of study in Australian universities.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {Object.entries(popularCourses).map(([category, courses], index) => (
-                <Card key={index} className="h-full">
-                  <CardHeader>
-                    <CardTitle className="flex items-center space-x-2">
-                      <div className="w-10 h-10 bg-navy rounded-lg flex items-center justify-center">
-                        <BookOpen className="h-5 w-5 text-white" />
-                      </div>
-                      <span className="text-navy">{category}</span>
-                    </CardTitle>
+                    <CardTitle className="text-lg text-gray-900">{requirement.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-3">
-                      {courses.map((course, idx) => (
-                        <div key={idx} className="flex items-center space-x-3 p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors">
-                          <GraduationCap className="h-4 w-4 text-gold flex-shrink-0" />
-                          <span className="text-sm text-slate-700">{course}</span>
-                        </div>
-                      ))}
-                    </div>
+                    <p className="text-sm text-gray-600">{requirement.description}</p>
                   </CardContent>
                 </Card>
               ))}
             </div>
-          </TabsContent>
+          </div>
+        </div>
 
-          <TabsContent value="visa" className="space-y-8">
+        {/* Top Universities Section */}
+        <div className="bg-white py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-playfair font-bold text-navy mb-4">
-                Student Visa Requirements
-              </h2>
-              <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-                Complete guide to obtaining a student visa for studying in Australia.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {visaRequirements.map((visa, index) => (
-                <Card key={index} className="h-full">
-                  <CardHeader>
-                    <CardTitle className="flex items-center space-x-2">
-                      <FileText className="h-5 w-5 text-navy" />
-                      <span>{visa.type}</span>
-                    </CardTitle>
-                    <p className="text-slate-600">{visa.description}</p>
-                  </CardHeader>
-                  <CardContent>
-                    <h4 className="font-semibold text-navy mb-4">Required Documents:</h4>
-                    <div className="space-y-3">
-                      {visa.requirements.map((requirement, idx) => (
-                        <div key={idx} className="flex items-start space-x-3">
-                          <div className="w-2 h-2 bg-gold rounded-full mt-2 flex-shrink-0" />
-                          <span className="text-sm text-slate-700">{requirement}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            <Card className="bg-blue-50 border-blue-200">
-              <CardContent className="p-6">
-                <div className="flex items-start space-x-4">
-                  <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <FileText className="h-5 w-5 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-blue-900 mb-2">Work & Post-Study Benefits</h3>
-                    <ul className="text-sm text-blue-700 space-y-1">
-                      <li>• Work 48 hours/fortnight during studies</li>
-                      <li>• Post-Study Work Visa: 2-4 years</li>
-                      <li>• Pathway to permanent residency</li>
-                      <li>• Partner can work full-time with dependent visa</li>
-                    </ul>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="costs" className="space-y-8">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-playfair font-bold text-navy mb-4">
-                Cost of Studying in Australia
-              </h2>
-              <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-                Comprehensive breakdown of expenses for international students studying in Australia.
-              </p>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">Top Australian Universities</h2>
+              <p className="text-lg text-gray-600">Partner with world-renowned institutions</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {costBreakdown.map((cost, index) => (
-                <Card key={index} className="text-center">
-                  <CardContent className="p-6">
-                    <div className="w-12 h-12 bg-navy rounded-lg flex items-center justify-center mx-auto mb-4">
-                      <DollarSign className="h-6 w-6 text-white" />
+              {topUniversities.map((university, index) => (
+                <Card key={index} className={`${university.color} hover:shadow-lg transition-shadow`}>
+                  <CardHeader className="text-center">
+                    <div className={`w-16 h-16 ${university.codeColor} rounded-lg flex items-center justify-center mx-auto mb-4 text-2xl font-bold`}>
+                      {university.code}
                     </div>
-                    <h3 className="font-playfair font-bold text-navy mb-2">{cost.category}</h3>
-                    <div className="text-2xl font-bold text-gold mb-3">{cost.range}</div>
-                    <p className="text-sm text-slate-600">{cost.description}</p>
+                    <CardTitle className="text-lg text-gray-900">{university.name}</CardTitle>
+                    <p className="text-sm text-gray-600">{university.location}</p>
+                  </CardHeader>
+                  <CardContent className="text-center space-y-2">
+                    <div className="flex items-center justify-center text-sm text-cyan-600">
+                      <Award className="h-4 w-4 mr-1" />
+                      QS Ranking: {university.ranking}
+                    </div>
+                    <div className="flex items-center justify-center text-sm text-gray-600">
+                      <DollarSign className="h-4 w-4 mr-1" />
+                      Fees: {university.fees}
+                    </div>
                   </CardContent>
                 </Card>
               ))}
             </div>
+          </div>
+        </div>
 
-            <Card className="bg-gold/10 border-gold/20">
-              <CardContent className="p-8">
-                <div className="text-center">
-                  <TrendingUp className="h-12 w-12 text-gold mx-auto mb-4" />
-                  <h3 className="text-2xl font-playfair font-bold text-navy mb-4">
-                    Total Estimated Annual Cost
-                  </h3>
-                  <div className="text-4xl font-bold text-navy mb-4">AUD $55,000 - $85,000</div>
-                  <p className="text-slate-600 max-w-2xl mx-auto">
-                    This includes all expenses for one academic year. Sydney and Melbourne are more expensive than other cities.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-navy">Scholarships & Financial Aid</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex items-center space-x-3">
-                      <Award className="h-5 w-5 text-gold" />
-                      <span>Australia Awards Scholarships</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <Award className="h-5 w-5 text-gold" />
-                      <span>University merit scholarships</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <Award className="h-5 w-5 text-gold" />
-                      <span>Research Training Program</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <Award className="h-5 w-5 text-gold" />
-                      <span>Industry-specific funding</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-navy">Work Opportunities</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex items-center space-x-3">
-                      <Users className="h-5 w-5 text-gold" />
-                      <span>48 hrs/fortnight during studies</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <Users className="h-5 w-5 text-gold" />
-                      <span>Unlimited during breaks</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <Users className="h-5 w-5 text-gold" />
-                      <span>Post-Study Work Visa (2-4 years)</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <Users className="h-5 w-5 text-gold" />
-                      <span>Skilled migration pathways</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-        </Tabs>
-
-        {/* CTA Section */}
-        <div className="mt-16 text-center">
-          <Card className="bg-navy text-white">
-            <CardContent className="p-12">
-              <h3 className="text-3xl font-playfair font-bold mb-6 text-gold">
-                Ready to Start Your Australian Adventure?
-              </h3>
-              <p className="text-xl mb-8 text-slate-200 max-w-2xl mx-auto">
-                Our expert counselors will guide you through every step, from university selection to post-study work opportunities.
+        {/* Why Choose Australia Section */}
+        <div className="bg-gray-50 py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose Australia for Your Studies?</h2>
+              <p className="text-lg text-gray-600">
+                Australia offers world-class education, incredible opportunities, and an 
+                unmatched quality of life. Here's why over 700,000 international students choose 
+                Australia every year.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button className="bg-gold text-navy hover:bg-gold/90 px-8 py-3">
-                  Schedule Free Consultation
-                </Button>
-                <Button variant="outline" className="border-white text-white hover:bg-white hover:text-navy px-8 py-3">
-                  Download Australia Guide
-                </Button>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              {/* World-Class Education System */}
+              <div className="space-y-6">
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 bg-gray-900 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <GraduationCap className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">World-Class Education System</h3>
+                    <p className="text-gray-600 mb-4">
+                      Australia is home to 8 of the world's top 100 universities and offers internationally 
+                      recognized qualifications that are valued by employers worldwide.
+                    </p>
+                    <div className="space-y-2">
+                      {whyChoosePoints.map((point, index) => (
+                        <div key={index} className="flex items-start space-x-2">
+                          <CheckCircle className="h-4 w-4 text-green-500 mt-1 flex-shrink-0" />
+                          <span className="text-sm text-gray-600">{point}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Work & Career Opportunities */}
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 bg-amber-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Briefcase className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">Work & Career Opportunities</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-gray-900">20 hours/week</div>
+                        <div className="text-sm text-gray-600">Part-time work while studying</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-gray-900">2-4 years</div>
+                        <div className="text-sm text-gray-600">Post-study work visa</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-gray-900">$25.41/hour</div>
+                        <div className="text-sm text-gray-600">Minimum wage rate</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </CardContent>
-          </Card>
+
+              {/* Education Excellence & Quality of Life */}
+              <div className="space-y-6">
+                <Card className="bg-blue-50 border-blue-200 p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <Trophy className="h-12 w-12 text-yellow-500" />
+                    <div className="text-right">
+                      <h3 className="text-xl font-bold text-gray-900">Education Excellence</h3>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-cyan-600">#3</div>
+                      <div className="text-sm text-gray-600">Most Popular Study Destination</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-cyan-600">8/100</div>
+                      <div className="text-sm text-gray-600">Top Universities Globally</div>
+                    </div>
+                  </div>
+                </Card>
+
+                <Card className="bg-orange-50 border-orange-200 p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
+                      <MapPin className="h-6 w-6 text-white" />
+                    </div>
+                    <div className="text-right">
+                      <h3 className="text-xl font-bold text-gray-900">Quality of Life</h3>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-orange-600">#4</div>
+                      <div className="text-sm text-gray-600">Safest Country in the World</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-orange-600">300+</div>
+                      <div className="text-sm text-gray-600">Days of Sunshine</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-orange-600">7/10</div>
+                      <div className="text-sm text-gray-600">Most Liveable Cities</div>
+                    </div>
+                  </div>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Work Rights & Lifestyle Section */}
+        <div className="bg-white py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              {/* Work Rights & Financial Benefits */}
+              <div>
+                <div className="flex items-start space-x-4 mb-6">
+                  <div className="w-12 h-12 bg-yellow-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <DollarSign className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">Work Rights & Financial Benefits</h3>
+                    <p className="text-gray-600 mb-4">
+                      Australia offers excellent work opportunities for international students, helping you 
+                      gain experience and support your studies financially.
+                    </p>
+                    <div className="space-y-2">
+                      {workRightsPoints.map((point, index) => (
+                        <div key={index} className="flex items-start space-x-2">
+                          <CheckCircle className="h-4 w-4 text-green-500 mt-1 flex-shrink-0" />
+                          <span className="text-sm text-gray-600">{point}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Lifestyle & Cultural Experience */}
+              <div>
+                <div className="flex items-start space-x-4 mb-6">
+                  <div className="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Globe className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">Lifestyle & Cultural Experience</h3>
+                    <p className="text-gray-600 mb-4">
+                      Experience Australia's unique blend of stunning natural beauty, vibrant cities, and 
+                      multicultural society that welcomes students from around the world.
+                    </p>
+                    <div className="space-y-2">
+                      {lifestylePoints.map((point, index) => (
+                        <div key={index} className="flex items-start space-x-2">
+                          <CheckCircle className="h-4 w-4 text-green-500 mt-1 flex-shrink-0" />
+                          <span className="text-sm text-gray-600">{point}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Your Future Starts Here Section */}
+        <div className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="flex items-center justify-center mb-6">
+              <div className="w-16 h-16 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                <TrendingUp className="h-8 w-8" />
+              </div>
+            </div>
+            <h2 className="text-3xl font-bold mb-4">🚀 Your Future Starts Here</h2>
+            <p className="text-xl mb-8 opacity-90 max-w-4xl mx-auto">
+              Join the thousands of successful graduates who started their journey in 
+              Australia. With world-class education, work opportunities, and an incredible 
+              lifestyle, Australia is your gateway to a bright future.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+              <div className="text-center">
+                <div className="text-4xl font-bold mb-2">700K+</div>
+                <div className="text-lg opacity-90">International Students</div>
+              </div>
+              <div className="text-center">
+                <div className="text-4xl font-bold mb-2">95%</div>
+                <div className="text-lg opacity-90">Graduate Employment Rate</div>
+              </div>
+              <div className="text-center">
+                <div className="text-4xl font-bold mb-2">200+</div>
+                <div className="text-lg opacity-90">Countries Represented</div>
+              </div>
+              <div className="text-center">
+                <div className="text-4xl font-bold mb-2">$65K</div>
+                <div className="text-lg opacity-90">Average Graduate Salary</div>
+              </div>
+            </div>
+
+            <div className="space-x-4">
+              <Button 
+                size="lg" 
+                className="bg-white text-cyan-600 hover:bg-gray-100 px-8 py-3 text-lg font-semibold"
+              >
+                Start Your Application
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline"
+                className="border-white text-white hover:bg-white hover:text-cyan-600 px-8 py-3 text-lg font-semibold"
+              >
+                Book Free Consultation
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
