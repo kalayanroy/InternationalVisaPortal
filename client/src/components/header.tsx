@@ -35,11 +35,13 @@ export default function Header() {
   // Check if we're on migration service page or english test book page
   const isMigrationPage = location === "/migration-service";
   const isEnglishTestBookPage = location === "/english-test-book";
+  const isAUUniversityPage = location === "/australia-universities";
 
   // Determine header background
   const getHeaderBg = () => {
     if (isMigrationPage) return "bg-[#06b6d4]";
     if (isEnglishTestBookPage) return "bg-[#e5e7eb]";
+    if (isAUUniversityPage) return "bg-[#0891b2]";
     if (isScrolled) return "bg-white shadow-lg";
     return "bg-transparent";
   };
@@ -48,6 +50,7 @@ export default function Header() {
   const getTextColor = () => {
     if (isMigrationPage) return "text-black";
     if (isEnglishTestBookPage) return "text-black";
+    if (isAUUniversityPage) return "text-white";
     if (isScrolled) return "text-navy";
     return "text-white";
   };
@@ -56,6 +59,7 @@ export default function Header() {
   const getButtonHoverStyle = () => {
     if (isMigrationPage) return "hover:bg-black/10";
     if (isEnglishTestBookPage) return "hover:bg-black/10";
+    if (isAUUniversityPage) return "hover:bg-black/10";
     if (isScrolled) return "hover:bg-navy/10";
     return "hover:bg-white/10";
   };
