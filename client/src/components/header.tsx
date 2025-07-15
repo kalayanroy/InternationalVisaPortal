@@ -32,12 +32,14 @@ export default function Header() {
     setIsMenuOpen(false);
   };
 
-  // Check if we're on migration service page
+  // Check if we're on migration service page or english test book page
   const isMigrationPage = location === "/migration-service";
-  
+  const isEnglishTestBookPage = location === "/english-test-book";
+
   // Determine header background
   const getHeaderBg = () => {
     if (isMigrationPage) return "bg-[#06b6d4]";
+    if (isEnglishTestBookPage) return "bg-[#e5e7eb]";
     if (isScrolled) return "bg-white shadow-lg";
     return "bg-transparent";
   };
@@ -45,12 +47,23 @@ export default function Header() {
   // Determine text color
   const getTextColor = () => {
     if (isMigrationPage) return "text-black";
+    if (isEnglishTestBookPage) return "text-black";
     if (isScrolled) return "text-navy";
     return "text-white";
   };
 
+  // Determine button hover styles
+  const getButtonHoverStyle = () => {
+    if (isMigrationPage) return "hover:bg-black/10";
+    if (isEnglishTestBookPage) return "hover:bg-black/10";
+    if (isScrolled) return "hover:bg-navy/10";
+    return "hover:bg-white/10";
+  };
+
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${getHeaderBg()}`}>
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${getHeaderBg()}`}
+    >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
@@ -61,7 +74,9 @@ export default function Header() {
                 alt="EduVisa Global Logo"
                 className="h-20 w-auto transition-all duration-300"
               />
-              <span className={`text-2xl font-bold transition-colors ${getTextColor()}`}>
+              <span
+                className={`text-lg font-bold transition-colors ${getTextColor()}`}
+              >
                 DTR Consultation
               </span>
             </div>
@@ -75,10 +90,7 @@ export default function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${getTextColor()} hover:text-main ${
-                      isMigrationPage ? "hover:bg-black/10" : 
-                      isScrolled ? "hover:bg-navy/10" : "hover:bg-white/10"
-                    }`}
+                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${getTextColor()} hover:text-main ${getButtonHoverStyle()}`}
                   >
                     <span>Offers in Australia</span>
                     <ChevronDown className="h-3 w-3" />
@@ -103,10 +115,7 @@ export default function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${getTextColor()} hover:text-main ${
-                      isMigrationPage ? "hover:bg-black/10" : 
-                      isScrolled ? "hover:bg-navy/10" : "hover:bg-white/10"
-                    }`}
+                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${getTextColor()} hover:text-main ${getButtonHoverStyle()}`}
                   >
                     <span>Study Destination</span>
                     <ChevronDown className="h-3 w-3" />
@@ -154,10 +163,7 @@ export default function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${getTextColor()} hover:text-main ${
-                      isMigrationPage ? "hover:bg-black/10" : 
-                      isScrolled ? "hover:bg-navy/10" : "hover:bg-white/10"
-                    }`}
+                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${getTextColor()} hover:text-main ${getButtonHoverStyle()}`}
                   >
                     <span>Find Course</span>
                     <ChevronDown className="h-3 w-3" />
@@ -192,10 +198,7 @@ export default function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${getTextColor()} hover:text-main ${
-                      isMigrationPage ? "hover:bg-black/10" : 
-                      isScrolled ? "hover:bg-navy/10" : "hover:bg-white/10"
-                    }`}
+                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${getTextColor()} hover:text-main ${getButtonHoverStyle()}`}
                   >
                     <span>Our Services</span>
                     <ChevronDown className="h-3 w-3" />
@@ -292,10 +295,7 @@ export default function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${getTextColor()} hover:text-main ${
-                      isMigrationPage ? "hover:bg-black/10" : 
-                      isScrolled ? "hover:bg-navy/10" : "hover:bg-white/10"
-                    }`}
+                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${getTextColor()} hover:text-main ${getButtonHoverStyle()}`}
                   >
                     <span>About Us</span>
                     <ChevronDown className="h-3 w-3" />
