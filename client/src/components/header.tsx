@@ -34,7 +34,9 @@ export default function Header() {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-[#06b6d4] shadow-lg"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled ? "bg-white shadow-lg" : "bg-transparent"
+      }`}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
@@ -46,7 +48,11 @@ export default function Header() {
                 alt="EduVisa Global Logo"
                 className="h-20 w-auto transition-all duration-300"
               />
-              <span className="text-2xl font-bold text-black">
+              <span
+                className={`text-2xl font-bold transition-colors ${
+                  isScrolled ? "text-navy" : "text-white"
+                }`}
+              >
                 DTR Consultation
               </span>
             </div>
@@ -60,7 +66,11 @@ export default function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm text-black hover:text-gray-700 hover:bg-black/10"
+                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${
+                      isScrolled
+                        ? "text-navy hover:text-main hover:bg-navy/10"
+                        : "text-white hover:text-main hover:bg-white/10"
+                    }`}
                   >
                     <span>Offers in Australia</span>
                     <ChevronDown className="h-3 w-3" />
@@ -85,7 +95,11 @@ export default function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm text-black hover:text-gray-700 hover:bg-black/10"
+                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${
+                      isScrolled
+                        ? "text-navy hover:text-main hover:bg-navy/10"
+                        : "text-white hover:text-main hover:bg-white/10"
+                    }`}
                   >
                     <span>Study Destination</span>
                     <ChevronDown className="h-3 w-3" />
@@ -133,7 +147,11 @@ export default function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm text-black hover:text-gray-700 hover:bg-black/10"
+                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${
+                      isScrolled
+                        ? "text-navy hover:text-main hover:bg-navy/10"
+                        : "text-white hover:text-main hover:bg-white/10"
+                    }`}
                   >
                     <span>Find Course</span>
                     <ChevronDown className="h-3 w-3" />
@@ -168,7 +186,11 @@ export default function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm text-black hover:text-gray-700 hover:bg-black/10"
+                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${
+                      isScrolled
+                        ? "text-navy hover:text-main hover:bg-navy/10"
+                        : "text-white hover:text-main hover:bg-white/10"
+                    }`}
                   >
                     <span>Our Services</span>
                     <ChevronDown className="h-3 w-3" />
@@ -255,7 +277,11 @@ export default function Header() {
               {/* 5. Apply Now */}
               <Link
                 href="/student-application"
-                className={`font-medium transition-colors hover:scale-105 px-2 py-1 text-sm text-black hover:text-gray-700 ${location === "/student-application" ? "border-b-2 border-main" : ""}`}
+                className={`font-medium transition-colors hover:scale-105 px-2 py-1 text-sm ${
+                  isScrolled
+                    ? "text-navy hover:text-main"
+                    : "text-white hover:text-main"
+                } ${location === "/student-application" ? "border-b-2 border-main" : ""}`}
               >
                 Apply Now
               </Link>
@@ -265,7 +291,11 @@ export default function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm text-black hover:text-gray-700 hover:bg-black/10"
+                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${
+                      isScrolled
+                        ? "text-navy hover:text-main hover:bg-navy/10"
+                        : "text-white hover:text-main hover:bg-white/10"
+                    }`}
                   >
                     <span>About Us</span>
                     <ChevronDown className="h-3 w-3" />
@@ -311,7 +341,11 @@ export default function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="flex items-center space-x-2 text-black hover:text-gray-700 hover:bg-black/10"
+                    className={`flex items-center space-x-2 ${
+                      isScrolled
+                        ? "text-navy hover:text-main hover:bg-navy/10"
+                        : "text-white hover:text-main hover:bg-white/10"
+                    }`}
                   >
                     <User className="h-4 w-4" />
                     <span>{user?.firstName || user?.username}</span>
@@ -360,7 +394,11 @@ export default function Header() {
                 <Link href="/login">
                   <Button
                     variant="outline"
-                    className="border-2 font-semibold px-6 py-2 rounded-lg transition-all duration-300 border-black text-black hover:bg-black hover:text-white"
+                    className={`border-2 font-semibold px-6 py-2 rounded-lg transition-all duration-300 ${
+                      isScrolled
+                        ? "border-navy text-black hover:bg-navy hover:text-white"
+                        : "border-white text-black hover:bg-white hover:text-navy"
+                    }`}
                   >
                     Login
                   </Button>
@@ -375,7 +413,7 @@ export default function Header() {
               variant="ghost"
               size="sm"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-black hover:text-gray-700"
+              className={isScrolled ? "text-navy" : "text-white"}
             >
               {isMenuOpen ? (
                 <X className="h-6 w-6" />
