@@ -32,10 +32,13 @@ export default function Header() {
     setIsMenuOpen(false);
   };
 
+  // Check if we're on pages that should keep transparent header
+  const shouldStayTransparent = location === "/migration-service" || location === "/";
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white shadow-lg" : "bg-transparent"
+        isScrolled && !shouldStayTransparent ? "bg-white shadow-lg" : "bg-transparent"
       }`}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -50,7 +53,7 @@ export default function Header() {
               />
               <span
                 className={`text-2xl font-bold transition-colors ${
-                  isScrolled ? "text-navy" : "text-white"
+                  isScrolled && !shouldStayTransparent ? "text-navy" : "text-white"
                 }`}
               >
                 DTR Consultation
@@ -67,7 +70,7 @@ export default function Header() {
                   <Button
                     variant="ghost"
                     className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${
-                      isScrolled
+                      isScrolled && !shouldStayTransparent
                         ? "text-navy hover:text-main hover:bg-navy/10"
                         : "text-white hover:text-main hover:bg-white/10"
                     }`}
@@ -96,7 +99,7 @@ export default function Header() {
                   <Button
                     variant="ghost"
                     className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${
-                      isScrolled
+                      isScrolled && !shouldStayTransparent
                         ? "text-navy hover:text-main hover:bg-navy/10"
                         : "text-white hover:text-main hover:bg-white/10"
                     }`}
@@ -148,7 +151,7 @@ export default function Header() {
                   <Button
                     variant="ghost"
                     className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${
-                      isScrolled
+                      isScrolled && !shouldStayTransparent
                         ? "text-navy hover:text-main hover:bg-navy/10"
                         : "text-white hover:text-main hover:bg-white/10"
                     }`}
@@ -187,7 +190,7 @@ export default function Header() {
                   <Button
                     variant="ghost"
                     className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${
-                      isScrolled
+                      isScrolled && !shouldStayTransparent
                         ? "text-navy hover:text-main hover:bg-navy/10"
                         : "text-white hover:text-main hover:bg-white/10"
                     }`}
@@ -278,7 +281,7 @@ export default function Header() {
               <Link
                 href="/student-application"
                 className={`font-medium transition-colors hover:scale-105 px-2 py-1 text-sm ${
-                  isScrolled
+                  isScrolled && !shouldStayTransparent
                     ? "text-navy hover:text-main"
                     : "text-white hover:text-main"
                 } ${location === "/student-application" ? "border-b-2 border-main" : ""}`}
@@ -292,7 +295,7 @@ export default function Header() {
                   <Button
                     variant="ghost"
                     className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${
-                      isScrolled
+                      isScrolled && !shouldStayTransparent
                         ? "text-navy hover:text-main hover:bg-navy/10"
                         : "text-white hover:text-main hover:bg-white/10"
                     }`}
@@ -342,7 +345,7 @@ export default function Header() {
                   <Button
                     variant="ghost"
                     className={`flex items-center space-x-2 ${
-                      isScrolled
+                      isScrolled && !shouldStayTransparent
                         ? "text-navy hover:text-main hover:bg-navy/10"
                         : "text-white hover:text-main hover:bg-white/10"
                     }`}
@@ -383,7 +386,7 @@ export default function Header() {
                 {/*<Link href="/consultation">
                   <Button
                     className={`font-semibold px-6 py-2 rounded-lg transition-all duration-300 ${
-                      isScrolled
+                      isScrolled && !shouldStayTransparent
                         ? "bg-main text-navy hover:bg-main/90 hover:scale-105"
                         : "bg-main text-navy hover:bg-main/90 hover:scale-105"
                     }`}
@@ -395,7 +398,7 @@ export default function Header() {
                   <Button
                     variant="outline"
                     className={`border-2 font-semibold px-6 py-2 rounded-lg transition-all duration-300 ${
-                      isScrolled
+                      isScrolled && !shouldStayTransparent
                         ? "border-navy text-black hover:bg-navy hover:text-white"
                         : "border-white text-black hover:bg-white hover:text-navy"
                     }`}
@@ -413,7 +416,7 @@ export default function Header() {
               variant="ghost"
               size="sm"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={isScrolled ? "text-navy" : "text-white"}
+              className={isScrolled && !shouldStayTransparent ? "text-navy" : "text-white"}
             >
               {isMenuOpen ? (
                 <X className="h-6 w-6" />
