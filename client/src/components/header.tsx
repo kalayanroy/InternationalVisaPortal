@@ -32,12 +32,25 @@ export default function Header() {
     setIsMenuOpen(false);
   };
 
+  // Check if we're on migration service page
+  const isMigrationPage = location === "/migration-service";
+  
+  // Determine header background
+  const getHeaderBg = () => {
+    if (isMigrationPage) return "bg-[#06b6d4]";
+    if (isScrolled) return "bg-white shadow-lg";
+    return "bg-transparent";
+  };
+
+  // Determine text color
+  const getTextColor = () => {
+    if (isMigrationPage) return "text-black";
+    if (isScrolled) return "text-navy";
+    return "text-white";
+  };
+
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white shadow-lg" : "bg-transparent"
-      }`}
-    >
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${getHeaderBg()}`}>
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
@@ -48,11 +61,7 @@ export default function Header() {
                 alt="EduVisa Global Logo"
                 className="h-20 w-auto transition-all duration-300"
               />
-              <span
-                className={`text-2xl font-bold transition-colors ${
-                  isScrolled ? "text-navy" : "text-white"
-                }`}
-              >
+              <span className={`text-2xl font-bold transition-colors ${getTextColor()}`}>
                 DTR Consultation
               </span>
             </div>
@@ -66,10 +75,9 @@ export default function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${
-                      isScrolled
-                        ? "text-navy hover:text-main hover:bg-navy/10"
-                        : "text-white hover:text-main hover:bg-white/10"
+                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${getTextColor()} hover:text-main ${
+                      isMigrationPage ? "hover:bg-black/10" : 
+                      isScrolled ? "hover:bg-navy/10" : "hover:bg-white/10"
                     }`}
                   >
                     <span>Offers in Australia</span>
@@ -95,10 +103,9 @@ export default function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${
-                      isScrolled
-                        ? "text-navy hover:text-main hover:bg-navy/10"
-                        : "text-white hover:text-main hover:bg-white/10"
+                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${getTextColor()} hover:text-main ${
+                      isMigrationPage ? "hover:bg-black/10" : 
+                      isScrolled ? "hover:bg-navy/10" : "hover:bg-white/10"
                     }`}
                   >
                     <span>Study Destination</span>
@@ -147,10 +154,9 @@ export default function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${
-                      isScrolled
-                        ? "text-navy hover:text-main hover:bg-navy/10"
-                        : "text-white hover:text-main hover:bg-white/10"
+                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${getTextColor()} hover:text-main ${
+                      isMigrationPage ? "hover:bg-black/10" : 
+                      isScrolled ? "hover:bg-navy/10" : "hover:bg-white/10"
                     }`}
                   >
                     <span>Find Course</span>
@@ -186,10 +192,9 @@ export default function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${
-                      isScrolled
-                        ? "text-navy hover:text-main hover:bg-navy/10"
-                        : "text-white hover:text-main hover:bg-white/10"
+                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${getTextColor()} hover:text-main ${
+                      isMigrationPage ? "hover:bg-black/10" : 
+                      isScrolled ? "hover:bg-navy/10" : "hover:bg-white/10"
                     }`}
                   >
                     <span>Our Services</span>
@@ -277,11 +282,7 @@ export default function Header() {
               {/* 5. Apply Now */}
               <Link
                 href="/student-application"
-                className={`font-medium transition-colors hover:scale-105 px-2 py-1 text-sm ${
-                  isScrolled
-                    ? "text-navy hover:text-main"
-                    : "text-white hover:text-main"
-                } ${location === "/student-application" ? "border-b-2 border-main" : ""}`}
+                className={`font-medium transition-colors hover:scale-105 px-2 py-1 text-sm ${getTextColor()} hover:text-main ${location === "/student-application" ? "border-b-2 border-main" : ""}`}
               >
                 Apply Now
               </Link>
@@ -291,10 +292,9 @@ export default function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${
-                      isScrolled
-                        ? "text-navy hover:text-main hover:bg-navy/10"
-                        : "text-white hover:text-main hover:bg-white/10"
+                    className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${getTextColor()} hover:text-main ${
+                      isMigrationPage ? "hover:bg-black/10" : 
+                      isScrolled ? "hover:bg-navy/10" : "hover:bg-white/10"
                     }`}
                   >
                     <span>About Us</span>
