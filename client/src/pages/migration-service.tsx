@@ -1,10 +1,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, Users, Scale, Shield, Calendar, FileText, Globe, Phone, Mail, MapPin } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { CheckCircle, Users, Scale, Shield, Calendar, FileText, Globe, Phone, Mail, MapPin, X } from "lucide-react";
 import Header from "@/components/header";
+import { useState } from "react";
 
 export default function MigrationService() {
+  const [isENSModalOpen, setIsENSModalOpen] = useState(false);
+
   const employerServices = [
     { name: "Employer Nomination Scheme", tag: "POPULAR", color: "bg-blue-100 text-blue-800" },
     { name: "Labour Agreement", tag: "TRENDING", color: "bg-green-100 text-green-800" },
@@ -175,7 +179,19 @@ export default function MigrationService() {
             <CardContent>
               <div className="space-y-3">
                 {employerServices.map((service, index) => (
-                  <div key={index} className="flex items-center justify-between">
+                  <div 
+                    key={index} 
+                    className={`flex items-center justify-between ${
+                      service.name === "Employer Nomination Scheme" 
+                        ? "cursor-pointer hover:bg-gray-50 p-2 rounded-md transition-colors" 
+                        : ""
+                    }`}
+                    onClick={() => {
+                      if (service.name === "Employer Nomination Scheme") {
+                        setIsENSModalOpen(true);
+                      }
+                    }}
+                  >
                     <div className="flex items-center">
                       <CheckCircle className="h-4 w-4 text-teal-600 mr-2 flex-shrink-0" />
                       <span className="text-sm text-gray-700">{service.name}</span>
@@ -476,6 +492,265 @@ export default function MigrationService() {
         </div>
       </div>
     </div>
+
+    {/* Employer Nomination Scheme Modal */}
+    <Dialog open={isENSModalOpen} onOpenChange={setIsENSModalOpen}>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold text-blue-600 mb-4">
+            Employer Nomination Scheme (Subclass 186) Visa
+          </DialogTitle>
+        </DialogHeader>
+        
+        <div className="space-y-6">
+          {/* Stream 1: Direct Entry Stream */}
+          <div className="bg-blue-50 p-6 rounded-lg">
+            <h3 className="text-xl font-bold text-blue-600 mb-4">#1. Direct Entry Stream</h3>
+            <p className="text-gray-700 mb-4">
+              This stream is designed for skilled workers whose occupations are on the eligible skilled occupation list.
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+              <div>
+                <h4 className="font-semibold text-blue-600 mb-2">Eligibility:</h4>
+                <p className="text-sm text-gray-600">
+                  Applicants need at least three years of relevant work experience 
+                  and a positive skills assessment unless exempt.
+                </p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-blue-600 mb-2">Stay Duration:</h4>
+                <p className="text-sm text-gray-600">Permanent.</p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-blue-600 mb-2">Benefits:</h4>
+                <p className="text-sm text-gray-600">
+                  Provides a pathway to permanent residency, the ability to work and 
+                  study indefinitely, and the option to sponsor family members.
+                </p>
+              </div>
+            </div>
+            
+            <div className="bg-blue-100 p-4 rounded-md">
+              <p className="text-sm italic text-blue-800">
+                This is ideal for skilled professionals ready to make Australia their long-term home.
+              </p>
+            </div>
+          </div>
+
+          {/* Stream 2: Labour Agreement Stream */}
+          <div className="bg-green-50 p-6 rounded-lg">
+            <h3 className="text-xl font-bold text-green-600 mb-4">#2. Labour Agreement Stream</h3>
+            <p className="text-gray-700 mb-4">
+              This stream supports workers employed under a labour agreement tailored to specific workforce shortages.
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+              <div>
+                <h4 className="font-semibold text-green-600 mb-2">Eligibility:</h4>
+                <p className="text-sm text-gray-600">
+                  Workers must meet the age, skills, and English language 
+                  requirements specified in the agreement.
+                </p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-green-600 mb-2">Stay Duration:</h4>
+                <p className="text-sm text-gray-600">Permanent.</p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-green-600 mb-2">Benefits:</h4>
+                <p className="text-sm text-gray-600">
+                  Offers flexibility for niche industries or roles where local 
+                  talent is unavailable, ensuring employers access specialized skills.
+                </p>
+              </div>
+            </div>
+            
+            <div className="bg-green-100 p-4 rounded-md">
+              <p className="text-sm italic text-green-800">
+                For employers facing unique challenges, this stream fills workforce gaps effectively.
+              </p>
+            </div>
+          </div>
+
+          {/* Stream 3: Temporary Residence Transition Stream */}
+          <div className="bg-purple-50 p-6 rounded-lg">
+            <h3 className="text-xl font-bold text-purple-600 mb-4">#3. Temporary Residence Transition Stream</h3>
+            <p className="text-gray-700 mb-4">
+              This stream is for workers already in Australia on specific temporary visas, such as the 457 or TSS visa, who 
+              have worked for their nominating employer for a specified period.
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+              <div>
+                <h4 className="font-semibold text-purple-600 mb-2">Eligibility:</h4>
+                <p className="text-sm text-gray-600">
+                  Applicants must have worked full-time with their sponsoring 
+                  employer for at least two years. The employer's nomination should 
+                  be approved within six months of applying.
+                </p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-purple-600 mb-2">Stay Duration:</h4>
+                <p className="text-sm text-gray-600">Permanent.</p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-purple-600 mb-2">Benefits:</h4>
+                <p className="text-sm text-gray-600">
+                  Enables continuity for employees and businesses, allowing 
+                  applicants to live and work permanently while reuniting with family.
+                </p>
+              </div>
+            </div>
+
+            <div className="space-y-3 mt-4">
+              <h4 className="font-semibold text-purple-600">Detailed Requirements:</h4>
+              <div className="space-y-2 text-sm text-gray-600">
+                <div><strong>• Visa Status:</strong> You must hold a Subclass 457, TSS, or related Bridging visa A, B, or C</div>
+                <div><strong>• Work Duration:</strong> You must usually have worked for your employer full-time for at least two years while holding your temporary visa</div>
+                <div><strong>• Nomination Approval:</strong> Your employer's nomination must be approved within six months before lodging your visa application</div>
+                <div><strong>• English Proficiency:</strong> Competent English skills are required unless exempt</div>
+                <div><strong>• Health and Character Requirements:</strong> You must meet Australia's health and character standards</div>
+              </div>
+            </div>
+            
+            <div className="bg-purple-100 p-4 rounded-md mt-4">
+              <p className="text-sm italic text-purple-800">
+                This stream is perfect for workers already contributing to Australian industries who wish to stay permanently.
+              </p>
+            </div>
+          </div>
+
+          {/* Eligibility Criteria */}
+          <div className="bg-gray-50 p-6 rounded-lg">
+            <h3 className="text-2xl font-bold text-gray-800 mb-6">Eligibility Criteria</h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <h4 className="text-lg font-semibold text-blue-600 mb-4">Direct Entry Stream Requirements:</h4>
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-start">
+                    <span className="text-blue-600 mr-2">•</span>
+                    <span>Occupation must be on the eligible skilled occupations list</span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="text-blue-600 mr-2">•</span>
+                    <span>At least 3 years of relevant work experience (unless exempt)</span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="text-blue-600 mr-2">•</span>
+                    <span>Positive skills assessment (unless exempt)</span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="text-blue-600 mr-2">•</span>
+                    <span>Australian employer nomination required</span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="text-blue-600 mr-2">•</span>
+                    <span>Competent English language skills</span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="text-blue-600 mr-2">•</span>
+                    <span>Under 45 years old (unless exempt)</span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="text-blue-600 mr-2">•</span>
+                    <span>Meet health and character requirements</span>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-lg font-semibold text-green-600 mb-4">Labour Agreement Stream Requirements:</h4>
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-start">
+                    <span className="text-green-600 mr-2">•</span>
+                    <span>Work for employer with labour agreement</span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="text-green-600 mr-2">•</span>
+                    <span>Employer nomination for specified role</span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="text-green-600 mr-2">•</span>
+                    <span>Skills and age requirements per agreement</span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="text-green-600 mr-2">•</span>
+                    <span>English language requirements per agreement</span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="text-green-600 mr-2">•</span>
+                    <span>Meet health and character standards</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-yellow-50 p-4 rounded-md mt-6">
+              <p className="text-sm text-gray-700">
+                Each stream caters to different pathways, so it's essential to understand which one applies to your situation. If 
+                you're unsure about the requirements, seeking professional advice can help clarify the process and ensure 
+                your application is accurate.
+              </p>
+            </div>
+          </div>
+
+          {/* FAQ Section */}
+          <div className="bg-white border border-gray-200 rounded-lg p-6">
+            <h3 className="text-xl font-bold text-gray-800 mb-6">Frequently Asked Questions (FAQ)</h3>
+            
+            <div className="space-y-4">
+              <div className="border-l-4 border-blue-500 pl-4">
+                <h4 className="font-semibold text-gray-800 mb-1">Q: What are the three streams of the Subclass 186 visa?</h4>
+                <p className="text-sm text-gray-600">A: The three streams are Direct Entry, Labour Agreement, and Temporary Residence Transition. Each has unique requirements tailored to different circumstances.</p>
+              </div>
+              
+              <div className="border-l-4 border-green-500 pl-4">
+                <h4 className="font-semibold text-gray-800 mb-1">Q: How much does the Subclass 186 visa cost?</h4>
+                <p className="text-sm text-gray-600">A: The application fee starts at AUD 4,770. Additional costs may apply for health checks, police certificates, or dependents.</p>
+              </div>
+              
+              <div className="border-l-4 border-orange-500 pl-4">
+                <h4 className="font-semibold text-gray-800 mb-1">Q: Can I include my family members in this visa?</h4>
+                <p className="text-sm text-gray-600">A: Yes, you can include eligible family members in your application, providing them with permanent residency as well.</p>
+              </div>
+              
+              <div className="border-l-4 border-purple-500 pl-4">
+                <h4 className="font-semibold text-gray-800 mb-1">Q: Is this visa permanent?</h4>
+                <p className="text-sm text-gray-600">A: Yes, the Subclass 186 visa grants permanent residency, allowing you to stay in Australia indefinitely.</p>
+              </div>
+              
+              <div className="border-l-4 border-teal-500 pl-4">
+                <h4 className="font-semibold text-gray-800 mb-1">Q: Do I need an employer nomination for this visa?</h4>
+                <p className="text-sm text-gray-600">A: Yes, nomination by an eligible Australian employer is a mandatory requirement for all streams of this visa.</p>
+              </div>
+              
+              <div className="border-l-4 border-red-500 pl-4">
+                <h4 className="font-semibold text-gray-800 mb-1">Q: How long does the visa processing take?</h4>
+                <p className="text-sm text-gray-600">A: Processing times vary based on factors like the stream and the volume of applications. Check the visa processing time guide for estimates.</p>
+              </div>
+            </div>
+
+            <div className="bg-blue-600 text-white p-6 rounded-lg mt-8">
+              <div className="text-center">
+                <p className="text-lg mb-4">
+                  Each stream under the Employer Nomination Scheme (Subclass 186) offers clear pathways for 
+                  skilled professionals and their families to settle in Australia while providing employers with 
+                  reliable access to global talent.
+                </p>
+                <Button 
+                  className="bg-white text-blue-600 hover:bg-gray-100"
+                  onClick={() => setIsENSModalOpen(false)}
+                >
+                  Contact Us for More Information
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
     </>
   );
 }
