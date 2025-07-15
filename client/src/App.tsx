@@ -28,6 +28,7 @@ import AttachmentSystem from "@/pages/attachment-system";
 import FindCourse from "@/pages/find-course";
 import SOPGenerator from "@/pages/sop-generator";
 import MigrationService from "@/pages/migration-service";
+import EnglishTestBook from "@/pages/english-test-book";
 
 function Router() {
   return (
@@ -57,6 +58,7 @@ function Router() {
       <Route path="/courses/:level" component={FindCourse} />
       <Route path="/sop-generator" component={SOPGenerator} />
       <Route path="/migration-service" component={MigrationService} />
+      <Route path="/english-test-book" component={EnglishTestBook} />
       <Route component={NotFound} />
     </Switch>
   );
