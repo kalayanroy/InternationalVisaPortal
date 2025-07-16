@@ -370,7 +370,7 @@ export default function EnglishTestBook() {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white text-white hover:bg-white hover:text-cyan-600 px-8 py-3 text-lg font-semibold"
+                className="bg-white text-cyan-600 hover:bg-gray-100 px-8 py-3 text-lg font-semibold"
               >
                 View Free Resources
               </Button>

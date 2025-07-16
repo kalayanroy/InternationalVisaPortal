@@ -36,6 +36,7 @@ export default function Header() {
   const isMigrationPage = location === "/migration-service";
   const isEnglishTestBookPage = location === "/english-test-book";
   const isAUUniversityPage = location === "/australia-universities";
+  const isFindCoursePage = location === "/find-course";
 
   // Determine header background
   const getHeaderBg = () => {
@@ -43,6 +44,7 @@ export default function Header() {
     if (isEnglishTestBookPage) return "bg-[#e5e7eb]";
     if (isAUUniversityPage) return "bg-[#0891b2]";
     if (isScrolled) return "bg-white shadow-lg";
+    if (isFindCoursePage) return "bg-[#33b3c7]";
     return "bg-transparent";
   };
 
@@ -52,6 +54,7 @@ export default function Header() {
     if (isEnglishTestBookPage) return "text-black";
     if (isAUUniversityPage) return "text-white";
     if (isScrolled) return "text-navy";
+    if (isFindCoursePage) return "text-white";
     return "text-white";
   };
 
@@ -60,6 +63,7 @@ export default function Header() {
     if (isMigrationPage) return "hover:bg-black/10";
     if (isEnglishTestBookPage) return "hover:bg-black/10";
     if (isAUUniversityPage) return "hover:bg-black/10";
+    if (isFindCoursePage) return "hover:bg-black/10";
     if (isScrolled) return "hover:bg-navy/10";
     return "hover:bg-white/10";
   };
@@ -439,12 +443,12 @@ export default function Header() {
                 </span>
                 <div className="mt-1 space-y-1">
                   <Link
-                    href="/student-visa-extension"
+                    href="/migration-service"
                     className="block px-3 py-2 text-navy hover:text-main text-sm"
-                    onClick={() => setIsMenuOpen(false)}
                   >
-                    Student Visa Extension
+                    Migration Service
                   </Link>
+
                   <Link
                     href="/english-test-book"
                     className="block px-3 py-2 text-navy hover:text-main text-sm"
