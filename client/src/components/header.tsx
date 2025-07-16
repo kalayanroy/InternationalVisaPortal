@@ -36,7 +36,12 @@ export default function Header() {
   const isMigrationPage = location === "/migration-service";
   const isEnglishTestBookPage = location === "/english-test-book";
   const isAUUniversityPage = location === "/australia-universities";
-  const isFindCoursePage = location === "/find-course";
+  const isFindCourseUndergraduatePage = location === "/courses/undergraduate";
+  const isFindCoursePostgraduatePage = location === "/courses/postgraduate";
+  const isFindCoursePhdPage = location === "/courses/phd";
+  const isFindCourseDiplomaPage = location === "/courses/diploma";
+  const isLoginPage = location === "/login";
+  const isStudentApplicationPage = location === "/student-application";
 
   // Determine header background
   const getHeaderBg = () => {
@@ -44,7 +49,12 @@ export default function Header() {
     if (isEnglishTestBookPage) return "bg-[#e5e7eb]";
     if (isAUUniversityPage) return "bg-[#0891b2]";
     if (isScrolled) return "bg-white shadow-lg";
-    if (isFindCoursePage) return "bg-[#33b3c7]";
+    if (isFindCourseUndergraduatePage) return "bg-[#33b3c7]";
+    if (isFindCoursePostgraduatePage) return "bg-[#33b3c7]";
+    if (isFindCoursePhdPage) return "bg-[#33b3c7]";
+    if (isFindCourseDiplomaPage) return "bg-[#33b3c7]";
+    if (isLoginPage) return "bg-[#0891b2]";
+    if (isStudentApplicationPage) return "bg-[#0891b2]";
     return "bg-transparent";
   };
 
@@ -54,7 +64,12 @@ export default function Header() {
     if (isEnglishTestBookPage) return "text-black";
     if (isAUUniversityPage) return "text-white";
     if (isScrolled) return "text-navy";
-    if (isFindCoursePage) return "text-white";
+    if (isFindCourseUndergraduatePage) return "text-white";
+    if (isFindCoursePostgraduatePage) return "text-white";
+    if (isFindCoursePhdPage) return "text-white";
+    if (isFindCourseDiplomaPage) return "text-white";
+    if (isLoginPage) return "text-white";
+    if (isStudentApplicationPage) return "text-white";
     return "text-white";
   };
 
@@ -63,8 +78,13 @@ export default function Header() {
     if (isMigrationPage) return "hover:bg-black/10";
     if (isEnglishTestBookPage) return "hover:bg-black/10";
     if (isAUUniversityPage) return "hover:bg-black/10";
-    if (isFindCoursePage) return "hover:bg-black/10";
+    if (isFindCourseUndergraduatePage) return "hover:bg-black/10";
+    if (isFindCoursePostgraduatePage) return "hover:bg-black/10";
+    if (isFindCoursePhdPage) return "hover:bg-black/10";
+    if (isFindCourseDiplomaPage) return "hover:bg-black/10";
+    if (isLoginPage) return "hover:bg-black/10";
     if (isScrolled) return "hover:bg-navy/10";
+    if (isStudentApplicationPage) return "hover:bg-black/10";
     return "hover:bg-white/10";
   };
 

@@ -29,7 +29,7 @@ export default function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Left Content */}
           <div className="text-left">
-            <div className="inline-flex items-center px-4 py-2 bg-gold/10 border border-gold/20 rounded-full text-gold text-sm font-medium mb-8">
+            <div className="inline-flex items-center px-4 py-2 bg-gold/10 border border-gold/20 rounded-full text-gold text-sm text-white font-medium mb-8">
               <Award className="h-4 w-4 mr-2" />
               Premium Education Consultancy Since 2010
             </div>
