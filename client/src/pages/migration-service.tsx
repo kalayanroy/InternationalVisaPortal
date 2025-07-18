@@ -34,6 +34,7 @@ export default function MigrationService() {
   const [isSubclass407ModalOpen, setIsSubclass407ModalOpen] = useState(false);
   const [isSubclass482ModalOpen, setIsSubclass482ModalOpen] = useState(false);
   const [isNationalInnovationModalOpen, setIsNationalInnovationModalOpen] = useState(false);
+  const [isSubclass190ModalOpen, setIsSubclass190ModalOpen] = useState(false);
 
   const employerServices = [
     {
@@ -350,7 +351,16 @@ export default function MigrationService() {
                   {skilledMigrationServices.map((service, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-between"
+                      className={`flex items-center justify-between ${
+                        service.name === "Skilled Nominated Visa (Subclass 190)"
+                          ? "cursor-pointer hover:bg-gray-50 p-2 rounded-md transition-colors"
+                          : ""
+                      }`}
+                      onClick={() => {
+                        if (service.name === "Skilled Nominated Visa (Subclass 190)") {
+                          setIsSubclass190ModalOpen(true);
+                        }
+                      }}
                     >
                       <div className="flex items-center">
                         <CheckCircle className="h-4 w-4 text-orange-600 mr-2 flex-shrink-0" />
@@ -4624,6 +4634,324 @@ export default function MigrationService() {
                   >
                     <Mail className="h-4 w-4 mr-2" />
                     Contact Innovation Experts
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Skilled Nominated Visa (Subclass 190) Modal */}
+      <Dialog
+        open={isSubclass190ModalOpen}
+        onOpenChange={setIsSubclass190ModalOpen}
+      >
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <div className="flex items-center justify-between">
+              <DialogTitle className="text-3xl font-bold text-blue-700">
+                Skilled Nominated Visa (Subclass 190)
+              </DialogTitle>
+              <Button
+                variant="ghost"
+                onClick={() => setIsSubclass190ModalOpen(false)}
+                className="h-6 w-6 p-0"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          </DialogHeader>
+          
+          <div className="space-y-8 py-6">
+            {/* Benefits Section */}
+            <div className="bg-blue-50 p-6 rounded-lg">
+              <h3 className="text-2xl font-bold text-blue-700 mb-4">
+                Benefits of the Skilled Nominated Visa (subclass 190)
+              </h3>
+              
+              <p className="text-gray-700 mb-6">
+                The Skilled Nominated Visa (subclass 190) offers a range of benefits that make it a great option for skilled 
+                professionals looking to settle in Australia. Here's what you can expect:
+              </p>
+
+              <div className="space-y-6">
+                {/* Permanent Residency */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-teal-500">
+                  <h4 className="font-bold text-teal-700 mb-3">Permanent Residency:</h4>
+                  <p className="text-gray-700">
+                    This visa allows you to live and work permanently anywhere in Australia without the need for renewals.
+                  </p>
+                </div>
+
+                {/* Access to Medicare */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-blue-500">
+                  <h4 className="font-bold text-blue-700 mb-3">Access to Medicare:</h4>
+                  <p className="text-gray-700">
+                    As a permanent resident, you'll enjoy free or low-cost medical services through Australia's world-class 
+                    healthcare system.
+                  </p>
+                </div>
+
+                {/* Pathway to Citizenship */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-green-500">
+                  <h4 className="font-bold text-green-700 mb-3">Pathway to Citizenship:</h4>
+                  <p className="text-gray-700">
+                    After meeting residency requirements, you can apply for Australian citizenship, opening doors to more 
+                    rights and privileges.
+                  </p>
+                </div>
+
+                {/* Sponsorship for Family */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
+                  <h4 className="font-bold text-purple-700 mb-3">Sponsorship for Family:</h4>
+                  <p className="text-gray-700">
+                    Once settled, you can sponsor your family members to join you in Australia, making reunification easier.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-teal-100 p-4 rounded-lg mt-6 border border-teal-300">
+                <p className="text-teal-800 text-center italic">
+                  <strong>
+                    The Skilled Nominated Visa (subclass 190) not only secures your future in Australia but also gives you 
+                    the freedom to live, work, and enjoy the benefits of permanent residency.
+                  </strong>
+                </p>
+              </div>
+            </div>
+
+            {/* Eligibility Criteria */}
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                Eligibility Criteria for the Skilled Nominated Visa (subclass 190)
+              </h3>
+              
+              <p className="text-gray-700 mb-6">
+                To apply for the Skilled Nominated Visa (subclass 190), there are several key criteria you must meet. Here's 
+                what you need to know:
+              </p>
+
+              <div className="space-y-6">
+                {/* Age */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-blue-500">
+                  <h4 className="font-bold text-blue-700 mb-3">Age:</h4>
+                  <p className="text-gray-700">
+                    You must be under 45 years old when you apply for the visa.
+                  </p>
+                </div>
+
+                {/* Occupation */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-green-500">
+                  <h4 className="font-bold text-green-700 mb-3">Occupation:</h4>
+                  <p className="text-gray-700">
+                    Your occupation should be listed on Australia's Skilled Occupation List (SOL). Make sure your profession 
+                    aligns with the needs of Australian employers.
+                  </p>
+                </div>
+
+                {/* English Language Skills */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
+                  <h4 className="font-bold text-purple-700 mb-3">English Language Skills:</h4>
+                  <p className="text-gray-700">
+                    You'll need to prove your English proficiency. Typically, this means achieving a minimum of 6.0 in each 
+                    band of the IELTS exam (or equivalent, depending on the test you take).
+                  </p>
+                </div>
+
+                {/* Points Test */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-orange-500">
+                  <h4 className="font-bold text-orange-700 mb-3">Points Test:</h4>
+                  <p className="text-gray-700">
+                    To be eligible, you must score at least 65 points. Points are awarded based on factors such as your age, 
+                    education, work experience, and English language skills.
+                  </p>
+                </div>
+
+                {/* Skills Assessment */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-red-500">
+                  <h4 className="font-bold text-red-700 mb-3">Skills Assessment:</h4>
+                  <p className="text-gray-700">
+                    You will need to undergo a skills assessment by the relevant assessing authority for your occupation. This 
+                    verifies that your skills meet Australian standards.
+                  </p>
+                </div>
+
+                {/* State or Territory Nomination */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-blue-600">
+                  <h4 className="font-bold text-blue-700 mb-3">State or Territory Nomination:</h4>
+                  <p className="text-gray-700">
+                    You must be nominated by an Australian state or territory. Each state has its criteria and may select 
+                    candidates based on local labour needs.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-blue-100 p-4 rounded-lg mt-6 border border-blue-300">
+                <p className="text-blue-800 text-center">
+                  <strong>
+                    Meeting these requirements is crucial to your visa application. It's important to ensure that your 
+                    qualifications and skills align with Australia's current labour market needs.
+                  </strong>
+                </p>
+              </div>
+            </div>
+
+            {/* How CIA Lawyers Will Help You */}
+            <div className="bg-green-50 p-6 rounded-lg">
+              <h3 className="text-2xl font-bold text-green-700 mb-4">
+                How CIA Lawyers Will Help You Get the Skilled Nominated Visa (subclass 190)
+              </h3>
+              
+              <p className="text-gray-700 mb-6">
+                We know that applying for the Skilled Nominated Visa (subclass 190) can be complex and overwhelming. 
+                That's why we're here to ensure your application is as smooth and stress-free as possible.
+              </p>
+
+              <div className="bg-white p-4 rounded-lg mb-6 border border-green-200">
+                <h4 className="font-bold text-green-700 mb-4">Here's how we can help:</h4>
+              </div>
+
+              <div className="space-y-6">
+                {/* Expert Advice at Every Step */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-green-500">
+                  <h4 className="font-bold text-green-700 mb-3">Expert Advice at Every Step:</h4>
+                  <p className="text-gray-700">
+                    From submitting your Expression of Interest (EOI) to securing your state or territory nomination, we 
+                    provide clear, expert guidance to help you at each stage of your application.
+                  </p>
+                </div>
+
+                {/* Skills Assessment Support */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-blue-500">
+                  <h4 className="font-bold text-blue-700 mb-3">Skills Assessment Support:</h4>
+                  <p className="text-gray-700">
+                    We'll make sure you're fully prepared for the skills assessment, helping you gather and submit the right 
+                    documents to ensure everything is in order.
+                  </p>
+                </div>
+
+                {/* English Language Support */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
+                  <h4 className="font-bold text-purple-700 mb-3">English Language Support:</h4>
+                  <p className="text-gray-700">
+                    Not sure if your English proficiency meets the requirements? We'll offer practical advice on how to 
+                    improve your score and make sure you meet the necessary standards.
+                  </p>
+                </div>
+
+                {/* Document Organisation */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-orange-500">
+                  <h4 className="font-bold text-orange-700 mb-3">Document Organisation:</h4>
+                  <p className="text-gray-700">
+                    We help you prepare and organise all your documents, making sure nothing is overlooked or missing. 
+                    This ensures your application isn't delayed by missing paperwork.
+                  </p>
+                </div>
+
+                {/* State Nomination Assistance */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-red-500">
+                  <h4 className="font-bold text-red-700 mb-3">State Nomination Assistance:</h4>
+                  <p className="text-gray-700">
+                    Choosing the right state or territory is crucial. We'll help you decide which one is best for your situation 
+                    and guide you through the nomination process to ensure approval.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-green-100 p-4 rounded-lg mt-6 border border-green-300">
+                <p className="text-green-800 text-center italic">
+                  <strong>
+                    With our expertise and support, you can focus on your future in Australia, knowing that your 
+                    application is in safe hands.
+                  </strong>
+                </p>
+              </div>
+            </div>
+
+            {/* FAQ Section */}
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <h3 className="text-2xl font-bold text-gray-800 mb-6">
+                Frequently Asked Questions (FAQ)
+              </h3>
+
+              <div className="space-y-6">
+                <div className="border-l-4 border-blue-500 pl-4 bg-white p-4 rounded-r-lg">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: Does a 190 visa lead to PR?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>A:</strong> Yes, the Subclass 190 Skilled Nominated Visa grants you permanent residency in Australia, allowing 
+                    you to live, work, and study anywhere in the country.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-green-500 pl-4 bg-white p-4 rounded-r-lg">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: What's the difference between an 189 and a 190 visa?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>A:</strong> The main difference is that the 190 visa requires state or territory nomination, while the 189 visa is for 
+                    individuals who meet the points test without needing any state nomination.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-purple-500 pl-4 bg-white p-4 rounded-r-lg">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: How long can I stay in Australia with a 190 visa?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>A:</strong> With a 190 visa, you are granted permanent residency, which means you can stay in Australia 
+                    indefinitely.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-orange-500 pl-4 bg-white p-4 rounded-r-lg">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: How long after a 190 visa can I apply for citizenship?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>A:</strong> You can apply for Australian citizenship after holding permanent residency for 4 years, including at 
+                    least 12 months as a permanent resident.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-red-500 pl-4 bg-white p-4 rounded-r-lg">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: How long does it take to get PR after nomination?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>A:</strong> After receiving a state nomination, the processing time for the 190 visa can range from 6 to 12 
+                    months, depending on individual circumstances and application completeness.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Call to Action */}
+            <div className="bg-blue-600 text-white p-6 rounded-lg">
+              <div className="text-center">
+                <p className="text-lg mb-4">
+                  The Skilled Nominated Visa (Subclass 190) offers a direct pathway to permanent residency in Australia 
+                  for skilled professionals. With state nomination and comprehensive benefits, this visa provides the 
+                  stability and opportunities you need to build your future in Australia.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  <Button className="bg-white text-blue-600 hover:bg-gray-100">
+                    <FileText className="h-4 w-4 mr-2" />
+                    Apply for Subclass 190 Visa
+                  </Button>
+                  <Button className="bg-yellow-500 text-blue-900 hover:bg-yellow-400">
+                    <Phone className="h-4 w-4 mr-2" />
+                    Check Your Eligibility
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="border-white text-white hover:bg-white/10"
+                    onClick={() => setIsSubclass190ModalOpen(false)}
+                  >
+                    <Mail className="h-4 w-4 mr-2" />
+                    Get State Nomination Help
                   </Button>
                 </div>
               </div>
