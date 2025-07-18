@@ -27,7 +27,9 @@ import { useState } from "react";
 export default function MigrationService() {
   const [isENSModalOpen, setIsENSModalOpen] = useState(false);
   const [isNIVModalOpen, setIsNIVModalOpen] = useState(false);
-  const [isLabourAgreementModalOpen, setIsLabourAgreementModalOpen] = useState(false);
+  const [isLabourAgreementModalOpen, setIsLabourAgreementModalOpen] =
+    useState(false);
+  const [isSubclass494ModalOpen, setIsSubclass494ModalOpen] = useState(false);
 
   const employerServices = [
     {
@@ -45,18 +47,18 @@ export default function MigrationService() {
       tag: "TRENDING",
       color: "bg-green-100 text-green-800",
     },
-    { name: "Regional Sponsored Migration Scheme", tag: "", color: "" },
     {
-      name: "Temporary Skill Shortage",
+      name: "Skilled Employer Sponsored Regional (Subclass 494) Visa",
+      tag: "TRENDING",
+      color: "bg-green-100 text-green-800",
+    },
+    { name: "Skills in Demand Visa (Subclass 482)", tag: "", color: "" },
+    {
+      name: "Temporary Work (Short Stay Specialist) Visa (Subclass 400)",
       tag: "POPULAR",
       color: "bg-blue-100 text-blue-800",
     },
-    { name: "Global Talent Program", tag: "", color: "" },
-    { name: "Business Innovation and Investment", tag: "", color: "" },
-    { name: "Regional Skilled Migration", tag: "", color: "" },
-    { name: "Skilled Work - Skilled Work Short Stay", tag: "", color: "" },
-    { name: "Temporary Graduate Visa", tag: "", color: "" },
-    { name: "Priority Allocation List", tag: "", color: "" },
+    { name: "Training Visa (Subclass 407)", tag: "", color: "" },
   ];
 
   const skilledMigrationServices = [
@@ -269,19 +271,24 @@ export default function MigrationService() {
                     <div
                       key={index}
                       className={`flex items-center justify-between ${
-                        service.name === "Employer Nomination Scheme" || 
-                        service.name === "National Innovation Visa 858" || 
-                        service.name === "Labour Agreement"
+                        service.name === "Employer Nomination Scheme" ||
+                        service.name === "National Innovation Visa 858" ||
+                        service.name === "Labour Agreement" ||
+                        service.name === "Skilled Employer Sponsored Regional (Subclass 494) Visa"
                           ? "cursor-pointer hover:bg-gray-50 p-2 rounded-md transition-colors"
                           : ""
                       }`}
                       onClick={() => {
                         if (service.name === "Employer Nomination Scheme") {
                           setIsENSModalOpen(true);
-                        } else if (service.name === "National Innovation Visa 858") {
+                        } else if (
+                          service.name === "National Innovation Visa 858"
+                        ) {
                           setIsNIVModalOpen(true);
                         } else if (service.name === "Labour Agreement") {
                           setIsLabourAgreementModalOpen(true);
+                        } else if (service.name === "Skilled Employer Sponsored Regional (Subclass 494) Visa") {
+                          setIsSubclass494ModalOpen(true);
                         }
                       }}
                     >
@@ -1558,7 +1565,10 @@ export default function MigrationService() {
       </Dialog>
 
       {/* Labour Agreement Modal */}
-      <Dialog open={isLabourAgreementModalOpen} onOpenChange={setIsLabourAgreementModalOpen}>
+      <Dialog
+        open={isLabourAgreementModalOpen}
+        onOpenChange={setIsLabourAgreementModalOpen}
+      >
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader className="border-b pb-4">
             <div className="flex items-center justify-between">
@@ -1575,7 +1585,7 @@ export default function MigrationService() {
               </Button>
             </div>
           </DialogHeader>
-          
+
           <div className="space-y-8 py-6">
             {/* What Are Labour Agreements */}
             <div className="bg-orange-50 p-6 rounded-lg">
@@ -1584,12 +1594,14 @@ export default function MigrationService() {
               </h3>
               <div className="space-y-4 text-gray-700">
                 <p>
-                  Labour agreements are legally binding contracts between the Australian Government (via the Department of 
-                  Home Affairs) and employers.
+                  Labour agreements are legally binding contracts between the
+                  Australian Government (via the Department of Home Affairs) and
+                  employers.
                 </p>
                 <p>
-                  They let approved businesses sponsor overseas workers for roles that can't be filled by Australian citizens or 
-                  permanent residents.
+                  They let approved businesses sponsor overseas workers for
+                  roles that can't be filled by Australian citizens or permanent
+                  residents.
                 </p>
               </div>
             </div>
@@ -1600,7 +1612,8 @@ export default function MigrationService() {
                 Types of Labour Agreements
               </h3>
               <p className="text-gray-700 mb-6">
-                Not all agreements are the same. Here are the five key types of labour agreements in Australia:
+                Not all agreements are the same. Here are the five key types of
+                labour agreements in Australia:
               </p>
 
               <div className="space-y-6">
@@ -1613,8 +1626,10 @@ export default function MigrationService() {
                     Tailored for individual businesses with unique skill needs.
                   </p>
                   <p className="text-gray-700">
-                    These are customised agreements negotiated between your business and the government. You'll need to 
-                    show there's a genuine need for the roles and that you've tried to fill local talent first.
+                    These are customised agreements negotiated between your
+                    business and the government. You'll need to show there's a
+                    genuine need for the roles and that you've tried to fill
+                    local talent first.
                   </p>
                 </div>
 
@@ -1624,7 +1639,8 @@ export default function MigrationService() {
                     2. Industry Labour Agreements
                   </h4>
                   <p className="text-green-800 font-medium mb-3">
-                    Designed for whole industries experiencing long-term skill shortages.
+                    Designed for whole industries experiencing long-term skill
+                    shortages.
                   </p>
                   <p className="text-gray-700 mb-3">
                     Industries currently with standardised agreements include:
@@ -1646,7 +1662,8 @@ export default function MigrationService() {
                     </div>
                   </div>
                   <p className="text-gray-700 mt-3">
-                    Each industry has specific terms and approved occupations listed.
+                    Each industry has specific terms and approved occupations
+                    listed.
                   </p>
                 </div>
 
@@ -1659,9 +1676,10 @@ export default function MigrationService() {
                     Great if you're in a regional or remote area.
                   </p>
                   <p className="text-gray-700">
-                    These agreements are made between the federal government and state, territory, or regional authorities. 
-                    DAMAs target specific areas with labour shortages and usually offer access to more occupations and 
-                    concessions.
+                    These agreements are made between the federal government and
+                    state, territory, or regional authorities. DAMAs target
+                    specific areas with labour shortages and usually offer
+                    access to more occupations and concessions.
                   </p>
                 </div>
 
@@ -1674,9 +1692,10 @@ export default function MigrationService() {
                     Ideal for large-scale infrastructure or resource projects.
                   </p>
                   <p className="text-gray-700">
-                    Project agreements are linked to major development projects that need a rapid influx of skilled labour. 
-                    They complement other government initiatives to support local job creation while meeting the urgent 
-                    needs of industry.
+                    Project agreements are linked to major development projects
+                    that need a rapid influx of skilled labour. They complement
+                    other government initiatives to support local job creation
+                    while meeting the urgent needs of industry.
                   </p>
                 </div>
 
@@ -1686,11 +1705,14 @@ export default function MigrationService() {
                     5. Global Talent Employer Sponsored (GTES) Agreements
                   </h4>
                   <p className="text-teal-800 font-medium mb-3">
-                    For businesses hiring highly skilled and specialised overseas talent.
+                    For businesses hiring highly skilled and specialised
+                    overseas talent.
                   </p>
                   <p className="text-gray-700">
-                    This stream supports tech and innovation sectors needing talent that's just not available in Australia. It 
-                    offers flexible conditions and faster processing for eligible companies.
+                    This stream supports tech and innovation sectors needing
+                    talent that's just not available in Australia. It offers
+                    flexible conditions and faster processing for eligible
+                    companies.
                   </p>
                 </div>
               </div>
@@ -1702,10 +1724,10 @@ export default function MigrationService() {
                 When and Why You Need a Labour Agreement
               </h3>
               <p className="text-gray-700 mb-4">
-                If you've hit a hiring wall trying to find Australians for specific roles, a labour agreement could be your 
-                solution.
+                If you've hit a hiring wall trying to find Australians for
+                specific roles, a labour agreement could be your solution.
               </p>
-              
+
               <div className="bg-white p-4 rounded-lg border border-yellow-200">
                 <h4 className="font-semibold text-amber-700 mb-3">
                   Here's when it might be right for you:
@@ -1713,19 +1735,30 @@ export default function MigrationService() {
                 <div className="space-y-2 text-gray-700">
                   <div className="flex items-start">
                     <span className="w-2 h-2 bg-amber-600 rounded-full mr-3 mt-2"></span>
-                    <span>You've advertised extensively and can't find suitable local candidates.</span>
+                    <span>
+                      You've advertised extensively and can't find suitable
+                      local candidates.
+                    </span>
                   </div>
                   <div className="flex items-start">
                     <span className="w-2 h-2 bg-amber-600 rounded-full mr-3 mt-2"></span>
-                    <span>Your industry has a documented, ongoing shortage.</span>
+                    <span>
+                      Your industry has a documented, ongoing shortage.
+                    </span>
                   </div>
                   <div className="flex items-start">
                     <span className="w-2 h-2 bg-amber-600 rounded-full mr-3 mt-2"></span>
-                    <span>You need to fill roles quickly to keep your business running or growing.</span>
+                    <span>
+                      You need to fill roles quickly to keep your business
+                      running or growing.
+                    </span>
                   </div>
                   <div className="flex items-start">
                     <span className="w-2 h-2 bg-amber-600 rounded-full mr-3 mt-2"></span>
-                    <span>You require overseas workers under special conditions not available through standard visa programs.</span>
+                    <span>
+                      You require overseas workers under special conditions not
+                      available through standard visa programs.
+                    </span>
                   </div>
                 </div>
               </div>
@@ -1737,15 +1770,22 @@ export default function MigrationService() {
                 <div className="space-y-2 text-gray-700">
                   <div className="flex items-start">
                     <span className="w-2 h-2 bg-amber-600 rounded-full mr-3 mt-2"></span>
-                    <span>Access to skilled workers to meet your business needs.</span>
+                    <span>
+                      Access to skilled workers to meet your business needs.
+                    </span>
                   </div>
                   <div className="flex items-start">
                     <span className="w-2 h-2 bg-amber-600 rounded-full mr-3 mt-2"></span>
-                    <span>Streamlined visa sponsorship under pre-agreed terms.</span>
+                    <span>
+                      Streamlined visa sponsorship under pre-agreed terms.
+                    </span>
                   </div>
                   <div className="flex items-start">
                     <span className="w-2 h-2 bg-amber-600 rounded-full mr-3 mt-2"></span>
-                    <span>Flexibility in meeting workforce demands — especially for niche roles.</span>
+                    <span>
+                      Flexibility in meeting workforce demands — especially for
+                      niche roles.
+                    </span>
                   </div>
                 </div>
               </div>
@@ -1757,7 +1797,8 @@ export default function MigrationService() {
                 The Labour Agreement Application Process
               </h3>
               <p className="text-gray-700 mb-6">
-                Applying for a labour agreement isn't a quick tick-and-flick. It involves steps — and paperwork.
+                Applying for a labour agreement isn't a quick tick-and-flick. It
+                involves steps — and paperwork.
               </p>
 
               <div className="bg-white p-4 rounded-lg border border-blue-200">
@@ -1766,32 +1807,58 @@ export default function MigrationService() {
                 </h4>
                 <div className="space-y-3">
                   <div className="flex items-start">
-                    <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">1</span>
-                    <span className="text-gray-700">Read the guidelines and confirm you meet the requirements.</span>
+                    <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">
+                      1
+                    </span>
+                    <span className="text-gray-700">
+                      Read the guidelines and confirm you meet the requirements.
+                    </span>
                   </div>
                   <div className="flex items-start">
-                    <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">2</span>
-                    <span className="text-gray-700">Apply online via ImmiAccount with all required documents.</span>
+                    <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">
+                      2
+                    </span>
+                    <span className="text-gray-700">
+                      Apply online via ImmiAccount with all required documents.
+                    </span>
                   </div>
                   <div className="flex items-start">
-                    <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">3</span>
-                    <span className="text-gray-700">Submit supporting evidence, including proof of recruitment efforts and workforce planning.</span>
+                    <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">
+                      3
+                    </span>
+                    <span className="text-gray-700">
+                      Submit supporting evidence, including proof of recruitment
+                      efforts and workforce planning.
+                    </span>
                   </div>
                   <div className="flex items-start">
-                    <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">4</span>
-                    <span className="text-gray-700">The Department will assess your request and may ask for more details.</span>
+                    <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">
+                      4
+                    </span>
+                    <span className="text-gray-700">
+                      The Department will assess your request and may ask for
+                      more details.
+                    </span>
                   </div>
                   <div className="flex items-start">
-                    <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">5</span>
-                    <span className="text-gray-700">If approved, you'll receive a draft agreement. Once it's signed by all parties, the agreement takes effect.</span>
+                    <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">
+                      5
+                    </span>
+                    <span className="text-gray-700">
+                      If approved, you'll receive a draft agreement. Once it's
+                      signed by all parties, the agreement takes effect.
+                    </span>
                   </div>
                 </div>
               </div>
 
               <div className="bg-blue-100 p-4 rounded-lg mt-4">
                 <p className="italic text-blue-800">
-                  <strong>This process can take time, especially if documentation is missing or you don't respond promptly to requests 
-                  for more info.</strong>
+                  <strong>
+                    This process can take time, especially if documentation is
+                    missing or you don't respond promptly to requests for more
+                    info.
+                  </strong>
                 </p>
               </div>
             </div>
@@ -1808,22 +1875,33 @@ export default function MigrationService() {
               <div className="space-y-3 text-gray-700">
                 <div className="flex items-start">
                   <span className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2"></span>
-                  <span>You can nominate overseas workers for approved roles through ImmiAccount.</span>
+                  <span>
+                    You can nominate overseas workers for approved roles through
+                    ImmiAccount.
+                  </span>
                 </div>
                 <div className="flex items-start">
                   <span className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2"></span>
-                  <span>Each nomination gives you a Transaction Reference Number (TRN).</span>
+                  <span>
+                    Each nomination gives you a Transaction Reference Number
+                    (TRN).
+                  </span>
                 </div>
                 <div className="flex items-start">
                   <span className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2"></span>
-                  <span>Your selected worker will use that TRN to apply for a visa under the labour agreement stream.</span>
+                  <span>
+                    Your selected worker will use that TRN to apply for a visa
+                    under the labour agreement stream.
+                  </span>
                 </div>
               </div>
 
               <div className="bg-red-100 p-4 rounded-lg mt-4">
                 <p className="italic text-red-800">
-                  <strong>Remember, your agreement outlines how many workers you can nominate each year and which visa 
-                  subclasses apply.</strong>
+                  <strong>
+                    Remember, your agreement outlines how many workers you can
+                    nominate each year and which visa subclasses apply.
+                  </strong>
                 </p>
               </div>
             </div>
@@ -1834,13 +1912,17 @@ export default function MigrationService() {
                 Employer Obligations
               </h3>
               <p className="text-gray-700 mb-4">
-                A labour agreement isn't just a free pass to hire from overseas. You must:
+                A labour agreement isn't just a free pass to hire from overseas.
+                You must:
               </p>
 
               <div className="space-y-3 text-gray-700">
                 <div className="flex items-start">
                   <span className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2"></span>
-                  <span>Comply with all contract terms and Australian employment laws</span>
+                  <span>
+                    Comply with all contract terms and Australian employment
+                    laws
+                  </span>
                 </div>
                 <div className="flex items-start">
                   <span className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2"></span>
@@ -1852,13 +1934,19 @@ export default function MigrationService() {
                 </div>
                 <div className="flex items-start">
                   <span className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2"></span>
-                  <span>Keep records and cooperate with any monitoring (yes, they do audits)</span>
+                  <span>
+                    Keep records and cooperate with any monitoring (yes, they do
+                    audits)
+                  </span>
                 </div>
               </div>
 
               <div className="bg-red-100 p-4 rounded-lg mt-4">
                 <p className="italic text-red-800">
-                  <strong>Failure to meet your obligations can result in penalties or cancellation of your agreement.</strong>
+                  <strong>
+                    Failure to meet your obligations can result in penalties or
+                    cancellation of your agreement.
+                  </strong>
                 </p>
               </div>
             </div>
@@ -1868,25 +1956,29 @@ export default function MigrationService() {
               <h3 className="text-xl font-bold text-gray-800 mb-6">
                 Frequently Asked Questions (FAQ)
               </h3>
-              
+
               <div className="space-y-6">
                 <div className="border-l-4 border-blue-500 pl-4">
                   <h4 className="font-semibold text-gray-800 mb-2">
-                    Q: Do I need a labour agreement to sponsor someone on a 482 visa?
+                    Q: Do I need a labour agreement to sponsor someone on a 482
+                    visa?
                   </h4>
                   <p className="text-gray-700">
-                    A: Not always. A labour agreement is only needed when standard sponsorship options aren't suitable for 
-                    your business needs.
+                    A: Not always. A labour agreement is only needed when
+                    standard sponsorship options aren't suitable for your
+                    business needs.
                   </p>
                 </div>
 
                 <div className="border-l-4 border-green-500 pl-4">
                   <h4 className="font-semibold text-gray-800 mb-2">
-                    Q: Can I apply for a labour agreement if I'm a small business?
+                    Q: Can I apply for a labour agreement if I'm a small
+                    business?
                   </h4>
                   <p className="text-gray-700">
-                    A: Yes, if you meet the criteria and can demonstrate a genuine skills shortage. Labour agreements are not 
-                    just for large companies.
+                    A: Yes, if you meet the criteria and can demonstrate a
+                    genuine skills shortage. Labour agreements are not just for
+                    large companies.
                   </p>
                 </div>
 
@@ -1895,8 +1987,9 @@ export default function MigrationService() {
                     Q: How long does it take to get a labour agreement approved?
                   </h4>
                   <p className="text-gray-700">
-                    A: It depends. A complete application with all supporting documents may take several months. Missing 
-                    information can delay things further.
+                    A: It depends. A complete application with all supporting
+                    documents may take several months. Missing information can
+                    delay things further.
                   </p>
                 </div>
               </div>
@@ -1906,8 +1999,10 @@ export default function MigrationService() {
             <div className="bg-amber-600 text-white p-6 rounded-lg">
               <div className="text-center">
                 <p className="text-lg mb-4">
-                  Labour agreements provide a pathway for businesses to access international talent when local options are 
-                  exhausted, ensuring compliance with Australian employment standards while meeting critical business needs.
+                  Labour agreements provide a pathway for businesses to access
+                  international talent when local options are exhausted,
+                  ensuring compliance with Australian employment standards while
+                  meeting critical business needs.
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                   <Button className="bg-white text-amber-600 hover:bg-gray-100">
@@ -1925,6 +2020,425 @@ export default function MigrationService() {
                   >
                     <Phone className="h-4 w-4 mr-2" />
                     Contact Us
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Skilled Employer Sponsored Regional (Subclass 494) Visa Modal */}
+      <Dialog
+        open={isSubclass494ModalOpen}
+        onOpenChange={setIsSubclass494ModalOpen}
+      >
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <div className="flex items-center justify-between">
+              <DialogTitle className="text-3xl font-bold text-blue-700">
+                Skilled Employer Sponsored Regional (Subclass 494) Visa
+              </DialogTitle>
+              <Button
+                variant="ghost"
+                onClick={() => setIsSubclass494ModalOpen(false)}
+                className="h-6 w-6 p-0"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          </DialogHeader>
+          
+          <div className="space-y-8 py-6">
+            {/* Detailed Breakdown of Each Stream */}
+            <div className="bg-blue-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-blue-700 mb-4">
+                Detailed Breakdown of Each Stream
+              </h3>
+              <p className="text-gray-700 mb-4">
+                Understanding the different streams of the Skilled Employer Sponsored Regional (Provisional) visa (Subclass 494) 
+                is key to choosing the right path. Here's how each stream works:
+              </p>
+              
+              <div className="bg-white rounded-lg overflow-hidden border border-blue-200">
+                <table className="w-full">
+                  <thead className="bg-blue-100">
+                    <tr>
+                      <th className="px-4 py-3 text-left font-semibold text-blue-800">Stream</th>
+                      <th className="px-4 py-3 text-left font-semibold text-blue-800">Description</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-blue-100">
+                    <tr>
+                      <td className="px-4 py-3 font-medium text-gray-800">Employer-Sponsored</td>
+                      <td className="px-4 py-3 text-gray-700">
+                        For regional employers who cannot find suitably skilled Australian workers. Employers nominate workers for specific roles.
+                      </td>
+                    </tr>
+                    <tr className="bg-blue-25">
+                      <td className="px-4 py-3 font-medium text-gray-800">Labour Agreement</td>
+                      <td className="px-4 py-3 text-gray-700">
+                        For skilled workers nominated under a labour agreement between the employer and the Australian Government.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-3 font-medium text-gray-800">Subsequent Entrant</td>
+                      <td className="px-4 py-3 text-gray-700">
+                        For family members of Subclass 494 visa holders, allowing them to join their loved ones in regional Australia.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Stream Details */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Employer-Sponsored Stream */}
+              <div className="bg-blue-50 p-6 rounded-lg border border-blue-200">
+                <h3 className="text-xl font-bold text-blue-700 mb-4">
+                  #1. Employer-Sponsored Stream
+                </h3>
+                <p className="text-gray-700 mb-4">
+                  This stream is designed for regional businesses facing challenges in finding skilled Australian workers. 
+                  Employers can nominate overseas workers for roles that meet genuine business needs.
+                </p>
+                
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="font-semibold text-blue-700 mb-2">Eligibility:</h4>
+                    <p className="text-gray-700 text-sm">
+                      Employers must prove the position is genuine and matches the skill level required.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-semibold text-blue-700 mb-2">Stay Duration:</h4>
+                    <p className="text-gray-700 text-sm">Up to five years.</p>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-semibold text-blue-700 mb-2">Benefits:</h4>
+                    <p className="text-gray-700 text-sm">
+                      Successful applicants can work, live, and study in designated regional areas and may be eligible 
+                      to apply for permanent residency after three years.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="bg-blue-100 p-3 rounded-md mt-4">
+                  <p className="text-blue-800 text-sm italic">
+                    If your business needs highly skilled professionals for critical roles, this stream ensures the right talent is 
+                    available to support regional growth.
+                  </p>
+                </div>
+              </div>
+
+              {/* Labour Agreement Stream */}
+              <div className="bg-green-50 p-6 rounded-lg border border-green-200">
+                <h3 className="text-xl font-bold text-green-700 mb-4">
+                  #2. Labour Agreement Stream
+                </h3>
+                <p className="text-gray-700 mb-4">
+                  This stream is tailored for skilled workers nominated under a labour agreement. These agreements are 
+                  contracts between regional employers and the Australian Government to address unique workforce needs.
+                </p>
+                
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="font-semibold text-green-700 mb-2">Eligibility:</h4>
+                    <p className="text-gray-700 text-sm">
+                      Employers must have a formal labour agreement with the Government.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-semibold text-green-700 mb-2">Stay Duration:</h4>
+                    <p className="text-gray-700 text-sm">Up to five years.</p>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-semibold text-green-700 mb-2">Benefits:</h4>
+                    <p className="text-gray-700 text-sm">
+                      Ideal for niche industries or roles with specific requirements, ensuring access to international 
+                      talent where local skills are unavailable.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="bg-green-100 p-3 rounded-md mt-4">
+                  <p className="text-green-800 text-sm italic">
+                    If you're an employer needing specialised workers, this stream can bridge the gap effectively.
+                  </p>
+                </div>
+              </div>
+
+              {/* Subsequent Entrant Stream */}
+              <div className="bg-purple-50 p-6 rounded-lg border border-purple-200">
+                <h3 className="text-xl font-bold text-purple-700 mb-4">
+                  #3. Subsequent Entrant Stream
+                </h3>
+                <p className="text-gray-700 mb-4">
+                  Family members of Subclass 494 visa holders can join their loved ones in regional Australia through this stream.
+                </p>
+                
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="font-semibold text-purple-700 mb-2">Eligibility:</h4>
+                    <p className="text-gray-700 text-sm">
+                      Applicants must be members of the family unit of an existing Subclass 494 visa holder.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-semibold text-purple-700 mb-2">Stay Duration:</h4>
+                    <p className="text-gray-700 text-sm">Matches the primary visa holder's remaining validity.</p>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-semibold text-purple-700 mb-2">Benefits:</h4>
+                    <p className="text-gray-700 text-sm">
+                      Families can enjoy the same work, study, and lifestyle opportunities in regional Australia, 
+                      excellent job opportunities, and a great work-life balance.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="bg-purple-100 p-3 rounded-md mt-4">
+                  <p className="text-purple-800 text-sm italic">
+                    This stream ensures families can stay together while contributing to regional communities. With these 
+                    streams, the Subclass 494 visa is a comprehensive solution for regional employers and skilled overseas 
+                    workers alike.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Eligibility Criteria */}
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-gray-800 mb-4">
+                Eligibility Criteria for the Skilled Employer Sponsored Regional Visa Subclass 494
+              </h3>
+              <p className="text-gray-700 mb-4">
+                The Skilled Employer Sponsored Regional (Provisional) visa (Subclass 494) offers two main visa streams: 
+                Employer-Sponsored Stream and Labour Agreement Stream, along with an option for Subsequent Entrants (family members).
+              </p>
+              <p className="text-gray-700 mb-6">
+                Here's an overview of the eligibility criteria for workers and employers under these streams.
+              </p>
+
+              {/* For Workers */}
+              <div className="mb-8">
+                <h4 className="text-lg font-bold text-blue-700 mb-4">For Workers</h4>
+                
+                {/* Employer-Sponsored Stream */}
+                <div className="bg-blue-50 p-6 rounded-lg mb-6 border border-blue-200">
+                  <h5 className="text-md font-bold text-blue-700 mb-4">Employer-Sponsored Stream:</h5>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <h6 className="font-semibold text-blue-600 mb-2">Nominated Occupation:</h6>
+                      <p className="text-gray-700 text-sm">Your occupation must be on the relevant skilled occupation list.</p>
+                    </div>
+                    
+                    <div>
+                      <h6 className="font-semibold text-blue-600 mb-2">Skills and Experience:</h6>
+                      <p className="text-gray-700 text-sm">
+                        A positive skills assessment is mandatory. You need at least three years of work experience in your nominated occupation.
+                      </p>
+                    </div>
+                    
+                    <div>
+                      <h6 className="font-semibold text-blue-600 mb-2">Age:</h6>
+                      <p className="text-gray-700 text-sm">You must be under 45 years old unless an exemption applies.</p>
+                    </div>
+                    
+                    <div>
+                      <h6 className="font-semibold text-blue-600 mb-2">Language:</h6>
+                      <p className="text-gray-700 text-sm">
+                        You need to meet the minimum English language proficiency requirement unless exemptions apply.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Labour Agreement Stream */}
+                <div className="bg-green-50 p-6 rounded-lg mb-6 border border-green-200">
+                  <h5 className="text-md font-bold text-green-700 mb-4">Labour Agreement Stream:</h5>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <h6 className="font-semibold text-green-600 mb-2">Nominated Occupation:</h6>
+                      <p className="text-gray-700 text-sm">
+                        You must be nominated under the terms of a labour agreement between your employer and the Australian Government.
+                      </p>
+                    </div>
+                    
+                    <div>
+                      <h6 className="font-semibold text-green-600 mb-2">Skills and Experience:</h6>
+                      <p className="text-gray-700 text-sm">
+                        You must have at least three years of relevant work experience in your nominated occupation.
+                      </p>
+                    </div>
+                    
+                    <div>
+                      <h6 className="font-semibold text-green-600 mb-2">Skills Assessment:</h6>
+                      <p className="text-gray-700 text-sm">
+                        A relevant skills assessment is required, but exemptions can apply depending on the labour agreement.
+                      </p>
+                    </div>
+                    
+                    <div>
+                      <h6 className="font-semibold text-green-600 mb-2">Age:</h6>
+                      <p className="text-gray-700 text-sm">You must be under 45 years of age unless the labour agreement specifies otherwise.</p>
+                    </div>
+                    
+                    <div>
+                      <h6 className="font-semibold text-green-600 mb-2">Language:</h6>
+                      <p className="text-gray-700 text-sm">You must meet minimum English language proficiency.</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Subsequent Entrant Stream */}
+                <div className="bg-purple-50 p-6 rounded-lg border border-purple-200">
+                  <h5 className="text-md font-bold text-purple-700 mb-4">Subsequent Entrant Stream:</h5>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <h6 className="font-semibold text-purple-600 mb-2">Family Unit:</h6>
+                      <p className="text-gray-700 text-sm">
+                        You must be a member of the family unit of a primary SESR visa holder applying separately to join them in Australia.
+                      </p>
+                    </div>
+                    
+                    <div>
+                      <h6 className="font-semibold text-purple-600 mb-2">Family Relationship:</h6>
+                      <p className="text-gray-700 text-sm">
+                        You should be able to demonstrate your relationship to the primary visa holder (such as being a spouse or dependent child).
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* For Employers */}
+              <div>
+                <h4 className="text-lg font-bold text-red-700 mb-4">For Employers</h4>
+                
+                <div className="bg-red-50 p-6 rounded-lg border border-red-200">
+                  <div className="space-y-4">
+                    <div>
+                      <h6 className="font-semibold text-red-600 mb-2">Location:</h6>
+                      <p className="text-gray-700 text-sm">Your business must be located in a designated regional area of Australia.</p>
+                    </div>
+                    
+                    <div>
+                      <h6 className="font-semibold text-red-600 mb-2">Genuine Need:</h6>
+                      <p className="text-gray-700 text-sm">
+                        You must demonstrate that there is a genuine need for the overseas worker and the role is critical for your business operations.
+                      </p>
+                    </div>
+                    
+                    <div>
+                      <h6 className="font-semibold text-red-600 mb-2">Fair Pay:</h6>
+                      <p className="text-gray-700 text-sm">
+                        You must offer the worker at least the Australian Market Salary Rate (AMSR) and meet the Temporary Skilled 
+                        Migration Income Threshold (TSMIT).
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-yellow-100 p-4 rounded-lg mt-6">
+                <p className="text-yellow-800 text-sm">
+                  <strong>
+                    By meeting these eligibility requirements, businesses and skilled workers can access the many benefits 
+                    the Subclass 494 visa has to offer, including a pathway to permanent residency after three years of 
+                    holding the visa.
+                  </strong>
+                </p>
+              </div>
+            </div>
+
+            {/* Benefits Section */}
+            <div className="bg-orange-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-orange-700 mb-4">
+                Benefits of the Skilled Employer Sponsored Regional Visa Subclass 494
+              </h3>
+              <p className="text-gray-700 mb-4">
+                The Skilled Employer Sponsored Regional (Provisional) Visa (Subclass 494) offers significant advantages for 
+                skilled workers and regional employers in Australia.
+              </p>
+              <p className="text-gray-700 mb-6">Here's how it benefits both parties:</p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Address Skill Shortages */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-orange-500">
+                  <h4 className="font-bold text-orange-700 mb-3">Address Skill Shortages in Regional Areas</h4>
+                  <p className="text-gray-700 text-sm">
+                    Employers in regional Australia often struggle to find workers with the right skills. The Subclass 494 visa 
+                    allows businesses to sponsor skilled overseas workers to fill critical roles, ensuring their operations run 
+                    smoothly and thrive.
+                  </p>
+                </div>
+
+                {/* Pathway to Permanent Residency */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-blue-500">
+                  <h4 className="font-bold text-blue-700 mb-3">Pathway to Permanent Residency</h4>
+                  <p className="text-gray-700 text-sm">
+                    After holding the Subclass 494 visa for three years, skilled workers can apply for the Subclass 191 visa, 
+                    which provides a pathway to permanent residency.
+                  </p>
+                </div>
+
+                {/* Work and Study in Regional Australia */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-green-500">
+                  <h4 className="font-bold text-green-700 mb-3">Work and Study in Regional Australia</h4>
+                  <p className="text-gray-700 text-sm">
+                    As a Subclass 494 visa holder, you can live, work, and study in designated regional areas of Australia for 
+                    up to five years. Regional Australia is known for its vibrant communities, excellent job opportunities, and 
+                    a great work-life balance.
+                  </p>
+                </div>
+
+                {/* Family Inclusion */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
+                  <h4 className="font-bold text-purple-700 mb-3">Family Inclusion</h4>
+                  <p className="text-gray-700 text-sm">
+                    Under the Subsequent Entrant Stream, the Subclass 494 visa allows workers to bring their family 
+                    members to Australia. This is an excellent opportunity for families to reunite and enjoy the benefits of 
+                    living in a regional area together.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Call to Action */}
+            <div className="bg-blue-600 text-white p-6 rounded-lg">
+              <div className="text-center">
+                <p className="text-lg mb-4">
+                  The Skilled Employer Sponsored Regional (Subclass 494) Visa offers a comprehensive pathway for regional 
+                  employers to access international talent while providing skilled workers with opportunities for permanent 
+                  residency and regional lifestyle benefits.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  <Button className="bg-white text-blue-600 hover:bg-gray-100">
+                    <FileText className="h-4 w-4 mr-2" />
+                    Apply for Subclass 494 Visa
+                  </Button>
+                  <Button className="bg-yellow-500 text-blue-900 hover:bg-yellow-400">
+                    <Phone className="h-4 w-4 mr-2" />
+                    Get Expert Assessment
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="border-white text-white hover:bg-white/10"
+                    onClick={() => setIsSubclass494ModalOpen(false)}
+                  >
+                    <Mail className="h-4 w-4 mr-2" />
+                    Contact Our Team
                   </Button>
                 </div>
               </div>
