@@ -32,6 +32,7 @@ export default function MigrationService() {
   const [isSubclass494ModalOpen, setIsSubclass494ModalOpen] = useState(false);
   const [isSubclass400ModalOpen, setIsSubclass400ModalOpen] = useState(false);
   const [isSubclass407ModalOpen, setIsSubclass407ModalOpen] = useState(false);
+  const [isSubclass482ModalOpen, setIsSubclass482ModalOpen] = useState(false);
 
   const employerServices = [
     {
@@ -278,7 +279,8 @@ export default function MigrationService() {
                         service.name === "Labour Agreement" ||
                         service.name === "Skilled Employer Sponsored Regional (Subclass 494) Visa" ||
                         service.name === "Temporary Work (Short Stay Specialist) Visa (Subclass 400)" ||
-                        service.name === "Training Visa (Subclass 407)"
+                        service.name === "Training Visa (Subclass 407)" ||
+                        service.name === "Skills in Demand Visa (Subclass 482)"
                           ? "cursor-pointer hover:bg-gray-50 p-2 rounded-md transition-colors"
                           : ""
                       }`}
@@ -297,6 +299,8 @@ export default function MigrationService() {
                           setIsSubclass400ModalOpen(true);
                         } else if (service.name === "Training Visa (Subclass 407)") {
                           setIsSubclass407ModalOpen(true);
+                        } else if (service.name === "Skills in Demand Visa (Subclass 482)") {
+                          setIsSubclass482ModalOpen(true);
                         }
                       }}
                     >
@@ -3180,6 +3184,496 @@ export default function MigrationService() {
                   >
                     <Mail className="h-4 w-4 mr-2" />
                     Contact Training Experts
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Skills in Demand Visa (Subclass 482) Modal */}
+      <Dialog
+        open={isSubclass482ModalOpen}
+        onOpenChange={setIsSubclass482ModalOpen}
+      >
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <div className="flex items-center justify-between">
+              <DialogTitle className="text-3xl font-bold text-blue-700">
+                Skills in Demand Visa (Subclass 482)
+              </DialogTitle>
+              <Button
+                variant="ghost"
+                onClick={() => setIsSubclass482ModalOpen(false)}
+                className="h-6 w-6 p-0"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          </DialogHeader>
+          
+          <div className="space-y-8 py-6">
+            {/* What Is the Skills in Demand Visa */}
+            <div className="bg-blue-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-blue-700 mb-4">
+                What Is the Skills in Demand Visa?
+              </h3>
+              
+              <div className="space-y-4">
+                <p className="text-gray-700">
+                  The Skills in Demand (SID) visa (Subclass 482) is a temporary work visa that allows skilled workers to come to 
+                  Australia and work for an approved employer for up to four years.
+                </p>
+                
+                <p className="text-gray-700">
+                  This visa replaced the Temporary Skill Shortage (TSS) visa and is designed to help Australian employers fill 
+                  genuine skill shortages in their workforce when they cannot find suitable Australian workers.
+                </p>
+                
+                <div className="bg-blue-100 p-4 rounded-lg border-l-4 border-blue-500">
+                  <p className="text-blue-800 italic">
+                    <strong>
+                      It's a pathway that benefits both employers needing skilled workers and international professionals seeking 
+                      opportunities in Australia.
+                    </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Detailed Breakdown of Each Stream */}
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-gray-800 mb-4">
+                Detailed Breakdown of Each Stream
+              </h3>
+              <p className="text-gray-700 mb-6">
+                The Skills in Demand Visa (subclass 482) offers four distinct streams, each designed to cater to different needs. 
+                Understanding which stream suits your situation will help you take the best step towards working in Australia.
+              </p>
+              <p className="text-gray-700 mb-6">
+                Let's break down each stream:
+              </p>
+
+              <div className="space-y-8">
+                {/* Stream 1: Core Skills */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-blue-500">
+                  <h4 className="text-xl font-bold text-blue-700 mb-4">#1. Core Skills Stream</h4>
+                  <p className="text-gray-700 mb-6">
+                    This stream is tailored for workers in occupations listed on the Core Skills Occupation List. If your role 
+                    matches one of these in-demand positions, you can be sponsored by an Australian employer facing a 
+                    local talent shortage.
+                  </p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <h5 className="font-bold text-blue-700 mb-2">Duration:</h5>
+                      <p className="text-gray-700 text-sm">
+                        Up to 4 years (5 years for Hong Kong passport holders)
+                      </p>
+                    </div>
+                    <div className="bg-green-50 p-4 rounded-lg">
+                      <h5 className="font-bold text-green-700 mb-2">Eligibility:</h5>
+                      <p className="text-gray-700 text-sm">
+                        You must have the required skills and meet English language proficiency standards.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="bg-blue-100 p-4 rounded-lg">
+                    <h5 className="font-bold text-blue-700 mb-2">Why Choose This Stream?</h5>
+                    <p className="text-blue-700 text-sm">
+                      If your occupation is crucial to filling a gap in the Australian workforce, this is your path to a 
+                      fulfilling career in Australia. Employers in need of your skills can sponsor you, opening doors to 
+                      permanent residency opportunities.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Stream 2: Specialist Skills */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-green-500">
+                  <h4 className="text-xl font-bold text-green-700 mb-4">#2. Specialist Skills Stream</h4>
+                  <p className="text-gray-700 mb-6">
+                    Designed for workers with expertise in specific occupations (from the ANZSCO list, excluding Major 
+                    Groups 3, 7, or 8), this stream allows you to be sponsored by an Australian employer in fields where 
+                    skilled workers are in short supply.
+                  </p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div className="bg-green-50 p-4 rounded-lg">
+                      <h5 className="font-bold text-green-700 mb-2">Duration:</h5>
+                      <p className="text-gray-700 text-sm">
+                        Up to 4 years (5 years for Hong Kong passport holders)
+                      </p>
+                    </div>
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <h5 className="font-bold text-blue-700 mb-2">Eligibility:</h5>
+                      <p className="text-gray-700 text-sm">
+                        You must meet the salary threshold and possess the necessary skills and qualifications for the nominated 
+                        role.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="bg-green-100 p-4 rounded-lg">
+                    <h5 className="font-bold text-green-700 mb-2">Why Choose This Stream?</h5>
+                    <p className="text-green-700 text-sm">
+                      If you have specialised skills that are crucial to Australia's growth, this visa stream is your ticket. It 
+                      ensures your expertise meets a pressing industry demand, while also offering an attractive salary 
+                      package.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Stream 3: Labour Agreement */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-orange-500">
+                  <h4 className="text-xl font-bold text-orange-700 mb-4">#3. Labour Agreement Stream</h4>
+                  <p className="text-gray-700 mb-6">
+                    This stream is for workers nominated by employers who have a formal Labour Agreement with the 
+                    Australian Government. These agreements are typically designed to fill niche skill shortages in specific 
+                    industries.
+                  </p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div className="bg-orange-50 p-4 rounded-lg">
+                      <h5 className="font-bold text-orange-700 mb-2">Duration:</h5>
+                      <p className="text-gray-700 text-sm">
+                        Up to 4 years (5 years for Hong Kong passport holders)
+                      </p>
+                    </div>
+                    <div className="bg-red-50 p-4 rounded-lg">
+                      <h5 className="font-bold text-red-700 mb-2">Eligibility:</h5>
+                      <p className="text-gray-700 text-sm">
+                        Your employer must have an active Labour Agreement in place with the Australian Government.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="bg-orange-100 p-4 rounded-lg">
+                    <h5 className="font-bold text-orange-700 mb-2">Why Choose This Stream?</h5>
+                    <p className="text-orange-700 text-sm">
+                      If your employer operates under a Labour Agreement with the government, this stream allows you 
+                      to access exclusive opportunities. It's ideal for those with niche skills required in unique industries, 
+                      ensuring employers can bring in the right talent.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Stream 4: Subsequent Entrant */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
+                  <h4 className="text-xl font-bold text-purple-700 mb-4">#4. Subsequent Entrant Stream</h4>
+                  <p className="text-gray-700 mb-6">
+                    For family members of Subclass 482 visa holders, this stream allows you to join your loved ones in 
+                    Australia and enjoy the same work, study, and lifestyle benefits.
+                  </p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div className="bg-purple-50 p-4 rounded-lg">
+                      <h5 className="font-bold text-purple-700 mb-2">Duration:</h5>
+                      <p className="text-gray-700 text-sm">
+                        As long as the primary visa holder's visa is valid
+                      </p>
+                    </div>
+                    <div className="bg-pink-50 p-4 rounded-lg">
+                      <h5 className="font-bold text-pink-700 mb-2">Eligibility:</h5>
+                      <p className="text-gray-700 text-sm">
+                        You must be a family member (spouse, child, etc.) of a Subclass 482 or 457 visa holder.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="bg-purple-100 p-4 rounded-lg">
+                    <h5 className="font-bold text-purple-700 mb-2">Why Choose This Stream?</h5>
+                    <p className="text-purple-700 text-sm">
+                      This stream is perfect if you're looking to reunite with your family in Australia. It ensures that you 
+                      can live, work, and study together in a dynamic and supportive environment.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-yellow-100 p-4 rounded-lg mt-6 border border-yellow-300">
+                <p className="text-yellow-800 text-sm">
+                  <strong>
+                    These four streams of the Subclass 482 visa cater to a variety of skill sets and personal circumstances. 
+                    Whether you're a specialist, an essential worker, or looking to bring your family along, the Skills in 
+                    Demand visa opens doors to incredible opportunities in Australia.
+                  </strong>
+                </p>
+              </div>
+            </div>
+
+            {/* Benefits Section */}
+            <div className="bg-green-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-green-700 mb-4">
+                Benefits of the Skills in Demand Visa (Subclass 482)
+              </h3>
+              <p className="text-gray-700 mb-6">
+                The Skills in Demand Visa (subclass 482) is a great opportunity for both skilled workers and employers looking 
+                to address critical workforce gaps. Here's how it benefits both parties:
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* For Employers */}
+                <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
+                  <h4 className="text-lg font-bold text-blue-700 mb-4">For Employers:</h4>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <h5 className="font-bold text-blue-600 mb-2">• Access to Global Talent:</h5>
+                      <p className="text-gray-700 text-sm">
+                        When local candidates are scarce, employers can tap into a global pool of skilled workers.
+                      </p>
+                    </div>
+                    
+                    <div>
+                      <h5 className="font-bold text-blue-600 mb-2">• Fill Critical Roles:</h5>
+                      <p className="text-gray-700 text-sm">
+                        The visa helps businesses address urgent skill shortages, ensuring they can keep operations 
+                        running smoothly.
+                      </p>
+                    </div>
+                    
+                    <div>
+                      <h5 className="font-bold text-blue-600 mb-2">• Labour Agreement Flexibility:</h5>
+                      <p className="text-gray-700 text-sm">
+                        Employers with a Labour Agreement can hire workers for highly specialised roles that are hard 
+                        to fill locally.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* For Workers */}
+                <div className="bg-green-50 p-6 rounded-lg border-l-4 border-green-500">
+                  <h4 className="text-lg font-bold text-green-700 mb-4">For Workers:</h4>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <h5 className="font-bold text-green-600 mb-2">• Work in Australia:</h5>
+                      <p className="text-gray-700 text-sm">
+                        This visa offers the chance to live and work in Australia for up to four years, with the potential 
+                        for a longer stay depending on your situation.
+                      </p>
+                    </div>
+                    
+                    <div>
+                      <h5 className="font-bold text-green-600 mb-2">• Pathway to Permanent Residency:</h5>
+                      <p className="text-gray-700 text-sm">
+                        After holding the 482 visa for three years, skilled workers may be eligible to apply for permanent 
+                        residency, providing a route to long-term settlement.
+                      </p>
+                    </div>
+                    
+                    <div>
+                      <h5 className="font-bold text-green-600 mb-2">• Family Inclusion:</h5>
+                      <p className="text-gray-700 text-sm">
+                        Workers can bring their immediate family members to Australia under the Subsequent 
+                        Entrant Stream, so their loved ones can join them in this exciting journey.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-blue-100 p-4 rounded-lg mt-6">
+                <p className="text-blue-800 text-sm">
+                  <strong>
+                    Whether you're a skilled worker looking to make a move or an employer needing specialised talent, 
+                    the Subclass 482 visa is a fantastic option to explore. Ready to get started? Let CIA Lawyers guide you 
+                    through the process!
+                  </strong>
+                </p>
+              </div>
+            </div>
+
+            {/* Eligibility Criteria */}
+            <div className="bg-purple-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-purple-700 mb-4">
+                Eligibility Criteria for the Skills in Demand Visa (Subclass 482)
+              </h3>
+              <p className="text-gray-700 mb-6">
+                To be considered for the Skills in Demand Visa (subclass 482), you need to meet specific eligibility criteria 
+                based on the stream you're applying for. Here's a simple breakdown to help you understand what's required:
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* For Workers */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
+                  <h4 className="text-lg font-bold text-purple-700 mb-4">For Workers</h4>
+                  
+                  <div className="space-y-6">
+                    <div className="bg-purple-50 p-4 rounded-lg">
+                      <h5 className="font-bold text-purple-700 mb-2">Nomination:</h5>
+                      <p className="text-gray-700 text-sm">
+                        You must be nominated by an approved employer for a skilled position. This means an 
+                        Australian business must sponsor you for the role.
+                      </p>
+                    </div>
+                    
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <h5 className="font-bold text-blue-700 mb-2">Skills:</h5>
+                      <p className="text-gray-700 text-sm">
+                        You'll need the relevant qualifications and experience to fill the position. Make sure your 
+                        skills align with the requirements for the job.
+                      </p>
+                    </div>
+                    
+                    <div className="bg-orange-50 p-4 rounded-lg">
+                      <h5 className="font-bold text-orange-700 mb-2">English Language Proficiency:</h5>
+                      <p className="text-gray-700 text-sm">
+                        You must meet the English language requirements unless you qualify for an 
+                        exemption. This is essential to ensure you can communicate effectively in the workplace.
+                      </p>
+                    </div>
+                    
+                    <div className="bg-green-50 p-4 rounded-lg">
+                      <h5 className="font-bold text-green-700 mb-2">Age:</h5>
+                      <p className="text-gray-700 text-sm">
+                        Generally, applicants must be under 45 years old, though exceptions may apply depending 
+                        on the role and situation.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* For Employers */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-orange-500">
+                  <h4 className="text-lg font-bold text-orange-700 mb-4">For Employers</h4>
+                  
+                  <div className="space-y-6">
+                    <div className="bg-orange-50 p-4 rounded-lg">
+                      <h5 className="font-bold text-orange-700 mb-2">Sponsorship:</h5>
+                      <p className="text-gray-700 text-sm">
+                        Your employer needs to be approved by the Australian Department of Home Affairs to 
+                        sponsor overseas workers.
+                      </p>
+                    </div>
+                    
+                    <div className="bg-red-50 p-4 rounded-lg">
+                      <h5 className="font-bold text-red-700 mb-2">Labour Market Testing:</h5>
+                      <p className="text-gray-700 text-sm">
+                        Employers must prove they couldn't find a suitable Australian worker for the role, 
+                        highlighting the need to bring in skilled international talent.
+                      </p>
+                    </div>
+                    
+                    <div className="bg-yellow-50 p-4 rounded-lg">
+                      <h5 className="font-bold text-yellow-700 mb-2">Salary:</h5>
+                      <p className="text-gray-700 text-sm">
+                        The salary offered must align with the market rate and meet specific thresholds, such as the 
+                        Specialist Skills Income Threshold for certain positions.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-purple-100 p-4 rounded-lg mt-6">
+                <p className="text-purple-800 text-sm">
+                  <strong>
+                    If you meet these criteria, you could be on the path to securing a Skills in Demand Visa (subclass 482) 
+                    and working in Australia. Getting the right advice and guidance is key to ensuring your application 
+                    meets all the requirements.
+                  </strong>
+                </p>
+              </div>
+            </div>
+
+            {/* FAQ Section */}
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-gray-800 mb-6">
+                Frequently Asked Questions (FAQ)
+              </h3>
+
+              <div className="space-y-6">
+                <div className="border-l-4 border-blue-500 pl-4 bg-white p-4 rounded-r-lg">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: How long can I stay in Australia with an 189 visa?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>A:</strong> The Skilled Independent Visa (subclass 189) allows you to live and work in Australia permanently. 
+                    There's no time limit on your stay, and you can enjoy all the benefits of permanent residency.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-green-500 pl-4 bg-white p-4 rounded-r-lg">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: Does an 189 visa require sponsorship?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>A:</strong> No, the 189 visa doesn't require sponsorship from an employer, family member, or state government. 
+                    You can apply independently based on your skills and qualifications.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-purple-500 pl-4 bg-white p-4 rounded-r-lg">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: Is 75 points enough for an 189 visa?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>A:</strong> While the minimum points required for the 189 visa is 65, scoring 75 points will increase your chances 
+                    of receiving an invitation to apply. The higher your points, the better your chances.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-orange-500 pl-4 bg-white p-4 rounded-r-lg">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: What is the difference between visas 189 and 190?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>A:</strong> The 189 visa is for independent applicants, whereas the 190 visa requires a nomination from a state or 
+                    territory. The 190 visa may offer additional points but has a residency condition tied to the nominating 
+                    state.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-red-500 pl-4 bg-white p-4 rounded-r-lg">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: What happens after the 189 visa expires?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>A:</strong> The 189 visa is a permanent residency visa, meaning it doesn't expire in terms of your stay. However, if 
+                    you wish to travel outside Australia after five years, you'll need a Resident Return Visa.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-blue-600 pl-4 bg-white p-4 rounded-r-lg">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: Can I apply for 190 and 189 together?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>A:</strong> Yes, you can apply for both the 189 and 190 visas simultaneously. However, you'll need to carefully 
+                    manage the requirements for each and decide which is more beneficial for your situation.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Call to Action */}
+            <div className="bg-blue-600 text-white p-6 rounded-lg">
+              <div className="text-center">
+                <p className="text-lg mb-4">
+                  The Skills in Demand Visa (Subclass 482) provides excellent opportunities for skilled professionals to work 
+                  in Australia while contributing to the country's economic growth. With multiple streams available, there's 
+                  likely a pathway that fits your specific situation and career goals.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  <Button className="bg-white text-blue-600 hover:bg-gray-100">
+                    <FileText className="h-4 w-4 mr-2" />
+                    Apply for Skills in Demand Visa
+                  </Button>
+                  <Button className="bg-yellow-500 text-blue-900 hover:bg-yellow-400">
+                    <Phone className="h-4 w-4 mr-2" />
+                    Get Skills Assessment
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="border-white text-white hover:bg-white/10"
+                    onClick={() => setIsSubclass482ModalOpen(false)}
+                  >
+                    <Mail className="h-4 w-4 mr-2" />
+                    Contact Migration Experts
                   </Button>
                 </div>
               </div>
