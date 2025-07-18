@@ -35,6 +35,11 @@ export default function MigrationService() {
       color: "bg-blue-100 text-blue-800",
     },
     {
+      name: "National Innovation Visa 858",
+      tag: "TRENDING",
+      color: "bg-green-100 text-green-800",
+    },
+    {
       name: "Labour Agreement",
       tag: "TRENDING",
       color: "bg-green-100 text-green-800",
@@ -138,11 +143,6 @@ export default function MigrationService() {
     { name: "Visitor Visa", tag: "", color: "" },
     { name: "Working Holiday/Working Visa", tag: "", color: "" },
     { name: "Resident Status", tag: "", color: "" },
-    {
-      name: "National Innovation Visa",
-      tag: "NEW",
-      color: "bg-purple-100 text-purple-800",
-    },
   ];
 
   const visitorVisaServices = [
@@ -268,13 +268,15 @@ export default function MigrationService() {
                     <div
                       key={index}
                       className={`flex items-center justify-between ${
-                        service.name === "Employer Nomination Scheme"
+                        service.name === "Employer Nomination Scheme" || service.name === "National Innovation Visa 858"
                           ? "cursor-pointer hover:bg-gray-50 p-2 rounded-md transition-colors"
                           : ""
                       }`}
                       onClick={() => {
                         if (service.name === "Employer Nomination Scheme") {
                           setIsENSModalOpen(true);
+                        } else if (service.name === "National Innovation Visa 858") {
+                          setIsNIVModalOpen(true);
                         }
                       }}
                     >
@@ -436,16 +438,7 @@ export default function MigrationService() {
                   {otherServices.map((service, index) => (
                     <div
                       key={index}
-                      className={`flex items-center justify-between ${
-                        service.name === "National Innovation Visa" 
-                          ? "cursor-pointer hover:bg-gray-50 p-2 rounded-lg transition-colors" 
-                          : ""
-                      }`}
-                      onClick={() => 
-                        service.name === "National Innovation Visa" 
-                          ? setIsNIVModalOpen(true) 
-                          : undefined
-                      }
+                      className="flex items-center justify-between"
                     >
                       <div className="flex items-center">
                         <CheckCircle className="h-4 w-4 text-green-600 mr-2 flex-shrink-0" />
@@ -1008,7 +1001,7 @@ export default function MigrationService() {
               </Button>
             </div>
           </DialogHeader>
-          
+
           <div className="space-y-8 py-6">
             {/* Introduction */}
             <div>
@@ -1017,17 +1010,20 @@ export default function MigrationService() {
               </h3>
               <div className="space-y-4 text-gray-700">
                 <p>
-                  The National Innovation visa (Subclass 858) is a permanent residency visa for individuals with an 
-                  internationally recognised record of exceptional achievement in a specific area. It replaced the Global Talent 
-                  visa in December 2024.
+                  The National Innovation visa (Subclass 858) is a permanent
+                  residency visa for individuals with an internationally
+                  recognised record of exceptional achievement in a specific
+                  area. It replaced the Global Talent visa in December 2024.
                 </p>
                 <p>
-                  It's designed for the high achievers—the kind of people who've made a significant impact in their field and are 
-                  ready to contribute their talents to Australia.
+                  It's designed for the high achievers—the kind of people who've
+                  made a significant impact in their field and are ready to
+                  contribute their talents to Australia.
                 </p>
                 <div className="bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
                   <p className="italic text-green-800 font-medium">
-                    This visa is not for everyone. It's for those who've gone above and beyond, and have the recognition to prove it.
+                    This visa is not for everyone. It's for those who've gone
+                    above and beyond, and have the recognition to prove it.
                   </p>
                 </div>
               </div>
@@ -1042,13 +1038,19 @@ export default function MigrationService() {
                 <table className="w-full border-collapse border border-gray-300">
                   <thead>
                     <tr className="bg-green-100">
-                      <th className="border border-gray-300 p-3 text-left font-semibold text-green-800">Facts</th>
-                      <th className="border border-gray-300 p-3 text-left font-semibold text-green-800">Details</th>
+                      <th className="border border-gray-300 p-3 text-left font-semibold text-green-800">
+                        Facts
+                      </th>
+                      <th className="border border-gray-300 p-3 text-left font-semibold text-green-800">
+                        Details
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr className="bg-gray-50">
-                      <td className="border border-gray-300 p-3 font-medium">Eligible Fields</td>
+                      <td className="border border-gray-300 p-3 font-medium">
+                        Eligible Fields
+                      </td>
                       <td className="border border-gray-300 p-3">
                         <ul className="space-y-1">
                           <li>– A recognised profession</li>
@@ -1059,18 +1061,25 @@ export default function MigrationService() {
                       </td>
                     </tr>
                     <tr>
-                      <td className="border border-gray-300 p-3 font-medium">Who Can Apply</td>
+                      <td className="border border-gray-300 p-3 font-medium">
+                        Who Can Apply
+                      </td>
                       <td className="border border-gray-300 p-3">
                         <ul className="space-y-1">
                           <li>– Lodge an Expression of Interest (EOI)</li>
                           <li>– Wait for invitation to apply</li>
                           <li>– Apply within 60 days of invitation</li>
-                          <li>– Apply from inside or outside Australia (not in immigration clearance)</li>
+                          <li>
+                            – Apply from inside or outside Australia (not in
+                            immigration clearance)
+                          </li>
                         </ul>
                       </td>
                     </tr>
                     <tr className="bg-gray-50">
-                      <td className="border border-gray-300 p-3 font-medium">Nominator Requirements</td>
+                      <td className="border border-gray-300 p-3 font-medium">
+                        Nominator Requirements
+                      </td>
                       <td className="border border-gray-300 p-3">
                         <div className="space-y-2">
                           <p>– Must have a national reputation in your field</p>
@@ -1085,7 +1094,9 @@ export default function MigrationService() {
                       </td>
                     </tr>
                     <tr>
-                      <td className="border border-gray-300 p-3 font-medium">Visa Benefits</td>
+                      <td className="border border-gray-300 p-3 font-medium">
+                        Visa Benefits
+                      </td>
                       <td className="border border-gray-300 p-3">
                         <ul className="space-y-1">
                           <li>– Live permanently in Australia</li>
@@ -1098,13 +1109,17 @@ export default function MigrationService() {
                       </td>
                     </tr>
                     <tr className="bg-gray-50">
-                      <td className="border border-gray-300 p-3 font-medium">Required Documents</td>
+                      <td className="border border-gray-300 p-3 font-medium">
+                        Required Documents
+                      </td>
                       <td className="border border-gray-300 p-3">
                         <ul className="space-y-1">
                           <li>– Proof of international achievements</li>
                           <li>– Career and qualification details</li>
                           <li>– Nominator's statement</li>
-                          <li>– ID and current visa documents (if applicable)</li>
+                          <li>
+                            – ID and current visa documents (if applicable)
+                          </li>
                         </ul>
                       </td>
                     </tr>
@@ -1115,9 +1130,12 @@ export default function MigrationService() {
 
             {/* Eligible Fields */}
             <div className="bg-blue-50 p-6 rounded-lg">
-              <h3 className="text-xl font-bold text-blue-700 mb-4">Eligible Fields</h3>
+              <h3 className="text-xl font-bold text-blue-700 mb-4">
+                Eligible Fields
+              </h3>
               <p className="text-gray-700 mb-4">
-                To apply for this visa, you must have an exceptional record in one of the following areas:
+                To apply for this visa, you must have an exceptional record in
+                one of the following areas:
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -1143,7 +1161,8 @@ export default function MigrationService() {
               </div>
               <div className="bg-blue-100 p-4 rounded-lg mt-4">
                 <p className="italic text-blue-800">
-                  Your achievements must be recognised not just locally, but internationally.
+                  Your achievements must be recognised not just locally, but
+                  internationally.
                 </p>
               </div>
             </div>
@@ -1154,12 +1173,15 @@ export default function MigrationService() {
                 Who Can Apply for the National Innovation Visa?
               </h3>
               <p className="text-gray-700 mb-4">
-                Not everyone can just fill out a form and send it off. The process starts with an invitation from the Department 
-                of Home Affairs.
+                Not everyone can just fill out a form and send it off. The
+                process starts with an invitation from the Department of Home
+                Affairs.
               </p>
-              
+
               <div className="bg-purple-50 p-6 rounded-lg">
-                <h4 className="font-semibold text-purple-700 mb-3">Here's what you need:</h4>
+                <h4 className="font-semibold text-purple-700 mb-3">
+                  Here's what you need:
+                </h4>
                 <div className="space-y-2">
                   <div className="flex items-start">
                     <span className="w-2 h-2 bg-purple-600 rounded-full mr-3 mt-2"></span>
@@ -1171,20 +1193,30 @@ export default function MigrationService() {
                   </div>
                   <div className="flex items-start">
                     <span className="w-2 h-2 bg-purple-600 rounded-full mr-3 mt-2"></span>
-                    <span>Once invited, you have 60 days to submit your application</span>
+                    <span>
+                      Once invited, you have 60 days to submit your application
+                    </span>
                   </div>
                   <div className="flex items-start">
                     <span className="w-2 h-2 bg-purple-600 rounded-full mr-3 mt-2"></span>
-                    <span>You can apply from inside or outside Australia, as long as you're not in immigration clearance at the time</span>
+                    <span>
+                      You can apply from inside or outside Australia, as long as
+                      you're not in immigration clearance at the time
+                    </span>
                   </div>
                   <div className="flex items-start">
                     <span className="w-2 h-2 bg-purple-600 rounded-full mr-3 mt-2"></span>
-                    <span>You must have a nominator with a national reputation in your area of talent</span>
+                    <span>
+                      You must have a nominator with a national reputation in
+                      your area of talent
+                    </span>
                   </div>
                 </div>
 
                 <div className="mt-6">
-                  <h4 className="font-semibold text-purple-700 mb-3">Your nominator can be:</h4>
+                  <h4 className="font-semibold text-purple-700 mb-3">
+                    Your nominator can be:
+                  </h4>
                   <div className="space-y-2">
                     <div className="flex items-start">
                       <span className="w-2 h-2 bg-purple-600 rounded-full mr-3 mt-2"></span>
@@ -1208,21 +1240,27 @@ export default function MigrationService() {
 
               <div className="bg-purple-100 p-4 rounded-lg mt-4">
                 <p className="italic text-purple-800">
-                  Most importantly, your track record of achievement must be ongoing. It's not about one good project years 
-                  ago—it's about consistent excellence.
+                  Most importantly, your track record of achievement must be
+                  ongoing. It's not about one good project years ago—it's about
+                  consistent excellence.
                 </p>
               </div>
             </div>
 
             {/* What You Can Do */}
             <div className="bg-orange-50 p-6 rounded-lg">
-              <h3 className="text-xl font-bold text-orange-700 mb-4">What You Can Do With This Visa</h3>
+              <h3 className="text-xl font-bold text-orange-700 mb-4">
+                What You Can Do With This Visa
+              </h3>
               <p className="text-gray-700 mb-4">
-                The National Innovation visa is one of the most generous pathways to live and work in Australia.
+                The National Innovation visa is one of the most generous
+                pathways to live and work in Australia.
               </p>
-              
+
               <div>
-                <h4 className="font-semibold text-orange-700 mb-3">With this visa, you can:</h4>
+                <h4 className="font-semibold text-orange-700 mb-3">
+                  With this visa, you can:
+                </h4>
                 <div className="space-y-2">
                   <div className="flex items-start">
                     <span className="w-2 h-2 bg-orange-600 rounded-full mr-3 mt-2"></span>
@@ -1246,28 +1284,36 @@ export default function MigrationService() {
                   </div>
                   <div className="flex items-start">
                     <span className="w-2 h-2 bg-orange-600 rounded-full mr-3 mt-2"></span>
-                    <span>If you meet the requirements, apply for Australian citizenship in the future</span>
+                    <span>
+                      If you meet the requirements, apply for Australian
+                      citizenship in the future
+                    </span>
                   </div>
                 </div>
               </div>
-              
+
               <div className="bg-orange-100 p-4 rounded-lg mt-4">
                 <p className="italic text-orange-800">
-                  It gives you stability and freedom to continue your work without limitations.
+                  It gives you stability and freedom to continue your work
+                  without limitations.
                 </p>
               </div>
             </div>
 
             {/* Documents Required */}
             <div className="bg-red-50 p-6 rounded-lg">
-              <h3 className="text-xl font-bold text-red-700 mb-4">What Documents You'll Need</h3>
+              <h3 className="text-xl font-bold text-red-700 mb-4">
+                What Documents You'll Need
+              </h3>
               <p className="text-gray-700 mb-4">Paperwork matters. A lot.</p>
               <p className="text-gray-700 mb-4">
-                When it comes to the National Innovation visa, a strong application is built on clear, detailed proof of your 
+                When it comes to the National Innovation visa, a strong
+                application is built on clear, detailed proof of your
                 achievements and identity.
               </p>
               <p className="text-gray-700 mb-6">
-                You can't just say you've done amazing things — you need to show it.
+                You can't just say you've done amazing things — you need to show
+                it.
               </p>
 
               {/* Document Categories */}
@@ -1277,11 +1323,14 @@ export default function MigrationService() {
                     1. Proof of international achievements
                   </h4>
                   <p className="text-gray-700 mb-3">
-                    This is the most important part. The Department of Home Affairs wants to see that your work has been recognised 
+                    This is the most important part. The Department of Home
+                    Affairs wants to see that your work has been recognised
                     worldwide.
                   </p>
                   <div className="bg-white p-4 rounded-lg border">
-                    <p className="font-medium text-gray-800 mb-2">You can include:</p>
+                    <p className="font-medium text-gray-800 mb-2">
+                      You can include:
+                    </p>
                     <div className="space-y-1">
                       <div className="flex items-start">
                         <span className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2"></span>
@@ -1297,7 +1346,9 @@ export default function MigrationService() {
                       </div>
                       <div className="flex items-start">
                         <span className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2"></span>
-                        <span>Publications, patents, or research with global impact</span>
+                        <span>
+                          Publications, patents, or research with global impact
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -1308,8 +1359,10 @@ export default function MigrationService() {
                     2. Career and qualification details
                   </h4>
                   <p className="text-gray-700">
-                    Share your career history — where you've worked, what you've done, and how long you've done it. Also include your 
-                    qualifications, especially if they relate to your area of expertise.
+                    Share your career history — where you've worked, what you've
+                    done, and how long you've done it. Also include your
+                    qualifications, especially if they relate to your area of
+                    expertise.
                   </p>
                 </div>
 
@@ -1318,8 +1371,10 @@ export default function MigrationService() {
                     3. A nominator's statement
                   </h4>
                   <p className="text-gray-700">
-                    Your nominator plays a key role. They need to write a detailed statement backing your achievements and reputation. This 
-                    must come from someone (or an organisation) with a national reputation in your field.
+                    Your nominator plays a key role. They need to write a
+                    detailed statement backing your achievements and reputation.
+                    This must come from someone (or an organisation) with a
+                    national reputation in your field.
                   </p>
                 </div>
 
@@ -1328,7 +1383,8 @@ export default function MigrationService() {
                     4. Personal documents
                   </h4>
                   <p className="text-gray-700 mb-3">
-                    Don't forget the basics. You'll need to prove your identity and visa status. This might include:
+                    Don't forget the basics. You'll need to prove your identity
+                    and visa status. This might include:
                   </p>
                   <div className="space-y-1">
                     <div className="flex items-start">
@@ -1341,7 +1397,10 @@ export default function MigrationService() {
                     </div>
                     <div className="flex items-start">
                       <span className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2"></span>
-                      <span>Current Australian visa (if you're applying from inside the country)</span>
+                      <span>
+                        Current Australian visa (if you're applying from inside
+                        the country)
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -1350,7 +1409,9 @@ export default function MigrationService() {
                   <h4 className="text-lg font-semibold text-red-700 mb-3">
                     5. Other supporting material
                   </h4>
-                  <p className="text-gray-700 mb-3">Depending on your field, you might also need:</p>
+                  <p className="text-gray-700 mb-3">
+                    Depending on your field, you might also need:
+                  </p>
                   <div className="space-y-1">
                     <div className="flex items-start">
                       <span className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2"></span>
@@ -1362,7 +1423,10 @@ export default function MigrationService() {
                     </div>
                     <div className="flex items-start">
                       <span className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2"></span>
-                      <span>Links to published articles, performances, or exhibitions</span>
+                      <span>
+                        Links to published articles, performances, or
+                        exhibitions
+                      </span>
                     </div>
                     <div className="flex items-start">
                       <span className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2"></span>
@@ -1374,14 +1438,17 @@ export default function MigrationService() {
 
               <div className="bg-yellow-50 p-4 rounded-lg mt-6 border-l-4 border-yellow-500">
                 <p className="text-sm text-gray-700">
-                  <strong>Expert tip:</strong> Remember — the more evidence, the better. But it must be relevant and clearly presented. If something's 
-                  hard to understand or looks incomplete, it could delay things.
+                  <strong>Expert tip:</strong> Remember — the more evidence, the
+                  better. But it must be relevant and clearly presented. If
+                  something's hard to understand or looks incomplete, it could
+                  delay things.
                 </p>
               </div>
 
               <div className="bg-red-100 p-4 rounded-lg mt-4">
                 <p className="italic text-red-800">
-                  Not sure if your documents are enough? That's what we're here for.
+                  Not sure if your documents are enough? That's what we're here
+                  for.
                 </p>
               </div>
             </div>
@@ -1391,15 +1458,16 @@ export default function MigrationService() {
               <h3 className="text-xl font-bold text-gray-800 mb-6">
                 FAQs About the National Innovation Visa
               </h3>
-              
+
               <div className="space-y-6">
                 <div className="border-l-4 border-blue-500 pl-4">
                   <h4 className="font-semibold text-gray-800 mb-2">
                     Q: Do I need to be in Australia to apply?
                   </h4>
                   <p className="text-gray-700">
-                    A: No. You can be inside or outside Australia when you apply and when the visa is granted. You just can't 
-                    be in immigration clearance at the time.
+                    A: No. You can be inside or outside Australia when you apply
+                    and when the visa is granted. You just can't be in
+                    immigration clearance at the time.
                   </p>
                 </div>
 
@@ -1408,28 +1476,33 @@ export default function MigrationService() {
                     Q: Can I include family members in my application?
                   </h4>
                   <p className="text-gray-700">
-                    A: Yes, eligible family members can be included in your application. They can also enjoy the same 
-                    benefits once the visa is granted.
+                    A: Yes, eligible family members can be included in your
+                    application. They can also enjoy the same benefits once the
+                    visa is granted.
                   </p>
                 </div>
 
                 <div className="border-l-4 border-purple-500 pl-4">
                   <h4 className="font-semibold text-gray-800 mb-2">
-                    Q: What if I'm not sure I meet the 'internationally recognised' criteria?
+                    Q: What if I'm not sure I meet the 'internationally
+                    recognised' criteria?
                   </h4>
                   <p className="text-gray-700">
-                    A: We recommend booking a FREE consultation so we can assess your case. Every situation is different, 
-                    and we'll give you clear advice based on your unique achievements.
+                    A: We recommend booking a FREE consultation so we can assess
+                    your case. Every situation is different, and we'll give you
+                    clear advice based on your unique achievements.
                   </p>
                 </div>
 
                 <div className="border-l-4 border-orange-500 pl-4">
                   <h4 className="font-semibold text-gray-800 mb-2">
-                    Q: Can CIA Lawyers help with gathering documents and submitting the EOI?
+                    Q: Can CIA Lawyers help with gathering documents and
+                    submitting the EOI?
                   </h4>
                   <p className="text-gray-700">
-                    A: Absolutely. We handle everything from checking your eligibility to preparing your application and 
-                    working with your nominator.
+                    A: Absolutely. We handle everything from checking your
+                    eligibility to preparing your application and working with
+                    your nominator.
                   </p>
                 </div>
 
@@ -1438,8 +1511,9 @@ export default function MigrationService() {
                     Q: What if my application is refused?
                   </h4>
                   <p className="text-gray-700">
-                    A: We can advise you on possible review options, depending on the reason for the refusal. Having expert 
-                    legal help from the beginning reduces the risk of refusal.
+                    A: We can advise you on possible review options, depending
+                    on the reason for the refusal. Having expert legal help from
+                    the beginning reduces the risk of refusal.
                   </p>
                 </div>
               </div>
@@ -1449,8 +1523,10 @@ export default function MigrationService() {
             <div className="bg-green-600 text-white p-6 rounded-lg">
               <div className="text-center">
                 <p className="text-lg mb-4">
-                  The National Innovation visa is designed for exceptional individuals who have made significant 
-                  international contributions to their field and are ready to bring their talents to Australia.
+                  The National Innovation visa is designed for exceptional
+                  individuals who have made significant international
+                  contributions to their field and are ready to bring their
+                  talents to Australia.
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                   <Button className="bg-white text-green-600 hover:bg-gray-100">
