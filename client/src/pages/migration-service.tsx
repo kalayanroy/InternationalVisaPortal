@@ -94,51 +94,49 @@ export default function MigrationService() {
       color: "bg-blue-100 text-blue-800",
     },
     {
-      name: "Federal Circuit Court",
+      name: "Visa Refusals",
       tag: "TRENDING",
       color: "bg-green-100 text-green-800",
     },
-    { name: "Migration Review Tribunal", tag: "", color: "" },
-    { name: "Character Issues", tag: "", color: "" },
-    { name: "Deportation", tag: "", color: "" },
+    { name: "Judicial Review", tag: "", color: "" },
+    { name: "Legal Assistance", tag: "", color: "" },
   ];
 
   const childrenVisaServices = [
     {
-      name: "Adoption (Hague)",
+      name: "Adoption (Subclass 102) visa",
       tag: "POPULAR",
       color: "bg-blue-100 text-blue-800",
     },
-    { name: "Child Visa", tag: "", color: "" },
+    { name: "Child (subclass 101) visas", tag: "", color: "" },
     {
-      name: "Dependent Child Visa",
+      name: "Child (subclass 802) visas",
       tag: "TRENDING",
       color: "bg-green-100 text-green-800",
     },
-    { name: "Orphan Relative Visa", tag: "", color: "" },
-    { name: "Remaining Relative Visa", tag: "", color: "" },
-    { name: "Contributory Child Visa", tag: "", color: "" },
-    { name: "Skilled Migration", tag: "", color: "" },
-    { name: "Student Visa", tag: "", color: "" },
-    { name: "Working Holiday", tag: "", color: "" },
+    { name: "Dependent Child (Subclass 445) visa", tag: "", color: "" },
+    { name: "Orphan Relative (Subclass 117) visas", tag: "", color: "" },
+    { name: "Orphan Relative (Subclass 837) visas", tag: "", color: "" },
   ];
 
   const parentPartnerServices = [
     {
-      name: "Aged Parent (Resident)",
+      name: "Aged Parent (Subclass 804) visa",
       tag: "POPULAR",
       color: "bg-blue-100 text-blue-800",
     },
-    { name: "Contributory Parent", tag: "", color: "" },
     {
-      name: "Parent Visa",
+      name: "Contributory Aged Parent (Subclass 884) visas",
+      tag: "",
+      color: "",
+    },
+    {
+      name: "Sponsored Parent (Subclass 870) visa",
       tag: "TRENDING",
       color: "bg-green-100 text-green-800",
     },
-    { name: "Prospective Marriage", tag: "", color: "" },
-    { name: "Partner Visa", tag: "", color: "" },
-    { name: "Prospective Parent", tag: "", color: "" },
-    { name: "Spouse Visa", tag: "", color: "" },
+    { name: "Partner visa", tag: "", color: "" },
+    { name: "Family visa", tag: "", color: "" },
   ];
 
   const otherServices = [
@@ -153,9 +151,9 @@ export default function MigrationService() {
       tag: "TRENDING",
       color: "bg-green-100 text-green-800",
     },
-    { name: "Visitor Visa", tag: "", color: "" },
-    { name: "Working Holiday/Working Visa", tag: "", color: "" },
-    { name: "Resident Status", tag: "", color: "" },
+    { name: "Graduates", tag: "", color: "" },
+    { name: "Refugee and Humanitarian", tag: "", color: "" },
+    { name: "Resident Return", tag: "", color: "" },
   ];
 
   const visitorVisaServices = [
@@ -164,7 +162,7 @@ export default function MigrationService() {
       tag: "POPULAR",
       color: "bg-blue-100 text-blue-800",
     },
-    { name: "Electronic Travel Authority", tag: "", color: "" },
+    { name: "Visitors Visa 601", tag: "", color: "" },
     {
       name: "Visitor Visa 651",
       tag: "TRENDING",
@@ -174,50 +172,47 @@ export default function MigrationService() {
 
   const familyLawServices = [
     "Adoption",
-    "Surrogacy/Family Law Court Orders",
-    "Divorce/Property Settlement",
+    "Breaching Family Law Court Orders",
     "Binding Financial Agreements",
-    "Parenting Orders",
-    "Child Support",
+    "Making an offer",
+    "Child Custody",
     "Family Law Court Litigation",
-    "Consent Orders",
-    "Domestic Violence Protection",
+    "Child Support",
+    "Divorce proceedings",
     "Domestic Violence",
-    "Law and Protection Lawyer",
+    "Care and Protection Lawyer",
   ];
 
   const criminalOffencesServices = [
-    "AVO (apprehended violence order)",
+    "AVOs (Apprehended violence order)",
     "Fraud Charges",
-    "Assault Offences",
-    "Assault Offences",
-    "Drink Driving",
+    "ARSON offences",
+    "Move on Direction",
     "Assault Charges",
-    "Assault Offences",
-    "Drug Charges and Offences",
-    "Drink Driving and Intimidation",
-    "Assault Help Around",
-    "Drink Driving Offences",
-    "Assault Offences",
-    "Drug Charges and Offences",
-    "Drink Driving and Intimidation",
-    "Violent Offences",
+    "Bail",
+    "Manslaughter and Murder",
+    "Stalking and Intimidation",
+    "Cruelty to Animals",
+    "Public Order Offences",
+    "Cybercrime",
+    "Robbery",
+    "Damage to Property",
     "Sexual Offences",
     "Drug Offences",
   ];
 
   const trafficLawServices = [
     "Dangerous Driving",
-    "Licence Suspension",
+    "Mobile Phone Camera",
     "Drink Driving",
     "Negligent Driving",
-    "Advice Penalty",
+    "Police Pursuits",
     "Driving Offences Appeal",
-    "Drink Suspension",
+    "Predatory Driving",
     "Driving Recklessly",
-    "Liability for Accident",
-    "Driving WITHOUT Suspended",
-    "Appeal Current",
+    "Red Light Camera",
+    "Driving Whilst Suspended",
+    "Speed Camera",
     "Habitual Offender Get Services",
     "Speeding and Steep Racing",
   ];
@@ -355,9 +350,12 @@ export default function MigrationService() {
                     <div
                       key={index}
                       className={`flex items-center justify-between ${
-                        service.name === "Skilled Nominated Visa (Subclass 190)" ||
-                        service.name === "Skilled Work Regional (Provisional) Visa (Subclass 491)" ||
-                        service.name === "Skilled Independent Visa (Subclass 189)"
+                        service.name ===
+                          "Skilled Nominated Visa (Subclass 190)" ||
+                        service.name ===
+                          "Skilled Work Regional (Provisional) Visa (Subclass 491)" ||
+                        service.name ===
+                          "Skilled Independent Visa (Subclass 189)"
                           ? "cursor-pointer hover:bg-gray-50 p-2 rounded-md transition-colors"
                           : ""
                       }`}
@@ -373,7 +371,8 @@ export default function MigrationService() {
                         ) {
                           setIsSubclass491ModalOpen(true);
                         } else if (
-                          service.name === "Skilled Independent Visa (Subclass 189)"
+                          service.name ===
+                          "Skilled Independent Visa (Subclass 189)"
                         ) {
                           setIsSubclass189ModalOpen(true);
                         }
@@ -5177,69 +5176,92 @@ export default function MigrationService() {
               </Button>
             </div>
           </DialogHeader>
-          
+
           <div className="space-y-8 py-6">
             {/* Benefits Section */}
             <div className="bg-teal-50 p-6 rounded-lg">
               <h3 className="text-2xl font-bold text-teal-700 mb-4">
-                Benefits of the Skilled Work Regional (Provisional) Visa (Subclass 491)
+                Benefits of the Skilled Work Regional (Provisional) Visa
+                (Subclass 491)
               </h3>
-              
+
               <p className="text-gray-700 mb-6">
-                The Skilled Work Regional (Provisional) Visa (Subclass 491) offers several advantages for skilled professionals 
-                looking to settle in Australia's regional areas.
+                The Skilled Work Regional (Provisional) Visa (Subclass 491)
+                offers several advantages for skilled professionals looking to
+                settle in Australia's regional areas.
               </p>
 
               <p className="text-gray-700 mb-6">
-                <strong>Let's take a closer look at how this visa can benefit you:</strong>
+                <strong>
+                  Let's take a closer look at how this visa can benefit you:
+                </strong>
               </p>
 
               <div className="space-y-6">
                 {/* Work and Study in Regional Areas */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-teal-500">
-                  <h4 className="font-bold text-teal-700 mb-3">Work and Study in Regional Areas:</h4>
+                  <h4 className="font-bold text-teal-700 mb-3">
+                    Work and Study in Regional Areas:
+                  </h4>
                   <p className="text-gray-700">
-                    With this visa, you can live, work, and study in regional Australia for up to five years. It's an excellent 
-                    opportunity to experience different parts of Australia, all while advancing your career in a thriving 
-                    workforce.
+                    With this visa, you can live, work, and study in regional
+                    Australia for up to five years. It's an excellent
+                    opportunity to experience different parts of Australia, all
+                    while advancing your career in a thriving workforce.
                   </p>
                 </div>
 
                 {/* Pathway to Permanent Residency */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-blue-500">
-                  <h4 className="font-bold text-blue-700 mb-3">Pathway to Permanent Residency:</h4>
+                  <h4 className="font-bold text-blue-700 mb-3">
+                    Pathway to Permanent Residency:
+                  </h4>
                   <p className="text-gray-700">
-                    The Subclass 491 visa is your gateway to permanent residency in Australia. After holding the visa for 
-                    three years, you may be eligible to apply for permanent residency under the Skilled Regional (Permanent) 
-                    Visa (Subclass 191), bringing long-term security and stability for you and your family.
+                    The Subclass 491 visa is your gateway to permanent residency
+                    in Australia. After holding the visa for three years, you
+                    may be eligible to apply for permanent residency under the
+                    Skilled Regional (Permanent) Visa (Subclass 191), bringing
+                    long-term security and stability for you and your family.
                   </p>
                 </div>
 
                 {/* Family Sponsorship */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-green-500">
-                  <h4 className="font-bold text-green-700 mb-3">Family Sponsorship:</h4>
+                  <h4 className="font-bold text-green-700 mb-3">
+                    Family Sponsorship:
+                  </h4>
                   <p className="text-gray-700">
-                    This visa allows you to include your family members in your application. If approved, they can join you in 
-                    Australia, work, study, and enjoy all the benefits that come with living in this beautiful country.
+                    This visa allows you to include your family members in your
+                    application. If approved, they can join you in Australia,
+                    work, study, and enjoy all the benefits that come with
+                    living in this beautiful country.
                   </p>
                 </div>
 
                 {/* Access to Medicare */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
-                  <h4 className="font-bold text-purple-700 mb-3">Access to Medicare:</h4>
+                  <h4 className="font-bold text-purple-700 mb-3">
+                    Access to Medicare:
+                  </h4>
                   <p className="text-gray-700">
-                    As a Subclass 491 visa holder, you'll be eligible for Medicare, Australia's public healthcare system. This 
-                    means you'll have access to essential healthcare services at little or no cost, giving you peace of mind 
-                    when it comes to medical needs.
+                    As a Subclass 491 visa holder, you'll be eligible for
+                    Medicare, Australia's public healthcare system. This means
+                    you'll have access to essential healthcare services at
+                    little or no cost, giving you peace of mind when it comes to
+                    medical needs.
                   </p>
                 </div>
 
                 {/* Opportunities in Regional Areas */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-orange-500">
-                  <h4 className="font-bold text-orange-700 mb-3">Opportunities in Regional Areas:</h4>
+                  <h4 className="font-bold text-orange-700 mb-3">
+                    Opportunities in Regional Areas:
+                  </h4>
                   <p className="text-gray-700">
-                    Living and working in regional Australia can be a fantastic opportunity. The job market in these areas is 
-                    often less competitive, increasing your chances of finding a stable job.
+                    Living and working in regional Australia can be a fantastic
+                    opportunity. The job market in these areas is often less
+                    competitive, increasing your chances of finding a stable
+                    job.
                   </p>
                 </div>
               </div>
@@ -5247,8 +5269,10 @@ export default function MigrationService() {
               <div className="bg-teal-100 p-4 rounded-lg mt-6 border border-teal-300">
                 <p className="text-teal-800 text-center italic">
                   <strong>
-                    This visa not only opens doors to a fulfilling life in Australia but also provides a clear pathway to 
-                    permanent residency, making it an attractive option for skilled professionals.
+                    This visa not only opens doors to a fulfilling life in
+                    Australia but also provides a clear pathway to permanent
+                    residency, making it an attractive option for skilled
+                    professionals.
                   </strong>
                 </p>
               </div>
@@ -5257,49 +5281,67 @@ export default function MigrationService() {
             {/* Eligibility Criteria */}
             <div className="bg-gray-50 p-6 rounded-lg">
               <h3 className="text-2xl font-bold text-gray-800 mb-4">
-                Eligibility Criteria for the Skilled Work Regional (Provisional) Visa (Subclass 491)
+                Eligibility Criteria for the Skilled Work Regional (Provisional)
+                Visa (Subclass 491)
               </h3>
-              
+
               <p className="text-gray-700 mb-6">
-                To successfully apply for the Skilled Work Regional (Provisional) Visa (Subclass 491), you'll need to meet 
-                several important eligibility requirements. Let's break down what you need to qualify for this visa:
+                To successfully apply for the Skilled Work Regional
+                (Provisional) Visa (Subclass 491), you'll need to meet several
+                important eligibility requirements. Let's break down what you
+                need to qualify for this visa:
               </p>
 
               <div className="space-y-6">
                 {/* Age Requirement */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-blue-500">
-                  <h4 className="font-bold text-blue-700 mb-3">Age Requirement:</h4>
+                  <h4 className="font-bold text-blue-700 mb-3">
+                    Age Requirement:
+                  </h4>
                   <p className="text-gray-700">
-                    You must be under 45 years of age at the time of your application. This age limit ensures that you are 
-                    within the working age bracket and can contribute to the regional workforce in Australia.
+                    You must be under 45 years of age at the time of your
+                    application. This age limit ensures that you are within the
+                    working age bracket and can contribute to the regional
+                    workforce in Australia.
                   </p>
                 </div>
 
                 {/* Skills and Qualifications */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-green-500">
-                  <h4 className="font-bold text-green-700 mb-3">Skills and Qualifications:</h4>
+                  <h4 className="font-bold text-green-700 mb-3">
+                    Skills and Qualifications:
+                  </h4>
                   <p className="text-gray-700">
-                    You must have a valid skills assessment for a position on Australia's skilled occupation list. This means 
-                    you need to demonstrate that your qualifications and work experience meet the requirements for a 
-                    specific occupation in demand in regional areas.
+                    You must have a valid skills assessment for a position on
+                    Australia's skilled occupation list. This means you need to
+                    demonstrate that your qualifications and work experience
+                    meet the requirements for a specific occupation in demand in
+                    regional areas.
                   </p>
                 </div>
 
                 {/* English Language Proficiency */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
-                  <h4 className="font-bold text-purple-700 mb-3">English Language Proficiency:</h4>
+                  <h4 className="font-bold text-purple-700 mb-3">
+                    English Language Proficiency:
+                  </h4>
                   <p className="text-gray-700">
-                    To apply, you must prove your proficiency in English by meeting the required score in a recognised 
-                    English test such as IELTS, TOEFL, or PTE.
+                    To apply, you must prove your proficiency in English by
+                    meeting the required score in a recognised English test such
+                    as IELTS, TOEFL, or PTE.
                   </p>
                 </div>
 
                 {/* Sponsorship or Nomination */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-orange-500">
-                  <h4 className="font-bold text-orange-700 mb-3">Sponsorship or Nomination:</h4>
+                  <h4 className="font-bold text-orange-700 mb-3">
+                    Sponsorship or Nomination:
+                  </h4>
                   <p className="text-gray-700">
-                    You must be sponsored by an eligible family member or nominated by a State or Territory government. 
-                    The sponsorship or nomination ensures that you will live and work in a regional area of Australia.
+                    You must be sponsored by an eligible family member or
+                    nominated by a State or Territory government. The
+                    sponsorship or nomination ensures that you will live and
+                    work in a regional area of Australia.
                   </p>
                 </div>
 
@@ -5307,27 +5349,37 @@ export default function MigrationService() {
                 <div className="bg-white p-6 rounded-lg border-l-4 border-red-500">
                   <h4 className="font-bold text-red-700 mb-3">Points Test:</h4>
                   <p className="text-gray-700">
-                    You must pass the points test, which awards points for factors like age, English language skills, education, 
-                    and work experience. You need a minimum score of 65 points to be eligible to apply for the visa.
+                    You must pass the points test, which awards points for
+                    factors like age, English language skills, education, and
+                    work experience. You need a minimum score of 65 points to be
+                    eligible to apply for the visa.
                   </p>
                 </div>
 
                 {/* Health and Character Requirements */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-blue-600">
-                  <h4 className="font-bold text-blue-700 mb-3">Health and Character Requirements:</h4>
+                  <h4 className="font-bold text-blue-700 mb-3">
+                    Health and Character Requirements:
+                  </h4>
                   <p className="text-gray-700">
-                    You and any family members included in your application must meet Australian health and character 
-                    standards. This involves undergoing health examinations and providing police checks to ensure you 
-                    don't have any significant criminal history.
+                    You and any family members included in your application must
+                    meet Australian health and character standards. This
+                    involves undergoing health examinations and providing police
+                    checks to ensure you don't have any significant criminal
+                    history.
                   </p>
                 </div>
 
                 {/* Commitment to Regional Australia */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-teal-500">
-                  <h4 className="font-bold text-teal-700 mb-3">Commitment to Regional Australia:</h4>
+                  <h4 className="font-bold text-teal-700 mb-3">
+                    Commitment to Regional Australia:
+                  </h4>
                   <p className="text-gray-700">
-                    You must be willing to live, work, and study in a designated regional area of Australia for the duration of 
-                    your visa. This ensures that you contribute to the growth and development of regional communities.
+                    You must be willing to live, work, and study in a designated
+                    regional area of Australia for the duration of your visa.
+                    This ensures that you contribute to the growth and
+                    development of regional communities.
                   </p>
                 </div>
               </div>
@@ -5335,9 +5387,11 @@ export default function MigrationService() {
               <div className="bg-blue-100 p-4 rounded-lg mt-6 border border-blue-300">
                 <p className="text-blue-800 text-center">
                   <strong>
-                    Meeting these eligibility criteria is crucial for a successful application. If you're unsure about any of the 
-                    requirements or need assistance, seeking advice from an immigration lawyer can help you navigate 
-                    the process and ensure everything is in order.
+                    Meeting these eligibility criteria is crucial for a
+                    successful application. If you're unsure about any of the
+                    requirements or need assistance, seeking advice from an
+                    immigration lawyer can help you navigate the process and
+                    ensure everything is in order.
                   </strong>
                 </p>
               </div>
@@ -5355,8 +5409,10 @@ export default function MigrationService() {
                     Q: Can I move to another state after receiving the 491 visa?
                   </h4>
                   <p className="text-gray-700">
-                    <strong>A:</strong> While you can move to another state, your visa conditions may require you to live and work in the 
-                    nominated regional area. It's important to comply with these conditions to avoid complications.
+                    <strong>A:</strong> While you can move to another state,
+                    your visa conditions may require you to live and work in the
+                    nominated regional area. It's important to comply with these
+                    conditions to avoid complications.
                   </p>
                 </div>
 
@@ -5365,28 +5421,36 @@ export default function MigrationService() {
                     Q: How do I apply for the Subclass 491 visa?
                   </h4>
                   <p className="text-gray-700">
-                    <strong>A:</strong> To apply, submit an Expression of Interest (EOI) through SkillSelect. You must score at least 65 points, 
-                    and once invited, you can apply with the necessary documentation like skills assessments.
+                    <strong>A:</strong> To apply, submit an Expression of
+                    Interest (EOI) through SkillSelect. You must score at least
+                    65 points, and once invited, you can apply with the
+                    necessary documentation like skills assessments.
                   </p>
                 </div>
 
                 <div className="border-l-4 border-purple-500 pl-4 bg-white p-4 rounded-r-lg">
                   <h4 className="font-semibold text-gray-800 mb-2">
-                    Q: Is there a pathway to permanent residency from the Subclass 491 visa?
+                    Q: Is there a pathway to permanent residency from the
+                    Subclass 491 visa?
                   </h4>
                   <p className="text-gray-700">
-                    <strong>A:</strong> Yes, after holding the Subclass 491 visa for three years, you may apply for permanent residency 
-                    through the Subclass 191 visa if you meet specific work and residency conditions.
+                    <strong>A:</strong> Yes, after holding the Subclass 491 visa
+                    for three years, you may apply for permanent residency
+                    through the Subclass 191 visa if you meet specific work and
+                    residency conditions.
                   </p>
                 </div>
 
                 <div className="border-l-4 border-orange-500 pl-4 bg-white p-4 rounded-r-lg">
                   <h4 className="font-semibold text-gray-800 mb-2">
-                    Q: What happens if my Expression of Interest (EOI) is not selected?
+                    Q: What happens if my Expression of Interest (EOI) is not
+                    selected?
                   </h4>
                   <p className="text-gray-700">
-                    <strong>A:</strong> If your EOI isn't selected, you'll need to wait for a future invitation. You may increase your chances by 
-                    improving your points score or adjusting your nominated occupation.
+                    <strong>A:</strong> If your EOI isn't selected, you'll need
+                    to wait for a future invitation. You may increase your
+                    chances by improving your points score or adjusting your
+                    nominated occupation.
                   </p>
                 </div>
               </div>
@@ -5396,10 +5460,14 @@ export default function MigrationService() {
             <div className="bg-teal-600 text-white p-6 rounded-lg">
               <div className="text-center">
                 <p className="text-lg mb-4">
-                  The Skilled Work Regional (Provisional) Visa (Subclass 491) offers an excellent pathway to live and work 
-                  in regional Australia while building towards permanent residency. With comprehensive benefits including 
-                  Medicare access, family sponsorship opportunities, and a clear pathway to permanent residency after 
-                  three years, this visa opens doors to a fulfilling future in Australia's thriving regional communities.
+                  The Skilled Work Regional (Provisional) Visa (Subclass 491)
+                  offers an excellent pathway to live and work in regional
+                  Australia while building towards permanent residency. With
+                  comprehensive benefits including Medicare access, family
+                  sponsorship opportunities, and a clear pathway to permanent
+                  residency after three years, this visa opens doors to a
+                  fulfilling future in Australia's thriving regional
+                  communities.
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                   <Button className="bg-white text-teal-600 hover:bg-gray-100">
@@ -5445,55 +5513,68 @@ export default function MigrationService() {
               </Button>
             </div>
           </DialogHeader>
-          
+
           <div className="space-y-8 py-6">
             {/* Detailed Breakdown of Each Stream */}
             <div className="bg-purple-50 p-6 rounded-lg">
               <h3 className="text-2xl font-bold text-purple-700 mb-4">
                 Detailed Breakdown of Each Stream
               </h3>
-              
+
               <p className="text-gray-700 mb-6">
-                The Skilled Independent Visa (Subclass 189) offers multiple streams designed to meet the needs of different 
-                applicants. Each stream has specific eligibility criteria, and at CIA Lawyers, we'll guide you through the details 
-                to ensure the right pathway for you.
+                The Skilled Independent Visa (Subclass 189) offers multiple
+                streams designed to meet the needs of different applicants. Each
+                stream has specific eligibility criteria, and at CIA Lawyers,
+                we'll guide you through the details to ensure the right pathway
+                for you.
               </p>
 
               {/* Points Tested Stream */}
               <div className="mb-8">
-                <h4 className="text-xl font-bold text-purple-700 mb-4">#1. Points tested stream</h4>
+                <h4 className="text-xl font-bold text-purple-700 mb-4">
+                  #1. Points tested stream
+                </h4>
                 <p className="text-gray-700 mb-4">
-                  The Points Tested Stream is the most common and flexible option for skilled workers. If you have the 
-                  right qualifications, work experience, and English skills, you can submit an Expression of Interest (EOI) 
-                  and be invited to apply for the visa.
+                  The Points Tested Stream is the most common and flexible
+                  option for skilled workers. If you have the right
+                  qualifications, work experience, and English skills, you can
+                  submit an Expression of Interest (EOI) and be invited to apply
+                  for the visa.
                 </p>
 
                 <div className="bg-white p-6 rounded-lg border border-purple-200 mb-4">
-                  <h5 className="font-bold text-purple-700 mb-3">Requirements:</h5>
+                  <h5 className="font-bold text-purple-700 mb-3">
+                    Requirements:
+                  </h5>
                   <div className="space-y-3">
                     <div className="flex items-start">
                       <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                       <p className="text-gray-700">
-                        <strong>Skilled Occupation:</strong> Your profession must be on the Medium and Long-term Strategic Skills List 
-                        (MLTSSL).
+                        <strong>Skilled Occupation:</strong> Your profession
+                        must be on the Medium and Long-term Strategic Skills
+                        List (MLTSSL).
                       </p>
                     </div>
                     <div className="flex items-start">
                       <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                       <p className="text-gray-700">
-                        <strong>Age:</strong> You must be under 45 years old at the time of invitation.
+                        <strong>Age:</strong> You must be under 45 years old at
+                        the time of invitation.
                       </p>
                     </div>
                     <div className="flex items-start">
                       <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                       <p className="text-gray-700">
-                        <strong>English Proficiency:</strong> You must meet the required English language level.
+                        <strong>English Proficiency:</strong> You must meet the
+                        required English language level.
                       </p>
                     </div>
                     <div className="flex items-start">
                       <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                       <p className="text-gray-700">
-                        <strong>Points:</strong> You need a minimum of 65 points, but the higher your score, the better your chances.
+                        <strong>Points:</strong> You need a minimum of 65
+                        points, but the higher your score, the better your
+                        chances.
                       </p>
                     </div>
                   </div>
@@ -5502,9 +5583,10 @@ export default function MigrationService() {
                 <div className="bg-blue-100 p-4 rounded-lg border border-blue-300">
                   <p className="text-blue-800 italic">
                     <strong>
-                      At CIA Lawyers, we'll help you calculate your points and advise on how to maximise your score. 
-                      Whether it's through your English test results or work experience, we ensure you submit a top-tier 
-                      application.
+                      At CIA Lawyers, we'll help you calculate your points and
+                      advise on how to maximise your score. Whether it's through
+                      your English test results or work experience, we ensure
+                      you submit a top-tier application.
                     </strong>
                   </p>
                 </div>
@@ -5512,20 +5594,26 @@ export default function MigrationService() {
 
               {/* Hong Kong & British National Stream */}
               <div className="mb-8">
-                <h4 className="text-xl font-bold text-green-700 mb-4">#2. Hong Kong & British National (Overseas) Stream</h4>
+                <h4 className="text-xl font-bold text-green-700 mb-4">
+                  #2. Hong Kong & British National (Overseas) Stream
+                </h4>
                 <p className="text-gray-700 mb-4">
-                  If you hold a Hong Kong or British National (Overseas) passport, this stream provides an excellent 
-                  opportunity for you to apply for permanent residency in Australia.
+                  If you hold a Hong Kong or British National (Overseas)
+                  passport, this stream provides an excellent opportunity for
+                  you to apply for permanent residency in Australia.
                 </p>
 
                 <div className="bg-white p-6 rounded-lg border border-green-200 mb-4">
-                  <h5 className="font-bold text-green-700 mb-3">Requirements:</h5>
+                  <h5 className="font-bold text-green-700 mb-3">
+                    Requirements:
+                  </h5>
                   <div className="space-y-3">
                     <div className="flex items-start">
                       <div className="w-2 h-2 bg-green-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                       <p className="text-gray-700">
-                        You must meet specific residency and commitment requirements to Australia, including 
-                        demonstrating your intention to stay long-term.
+                        You must meet specific residency and commitment
+                        requirements to Australia, including demonstrating your
+                        intention to stay long-term.
                       </p>
                     </div>
                     <div className="flex items-start">
@@ -5540,8 +5628,9 @@ export default function MigrationService() {
                 <div className="bg-green-100 p-4 rounded-lg border border-green-300">
                   <p className="text-green-800 italic">
                     <strong>
-                      If you qualify for this stream, CIA Lawyers can assist you with the application process, ensuring you 
-                      meet all requirements and increasing your chances of success.
+                      If you qualify for this stream, CIA Lawyers can assist you
+                      with the application process, ensuring you meet all
+                      requirements and increasing your chances of success.
                     </strong>
                   </p>
                 </div>
@@ -5549,18 +5638,24 @@ export default function MigrationService() {
 
               {/* New Zealand Stream */}
               <div className="mb-6">
-                <h4 className="text-xl font-bold text-red-700 mb-4">#3. New Zealand Stream</h4>
+                <h4 className="text-xl font-bold text-red-700 mb-4">
+                  #3. New Zealand Stream
+                </h4>
                 <p className="text-gray-700 mb-4">
-                  Please note, the New Zealand Stream for the Subclass 189 visa closed on 1 July 2023. This option was 
-                  previously available for New Zealand citizens living in Australia, but if you're a New Zealand citizen now 
-                  seeking permanent residency, there are other visa pathways we can explore for you.
+                  Please note, the New Zealand Stream for the Subclass 189 visa
+                  closed on 1 July 2023. This option was previously available
+                  for New Zealand citizens living in Australia, but if you're a
+                  New Zealand citizen now seeking permanent residency, there are
+                  other visa pathways we can explore for you.
                 </p>
 
                 <div className="bg-red-100 p-4 rounded-lg border border-red-300">
                   <p className="text-red-800 italic">
                     <strong>
-                      Whether you are a New Zealand citizen or looking for a different visa option, our team at CIA 
-                      Lawyers can help you explore the best alternatives available for your specific situation.
+                      Whether you are a New Zealand citizen or looking for a
+                      different visa option, our team at CIA Lawyers can help
+                      you explore the best alternatives available for your
+                      specific situation.
                     </strong>
                   </p>
                 </div>
@@ -5570,47 +5665,62 @@ export default function MigrationService() {
             {/* Eligibility Criteria */}
             <div className="bg-gray-50 p-6 rounded-lg">
               <h3 className="text-2xl font-bold text-gray-800 mb-4">
-                Eligibility Criteria for the Skilled Independent Visa (Subclass 189)
+                Eligibility Criteria for the Skilled Independent Visa (Subclass
+                189)
               </h3>
-              
+
               <p className="text-gray-700 mb-6">
-                To successfully apply for the Skilled Independent Visa (subclass 189), here's what you need to meet. Our team 
-                at CIA Lawyers will guide you through every step:
+                To successfully apply for the Skilled Independent Visa (subclass
+                189), here's what you need to meet. Our team at CIA Lawyers will
+                guide you through every step:
               </p>
 
               <div className="space-y-6">
                 {/* Age Requirement */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-blue-500">
-                  <h4 className="font-bold text-blue-700 mb-3">Age Requirement:</h4>
+                  <h4 className="font-bold text-blue-700 mb-3">
+                    Age Requirement:
+                  </h4>
                   <p className="text-gray-700">
-                    You must be under 45 years old when you're invited to apply. This is a strict age limit for eligibility.
+                    You must be under 45 years old when you're invited to apply.
+                    This is a strict age limit for eligibility.
                   </p>
                 </div>
 
                 {/* Nominated Occupation */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-green-500">
-                  <h4 className="font-bold text-green-700 mb-3">Nominated Occupation:</h4>
+                  <h4 className="font-bold text-green-700 mb-3">
+                    Nominated Occupation:
+                  </h4>
                   <p className="text-gray-700">
-                    Your occupation must be on the Medium and Long-term Strategic Skills List (MLTSSL). We'll help you 
-                    confirm if your occupation is eligible.
+                    Your occupation must be on the Medium and Long-term
+                    Strategic Skills List (MLTSSL). We'll help you confirm if
+                    your occupation is eligible.
                   </p>
                 </div>
 
                 {/* Skills Assessment */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
-                  <h4 className="font-bold text-purple-700 mb-3">Skills Assessment:</h4>
+                  <h4 className="font-bold text-purple-700 mb-3">
+                    Skills Assessment:
+                  </h4>
                   <p className="text-gray-700">
-                    You must have your qualifications and work experience assessed by the appropriate authority. We'll 
-                    guide you to the right assessing body and ensure everything is done correctly.
+                    You must have your qualifications and work experience
+                    assessed by the appropriate authority. We'll guide you to
+                    the right assessing body and ensure everything is done
+                    correctly.
                   </p>
                 </div>
 
                 {/* English Language Proficiency */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-orange-500">
-                  <h4 className="font-bold text-orange-700 mb-3">English Language Proficiency:</h4>
+                  <h4 className="font-bold text-orange-700 mb-3">
+                    English Language Proficiency:
+                  </h4>
                   <p className="text-gray-700">
-                    You need to prove your English skills with an approved test, like IELTS or PTE. We'll make sure you're 
-                    prepared for the test and meet the language requirements.
+                    You need to prove your English skills with an approved test,
+                    like IELTS or PTE. We'll make sure you're prepared for the
+                    test and meet the language requirements.
                   </p>
                 </div>
 
@@ -5618,35 +5728,45 @@ export default function MigrationService() {
                 <div className="bg-white p-6 rounded-lg border-l-4 border-red-500">
                   <h4 className="font-bold text-red-700 mb-3">Points Test:</h4>
                   <p className="text-gray-700">
-                    You must score at least 65 points on the points test. We'll help you maximise your points and explore 
-                    ways to boost your score.
+                    You must score at least 65 points on the points test. We'll
+                    help you maximise your points and explore ways to boost your
+                    score.
                   </p>
                 </div>
 
                 {/* Health and Character */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-blue-600">
-                  <h4 className="font-bold text-blue-700 mb-3">Health and Character:</h4>
+                  <h4 className="font-bold text-blue-700 mb-3">
+                    Health and Character:
+                  </h4>
                   <p className="text-gray-700">
-                    You must meet the health and character requirements, including a medical check-up and police 
-                    clearance. We'll ensure you're fully prepared for these steps.
+                    You must meet the health and character requirements,
+                    including a medical check-up and police clearance. We'll
+                    ensure you're fully prepared for these steps.
                   </p>
                 </div>
 
                 {/* Invitation to Apply */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-teal-500">
-                  <h4 className="font-bold text-teal-700 mb-3">Invitation to Apply:</h4>
+                  <h4 className="font-bold text-teal-700 mb-3">
+                    Invitation to Apply:
+                  </h4>
                   <p className="text-gray-700">
-                    You can only apply after receiving an invitation through your Expression of Interest (EOI). We'll help you 
-                    submit your EOI and increase your chances of getting invited.
+                    You can only apply after receiving an invitation through
+                    your Expression of Interest (EOI). We'll help you submit
+                    your EOI and increase your chances of getting invited.
                   </p>
                 </div>
 
                 {/* New Zealand and Hong Kong Stream */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-pink-500">
-                  <h4 className="font-bold text-pink-700 mb-3">New Zealand and Hong Kong Stream (If Applicable):</h4>
+                  <h4 className="font-bold text-pink-700 mb-3">
+                    New Zealand and Hong Kong Stream (If Applicable):
+                  </h4>
                   <p className="text-gray-700">
-                    New Zealand citizens and Hong Kong passport holders may have additional pathways. We'll help you 
-                    navigate these streams if you're eligible.
+                    New Zealand citizens and Hong Kong passport holders may have
+                    additional pathways. We'll help you navigate these streams
+                    if you're eligible.
                   </p>
                 </div>
               </div>
@@ -5657,78 +5777,103 @@ export default function MigrationService() {
               <h3 className="text-2xl font-bold text-green-700 mb-4">
                 Benefits of the Skilled Independent Visa (Subclass 189)
               </h3>
-              
+
               <p className="text-gray-700 mb-6">
-                The Skilled Independent Visa (Subclass 189) offers numerous benefits that can significantly enhance your 
-                lifestyle and opportunities in Australia. Here's what you can expect:
+                The Skilled Independent Visa (Subclass 189) offers numerous
+                benefits that can significantly enhance your lifestyle and
+                opportunities in Australia. Here's what you can expect:
               </p>
 
               <div className="space-y-6">
                 {/* Permanent Residency */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-teal-500">
-                  <h4 className="font-bold text-teal-700 mb-3">Permanent Residency:</h4>
+                  <h4 className="font-bold text-teal-700 mb-3">
+                    Permanent Residency:
+                  </h4>
                   <p className="text-gray-700">
-                    Once granted, the Subclass 189 visa allows you to live and work permanently anywhere in Australia. This 
-                    means you have full rights to reside in the country without the need for constant renewals or restrictions 
-                    on your stay.
+                    Once granted, the Subclass 189 visa allows you to live and
+                    work permanently anywhere in Australia. This means you have
+                    full rights to reside in the country without the need for
+                    constant renewals or restrictions on your stay.
                   </p>
                 </div>
 
                 {/* Access to Medicare */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-blue-500">
-                  <h4 className="font-bold text-blue-700 mb-3">Access to Medicare:</h4>
+                  <h4 className="font-bold text-blue-700 mb-3">
+                    Access to Medicare:
+                  </h4>
                   <p className="text-gray-700">
-                    As a permanent resident, you'll be eligible for Medicare, Australia's public healthcare system. This 
-                    provides you and your family access to free or low-cost medical services, making healthcare more 
-                    affordable while you live in Australia.
+                    As a permanent resident, you'll be eligible for Medicare,
+                    Australia's public healthcare system. This provides you and
+                    your family access to free or low-cost medical services,
+                    making healthcare more affordable while you live in
+                    Australia.
                   </p>
                 </div>
 
                 {/* Pathway to Australian Citizenship */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
-                  <h4 className="font-bold text-purple-700 mb-3">Pathway to Australian Citizenship:</h4>
+                  <h4 className="font-bold text-purple-700 mb-3">
+                    Pathway to Australian Citizenship:
+                  </h4>
                   <p className="text-gray-700">
-                    After meeting the residency requirements, you may apply for Australian citizenship. This opens up voting 
-                    opportunities, working in government jobs, and other privileges that come with full citizenship status.
+                    After meeting the residency requirements, you may apply for
+                    Australian citizenship. This opens up voting opportunities,
+                    working in government jobs, and other privileges that come
+                    with full citizenship status.
                   </p>
                 </div>
 
                 {/* Sponsorship of Family Members */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-orange-500">
-                  <h4 className="font-bold text-orange-700 mb-3">Sponsorship of Family Members:</h4>
+                  <h4 className="font-bold text-orange-700 mb-3">
+                    Sponsorship of Family Members:
+                  </h4>
                   <p className="text-gray-700">
-                    Once you hold the Skilled Independent Visa (Subclass 189), you can sponsor eligible family members for 
-                    their permanent residency. This is a great opportunity for reunification with loved ones in Australia.
+                    Once you hold the Skilled Independent Visa (Subclass 189),
+                    you can sponsor eligible family members for their permanent
+                    residency. This is a great opportunity for reunification
+                    with loved ones in Australia.
                   </p>
                 </div>
 
                 {/* Travel Flexibility */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-teal-600">
-                  <h4 className="font-bold text-teal-700 mb-3">Travel Flexibility:</h4>
+                  <h4 className="font-bold text-teal-700 mb-3">
+                    Travel Flexibility:
+                  </h4>
                   <p className="text-gray-700">
-                    The Subclass 189 visa gives you the freedom to leave and re-enter Australia for up to five years. This 
-                    travel flexibility means you can explore other parts of the world while still having your home base in 
-                    Australia.
+                    The Subclass 189 visa gives you the freedom to leave and
+                    re-enter Australia for up to five years. This travel
+                    flexibility means you can explore other parts of the world
+                    while still having your home base in Australia.
                   </p>
                 </div>
 
                 {/* No Need for Sponsorship or Nomination */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-purple-600">
-                  <h4 className="font-bold text-purple-700 mb-3">No Need for Sponsorship or Nomination:</h4>
+                  <h4 className="font-bold text-purple-700 mb-3">
+                    No Need for Sponsorship or Nomination:
+                  </h4>
                   <p className="text-gray-700">
-                    Unlike other work visas, you don't need an employer, family member, or state government to sponsor or 
-                    nominate you. This independence gives you the freedom to move and work anywhere in Australia 
-                    without restrictions.
+                    Unlike other work visas, you don't need an employer, family
+                    member, or state government to sponsor or nominate you. This
+                    independence gives you the freedom to move and work anywhere
+                    in Australia without restrictions.
                   </p>
                 </div>
 
                 {/* Work Anywhere in Australia */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-red-500">
-                  <h4 className="font-bold text-red-700 mb-3">Work Anywhere in Australia:</h4>
+                  <h4 className="font-bold text-red-700 mb-3">
+                    Work Anywhere in Australia:
+                  </h4>
                   <p className="text-gray-700">
-                    With the Subclass 189 visa, you are not tied to any specific employer or region. You have the freedom to 
-                    choose where you want to live and work, giving you the flexibility to pursue a variety of career 
-                    opportunities across the country.
+                    With the Subclass 189 visa, you are not tied to any specific
+                    employer or region. You have the freedom to choose where you
+                    want to live and work, giving you the flexibility to pursue
+                    a variety of career opportunities across the country.
                   </p>
                 </div>
               </div>
@@ -5736,9 +5881,10 @@ export default function MigrationService() {
               <div className="bg-green-100 p-4 rounded-lg mt-6 border border-green-300">
                 <p className="text-green-800 text-center italic">
                   <strong>
-                    We are here to help you understand and maximise the benefits of this visa. Let us guide you through 
-                    the application process, ensuring everything is in place for a smooth transition to your new life in 
-                    Australia.
+                    We are here to help you understand and maximise the benefits
+                    of this visa. Let us guide you through the application
+                    process, ensuring everything is in place for a smooth
+                    transition to your new life in Australia.
                   </strong>
                 </p>
               </div>
@@ -5748,10 +5894,13 @@ export default function MigrationService() {
             <div className="bg-purple-600 text-white p-6 rounded-lg">
               <div className="text-center">
                 <p className="text-lg mb-4">
-                  The Skilled Independent Visa (Subclass 189) represents the ultimate pathway to permanent residency in 
-                  Australia, offering complete independence from employers or state nominations. With comprehensive benefits 
-                  including permanent residency, Medicare access, pathway to citizenship, and complete work flexibility 
-                  across Australia, this visa provides the freedom and security to build your future anywhere in the country.
+                  The Skilled Independent Visa (Subclass 189) represents the
+                  ultimate pathway to permanent residency in Australia, offering
+                  complete independence from employers or state nominations.
+                  With comprehensive benefits including permanent residency,
+                  Medicare access, pathway to citizenship, and complete work
+                  flexibility across Australia, this visa provides the freedom
+                  and security to build your future anywhere in the country.
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                   <Button className="bg-white text-purple-600 hover:bg-gray-100">

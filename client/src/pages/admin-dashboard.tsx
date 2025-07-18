@@ -141,10 +141,10 @@ export default function AdminDashboard() {
   const createUniversityMutation = useMutation({
     mutationFn: async (universityData: any) => {
       const token = localStorage.getItem("token");
-      const response = await fetch('/api/admin/universities', {
-        method: 'POST',
+      const response = await fetch("/api/admin/universities", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(universityData),
@@ -152,7 +152,7 @@ export default function AdminDashboard() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to create university');
+        throw new Error(errorData.message || "Failed to create university");
       }
 
       return response.json();
@@ -534,21 +534,21 @@ export default function AdminDashboard() {
             <div className="flex items-center gap-4">
               <Button
                 variant="outline"
-                className="border-white/20 text-white hover:bg-white/10 backdrop-blur-sm"
+                className="border-white/20 bg-white/10 text-white hover:bg-white/10 backdrop-blur-sm"
               >
                 <Download className="h-4 w-4 mr-2" />
                 Export Data
               </Button>
               <Button
                 variant="outline"
-                className="border-white/20 text-white hover:bg-white/10 backdrop-blur-sm"
+                className="border-white/20 bg-white/10 text-white hover:bg-white/10 backdrop-blur-sm"
               >
                 <Bell className="h-4 w-4 mr-2" />
                 Notifications
               </Button>
               <Button
                 variant="outline"
-                className="border-white/20 text-white hover:bg-white/10 backdrop-blur-sm"
+                className="border-white/20 bg-white/10 text-white hover:bg-white/10 backdrop-blur-sm"
               >
                 <Settings className="h-4 w-4 mr-2" />
                 Settings
@@ -1632,7 +1632,7 @@ export default function AdminDashboard() {
                       Manage university listings and information
                     </CardDescription>
                   </div>
-                  <Button 
+                  <Button
                     className="bg-navy hover:bg-navy/90"
                     onClick={() => setLocation("/add-university")}
                   >
@@ -1670,26 +1670,35 @@ export default function AdminDashboard() {
                             <TableCell>
                               <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
-                                  {university.name ? university.name.charAt(0) : 'U'}
+                                  {university.name
+                                    ? university.name.charAt(0)
+                                    : "U"}
                                 </div>
                                 <div className="font-medium">
-                                  {university.name || 'Unknown University'}
+                                  {university.name || "Unknown University"}
                                 </div>
                               </div>
                             </TableCell>
                             <TableCell className="text-gray-600">
                               <div className="flex items-center gap-2">
-                                {university.flag && <span className="text-lg">{university.flag}</span>}
+                                {university.flag && (
+                                  <span className="text-lg">
+                                    {university.flag}
+                                  </span>
+                                )}
                                 <Globe className="h-4 w-4 text-gray-400" />
-                                {university.country || 'Unknown'}
+                                {university.country || "Unknown"}
                               </div>
                             </TableCell>
                             <TableCell className="text-gray-600">
-                              {university.city || 'N/A'}
+                              {university.city || "N/A"}
                             </TableCell>
                             <TableCell>
                               {university.ranking ? (
-                                <Badge variant="outline" className="font-medium">
+                                <Badge
+                                  variant="outline"
+                                  className="font-medium"
+                                >
                                   #{university.ranking}
                                 </Badge>
                               ) : (
@@ -1697,7 +1706,7 @@ export default function AdminDashboard() {
                               )}
                             </TableCell>
                             <TableCell className="text-gray-600 font-medium">
-                              {university.tuitionFee || 'N/A'}
+                              {university.tuitionFee || "N/A"}
                             </TableCell>
                             <TableCell>
                               <div className="flex justify-center gap-2">

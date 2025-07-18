@@ -49,10 +49,10 @@ export default function Header() {
     if (isEnglishTestBookPage) return "bg-[#e5e7eb]";
     if (isAUUniversityPage) return "bg-[#0891b2]";
     if (isScrolled) return "bg-white shadow-lg";
-    if (isFindCourseUndergraduatePage) return "bg-[#33b3c7]";
-    if (isFindCoursePostgraduatePage) return "bg-[#33b3c7]";
-    if (isFindCoursePhdPage) return "bg-[#33b3c7]";
-    if (isFindCourseDiplomaPage) return "bg-[#33b3c7]";
+    if (isFindCourseUndergraduatePage) return "bg-[#2dd4bf]";
+    if (isFindCoursePostgraduatePage) return "bg-[#2dd4bf]";
+    if (isFindCoursePhdPage) return "bg-[#2dd4bf]";
+    if (isFindCourseDiplomaPage) return "bg-[#2dd4bf]";
     if (isLoginPage) return "bg-[#0891b2]";
     if (isStudentApplicationPage) return "bg-[#0891b2]";
     return "bg-transparent";
