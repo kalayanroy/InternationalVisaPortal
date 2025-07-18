@@ -27,6 +27,7 @@ import { useState } from "react";
 export default function MigrationService() {
   const [isENSModalOpen, setIsENSModalOpen] = useState(false);
   const [isNIVModalOpen, setIsNIVModalOpen] = useState(false);
+  const [isLabourAgreementModalOpen, setIsLabourAgreementModalOpen] = useState(false);
 
   const employerServices = [
     {
@@ -268,7 +269,9 @@ export default function MigrationService() {
                     <div
                       key={index}
                       className={`flex items-center justify-between ${
-                        service.name === "Employer Nomination Scheme" || service.name === "National Innovation Visa 858"
+                        service.name === "Employer Nomination Scheme" || 
+                        service.name === "National Innovation Visa 858" || 
+                        service.name === "Labour Agreement"
                           ? "cursor-pointer hover:bg-gray-50 p-2 rounded-md transition-colors"
                           : ""
                       }`}
@@ -277,6 +280,8 @@ export default function MigrationService() {
                           setIsENSModalOpen(true);
                         } else if (service.name === "National Innovation Visa 858") {
                           setIsNIVModalOpen(true);
+                        } else if (service.name === "Labour Agreement") {
+                          setIsLabourAgreementModalOpen(true);
                         }
                       }}
                     >
@@ -1541,6 +1546,382 @@ export default function MigrationService() {
                     variant="outline"
                     className="border-white text-white hover:bg-white/10"
                     onClick={() => setIsNIVModalOpen(false)}
+                  >
+                    <Phone className="h-4 w-4 mr-2" />
+                    Contact Us
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Labour Agreement Modal */}
+      <Dialog open={isLabourAgreementModalOpen} onOpenChange={setIsLabourAgreementModalOpen}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader className="border-b pb-4">
+            <div className="flex items-center justify-between">
+              <DialogTitle className="text-2xl font-bold text-amber-700">
+                Labour Agreements
+              </DialogTitle>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsLabourAgreementModalOpen(false)}
+                className="h-8 w-8 p-0"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          </DialogHeader>
+          
+          <div className="space-y-8 py-6">
+            {/* What Are Labour Agreements */}
+            <div className="bg-orange-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-amber-700 mb-4">
+                What Are Labour Agreements?
+              </h3>
+              <div className="space-y-4 text-gray-700">
+                <p>
+                  Labour agreements are legally binding contracts between the Australian Government (via the Department of 
+                  Home Affairs) and employers.
+                </p>
+                <p>
+                  They let approved businesses sponsor overseas workers for roles that can't be filled by Australian citizens or 
+                  permanent residents.
+                </p>
+              </div>
+            </div>
+
+            {/* Types of Labour Agreements */}
+            <div>
+              <h3 className="text-xl font-bold text-blue-700 mb-4">
+                Types of Labour Agreements
+              </h3>
+              <p className="text-gray-700 mb-6">
+                Not all agreements are the same. Here are the five key types of labour agreements in Australia:
+              </p>
+
+              <div className="space-y-6">
+                {/* Company-Specific Labour Agreements */}
+                <div className="border-l-4 border-blue-500 pl-6 bg-blue-50 p-4 rounded-r-lg">
+                  <h4 className="text-lg font-semibold text-blue-700 mb-3">
+                    1. Company-Specific Labour Agreements
+                  </h4>
+                  <p className="text-blue-800 font-medium mb-3">
+                    Tailored for individual businesses with unique skill needs.
+                  </p>
+                  <p className="text-gray-700">
+                    These are customised agreements negotiated between your business and the government. You'll need to 
+                    show there's a genuine need for the roles and that you've tried to fill local talent first.
+                  </p>
+                </div>
+
+                {/* Industry Labour Agreements */}
+                <div className="border-l-4 border-green-500 pl-6 bg-green-50 p-4 rounded-r-lg">
+                  <h4 className="text-lg font-semibold text-green-700 mb-3">
+                    2. Industry Labour Agreements
+                  </h4>
+                  <p className="text-green-800 font-medium mb-3">
+                    Designed for whole industries experiencing long-term skill shortages.
+                  </p>
+                  <p className="text-gray-700 mb-3">
+                    Industries currently with standardised agreements include:
+                  </p>
+                  <div className="grid grid-cols-2 gap-2 text-sm">
+                    <div className="space-y-1">
+                      <div>• Aged Care</div>
+                      <div>• Fishing</div>
+                      <div>• Meat Processing</div>
+                      <div>• Dairy</div>
+                      <div>• Advertising</div>
+                    </div>
+                    <div className="space-y-1">
+                      <div>• Horticulture</div>
+                      <div>• On-hire Labour</div>
+                      <div>• Pork</div>
+                      <div>• Premium Dining Restaurants</div>
+                      <div>• Minister of Religion</div>
+                    </div>
+                  </div>
+                  <p className="text-gray-700 mt-3">
+                    Each industry has specific terms and approved occupations listed.
+                  </p>
+                </div>
+
+                {/* Designated Area Migration Agreements */}
+                <div className="border-l-4 border-purple-500 pl-6 bg-purple-50 p-4 rounded-r-lg">
+                  <h4 className="text-lg font-semibold text-purple-700 mb-3">
+                    3. Designated Area Migration Agreements (DAMA)
+                  </h4>
+                  <p className="text-purple-800 font-medium mb-3">
+                    Great if you're in a regional or remote area.
+                  </p>
+                  <p className="text-gray-700">
+                    These agreements are made between the federal government and state, territory, or regional authorities. 
+                    DAMAs target specific areas with labour shortages and usually offer access to more occupations and 
+                    concessions.
+                  </p>
+                </div>
+
+                {/* Project Agreements */}
+                <div className="border-l-4 border-red-500 pl-6 bg-red-50 p-4 rounded-r-lg">
+                  <h4 className="text-lg font-semibold text-red-700 mb-3">
+                    4. Project Agreements
+                  </h4>
+                  <p className="text-red-800 font-medium mb-3">
+                    Ideal for large-scale infrastructure or resource projects.
+                  </p>
+                  <p className="text-gray-700">
+                    Project agreements are linked to major development projects that need a rapid influx of skilled labour. 
+                    They complement other government initiatives to support local job creation while meeting the urgent 
+                    needs of industry.
+                  </p>
+                </div>
+
+                {/* Global Talent Employer Sponsored (GTES) Agreements */}
+                <div className="border-l-4 border-teal-500 pl-6 bg-teal-50 p-4 rounded-r-lg">
+                  <h4 className="text-lg font-semibold text-teal-700 mb-3">
+                    5. Global Talent Employer Sponsored (GTES) Agreements
+                  </h4>
+                  <p className="text-teal-800 font-medium mb-3">
+                    For businesses hiring highly skilled and specialised overseas talent.
+                  </p>
+                  <p className="text-gray-700">
+                    This stream supports tech and innovation sectors needing talent that's just not available in Australia. It 
+                    offers flexible conditions and faster processing for eligible companies.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* When and Why You Need a Labour Agreement */}
+            <div className="bg-yellow-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-amber-700 mb-4">
+                When and Why You Need a Labour Agreement
+              </h3>
+              <p className="text-gray-700 mb-4">
+                If you've hit a hiring wall trying to find Australians for specific roles, a labour agreement could be your 
+                solution.
+              </p>
+              
+              <div className="bg-white p-4 rounded-lg border border-yellow-200">
+                <h4 className="font-semibold text-amber-700 mb-3">
+                  Here's when it might be right for you:
+                </h4>
+                <div className="space-y-2 text-gray-700">
+                  <div className="flex items-start">
+                    <span className="w-2 h-2 bg-amber-600 rounded-full mr-3 mt-2"></span>
+                    <span>You've advertised extensively and can't find suitable local candidates.</span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="w-2 h-2 bg-amber-600 rounded-full mr-3 mt-2"></span>
+                    <span>Your industry has a documented, ongoing shortage.</span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="w-2 h-2 bg-amber-600 rounded-full mr-3 mt-2"></span>
+                    <span>You need to fill roles quickly to keep your business running or growing.</span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="w-2 h-2 bg-amber-600 rounded-full mr-3 mt-2"></span>
+                    <span>You require overseas workers under special conditions not available through standard visa programs.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white p-4 rounded-lg border border-yellow-200 mt-4">
+                <h4 className="font-semibold text-amber-700 mb-3">
+                  And what's in it for you?
+                </h4>
+                <div className="space-y-2 text-gray-700">
+                  <div className="flex items-start">
+                    <span className="w-2 h-2 bg-amber-600 rounded-full mr-3 mt-2"></span>
+                    <span>Access to skilled workers to meet your business needs.</span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="w-2 h-2 bg-amber-600 rounded-full mr-3 mt-2"></span>
+                    <span>Streamlined visa sponsorship under pre-agreed terms.</span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="w-2 h-2 bg-amber-600 rounded-full mr-3 mt-2"></span>
+                    <span>Flexibility in meeting workforce demands — especially for niche roles.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* The Labour Agreement Application Process */}
+            <div className="bg-blue-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-blue-700 mb-4">
+                The Labour Agreement Application Process
+              </h3>
+              <p className="text-gray-700 mb-6">
+                Applying for a labour agreement isn't a quick tick-and-flick. It involves steps — and paperwork.
+              </p>
+
+              <div className="bg-white p-4 rounded-lg border border-blue-200">
+                <h4 className="font-semibold text-blue-700 mb-3">
+                  Here's how it works:
+                </h4>
+                <div className="space-y-3">
+                  <div className="flex items-start">
+                    <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">1</span>
+                    <span className="text-gray-700">Read the guidelines and confirm you meet the requirements.</span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">2</span>
+                    <span className="text-gray-700">Apply online via ImmiAccount with all required documents.</span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">3</span>
+                    <span className="text-gray-700">Submit supporting evidence, including proof of recruitment efforts and workforce planning.</span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">4</span>
+                    <span className="text-gray-700">The Department will assess your request and may ask for more details.</span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">5</span>
+                    <span className="text-gray-700">If approved, you'll receive a draft agreement. Once it's signed by all parties, the agreement takes effect.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-blue-100 p-4 rounded-lg mt-4">
+                <p className="italic text-blue-800">
+                  <strong>This process can take time, especially if documentation is missing or you don't respond promptly to requests 
+                  for more info.</strong>
+                </p>
+              </div>
+            </div>
+
+            {/* How Nominations and Visas Work Under Labour Agreements */}
+            <div className="bg-pink-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-red-700 mb-4">
+                How Nominations and Visas Work Under Labour Agreements
+              </h3>
+              <p className="text-gray-700 mb-4">
+                Once your agreement is active:
+              </p>
+
+              <div className="space-y-3 text-gray-700">
+                <div className="flex items-start">
+                  <span className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2"></span>
+                  <span>You can nominate overseas workers for approved roles through ImmiAccount.</span>
+                </div>
+                <div className="flex items-start">
+                  <span className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2"></span>
+                  <span>Each nomination gives you a Transaction Reference Number (TRN).</span>
+                </div>
+                <div className="flex items-start">
+                  <span className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2"></span>
+                  <span>Your selected worker will use that TRN to apply for a visa under the labour agreement stream.</span>
+                </div>
+              </div>
+
+              <div className="bg-red-100 p-4 rounded-lg mt-4">
+                <p className="italic text-red-800">
+                  <strong>Remember, your agreement outlines how many workers you can nominate each year and which visa 
+                  subclasses apply.</strong>
+                </p>
+              </div>
+            </div>
+
+            {/* Employer Obligations */}
+            <div className="bg-red-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-red-700 mb-4">
+                Employer Obligations
+              </h3>
+              <p className="text-gray-700 mb-4">
+                A labour agreement isn't just a free pass to hire from overseas. You must:
+              </p>
+
+              <div className="space-y-3 text-gray-700">
+                <div className="flex items-start">
+                  <span className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2"></span>
+                  <span>Comply with all contract terms and Australian employment laws</span>
+                </div>
+                <div className="flex items-start">
+                  <span className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2"></span>
+                  <span>Pay market salary rates</span>
+                </div>
+                <div className="flex items-start">
+                  <span className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2"></span>
+                  <span>Meet workplace standards and protections</span>
+                </div>
+                <div className="flex items-start">
+                  <span className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2"></span>
+                  <span>Keep records and cooperate with any monitoring (yes, they do audits)</span>
+                </div>
+              </div>
+
+              <div className="bg-red-100 p-4 rounded-lg mt-4">
+                <p className="italic text-red-800">
+                  <strong>Failure to meet your obligations can result in penalties or cancellation of your agreement.</strong>
+                </p>
+              </div>
+            </div>
+
+            {/* FAQ Section */}
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-gray-800 mb-6">
+                Frequently Asked Questions (FAQ)
+              </h3>
+              
+              <div className="space-y-6">
+                <div className="border-l-4 border-blue-500 pl-4">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: Do I need a labour agreement to sponsor someone on a 482 visa?
+                  </h4>
+                  <p className="text-gray-700">
+                    A: Not always. A labour agreement is only needed when standard sponsorship options aren't suitable for 
+                    your business needs.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-green-500 pl-4">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: Can I apply for a labour agreement if I'm a small business?
+                  </h4>
+                  <p className="text-gray-700">
+                    A: Yes, if you meet the criteria and can demonstrate a genuine skills shortage. Labour agreements are not 
+                    just for large companies.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-purple-500 pl-4">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: How long does it take to get a labour agreement approved?
+                  </h4>
+                  <p className="text-gray-700">
+                    A: It depends. A complete application with all supporting documents may take several months. Missing 
+                    information can delay things further.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Call to Action */}
+            <div className="bg-amber-600 text-white p-6 rounded-lg">
+              <div className="text-center">
+                <p className="text-lg mb-4">
+                  Labour agreements provide a pathway for businesses to access international talent when local options are 
+                  exhausted, ensuring compliance with Australian employment standards while meeting critical business needs.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  <Button className="bg-white text-amber-600 hover:bg-gray-100">
+                    <FileText className="h-4 w-4 mr-2" />
+                    Apply for Labour Agreement
+                  </Button>
+                  <Button className="bg-yellow-500 text-amber-900 hover:bg-yellow-400">
+                    <Phone className="h-4 w-4 mr-2" />
+                    Get Expert Consultation
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="border-white text-white hover:bg-white/10"
+                    onClick={() => setIsLabourAgreementModalOpen(false)}
                   >
                     <Phone className="h-4 w-4 mr-2" />
                     Contact Us
