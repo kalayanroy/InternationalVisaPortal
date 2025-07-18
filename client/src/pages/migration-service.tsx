@@ -37,6 +37,7 @@ export default function MigrationService() {
     useState(false);
   const [isSubclass190ModalOpen, setIsSubclass190ModalOpen] = useState(false);
   const [isSubclass491ModalOpen, setIsSubclass491ModalOpen] = useState(false);
+  const [isSubclass189ModalOpen, setIsSubclass189ModalOpen] = useState(false);
 
   const employerServices = [
     {
@@ -355,7 +356,8 @@ export default function MigrationService() {
                       key={index}
                       className={`flex items-center justify-between ${
                         service.name === "Skilled Nominated Visa (Subclass 190)" ||
-                        service.name === "Skilled Work Regional (Provisional) Visa (Subclass 491)"
+                        service.name === "Skilled Work Regional (Provisional) Visa (Subclass 491)" ||
+                        service.name === "Skilled Independent Visa (Subclass 189)"
                           ? "cursor-pointer hover:bg-gray-50 p-2 rounded-md transition-colors"
                           : ""
                       }`}
@@ -370,6 +372,10 @@ export default function MigrationService() {
                           "Skilled Work Regional (Provisional) Visa (Subclass 491)"
                         ) {
                           setIsSubclass491ModalOpen(true);
+                        } else if (
+                          service.name === "Skilled Independent Visa (Subclass 189)"
+                        ) {
+                          setIsSubclass189ModalOpen(true);
                         }
                       }}
                     >
@@ -5411,6 +5417,358 @@ export default function MigrationService() {
                   >
                     <Mail className="h-4 w-4 mr-2" />
                     Get Regional Nomination Help
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Skilled Independent Visa (Subclass 189) Modal */}
+      <Dialog
+        open={isSubclass189ModalOpen}
+        onOpenChange={setIsSubclass189ModalOpen}
+      >
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <div className="flex items-center justify-between">
+              <DialogTitle className="text-3xl font-bold text-purple-700">
+                Skilled Independent Visa (Subclass 189)
+              </DialogTitle>
+              <Button
+                variant="ghost"
+                onClick={() => setIsSubclass189ModalOpen(false)}
+                className="h-6 w-6 p-0"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          </DialogHeader>
+          
+          <div className="space-y-8 py-6">
+            {/* Detailed Breakdown of Each Stream */}
+            <div className="bg-purple-50 p-6 rounded-lg">
+              <h3 className="text-2xl font-bold text-purple-700 mb-4">
+                Detailed Breakdown of Each Stream
+              </h3>
+              
+              <p className="text-gray-700 mb-6">
+                The Skilled Independent Visa (Subclass 189) offers multiple streams designed to meet the needs of different 
+                applicants. Each stream has specific eligibility criteria, and at CIA Lawyers, we'll guide you through the details 
+                to ensure the right pathway for you.
+              </p>
+
+              {/* Points Tested Stream */}
+              <div className="mb-8">
+                <h4 className="text-xl font-bold text-purple-700 mb-4">#1. Points tested stream</h4>
+                <p className="text-gray-700 mb-4">
+                  The Points Tested Stream is the most common and flexible option for skilled workers. If you have the 
+                  right qualifications, work experience, and English skills, you can submit an Expression of Interest (EOI) 
+                  and be invited to apply for the visa.
+                </p>
+
+                <div className="bg-white p-6 rounded-lg border border-purple-200 mb-4">
+                  <h5 className="font-bold text-purple-700 mb-3">Requirements:</h5>
+                  <div className="space-y-3">
+                    <div className="flex items-start">
+                      <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <p className="text-gray-700">
+                        <strong>Skilled Occupation:</strong> Your profession must be on the Medium and Long-term Strategic Skills List 
+                        (MLTSSL).
+                      </p>
+                    </div>
+                    <div className="flex items-start">
+                      <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <p className="text-gray-700">
+                        <strong>Age:</strong> You must be under 45 years old at the time of invitation.
+                      </p>
+                    </div>
+                    <div className="flex items-start">
+                      <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <p className="text-gray-700">
+                        <strong>English Proficiency:</strong> You must meet the required English language level.
+                      </p>
+                    </div>
+                    <div className="flex items-start">
+                      <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <p className="text-gray-700">
+                        <strong>Points:</strong> You need a minimum of 65 points, but the higher your score, the better your chances.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-blue-100 p-4 rounded-lg border border-blue-300">
+                  <p className="text-blue-800 italic">
+                    <strong>
+                      At CIA Lawyers, we'll help you calculate your points and advise on how to maximise your score. 
+                      Whether it's through your English test results or work experience, we ensure you submit a top-tier 
+                      application.
+                    </strong>
+                  </p>
+                </div>
+              </div>
+
+              {/* Hong Kong & British National Stream */}
+              <div className="mb-8">
+                <h4 className="text-xl font-bold text-green-700 mb-4">#2. Hong Kong & British National (Overseas) Stream</h4>
+                <p className="text-gray-700 mb-4">
+                  If you hold a Hong Kong or British National (Overseas) passport, this stream provides an excellent 
+                  opportunity for you to apply for permanent residency in Australia.
+                </p>
+
+                <div className="bg-white p-6 rounded-lg border border-green-200 mb-4">
+                  <h5 className="font-bold text-green-700 mb-3">Requirements:</h5>
+                  <div className="space-y-3">
+                    <div className="flex items-start">
+                      <div className="w-2 h-2 bg-green-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <p className="text-gray-700">
+                        You must meet specific residency and commitment requirements to Australia, including 
+                        demonstrating your intention to stay long-term.
+                      </p>
+                    </div>
+                    <div className="flex items-start">
+                      <div className="w-2 h-2 bg-green-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <p className="text-gray-700">
+                        You also need to meet health and character standards.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-green-100 p-4 rounded-lg border border-green-300">
+                  <p className="text-green-800 italic">
+                    <strong>
+                      If you qualify for this stream, CIA Lawyers can assist you with the application process, ensuring you 
+                      meet all requirements and increasing your chances of success.
+                    </strong>
+                  </p>
+                </div>
+              </div>
+
+              {/* New Zealand Stream */}
+              <div className="mb-6">
+                <h4 className="text-xl font-bold text-red-700 mb-4">#3. New Zealand Stream</h4>
+                <p className="text-gray-700 mb-4">
+                  Please note, the New Zealand Stream for the Subclass 189 visa closed on 1 July 2023. This option was 
+                  previously available for New Zealand citizens living in Australia, but if you're a New Zealand citizen now 
+                  seeking permanent residency, there are other visa pathways we can explore for you.
+                </p>
+
+                <div className="bg-red-100 p-4 rounded-lg border border-red-300">
+                  <p className="text-red-800 italic">
+                    <strong>
+                      Whether you are a New Zealand citizen or looking for a different visa option, our team at CIA 
+                      Lawyers can help you explore the best alternatives available for your specific situation.
+                    </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Eligibility Criteria */}
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                Eligibility Criteria for the Skilled Independent Visa (Subclass 189)
+              </h3>
+              
+              <p className="text-gray-700 mb-6">
+                To successfully apply for the Skilled Independent Visa (subclass 189), here's what you need to meet. Our team 
+                at CIA Lawyers will guide you through every step:
+              </p>
+
+              <div className="space-y-6">
+                {/* Age Requirement */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-blue-500">
+                  <h4 className="font-bold text-blue-700 mb-3">Age Requirement:</h4>
+                  <p className="text-gray-700">
+                    You must be under 45 years old when you're invited to apply. This is a strict age limit for eligibility.
+                  </p>
+                </div>
+
+                {/* Nominated Occupation */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-green-500">
+                  <h4 className="font-bold text-green-700 mb-3">Nominated Occupation:</h4>
+                  <p className="text-gray-700">
+                    Your occupation must be on the Medium and Long-term Strategic Skills List (MLTSSL). We'll help you 
+                    confirm if your occupation is eligible.
+                  </p>
+                </div>
+
+                {/* Skills Assessment */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
+                  <h4 className="font-bold text-purple-700 mb-3">Skills Assessment:</h4>
+                  <p className="text-gray-700">
+                    You must have your qualifications and work experience assessed by the appropriate authority. We'll 
+                    guide you to the right assessing body and ensure everything is done correctly.
+                  </p>
+                </div>
+
+                {/* English Language Proficiency */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-orange-500">
+                  <h4 className="font-bold text-orange-700 mb-3">English Language Proficiency:</h4>
+                  <p className="text-gray-700">
+                    You need to prove your English skills with an approved test, like IELTS or PTE. We'll make sure you're 
+                    prepared for the test and meet the language requirements.
+                  </p>
+                </div>
+
+                {/* Points Test */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-red-500">
+                  <h4 className="font-bold text-red-700 mb-3">Points Test:</h4>
+                  <p className="text-gray-700">
+                    You must score at least 65 points on the points test. We'll help you maximise your points and explore 
+                    ways to boost your score.
+                  </p>
+                </div>
+
+                {/* Health and Character */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-blue-600">
+                  <h4 className="font-bold text-blue-700 mb-3">Health and Character:</h4>
+                  <p className="text-gray-700">
+                    You must meet the health and character requirements, including a medical check-up and police 
+                    clearance. We'll ensure you're fully prepared for these steps.
+                  </p>
+                </div>
+
+                {/* Invitation to Apply */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-teal-500">
+                  <h4 className="font-bold text-teal-700 mb-3">Invitation to Apply:</h4>
+                  <p className="text-gray-700">
+                    You can only apply after receiving an invitation through your Expression of Interest (EOI). We'll help you 
+                    submit your EOI and increase your chances of getting invited.
+                  </p>
+                </div>
+
+                {/* New Zealand and Hong Kong Stream */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-pink-500">
+                  <h4 className="font-bold text-pink-700 mb-3">New Zealand and Hong Kong Stream (If Applicable):</h4>
+                  <p className="text-gray-700">
+                    New Zealand citizens and Hong Kong passport holders may have additional pathways. We'll help you 
+                    navigate these streams if you're eligible.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Benefits */}
+            <div className="bg-green-50 p-6 rounded-lg">
+              <h3 className="text-2xl font-bold text-green-700 mb-4">
+                Benefits of the Skilled Independent Visa (Subclass 189)
+              </h3>
+              
+              <p className="text-gray-700 mb-6">
+                The Skilled Independent Visa (Subclass 189) offers numerous benefits that can significantly enhance your 
+                lifestyle and opportunities in Australia. Here's what you can expect:
+              </p>
+
+              <div className="space-y-6">
+                {/* Permanent Residency */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-teal-500">
+                  <h4 className="font-bold text-teal-700 mb-3">Permanent Residency:</h4>
+                  <p className="text-gray-700">
+                    Once granted, the Subclass 189 visa allows you to live and work permanently anywhere in Australia. This 
+                    means you have full rights to reside in the country without the need for constant renewals or restrictions 
+                    on your stay.
+                  </p>
+                </div>
+
+                {/* Access to Medicare */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-blue-500">
+                  <h4 className="font-bold text-blue-700 mb-3">Access to Medicare:</h4>
+                  <p className="text-gray-700">
+                    As a permanent resident, you'll be eligible for Medicare, Australia's public healthcare system. This 
+                    provides you and your family access to free or low-cost medical services, making healthcare more 
+                    affordable while you live in Australia.
+                  </p>
+                </div>
+
+                {/* Pathway to Australian Citizenship */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
+                  <h4 className="font-bold text-purple-700 mb-3">Pathway to Australian Citizenship:</h4>
+                  <p className="text-gray-700">
+                    After meeting the residency requirements, you may apply for Australian citizenship. This opens up voting 
+                    opportunities, working in government jobs, and other privileges that come with full citizenship status.
+                  </p>
+                </div>
+
+                {/* Sponsorship of Family Members */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-orange-500">
+                  <h4 className="font-bold text-orange-700 mb-3">Sponsorship of Family Members:</h4>
+                  <p className="text-gray-700">
+                    Once you hold the Skilled Independent Visa (Subclass 189), you can sponsor eligible family members for 
+                    their permanent residency. This is a great opportunity for reunification with loved ones in Australia.
+                  </p>
+                </div>
+
+                {/* Travel Flexibility */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-teal-600">
+                  <h4 className="font-bold text-teal-700 mb-3">Travel Flexibility:</h4>
+                  <p className="text-gray-700">
+                    The Subclass 189 visa gives you the freedom to leave and re-enter Australia for up to five years. This 
+                    travel flexibility means you can explore other parts of the world while still having your home base in 
+                    Australia.
+                  </p>
+                </div>
+
+                {/* No Need for Sponsorship or Nomination */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-purple-600">
+                  <h4 className="font-bold text-purple-700 mb-3">No Need for Sponsorship or Nomination:</h4>
+                  <p className="text-gray-700">
+                    Unlike other work visas, you don't need an employer, family member, or state government to sponsor or 
+                    nominate you. This independence gives you the freedom to move and work anywhere in Australia 
+                    without restrictions.
+                  </p>
+                </div>
+
+                {/* Work Anywhere in Australia */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-red-500">
+                  <h4 className="font-bold text-red-700 mb-3">Work Anywhere in Australia:</h4>
+                  <p className="text-gray-700">
+                    With the Subclass 189 visa, you are not tied to any specific employer or region. You have the freedom to 
+                    choose where you want to live and work, giving you the flexibility to pursue a variety of career 
+                    opportunities across the country.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-green-100 p-4 rounded-lg mt-6 border border-green-300">
+                <p className="text-green-800 text-center italic">
+                  <strong>
+                    We are here to help you understand and maximise the benefits of this visa. Let us guide you through 
+                    the application process, ensuring everything is in place for a smooth transition to your new life in 
+                    Australia.
+                  </strong>
+                </p>
+              </div>
+            </div>
+
+            {/* Call to Action */}
+            <div className="bg-purple-600 text-white p-6 rounded-lg">
+              <div className="text-center">
+                <p className="text-lg mb-4">
+                  The Skilled Independent Visa (Subclass 189) represents the ultimate pathway to permanent residency in 
+                  Australia, offering complete independence from employers or state nominations. With comprehensive benefits 
+                  including permanent residency, Medicare access, pathway to citizenship, and complete work flexibility 
+                  across Australia, this visa provides the freedom and security to build your future anywhere in the country.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  <Button className="bg-white text-purple-600 hover:bg-gray-100">
+                    <FileText className="h-4 w-4 mr-2" />
+                    Apply for Subclass 189 Visa
+                  </Button>
+                  <Button className="bg-yellow-500 text-purple-900 hover:bg-yellow-400">
+                    <Phone className="h-4 w-4 mr-2" />
+                    Calculate Your Points Score
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="border-white text-white hover:bg-white/10"
+                    onClick={() => setIsSubclass189ModalOpen(false)}
+                  >
+                    <Mail className="h-4 w-4 mr-2" />
+                    Get Independent Visa Assessment
                   </Button>
                 </div>
               </div>
