@@ -30,6 +30,7 @@ export default function MigrationService() {
   const [isLabourAgreementModalOpen, setIsLabourAgreementModalOpen] =
     useState(false);
   const [isSubclass494ModalOpen, setIsSubclass494ModalOpen] = useState(false);
+  const [isSubclass400ModalOpen, setIsSubclass400ModalOpen] = useState(false);
 
   const employerServices = [
     {
@@ -274,7 +275,8 @@ export default function MigrationService() {
                         service.name === "Employer Nomination Scheme" ||
                         service.name === "National Innovation Visa 858" ||
                         service.name === "Labour Agreement" ||
-                        service.name === "Skilled Employer Sponsored Regional (Subclass 494) Visa"
+                        service.name === "Skilled Employer Sponsored Regional (Subclass 494) Visa" ||
+                        service.name === "Temporary Work (Short Stay Specialist) Visa (Subclass 400)"
                           ? "cursor-pointer hover:bg-gray-50 p-2 rounded-md transition-colors"
                           : ""
                       }`}
@@ -289,6 +291,8 @@ export default function MigrationService() {
                           setIsLabourAgreementModalOpen(true);
                         } else if (service.name === "Skilled Employer Sponsored Regional (Subclass 494) Visa") {
                           setIsSubclass494ModalOpen(true);
+                        } else if (service.name === "Temporary Work (Short Stay Specialist) Visa (Subclass 400)") {
+                          setIsSubclass400ModalOpen(true);
                         }
                       }}
                     >
@@ -2439,6 +2443,326 @@ export default function MigrationService() {
                   >
                     <Mail className="h-4 w-4 mr-2" />
                     Contact Our Team
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Temporary Work (Short Stay Specialist) Visa (Subclass 400) Modal */}
+      <Dialog
+        open={isSubclass400ModalOpen}
+        onOpenChange={setIsSubclass400ModalOpen}
+      >
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <div className="flex items-center justify-between">
+              <DialogTitle className="text-3xl font-bold text-purple-700">
+                Temporary Work (Short Stay Specialist) Visa (Subclass 400)
+              </DialogTitle>
+              <Button
+                variant="ghost"
+                onClick={() => setIsSubclass400ModalOpen(false)}
+                className="h-6 w-6 p-0"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          </DialogHeader>
+          
+          <div className="space-y-8 py-6">
+            {/* Costs & Details */}
+            <div className="bg-purple-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-purple-700 mb-4">
+                Costs & Details of the Temporary Work (Short Stay Specialist) Visa (Subclass 400)
+              </h3>
+              <p className="text-gray-700 mb-6">
+                The Temporary Work (Short Stay Specialist) Visa (Subclass 400) provides a great opportunity for specialised 
+                workers to come to Australia for short-term assignments. Here's a quick breakdown of the key details:
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Application Fee */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
+                  <h4 className="font-bold text-purple-700 mb-3">Application Fee:</h4>
+                  <p className="text-gray-700">
+                    The application fee for the Subclass 400 Visa is AUD 415. This fee applies to most applicants 
+                    unless specific exemptions are in place.
+                  </p>
+                </div>
+
+                {/* Visa Duration */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-blue-500">
+                  <h4 className="font-bold text-blue-700 mb-3">Visa Duration:</h4>
+                  <p className="text-gray-700">
+                    This visa is valid for up to 6 months, depending on your specific situation. If you plan to stay for 
+                    longer than 3 months, you'll need to provide a strong business case to justify the extension.
+                  </p>
+                </div>
+
+                {/* No Extensions */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-red-500">
+                  <h4 className="font-bold text-red-700 mb-3">No Extensions:</h4>
+                  <p className="text-gray-700">
+                    Once granted, the Subclass 400 visa cannot be extended. If you wish to stay longer or continue 
+                    working in Australia, you'll need to apply for a different visa.
+                  </p>
+                </div>
+
+                {/* Processing Times */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-green-500">
+                  <h4 className="font-bold text-green-700 mb-3">Processing Times:</h4>
+                  <p className="text-gray-700">
+                    Processing times for this visa can vary. It's a good idea to check the Australian Government's 
+                    processing tool for the most up-to-date information on how long your application might take.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Summary */}
+            <div className="bg-purple-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-purple-700 mb-4">Quick Summary</h3>
+              
+              <div className="bg-white rounded-lg overflow-hidden border border-purple-200">
+                <table className="w-full">
+                  <thead className="bg-purple-100">
+                    <tr>
+                      <th className="px-4 py-3 text-left font-semibold text-purple-800">Visa Detail</th>
+                      <th className="px-4 py-3 text-left font-semibold text-purple-800">Information</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-purple-100">
+                    <tr>
+                      <td className="px-4 py-3 font-medium text-gray-800">Application Fee</td>
+                      <td className="px-4 py-3 text-gray-700">AUD 415</td>
+                    </tr>
+                    <tr className="bg-purple-25">
+                      <td className="px-4 py-3 font-medium text-gray-800">Visa Duration</td>
+                      <td className="px-4 py-3 text-gray-700">Up to 6 months</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-3 font-medium text-gray-800">Visa Extension</td>
+                      <td className="px-4 py-3 text-gray-700">Not extendable</td>
+                    </tr>
+                    <tr className="bg-purple-25">
+                      <td className="px-4 py-3 font-medium text-gray-800">Processing Times</td>
+                      <td className="px-4 py-3 text-gray-700">Check the Australian Government tool</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="bg-purple-100 p-4 rounded-lg mt-6">
+                <p className="text-purple-800 text-sm">
+                  <strong>
+                    With this visa, you can work in Australia for a short period, but remember: make sure your work is 
+                    genuinely specialised and temporary.
+                  </strong>
+                </p>
+              </div>
+            </div>
+
+            {/* Benefits */}
+            <div className="bg-blue-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-blue-700 mb-4">
+                Benefits of the Temporary Work (Short Stay Specialist) Visa (Subclass 400)
+              </h3>
+              <p className="text-gray-700 mb-6">
+                The Temporary Work (Short Stay Specialist) Visa (Subclass 400) opens the door to a range of opportunities for 
+                experts looking to work in Australia for short-term, highly specialised roles. Here's why it's a great option:
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Specialised Work Opportunities */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-blue-500">
+                  <h4 className="font-bold text-blue-700 mb-3">Specialised Work Opportunities:</h4>
+                  <p className="text-gray-700 text-sm">
+                    This visa lets you take on roles that require niche skills not available locally, making it perfect for 
+                    specialists who can't be easily replaced.
+                  </p>
+                </div>
+
+                {/* Flexible Duration */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-green-500">
+                  <h4 className="font-bold text-green-700 mb-3">Flexible Duration:</h4>
+                  <p className="text-gray-700 text-sm">
+                    Whether you're working on a short-term project or a more extended task, you can stay in Australia for up 
+                    to 6 months, with flexibility to match your work needs.
+                  </p>
+                </div>
+
+                {/* No Long-Term Commitment */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
+                  <h4 className="font-bold text-purple-700 mb-3">No Long-Term Commitment:</h4>
+                  <p className="text-gray-700 text-sm">
+                    If you're looking to share your expertise without committing to a permanent stay, this visa offers the 
+                    perfect solution.
+                  </p>
+                </div>
+
+                {/* Multiple Entries */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-orange-500">
+                  <h4 className="font-bold text-orange-700 mb-3">Multiple Entries:</h4>
+                  <p className="text-gray-700 text-sm">
+                    You're free to enter and exit Australia as needed during the visa's validity period, though the duration 
+                    won't reset with each re-entry.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-blue-100 p-4 rounded-lg mt-6">
+                <p className="text-blue-800 text-sm">
+                  <strong>
+                    These benefits make the Temporary Work (Short Stay Specialist) Visa (Subclass 400) a win for both 
+                    skilled professionals and Australian businesses, allowing expertise to flow where it's needed most.
+                  </strong>
+                </p>
+              </div>
+            </div>
+
+            {/* Eligibility Criteria */}
+            <div className="bg-green-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-green-700 mb-4">
+                Eligibility Criteria for the Temporary Work (Short Stay Specialist) Visa (Subclass 400)
+              </h3>
+              <p className="text-gray-700 mb-6">
+                To qualify for the Temporary Work (Short Stay Specialist) Visa (Subclass 400), you'll need to meet a few 
+                essential criteria. Here's what you need:
+              </p>
+
+              <div className="space-y-6">
+                {/* Highly Specialised Skills */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-green-500">
+                  <h4 className="font-bold text-green-700 mb-3">Highly Specialised Skills:</h4>
+                  <p className="text-gray-700">
+                    You must possess expertise or experience that is not readily available in Australia, making your skills 
+                    critical for the role.
+                  </p>
+                </div>
+
+                {/* Non-Ongoing Work */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-blue-500">
+                  <h4 className="font-bold text-blue-700 mb-3">Non-Ongoing Work:</h4>
+                  <p className="text-gray-700">
+                    The work you will perform must be short-term and project-based, rather than a long-term, ongoing position.
+                  </p>
+                </div>
+
+                {/* Genuine Need */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
+                  <h4 className="font-bold text-purple-700 mb-3">Genuine Need:</h4>
+                  <p className="text-gray-700">
+                    The business requesting your services must demonstrate a real need for your specific skills, ensuring that 
+                    your expertise benefits their operations.
+                  </p>
+                </div>
+
+                {/* Visa-Specific Work */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-orange-500">
+                  <h4 className="font-bold text-orange-700 mb-3">Visa-Specific Work:</h4>
+                  <p className="text-gray-700">
+                    You are only authorised to carry out the tasks outlined in your visa approval, ensuring your role aligns 
+                    with the visa's conditions.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-green-100 p-4 rounded-lg mt-6">
+                <p className="text-green-800 text-sm">
+                  <strong>
+                    By meeting these criteria, you'll be well-positioned to apply for this visa. Make sure you've ticked all 
+                    the boxes before you get started!
+                  </strong>
+                </p>
+              </div>
+            </div>
+
+            {/* FAQ Section */}
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-gray-800 mb-6">
+                Frequently Asked Questions (FAQ)
+              </h3>
+
+              <div className="space-y-6">
+                <div className="border-l-4 border-blue-500 pl-4">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: Which is the easiest work visa in Australia?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>Ans:</strong> The Subclass 400 visa is often considered one of the easier work visa options for skilled workers, 
+                    allowing short-term, specialised roles without long-term commitments.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-green-500 pl-4">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: What is a Subclass 400 visa in Australia?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>Ans:</strong> The Subclass 400 visa allows skilled workers to come to Australia for short-term, specialised work 
+                    that can't be filled by local workers, typically for up to 6 months.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-purple-500 pl-4">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: How do you qualify for a temporary work visa in Australia?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>Ans:</strong> To qualify, you must have specialised skills that aren't available locally, and the work must be short-
+                    term and project-specific.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-orange-500 pl-4">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: What is the difference between the 400 and 482 visas?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>Ans:</strong> Subclass 400 is for short-term specialised work, while Subclass 482 is for longer-term employment 
+                    with employer sponsorship, often leading to permanent residency.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-red-500 pl-4">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: How much bank balance is required for an Australia work visa?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>Ans:</strong> The required bank balance depends on the visa type, but you'll need to show you can support 
+                    yourself financially during your stay. For specifics, it's best to consult with a professional.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Call to Action */}
+            <div className="bg-purple-600 text-white p-6 rounded-lg">
+              <div className="text-center">
+                <p className="text-lg mb-4">
+                  The Temporary Work (Short Stay Specialist) Visa (Subclass 400) provides a streamlined pathway for 
+                  specialised professionals to contribute their expertise to Australian businesses for short-term projects 
+                  and assignments.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  <Button className="bg-white text-purple-600 hover:bg-gray-100">
+                    <FileText className="h-4 w-4 mr-2" />
+                    Apply for Subclass 400 Visa
+                  </Button>
+                  <Button className="bg-yellow-500 text-purple-900 hover:bg-yellow-400">
+                    <Phone className="h-4 w-4 mr-2" />
+                    Get Specialist Consultation
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="border-white text-white hover:bg-white/10"
+                    onClick={() => setIsSubclass400ModalOpen(false)}
+                  >
+                    <Mail className="h-4 w-4 mr-2" />
+                    Contact Expert Team
                   </Button>
                 </div>
               </div>
