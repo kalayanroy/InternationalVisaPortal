@@ -136,90 +136,20 @@ const sampleCourses: Course[] = [
   },
   {
     id: "4",
-    name: "Bachelor of Business Administration",
-    university: "University of Toronto",
-    country: "Canada",
-    level: "Bachelor",
-    field: "Business",
-    duration: "4 years",
-    fee: "28,000",
-    currency: "CAD",
-    description:
-      "Comprehensive business program with emphasis on entrepreneurship and global markets.",
-    ranking: "#1 in Canada",
-    logo: "💼",
-    about:
-      "Comprehensive business program with emphasis on entrepreneurship and global markets.",
-    requirements: ["High school diploma", "SAT 1200+", "English proficiency"],
-    scholarships: [
-      { name: "International Scholarship", amount: "CAD $15,000" },
-      { name: "Merit Award", amount: "CAD $8,000" },
-    ],
-  },
-  {
-    id: "5",
-    name: "Master of Data Science",
-    university: "Technical University of Munich",
-    country: "Germany",
-    level: "Master",
-    field: "Data Science",
-    duration: "2 years",
-    fee: "15,000",
-    currency: "EUR",
-    description:
-      "Advanced data science program with focus on machine learning and big data analytics.",
-    ranking: "#1 in Germany",
-    logo: "📊",
-    about:
-      "Advanced data science program with focus on machine learning and big data analytics.",
-    requirements: [
-      "Bachelor's in CS/Math",
-      "GRE required",
-      "Programming skills",
-    ],
-    scholarships: [
-      { name: "DAAD Scholarship", amount: "€12,000" },
-      { name: "Excellence Grant", amount: "€5,000" },
-    ],
-  },
-  {
-    id: "6",
-    name: "Bachelor of Computer Science",
-    university: "National University of Singapore",
-    country: "Singapore",
-    level: "Bachelor",
-    field: "Computer Science",
-    duration: "4 years",
-    fee: "25,000",
-    currency: "SGD",
-    description:
-      "Comprehensive computer science program with emphasis on software development and AI.",
-    ranking: "#1 in Singapore",
-    logo: "💻",
-    about:
-      "Comprehensive computer science program with emphasis on software development and AI.",
-    requirements: ["A-levels", "Mathematics H2", "Strong academic record"],
-    scholarships: [
-      { name: "NUS Scholarship", amount: "SGD $20,000" },
-      { name: "Tech Excellence", amount: "SGD $12,000" },
-    ],
-  },
-  {
-    id: "7",
     name: "Master of Public Health",
     university: "Harvard University",
     country: "USA",
     level: "Master",
-    field: "Health Sciences",
+    field: "Public Health",
     duration: "2 years",
     fee: "65,000",
     currency: "USD",
     description:
-      "Leading public health program focusing on global health challenges and policy.",
-    ranking: "#1 in USA",
+      "Leading public health program addressing global health challenges and policy.",
+    ranking: "#1 in Public Health",
     logo: "🏥",
     about:
-      "Leading public health program focusing on global health challenges and policy.",
+      "Leading public health program addressing global health challenges and policy.",
     requirements: [
       "Bachelor's degree",
       "GRE 310+",
@@ -231,25 +161,55 @@ const sampleCourses: Course[] = [
     ],
   },
   {
-    id: "8",
-    name: "Bachelor of Arts in Psychology",
-    university: "University of Oxford",
-    country: "UK",
-    level: "Bachelor",
-    field: "Psychology",
-    duration: "3 years",
-    fee: "32,000",
-    currency: "GBP",
+    id: "5",
+    name: "PhD in Astrophysics",
+    university: "University of Toronto",
+    country: "Canada",
+    level: "PhD",
+    field: "Astrophysics",
+    duration: "5-6 years",
+    fee: "12,000",
+    currency: "CAD",
     description:
-      "Comprehensive psychology program with focus on research and clinical applications.",
-    ranking: "#1 in UK",
-    logo: "🧠",
+      "Research-intensive program in theoretical and observational astrophysics.",
+    ranking: "#3 in Canada",
+    logo: "🌌",
     about:
-      "Comprehensive psychology program with focus on research and clinical applications.",
-    requirements: ["A-levels AAA", "Psychology A-level", "Interview required"],
+      "Research-intensive program in theoretical and observational astrophysics.",
+    requirements: [
+      "Master's in Physics or related field",
+      "Research experience",
+      "Strong academic record",
+    ],
     scholarships: [
-      { name: "Oxford Scholarship", amount: "£25,000" },
-      { name: "Psychology Excellence", amount: "£15,000" },
+      { name: "Research Fellowship", amount: "Full funding" },
+      { name: "International Scholarship", amount: "CAD $20,000" },
+    ],
+  },
+  {
+    id: "6",
+    name: "Master of Fine Arts",
+    university: "Sorbonne University",
+    country: "France",
+    level: "Master",
+    field: "Fine Arts",
+    duration: "2 years",
+    fee: "3,770",
+    currency: "EUR",
+    description:
+      "Prestigious arts program in the heart of Paris with focus on contemporary practices.",
+    ranking: "#1 in France",
+    logo: "🎨",
+    about:
+      "Prestigious arts program in the heart of Paris with focus on contemporary practices.",
+    requirements: [
+      "Bachelor's in Arts or related field",
+      "Portfolio submission",
+      "French language proficiency",
+    ],
+    scholarships: [
+      { name: "Excellence Scholarship", amount: "€5,000" },
+      { name: "International Grant", amount: "€3,000" },
     ],
   },
 ];
@@ -260,24 +220,22 @@ const countries = [
   "USA",
   "UK",
   "Canada",
-  "Germany",
-  "Singapore",
+  "France",
 ];
-const levels = ["All Levels", "Bachelor", "Master", "PhD", "Diploma"];
+const levels = ["All Levels", "Bachelor", "Master", "PhD"];
 const fields = [
   "All Fields",
   "Business",
   "Computer Science",
   "Engineering",
-  "Data Science",
-  "Health Sciences",
-  "Psychology",
+  "Public Health",
+  "Astrophysics",
+  "Fine Arts",
 ];
 
 export default function FindCourse() {
   const [location] = useLocation();
-  const [filteredCourses, setFilteredCourses] =
-    useState<Course[]>(sampleCourses);
+  const [filteredCourses, setFilteredCourses] = useState<Course[]>(sampleCourses);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filters, setFilters] = useState({
@@ -286,23 +244,6 @@ export default function FindCourse() {
     field: "All Fields",
     courseName: "",
   });
-
-  // Check if we're filtering by a specific level from the navigation
-  useEffect(() => {
-    const pathSegments = location.split("/");
-    if (pathSegments.length > 2) {
-      const levelFromPath = pathSegments[2];
-      if (levelFromPath === "undergraduate") {
-        setFilters((prev) => ({ ...prev, level: "Bachelor" }));
-      } else if (levelFromPath === "postgraduate") {
-        setFilters((prev) => ({ ...prev, level: "Master" }));
-      } else if (levelFromPath === "phd") {
-        setFilters((prev) => ({ ...prev, level: "PhD" }));
-      } else if (levelFromPath === "diploma") {
-        setFilters((prev) => ({ ...prev, level: "Diploma" }));
-      }
-    }
-  }, [location]);
 
   useEffect(() => {
     let filtered = sampleCourses;
@@ -336,11 +277,6 @@ export default function FindCourse() {
     setFilteredCourses(filtered);
   }, [filters]);
 
-  const handleSearch = () => {
-    // Filter is already applied through useEffect
-    console.log("Searching with filters:", filters);
-  };
-
   const handleViewDetails = (course: Course) => {
     setSelectedCourse(course);
     setIsModalOpen(true);
@@ -352,361 +288,276 @@ export default function FindCourse() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-100">
       <Header />
 
       <div className="pt-20">
-        {/* Hero Section */}
-        <div className="bg-gradient-to-r from-navy to-main py-16">
+        {/* DTR Consultation Header */}
+        <div className="bg-gradient-to-r from-teal-400 to-teal-600 py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                Find Your Perfect Course
-              </h1>
-              <p className="text-xl text-white/90 max-w-2xl mx-auto">
-                Discover thousands of courses from top universities worldwide
-              </p>
+            <div className="flex items-center space-x-4">
+              <div className="bg-white rounded-full p-3">
+                <div className="text-2xl font-bold text-teal-600">DTR</div>
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold text-white mb-2">
+                  DTR Consultation
+                </h1>
+                <p className="text-white/90 text-lg">
+                  Dream to Reality ✨ Kindle
+                </p>
+                <p className="text-white/80 text-sm mt-1">
+                  Turn your education dreams into reality with trusted consultation
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Advanced Search Section */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="bg-white rounded-xl shadow-lg p-8 -mt-8 relative z-10">
-            <div className="flex items-center justify-center mb-8">
-              <Search className="h-6 w-6 text-main mr-2" />
-              <h2 className="text-2xl font-bold text-navy">
-                Advanced Course Search
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Country
-                </label>
-                <Select
-                  value={filters.country}
-                  onValueChange={(value) =>
-                    setFilters({ ...filters, country: value })
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="All Countries" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {countries.map((country) => (
-                      <SelectItem key={country} value={country}>
-                        {country}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Level of Study
-                </label>
-                <Select
-                  value={filters.level}
-                  onValueChange={(value) =>
-                    setFilters({ ...filters, level: value })
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="All Levels" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {levels.map((level) => (
-                      <SelectItem key={level} value={level}>
-                        {level}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Field of Study
-                </label>
-                <Select
-                  value={filters.field}
-                  onValueChange={(value) =>
-                    setFilters({ ...filters, field: value })
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="All Fields" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {fields.map((field) => (
-                      <SelectItem key={field} value={field}>
-                        {field}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Course Name
-                </label>
+        {/* Search Section */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="bg-white rounded-lg shadow-sm p-6">
+            <div className="flex flex-col md:flex-row gap-4 items-center">
+              <div className="flex-1 relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <Input
-                  placeholder="e.g., Master Business"
+                  placeholder="Search courses, universities, or programs..."
                   value={filters.courseName}
                   onChange={(e) =>
                     setFilters({ ...filters, courseName: e.target.value })
                   }
+                  className="pl-10"
                 />
               </div>
-            </div>
-
-            <div className="flex justify-center">
-              <Button
-                onClick={handleSearch}
-                className="bg-main hover:bg-main/90 text-white px-8 py-3 text-lg font-semibold rounded-lg"
+              <Select
+                value={filters.country}
+                onValueChange={(value) =>
+                  setFilters({ ...filters, country: value })
+                }
               >
-                <Search className="h-5 w-5 mr-2" />
-                Search Courses
+                <SelectTrigger className="w-full md:w-48">
+                  <SelectValue placeholder="All Countries" />
+                </SelectTrigger>
+                <SelectContent>
+                  {countries.map((country) => (
+                    <SelectItem key={country} value={country}>
+                      {country}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Select
+                value={filters.level}
+                onValueChange={(value) =>
+                  setFilters({ ...filters, level: value })
+                }
+              >
+                <SelectTrigger className="w-full md:w-48">
+                  <SelectValue placeholder="All Levels" />
+                </SelectTrigger>
+                <SelectContent>
+                  {levels.map((level) => (
+                    <SelectItem key={level} value={level}>
+                      {level}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Select
+                value={filters.field}
+                onValueChange={(value) =>
+                  setFilters({ ...filters, field: value })
+                }
+              >
+                <SelectTrigger className="w-full md:w-48">
+                  <SelectValue placeholder="All Fields" />
+                </SelectTrigger>
+                <SelectContent>
+                  {fields.map((field) => (
+                    <SelectItem key={field} value={field}>
+                      {field}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Button className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-2">
+                Search
               </Button>
             </div>
           </div>
         </div>
 
-        {/* Results Section */}
+        {/* Course Cards Grid */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-          <div className="mb-8">
-            <h3 className="text-2xl font-bold text-navy mb-2">
-              Search Results ({filteredCourses.length} courses found)
-            </h3>
-            <p className="text-gray-600">
-              {filters.level !== "All Levels" &&
-                `Showing ${filters.level} courses`}
-              {filters.country !== "All Countries" && ` in ${filters.country}`}
-              {filters.field !== "All Fields" && ` for ${filters.field}`}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredCourses.map((course) => (
               <Card
                 key={course.id}
-                className="hover:shadow-lg transition-shadow duration-300 border-l-4 border-l-main"
+                className="bg-white hover:shadow-lg transition-shadow duration-300 border border-gray-200"
               >
                 <CardHeader className="pb-4">
-                  <div className="flex items-start justify-between">
+                  <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center space-x-3">
-                      <div className="text-3xl">{course.logo}</div>
+                      <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+                        <GraduationCap className="h-5 w-5 text-gray-600" />
+                      </div>
                       <div>
-                        <CardTitle className="text-lg font-bold text-navy leading-tight">
+                        <CardTitle className="text-lg font-semibold text-gray-900 leading-tight">
                           {course.name}
                         </CardTitle>
-                        <CardDescription className="text-main font-semibold">
+                        <CardDescription className="text-gray-600 text-sm">
                           {course.university}
                         </CardDescription>
                       </div>
                     </div>
-                    <Badge variant="outline" className="text-main border-main">
-                      {course.level}
+                    <Badge 
+                      variant="secondary" 
+                      className={`text-xs px-2 py-1 ${
+                        course.level === 'Master' ? 'bg-blue-100 text-blue-800' : 
+                        course.level === 'Bachelor' ? 'bg-green-100 text-green-800' : 
+                        'bg-purple-100 text-purple-800'
+                      }`}
+                    >
+                      {course.level.toLowerCase()}
                     </Badge>
                   </div>
-                </CardHeader>
-
-                <CardContent>
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                  <p className="text-sm text-gray-700 mb-3">
                     {course.description}
                   </p>
-
+                </CardHeader>
+                <CardContent className="pt-0">
                   <div className="space-y-2 mb-4">
                     <div className="flex items-center text-sm text-gray-600">
-                      <Clock className="h-4 w-4 mr-2 text-main" />
-                      {course.duration}
+                      <Clock className="h-4 w-4 mr-2" />
+                      <span className="font-medium">{course.duration}</span>
                     </div>
                     <div className="flex items-center text-sm text-gray-600">
-                      <DollarSign className="h-4 w-4 mr-2 text-main" />
-                      {course.fee} {course.currency} per year
+                      <DollarSign className="h-4 w-4 mr-2" />
+                      <span className="font-bold text-orange-600">
+                        {course.currency} {course.fee} per year
+                      </span>
                     </div>
-                    <div className="flex items-center text-sm text-gray-600">
-                      <MapPin className="h-4 w-4 mr-2 text-main" />
-                      {course.country}
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-teal-600">
+                        {course.ranking}
+                      </span>
+                      <span className="text-sm text-gray-500">
+                        {course.country}
+                      </span>
                     </div>
                   </div>
-
-                  <div className="flex items-center justify-between">
-                    <Badge variant="secondary" className="bg-main/10 text-main">
-                      {course.ranking}
-                    </Badge>
-                    <Button
-                      size="sm"
-                      className="bg-main hover:bg-main/90 text-white"
-                      onClick={() => handleViewDetails(course)}
-                    >
-                      View Details
-                    </Button>
-                  </div>
+                  <Button
+                    onClick={() => handleViewDetails(course)}
+                    className="w-full bg-teal-600 hover:bg-teal-700 text-white"
+                  >
+                    View Details
+                  </Button>
                 </CardContent>
               </Card>
             ))}
           </div>
-
-          {filteredCourses.length === 0 && (
-            <div className="text-center py-16">
-              <GraduationCap className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-600 mb-2">
-                No courses found
-              </h3>
-              <p className="text-gray-500">
-                Try adjusting your search filters to find more courses
-              </p>
-            </div>
-          )}
         </div>
 
         {/* Course Details Modal */}
-        <Dialog open={isModalOpen} onOpenChange={handleCloseModal}>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+          <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <div className="flex items-center justify-between">
+                <DialogTitle className="text-2xl font-bold text-gray-900">
+                  {selectedCourse?.name}
+                </DialogTitle>
+                <Button
+                  variant="ghost"
+                  onClick={handleCloseModal}
+                  className="h-6 w-6 p-0"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+            </DialogHeader>
+
             {selectedCourse && (
-              <>
-                <DialogHeader className="relative">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="text-3xl">{selectedCourse.logo}</div>
-                      <div>
-                        <DialogTitle className="text-xl font-bold text-navy">
-                          {selectedCourse.name}
-                        </DialogTitle>
-                        <p className="text-main font-semibold">
-                          {selectedCourse.university}
-                        </p>
-                        <Badge
-                          variant="secondary"
-                          className="bg-main/10 text-main mt-1"
-                        >
-                          {selectedCourse.ranking}
-                        </Badge>
-                      </div>
-                    </div>
+              <div className="space-y-6">
+                <div className="flex items-center space-x-4">
+                  <div className="w-16 h-16 rounded-full bg-teal-100 flex items-center justify-center">
+                    <GraduationCap className="h-8 w-8 text-teal-600" />
                   </div>
-                </DialogHeader>
-
-                <div className="space-y-6">
-                  {/* About the Program */}
                   <div>
-                    <div className="flex items-center space-x-2 mb-3">
-                      <BookOpen className="h-5 w-5 text-main" />
-                      <h3 className="text-lg font-semibold text-navy">
-                        About the Program
-                      </h3>
+                    <h3 className="text-xl font-semibold text-gray-900">
+                      {selectedCourse.university}
+                    </h3>
+                    <p className="text-gray-600">{selectedCourse.country}</p>
+                    <div className="flex items-center space-x-2 mt-1">
+                      <Badge variant="secondary" className="text-xs">
+                        {selectedCourse.level}
+                      </Badge>
+                      <Badge variant="outline" className="text-xs">
+                        {selectedCourse.field}
+                      </Badge>
                     </div>
-                    <p className="text-gray-600 leading-relaxed">
-                      {selectedCourse.about}
-                    </p>
-                  </div>
-
-                  {/* Fees & Duration and Requirements */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Fees & Duration */}
-                    <div className="bg-yellow-50 p-4 rounded-lg">
-                      <div className="flex items-center space-x-2 mb-3">
-                        <DollarSign className="h-5 w-5 text-yellow-600" />
-                        <h4 className="font-semibold text-gray-800">
-                          Fees & Duration
-                        </h4>
-                      </div>
-                      <div className="space-y-2 text-sm">
-                        <div>
-                          <span className="text-gray-600">Tuition: </span>
-                          <span className="font-medium">
-                            {selectedCourse.fee} {selectedCourse.currency} per
-                            year
-                          </span>
-                        </div>
-                        <div>
-                          <span className="text-gray-600">Duration: </span>
-                          <span className="font-medium">
-                            {selectedCourse.duration}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Requirements */}
-                    <div className="bg-green-50 p-4 rounded-lg">
-                      <div className="flex items-center space-x-2 mb-3">
-                        <GraduationCap className="h-5 w-5 text-green-600" />
-                        <h4 className="font-semibold text-gray-800">
-                          Requirements
-                        </h4>
-                      </div>
-                      <ul className="space-y-1 text-sm">
-                        {selectedCourse.requirements.map((req, index) => (
-                          <li
-                            key={index}
-                            className="flex items-start space-x-2"
-                          >
-                            <span className="text-green-600 mt-1">•</span>
-                            <span className="text-gray-600">{req}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  {/* Available Scholarships */}
-                  <div className="bg-purple-50 p-4 rounded-lg">
-                    <div className="flex items-center space-x-2 mb-3">
-                      <Award className="h-5 w-5 text-purple-600" />
-                      <h4 className="font-semibold text-gray-800">
-                        Available Scholarships
-                      </h4>
-                    </div>
-                    <div className="space-y-2">
-                      {selectedCourse.scholarships.map((scholarship, index) => (
-                        <div
-                          key={index}
-                          className="flex justify-between items-center text-sm"
-                        >
-                          <span className="text-gray-600">
-                            {scholarship.name}
-                          </span>
-                          <span className="font-medium text-purple-700">
-                            {scholarship.amount}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="grid grid-cols-2 md:grid-cols-5 gap-3 pt-4">
-                    <Button className="bg-purple-600 hover:bg-purple-700 text-white">
-                      <MessageCircle className="h-4 w-4 mr-2" />
-                      Explain How
-                    </Button>
-                    <Button className="bg-green-600 hover:bg-green-700 text-white">
-                      <Download className="h-4 w-4 mr-2" />
-                      Download Brochure
-                    </Button>
-                    <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-                      <MessageCircle className="h-4 w-4 mr-2" />
-                      Contact
-                    </Button>
-                    <Button className="bg-orange-600 hover:bg-orange-700 text-white">
-                      <Award className="h-4 w-4 mr-2" />
-                      Scholarships
-                    </Button>
-                    <Link href="/sop-generator" onClick={handleCloseModal}>
-                      <Button className="bg-teal-600 hover:bg-teal-700 text-white w-full">
-                        <FileText className="h-4 w-4 mr-2" />
-                        SOP Generate
-                      </Button>
-                    </Link>
                   </div>
                 </div>
-              </>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h4 className="font-semibold text-gray-900 mb-2">About the Program</h4>
+                    <p className="text-gray-700 text-sm">{selectedCourse.about}</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900 mb-2">Program Details</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex items-center">
+                        <Clock className="h-4 w-4 mr-2 text-gray-500" />
+                        <span>Duration: {selectedCourse.duration}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <DollarSign className="h-4 w-4 mr-2 text-gray-500" />
+                        <span>Fee: {selectedCourse.currency} {selectedCourse.fee} per year</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Award className="h-4 w-4 mr-2 text-gray-500" />
+                        <span>Ranking: {selectedCourse.ranking}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">Entry Requirements</h4>
+                  <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
+                    {selectedCourse.requirements.map((req, index) => (
+                      <li key={index}>{req}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">Available Scholarships</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {selectedCourse.scholarships.map((scholarship, index) => (
+                      <div key={index} className="bg-teal-50 p-3 rounded-lg">
+                        <p className="font-medium text-teal-900">{scholarship.name}</p>
+                        <p className="text-sm text-teal-700">{scholarship.amount}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex space-x-4">
+                  <Button className="bg-teal-600 hover:bg-teal-700 text-white">
+                    <FileText className="h-4 w-4 mr-2" />
+                    Apply Now
+                  </Button>
+                  <Button variant="outline">
+                    <Download className="h-4 w-4 mr-2" />
+                    Download Brochure
+                  </Button>
+                  <Button variant="outline">
+                    <MessageCircle className="h-4 w-4 mr-2" />
+                    Contact Advisor
+                  </Button>
+                </div>
+              </div>
             )}
           </DialogContent>
         </Dialog>

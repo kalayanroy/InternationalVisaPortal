@@ -54,6 +54,7 @@ function Router() {
       <Route path="/student-application" component={StudentApplication} />
       <Route path="/add-university" component={AddUniversity} />
       <Route path="/attachment-system" component={AttachmentSystem} />
+      <Route path="/find-course" component={FindCourse} />
       <Route path="/courses" component={FindCourse} />
       <Route path="/courses/:level" component={FindCourse} />
       <Route path="/sop-generator" component={SOPGenerator} />
