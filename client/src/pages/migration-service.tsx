@@ -33,8 +33,10 @@ export default function MigrationService() {
   const [isSubclass400ModalOpen, setIsSubclass400ModalOpen] = useState(false);
   const [isSubclass407ModalOpen, setIsSubclass407ModalOpen] = useState(false);
   const [isSubclass482ModalOpen, setIsSubclass482ModalOpen] = useState(false);
-  const [isNationalInnovationModalOpen, setIsNationalInnovationModalOpen] = useState(false);
+  const [isNationalInnovationModalOpen, setIsNationalInnovationModalOpen] =
+    useState(false);
   const [isSubclass190ModalOpen, setIsSubclass190ModalOpen] = useState(false);
+  const [isSubclass491ModalOpen, setIsSubclass491ModalOpen] = useState(false);
 
   const employerServices = [
     {
@@ -72,7 +74,7 @@ export default function MigrationService() {
       tag: "POPULAR",
       color: "bg-blue-100 text-blue-800",
     },
-    { name: "National Innovation (Subclass 858) visa", tag: "", color: "" },
+
     { name: "Skilled Nominated Visa (Subclass 190)", tag: "", color: "" },
     {
       name: "Skilled Work Regional (Provisional) Visa (Subclass 491)",
@@ -352,13 +354,22 @@ export default function MigrationService() {
                     <div
                       key={index}
                       className={`flex items-center justify-between ${
-                        service.name === "Skilled Nominated Visa (Subclass 190)"
+                        service.name === "Skilled Nominated Visa (Subclass 190)" ||
+                        service.name === "Skilled Work Regional (Provisional) Visa (Subclass 491)"
                           ? "cursor-pointer hover:bg-gray-50 p-2 rounded-md transition-colors"
                           : ""
                       }`}
                       onClick={() => {
-                        if (service.name === "Skilled Nominated Visa (Subclass 190)") {
+                        if (
+                          service.name ===
+                          "Skilled Nominated Visa (Subclass 190)"
+                        ) {
                           setIsSubclass190ModalOpen(true);
+                        } else if (
+                          service.name ===
+                          "Skilled Work Regional (Provisional) Visa (Subclass 491)"
+                        ) {
+                          setIsSubclass491ModalOpen(true);
                         }
                       }}
                     >
@@ -4169,31 +4180,33 @@ export default function MigrationService() {
               </Button>
             </div>
           </DialogHeader>
-          
+
           <div className="space-y-8 py-6">
             {/* What Is the National Innovation Visa */}
             <div className="bg-green-50 p-6 rounded-lg">
               <h3 className="text-xl font-bold text-green-700 mb-4">
                 What Is the National Innovation Visa?
               </h3>
-              
+
               <div className="space-y-4">
                 <p className="text-gray-700">
-                  The National Innovation visa (Subclass 858) is a permanent residency visa for individuals with an 
-                  internationally recognised record of exceptional achievement in a specific area. It replaced the Global Talent 
-                  visa in December 2024.
+                  The National Innovation visa (Subclass 858) is a permanent
+                  residency visa for individuals with an internationally
+                  recognised record of exceptional achievement in a specific
+                  area. It replaced the Global Talent visa in December 2024.
                 </p>
-                
+
                 <p className="text-gray-700">
-                  It's designed for the high achievers—the kind of people who've made a significant impact in their field and 
-                  are ready to contribute their talents to Australia.
+                  It's designed for the high achievers—the kind of people who've
+                  made a significant impact in their field and are ready to
+                  contribute their talents to Australia.
                 </p>
-                
+
                 <div className="bg-green-100 p-4 rounded-lg border-l-4 border-green-500">
                   <p className="text-green-800 italic">
                     <strong>
-                      This visa is not for everyone. It's for those who've gone above and beyond, and have the recognition to prove 
-                      it.
+                      This visa is not for everyone. It's for those who've gone
+                      above and beyond, and have the recognition to prove it.
                     </strong>
                   </p>
                 </div>
@@ -4205,18 +4218,24 @@ export default function MigrationService() {
               <h3 className="text-xl font-bold text-gray-800 mb-4">
                 National Innovation Visa (Subclass 858) – At a Glance
               </h3>
-              
+
               <div className="bg-white rounded-lg overflow-hidden border border-gray-200">
                 <table className="w-full">
                   <thead className="bg-green-100">
                     <tr>
-                      <th className="px-6 py-4 text-left font-semibold text-green-800">Facts</th>
-                      <th className="px-6 py-4 text-left font-semibold text-green-800">Details</th>
+                      <th className="px-6 py-4 text-left font-semibold text-green-800">
+                        Facts
+                      </th>
+                      <th className="px-6 py-4 text-left font-semibold text-green-800">
+                        Details
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-100">
                     <tr>
-                      <td className="px-6 py-4 font-medium text-gray-800">Eligible Fields</td>
+                      <td className="px-6 py-4 font-medium text-gray-800">
+                        Eligible Fields
+                      </td>
                       <td className="px-6 py-4 text-gray-700">
                         <div className="space-y-1">
                           <div>– A recognised profession</div>
@@ -4227,21 +4246,30 @@ export default function MigrationService() {
                       </td>
                     </tr>
                     <tr className="bg-gray-25">
-                      <td className="px-6 py-4 font-medium text-gray-800">Who Can Apply</td>
+                      <td className="px-6 py-4 font-medium text-gray-800">
+                        Who Can Apply
+                      </td>
                       <td className="px-6 py-4 text-gray-700">
                         <div className="space-y-1">
                           <div>– Lodge an Expression of Interest (EOI)</div>
                           <div>– Wait for invitation to apply</div>
                           <div>– Apply within 60 days of invitation</div>
-                          <div>– Apply from inside or outside Australia (not in immigration clearance)</div>
+                          <div>
+                            – Apply from inside or outside Australia (not in
+                            immigration clearance)
+                          </div>
                         </div>
                       </td>
                     </tr>
                     <tr>
-                      <td className="px-6 py-4 font-medium text-gray-800">Nominator Requirements</td>
+                      <td className="px-6 py-4 font-medium text-gray-800">
+                        Nominator Requirements
+                      </td>
                       <td className="px-6 py-4 text-gray-700">
                         <div className="space-y-1">
-                          <div>– Must have a national reputation in your field</div>
+                          <div>
+                            – Must have a national reputation in your field
+                          </div>
                           <div>– Can be:</div>
                           <div className="ml-4">• Australian citizen</div>
                           <div className="ml-4">• Permanent resident</div>
@@ -4251,7 +4279,9 @@ export default function MigrationService() {
                       </td>
                     </tr>
                     <tr className="bg-gray-25">
-                      <td className="px-6 py-4 font-medium text-gray-800">Visa Benefits</td>
+                      <td className="px-6 py-4 font-medium text-gray-800">
+                        Visa Benefits
+                      </td>
                       <td className="px-6 py-4 text-gray-700">
                         <div className="space-y-1">
                           <div>– Live permanently in Australia</div>
@@ -4264,13 +4294,17 @@ export default function MigrationService() {
                       </td>
                     </tr>
                     <tr>
-                      <td className="px-6 py-4 font-medium text-gray-800">Required Documents</td>
+                      <td className="px-6 py-4 font-medium text-gray-800">
+                        Required Documents
+                      </td>
                       <td className="px-6 py-4 text-gray-700">
                         <div className="space-y-1">
                           <div>– Proof of international achievements</div>
                           <div>– Career and qualification details</div>
                           <div>– Nominator's statement</div>
-                          <div>– ID and current visa documents (if applicable)</div>
+                          <div>
+                            – ID and current visa documents (if applicable)
+                          </div>
                         </div>
                       </td>
                     </tr>
@@ -4281,14 +4315,19 @@ export default function MigrationService() {
 
             {/* Eligible Fields */}
             <div className="bg-blue-50 p-6 rounded-lg">
-              <h3 className="text-xl font-bold text-blue-700 mb-4">Eligible Fields</h3>
+              <h3 className="text-xl font-bold text-blue-700 mb-4">
+                Eligible Fields
+              </h3>
               <p className="text-gray-700 mb-6">
-                To apply for this visa, you must have an exceptional record in one of the following areas:
+                To apply for this visa, you must have an exceptional record in
+                one of the following areas:
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-white p-6 rounded-lg border-l-4 border-blue-500">
-                  <h4 className="font-bold text-blue-700 mb-2">• A recognised profession</h4>
+                  <h4 className="font-bold text-blue-700 mb-2">
+                    • A recognised profession
+                  </h4>
                 </div>
                 <div className="bg-white p-6 rounded-lg border-l-4 border-green-500">
                   <h4 className="font-bold text-green-700 mb-2">• The arts</h4>
@@ -4297,14 +4336,17 @@ export default function MigrationService() {
                   <h4 className="font-bold text-purple-700 mb-2">• Sport</h4>
                 </div>
                 <div className="bg-white p-6 rounded-lg border-l-4 border-orange-500">
-                  <h4 className="font-bold text-orange-700 mb-2">• Academia and research</h4>
+                  <h4 className="font-bold text-orange-700 mb-2">
+                    • Academia and research
+                  </h4>
                 </div>
               </div>
 
               <div className="bg-blue-100 p-4 rounded-lg mt-6">
                 <p className="text-blue-800 text-sm italic">
                   <strong>
-                    Your achievements must be recognised not just locally, but internationally.
+                    Your achievements must be recognised not just locally, but
+                    internationally.
                   </strong>
                 </p>
               </div>
@@ -4316,40 +4358,57 @@ export default function MigrationService() {
                 Who Can Apply for the National Innovation Visa?
               </h3>
               <p className="text-gray-700 mb-6">
-                Not everyone can just fill out a form and send it off. The process starts with an invitation from the Department 
-                of Home Affairs.
+                Not everyone can just fill out a form and send it off. The
+                process starts with an invitation from the Department of Home
+                Affairs.
               </p>
 
               <div className="bg-white p-6 rounded-lg border border-purple-200 mb-6">
-                <h4 className="font-bold text-purple-700 mb-4">Here's what you need:</h4>
-                
+                <h4 className="font-bold text-purple-700 mb-4">
+                  Here's what you need:
+                </h4>
+
                 <div className="space-y-4">
                   <div className="flex items-start">
                     <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                    <p className="text-gray-700">You must lodge an Expression of Interest (EOI)</p>
+                    <p className="text-gray-700">
+                      You must lodge an Expression of Interest (EOI)
+                    </p>
                   </div>
                   <div className="flex items-start">
                     <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                    <p className="text-gray-700">You must wait to be invited to apply</p>
+                    <p className="text-gray-700">
+                      You must wait to be invited to apply
+                    </p>
                   </div>
                   <div className="flex items-start">
                     <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                    <p className="text-gray-700">Once invited, you have 60 days to submit your application</p>
+                    <p className="text-gray-700">
+                      Once invited, you have 60 days to submit your application
+                    </p>
                   </div>
                   <div className="flex items-start">
                     <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                    <p className="text-gray-700">You can apply from inside or outside Australia, as long as you're not in immigration clearance at the time</p>
+                    <p className="text-gray-700">
+                      You can apply from inside or outside Australia, as long as
+                      you're not in immigration clearance at the time
+                    </p>
                   </div>
                   <div className="flex items-start">
                     <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                    <p className="text-gray-700">You must have a nominator with a national reputation in your area of talent</p>
+                    <p className="text-gray-700">
+                      You must have a nominator with a national reputation in
+                      your area of talent
+                    </p>
                   </div>
                 </div>
               </div>
 
               <div className="bg-white p-6 rounded-lg border border-purple-200">
-                <h4 className="font-bold text-purple-700 mb-4">Your nominator can be:</h4>
-                
+                <h4 className="font-bold text-purple-700 mb-4">
+                  Your nominator can be:
+                </h4>
+
                 <div className="space-y-3">
                   <div className="flex items-center">
                     <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 flex-shrink-0"></div>
@@ -4361,7 +4420,9 @@ export default function MigrationService() {
                   </div>
                   <div className="flex items-center">
                     <div className="w-2 h-2 bg-orange-600 rounded-full mr-3 flex-shrink-0"></div>
-                    <p className="text-gray-700">An eligible New Zealand citizen</p>
+                    <p className="text-gray-700">
+                      An eligible New Zealand citizen
+                    </p>
                   </div>
                   <div className="flex items-center">
                     <div className="w-2 h-2 bg-purple-600 rounded-full mr-3 flex-shrink-0"></div>
@@ -4373,8 +4434,9 @@ export default function MigrationService() {
               <div className="bg-purple-100 p-4 rounded-lg mt-6">
                 <p className="text-purple-800 text-sm italic">
                   <strong>
-                    Most importantly, your track record of achievement must be ongoing. It's not about one good project years 
-                    ago—it's about consistent excellence.
+                    Most importantly, your track record of achievement must be
+                    ongoing. It's not about one good project years ago—it's
+                    about consistent excellence.
                   </strong>
                 </p>
               </div>
@@ -4382,18 +4444,25 @@ export default function MigrationService() {
 
             {/* What You Can Do With This Visa */}
             <div className="bg-orange-50 p-6 rounded-lg">
-              <h3 className="text-xl font-bold text-orange-700 mb-4">What You Can Do With This Visa</h3>
+              <h3 className="text-xl font-bold text-orange-700 mb-4">
+                What You Can Do With This Visa
+              </h3>
               <p className="text-gray-700 mb-6">
-                The National Innovation visa is one of the most generous pathways to live and work in Australia.
+                The National Innovation visa is one of the most generous
+                pathways to live and work in Australia.
               </p>
 
               <div className="bg-white p-6 rounded-lg border border-orange-200 mb-6">
-                <h4 className="font-bold text-orange-700 mb-4">With this visa, you can:</h4>
-                
+                <h4 className="font-bold text-orange-700 mb-4">
+                  With this visa, you can:
+                </h4>
+
                 <div className="space-y-4">
                   <div className="flex items-start">
                     <div className="w-2 h-2 bg-orange-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                    <p className="text-gray-700">Live permanently in Australia</p>
+                    <p className="text-gray-700">
+                      Live permanently in Australia
+                    </p>
                   </div>
                   <div className="flex items-start">
                     <div className="w-2 h-2 bg-orange-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
@@ -4405,15 +4474,22 @@ export default function MigrationService() {
                   </div>
                   <div className="flex items-start">
                     <div className="w-2 h-2 bg-orange-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                    <p className="text-gray-700">Sponsor eligible relatives to come to Australia</p>
+                    <p className="text-gray-700">
+                      Sponsor eligible relatives to come to Australia
+                    </p>
                   </div>
                   <div className="flex items-start">
                     <div className="w-2 h-2 bg-orange-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                    <p className="text-gray-700">Travel in and out of the country for five years</p>
+                    <p className="text-gray-700">
+                      Travel in and out of the country for five years
+                    </p>
                   </div>
                   <div className="flex items-start">
                     <div className="w-2 h-2 bg-orange-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                    <p className="text-gray-700">If you meet the requirements, apply for Australian citizenship in the future</p>
+                    <p className="text-gray-700">
+                      If you meet the requirements, apply for Australian
+                      citizenship in the future
+                    </p>
                   </div>
                 </div>
               </div>
@@ -4421,7 +4497,8 @@ export default function MigrationService() {
               <div className="bg-orange-100 p-4 rounded-lg">
                 <p className="text-orange-800 text-sm italic">
                   <strong>
-                    It gives you stability and freedom to continue your work without limitations.
+                    It gives you stability and freedom to continue your work
+                    without limitations.
                   </strong>
                 </p>
               </div>
@@ -4429,22 +4506,31 @@ export default function MigrationService() {
 
             {/* What Documents You'll Need */}
             <div className="bg-pink-50 p-6 rounded-lg">
-              <h3 className="text-xl font-bold text-pink-700 mb-4">What Documents You'll Need</h3>
-              <p className="text-gray-700 mb-4"><strong>Paperwork matters. A lot.</strong></p>
+              <h3 className="text-xl font-bold text-pink-700 mb-4">
+                What Documents You'll Need
+              </h3>
+              <p className="text-gray-700 mb-4">
+                <strong>Paperwork matters. A lot.</strong>
+              </p>
               <p className="text-gray-700 mb-6">
-                When it comes to the National Innovation visa, a strong application is built on clear, detailed proof of your 
+                When it comes to the National Innovation visa, a strong
+                application is built on clear, detailed proof of your
                 achievements and identity.
               </p>
               <p className="text-gray-700 mb-6">
-                You can't just say you've done amazing things — you need to show it.
+                You can't just say you've done amazing things — you need to show
+                it.
               </p>
 
               <div className="space-y-6">
                 {/* 1. Proof of International Achievements */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-pink-500">
-                  <h4 className="font-bold text-pink-700 mb-3">1. Proof of international achievements</h4>
+                  <h4 className="font-bold text-pink-700 mb-3">
+                    1. Proof of international achievements
+                  </h4>
                   <p className="text-gray-700 mb-4">
-                    This is the most important part. The Department of Home Affairs wants to see that your work has been recognised 
+                    This is the most important part. The Department of Home
+                    Affairs wants to see that your work has been recognised
                     worldwide.
                   </p>
                   <p className="text-gray-700 mb-4">You can include:</p>
@@ -4455,47 +4541,66 @@ export default function MigrationService() {
                     </div>
                     <div className="flex items-start">
                       <div className="w-2 h-2 bg-pink-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <p className="text-gray-700">International press or media coverage</p>
+                      <p className="text-gray-700">
+                        International press or media coverage
+                      </p>
                     </div>
                     <div className="flex items-start">
                       <div className="w-2 h-2 bg-pink-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <p className="text-gray-700">Invitations to speak at major events</p>
+                      <p className="text-gray-700">
+                        Invitations to speak at major events
+                      </p>
                     </div>
                     <div className="flex items-start">
                       <div className="w-2 h-2 bg-pink-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <p className="text-gray-700">Publications, patents, or research with global impact</p>
+                      <p className="text-gray-700">
+                        Publications, patents, or research with global impact
+                      </p>
                     </div>
                   </div>
                 </div>
 
                 {/* 2. Career and Qualification Details */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-orange-500">
-                  <h4 className="font-bold text-orange-700 mb-3">2. Career and qualification details</h4>
+                  <h4 className="font-bold text-orange-700 mb-3">
+                    2. Career and qualification details
+                  </h4>
                   <p className="text-gray-700">
-                    Share your career history — where you've worked, what you've done, and how long you've done it. Also include your 
-                    qualifications, especially if they relate to your area of expertise.
+                    Share your career history — where you've worked, what you've
+                    done, and how long you've done it. Also include your
+                    qualifications, especially if they relate to your area of
+                    expertise.
                   </p>
                 </div>
 
                 {/* 3. A Nominator's Statement */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-blue-500">
-                  <h4 className="font-bold text-blue-700 mb-3">3. A nominator's statement</h4>
+                  <h4 className="font-bold text-blue-700 mb-3">
+                    3. A nominator's statement
+                  </h4>
                   <p className="text-gray-700">
-                    Your nominator plays a key role. They need to write a detailed statement backing your achievements and reputation. This 
-                    must come from someone (or an organisation) with a national reputation in your field.
+                    Your nominator plays a key role. They need to write a
+                    detailed statement backing your achievements and reputation.
+                    This must come from someone (or an organisation) with a
+                    national reputation in your field.
                   </p>
                 </div>
 
                 {/* 4. Personal Documents */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-green-500">
-                  <h4 className="font-bold text-green-700 mb-3">4. Personal documents</h4>
+                  <h4 className="font-bold text-green-700 mb-3">
+                    4. Personal documents
+                  </h4>
                   <p className="text-gray-700 mb-4">
-                    Don't forget the basics. You'll need to prove your identity and visa status. This might include:
+                    Don't forget the basics. You'll need to prove your identity
+                    and visa status. This might include:
                   </p>
                   <div className="space-y-2">
                     <div className="flex items-start">
                       <div className="w-2 h-2 bg-green-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <p className="text-gray-700">Passport or travel document</p>
+                      <p className="text-gray-700">
+                        Passport or travel document
+                      </p>
                     </div>
                     <div className="flex items-start">
                       <div className="w-2 h-2 bg-green-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
@@ -4503,14 +4608,19 @@ export default function MigrationService() {
                     </div>
                     <div className="flex items-start">
                       <div className="w-2 h-2 bg-green-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <p className="text-gray-700">Current Australian visa (if you're applying from inside the country)</p>
+                      <p className="text-gray-700">
+                        Current Australian visa (if you're applying from inside
+                        the country)
+                      </p>
                     </div>
                   </div>
                 </div>
 
                 {/* 5. Other Supporting Material */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
-                  <h4 className="font-bold text-purple-700 mb-3">5. Other supporting material</h4>
+                  <h4 className="font-bold text-purple-700 mb-3">
+                    5. Other supporting material
+                  </h4>
                   <p className="text-gray-700 mb-4">
                     Depending on your field, you might also need:
                   </p>
@@ -4525,11 +4635,16 @@ export default function MigrationService() {
                     </div>
                     <div className="flex items-start">
                       <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <p className="text-gray-700">Links to published articles, performances, or exhibitions</p>
+                      <p className="text-gray-700">
+                        Links to published articles, performances, or
+                        exhibitions
+                      </p>
                     </div>
                     <div className="flex items-start">
                       <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <p className="text-gray-700">Media mentions or interviews</p>
+                      <p className="text-gray-700">
+                        Media mentions or interviews
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -4537,15 +4652,18 @@ export default function MigrationService() {
 
               <div className="bg-yellow-100 p-4 rounded-lg mt-6 border border-yellow-300">
                 <p className="text-yellow-800 text-sm">
-                  <strong>Expert tip:</strong> Remember — the more evidence, the better. But it must be relevant and clearly presented. If something's 
-                  hard to understand or looks incomplete, it could delay things.
+                  <strong>Expert tip:</strong> Remember — the more evidence, the
+                  better. But it must be relevant and clearly presented. If
+                  something's hard to understand or looks incomplete, it could
+                  delay things.
                 </p>
               </div>
 
               <div className="bg-pink-100 p-4 rounded-lg mt-4">
                 <p className="text-pink-800 text-sm italic">
                   <strong>
-                    Not sure if your documents are enough? That's what we're here for.
+                    Not sure if your documents are enough? That's what we're
+                    here for.
                   </strong>
                 </p>
               </div>
@@ -4563,8 +4681,9 @@ export default function MigrationService() {
                     Q: Do I need to be in Australia to apply?
                   </h4>
                   <p className="text-gray-700">
-                    <strong>A:</strong> No. You can be inside or outside Australia when you apply and when the visa is granted. You just can't 
-                    be in immigration clearance at the time.
+                    <strong>A:</strong> No. You can be inside or outside
+                    Australia when you apply and when the visa is granted. You
+                    just can't be in immigration clearance at the time.
                   </p>
                 </div>
 
@@ -4573,27 +4692,33 @@ export default function MigrationService() {
                     Q: Can I include family members in my application?
                   </h4>
                   <p className="text-gray-700">
-                    <strong>A:</strong> Yes, eligible family members can be included in your application. They can also enjoy the same 
+                    <strong>A:</strong> Yes, eligible family members can be
+                    included in your application. They can also enjoy the same
                     benefits once the visa is granted.
                   </p>
                 </div>
 
                 <div className="border-l-4 border-purple-500 pl-4 bg-white p-4 rounded-r-lg">
                   <h4 className="font-semibold text-gray-800 mb-2">
-                    Q: What if I'm not sure I meet the 'internationally recognised' criteria?
+                    Q: What if I'm not sure I meet the 'internationally
+                    recognised' criteria?
                   </h4>
                   <p className="text-gray-700">
-                    <strong>A:</strong> We recommend booking a FREE consultation so we can assess your case. Every situation is different, 
-                    and we'll give you clear advice based on your unique achievements.
+                    <strong>A:</strong> We recommend booking a FREE consultation
+                    so we can assess your case. Every situation is different,
+                    and we'll give you clear advice based on your unique
+                    achievements.
                   </p>
                 </div>
 
                 <div className="border-l-4 border-orange-500 pl-4 bg-white p-4 rounded-r-lg">
                   <h4 className="font-semibold text-gray-800 mb-2">
-                    Q: Can CIA Lawyers help with gathering documents and submitting the EOI?
+                    Q: Can CIA Lawyers help with gathering documents and
+                    submitting the EOI?
                   </h4>
                   <p className="text-gray-700">
-                    <strong>A:</strong> Absolutely. We handle everything from checking your eligibility to preparing your application and 
+                    <strong>A:</strong> Absolutely. We handle everything from
+                    checking your eligibility to preparing your application and
                     working with your nominator.
                   </p>
                 </div>
@@ -4603,8 +4728,10 @@ export default function MigrationService() {
                     Q: What if my application is refused?
                   </h4>
                   <p className="text-gray-700">
-                    <strong>A:</strong> We can advise you on possible review options, depending on the reason for the refusal. Having expert 
-                    legal help from the beginning reduces the risk of refusal.
+                    <strong>A:</strong> We can advise you on possible review
+                    options, depending on the reason for the refusal. Having
+                    expert legal help from the beginning reduces the risk of
+                    refusal.
                   </p>
                 </div>
               </div>
@@ -4614,9 +4741,11 @@ export default function MigrationService() {
             <div className="bg-green-600 text-white p-6 rounded-lg">
               <div className="text-center">
                 <p className="text-lg mb-4">
-                  The National Innovation Visa (Subclass 858) is designed for individuals with exceptional international 
-                  achievements who can contribute significantly to Australia's innovation landscape. This permanent residency 
-                  pathway offers unparalleled opportunities for global talent.
+                  The National Innovation Visa (Subclass 858) is designed for
+                  individuals with exceptional international achievements who
+                  can contribute significantly to Australia's innovation
+                  landscape. This permanent residency pathway offers
+                  unparalleled opportunities for global talent.
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                   <Button className="bg-white text-green-600 hover:bg-gray-100">
@@ -4662,51 +4791,64 @@ export default function MigrationService() {
               </Button>
             </div>
           </DialogHeader>
-          
+
           <div className="space-y-8 py-6">
             {/* Benefits Section */}
             <div className="bg-blue-50 p-6 rounded-lg">
               <h3 className="text-2xl font-bold text-blue-700 mb-4">
                 Benefits of the Skilled Nominated Visa (subclass 190)
               </h3>
-              
+
               <p className="text-gray-700 mb-6">
-                The Skilled Nominated Visa (subclass 190) offers a range of benefits that make it a great option for skilled 
-                professionals looking to settle in Australia. Here's what you can expect:
+                The Skilled Nominated Visa (subclass 190) offers a range of
+                benefits that make it a great option for skilled professionals
+                looking to settle in Australia. Here's what you can expect:
               </p>
 
               <div className="space-y-6">
                 {/* Permanent Residency */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-teal-500">
-                  <h4 className="font-bold text-teal-700 mb-3">Permanent Residency:</h4>
+                  <h4 className="font-bold text-teal-700 mb-3">
+                    Permanent Residency:
+                  </h4>
                   <p className="text-gray-700">
-                    This visa allows you to live and work permanently anywhere in Australia without the need for renewals.
+                    This visa allows you to live and work permanently anywhere
+                    in Australia without the need for renewals.
                   </p>
                 </div>
 
                 {/* Access to Medicare */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-blue-500">
-                  <h4 className="font-bold text-blue-700 mb-3">Access to Medicare:</h4>
+                  <h4 className="font-bold text-blue-700 mb-3">
+                    Access to Medicare:
+                  </h4>
                   <p className="text-gray-700">
-                    As a permanent resident, you'll enjoy free or low-cost medical services through Australia's world-class 
-                    healthcare system.
+                    As a permanent resident, you'll enjoy free or low-cost
+                    medical services through Australia's world-class healthcare
+                    system.
                   </p>
                 </div>
 
                 {/* Pathway to Citizenship */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-green-500">
-                  <h4 className="font-bold text-green-700 mb-3">Pathway to Citizenship:</h4>
+                  <h4 className="font-bold text-green-700 mb-3">
+                    Pathway to Citizenship:
+                  </h4>
                   <p className="text-gray-700">
-                    After meeting residency requirements, you can apply for Australian citizenship, opening doors to more 
-                    rights and privileges.
+                    After meeting residency requirements, you can apply for
+                    Australian citizenship, opening doors to more rights and
+                    privileges.
                   </p>
                 </div>
 
                 {/* Sponsorship for Family */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
-                  <h4 className="font-bold text-purple-700 mb-3">Sponsorship for Family:</h4>
+                  <h4 className="font-bold text-purple-700 mb-3">
+                    Sponsorship for Family:
+                  </h4>
                   <p className="text-gray-700">
-                    Once settled, you can sponsor your family members to join you in Australia, making reunification easier.
+                    Once settled, you can sponsor your family members to join
+                    you in Australia, making reunification easier.
                   </p>
                 </div>
               </div>
@@ -4714,8 +4856,9 @@ export default function MigrationService() {
               <div className="bg-teal-100 p-4 rounded-lg mt-6 border border-teal-300">
                 <p className="text-teal-800 text-center italic">
                   <strong>
-                    The Skilled Nominated Visa (subclass 190) not only secures your future in Australia but also gives you 
-                    the freedom to live, work, and enjoy the benefits of permanent residency.
+                    The Skilled Nominated Visa (subclass 190) not only secures
+                    your future in Australia but also gives you the freedom to
+                    live, work, and enjoy the benefits of permanent residency.
                   </strong>
                 </p>
               </div>
@@ -4724,12 +4867,14 @@ export default function MigrationService() {
             {/* Eligibility Criteria */}
             <div className="bg-gray-50 p-6 rounded-lg">
               <h3 className="text-2xl font-bold text-gray-800 mb-4">
-                Eligibility Criteria for the Skilled Nominated Visa (subclass 190)
+                Eligibility Criteria for the Skilled Nominated Visa (subclass
+                190)
               </h3>
-              
+
               <p className="text-gray-700 mb-6">
-                To apply for the Skilled Nominated Visa (subclass 190), there are several key criteria you must meet. Here's 
-                what you need to know:
+                To apply for the Skilled Nominated Visa (subclass 190), there
+                are several key criteria you must meet. Here's what you need to
+                know:
               </p>
 
               <div className="space-y-6">
@@ -4745,44 +4890,57 @@ export default function MigrationService() {
                 <div className="bg-white p-6 rounded-lg border-l-4 border-green-500">
                   <h4 className="font-bold text-green-700 mb-3">Occupation:</h4>
                   <p className="text-gray-700">
-                    Your occupation should be listed on Australia's Skilled Occupation List (SOL). Make sure your profession 
-                    aligns with the needs of Australian employers.
+                    Your occupation should be listed on Australia's Skilled
+                    Occupation List (SOL). Make sure your profession aligns with
+                    the needs of Australian employers.
                   </p>
                 </div>
 
                 {/* English Language Skills */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
-                  <h4 className="font-bold text-purple-700 mb-3">English Language Skills:</h4>
+                  <h4 className="font-bold text-purple-700 mb-3">
+                    English Language Skills:
+                  </h4>
                   <p className="text-gray-700">
-                    You'll need to prove your English proficiency. Typically, this means achieving a minimum of 6.0 in each 
-                    band of the IELTS exam (or equivalent, depending on the test you take).
+                    You'll need to prove your English proficiency. Typically,
+                    this means achieving a minimum of 6.0 in each band of the
+                    IELTS exam (or equivalent, depending on the test you take).
                   </p>
                 </div>
 
                 {/* Points Test */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-orange-500">
-                  <h4 className="font-bold text-orange-700 mb-3">Points Test:</h4>
+                  <h4 className="font-bold text-orange-700 mb-3">
+                    Points Test:
+                  </h4>
                   <p className="text-gray-700">
-                    To be eligible, you must score at least 65 points. Points are awarded based on factors such as your age, 
-                    education, work experience, and English language skills.
+                    To be eligible, you must score at least 65 points. Points
+                    are awarded based on factors such as your age, education,
+                    work experience, and English language skills.
                   </p>
                 </div>
 
                 {/* Skills Assessment */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-red-500">
-                  <h4 className="font-bold text-red-700 mb-3">Skills Assessment:</h4>
+                  <h4 className="font-bold text-red-700 mb-3">
+                    Skills Assessment:
+                  </h4>
                   <p className="text-gray-700">
-                    You will need to undergo a skills assessment by the relevant assessing authority for your occupation. This 
-                    verifies that your skills meet Australian standards.
+                    You will need to undergo a skills assessment by the relevant
+                    assessing authority for your occupation. This verifies that
+                    your skills meet Australian standards.
                   </p>
                 </div>
 
                 {/* State or Territory Nomination */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-blue-600">
-                  <h4 className="font-bold text-blue-700 mb-3">State or Territory Nomination:</h4>
+                  <h4 className="font-bold text-blue-700 mb-3">
+                    State or Territory Nomination:
+                  </h4>
                   <p className="text-gray-700">
-                    You must be nominated by an Australian state or territory. Each state has its criteria and may select 
-                    candidates based on local labour needs.
+                    You must be nominated by an Australian state or territory.
+                    Each state has its criteria and may select candidates based
+                    on local labour needs.
                   </p>
                 </div>
               </div>
@@ -4790,8 +4948,10 @@ export default function MigrationService() {
               <div className="bg-blue-100 p-4 rounded-lg mt-6 border border-blue-300">
                 <p className="text-blue-800 text-center">
                   <strong>
-                    Meeting these requirements is crucial to your visa application. It's important to ensure that your 
-                    qualifications and skills align with Australia's current labour market needs.
+                    Meeting these requirements is crucial to your visa
+                    application. It's important to ensure that your
+                    qualifications and skills align with Australia's current
+                    labour market needs.
                   </strong>
                 </p>
               </div>
@@ -4800,61 +4960,82 @@ export default function MigrationService() {
             {/* How CIA Lawyers Will Help You */}
             <div className="bg-green-50 p-6 rounded-lg">
               <h3 className="text-2xl font-bold text-green-700 mb-4">
-                How CIA Lawyers Will Help You Get the Skilled Nominated Visa (subclass 190)
+                How CIA Lawyers Will Help You Get the Skilled Nominated Visa
+                (subclass 190)
               </h3>
-              
+
               <p className="text-gray-700 mb-6">
-                We know that applying for the Skilled Nominated Visa (subclass 190) can be complex and overwhelming. 
-                That's why we're here to ensure your application is as smooth and stress-free as possible.
+                We know that applying for the Skilled Nominated Visa (subclass
+                190) can be complex and overwhelming. That's why we're here to
+                ensure your application is as smooth and stress-free as
+                possible.
               </p>
 
               <div className="bg-white p-4 rounded-lg mb-6 border border-green-200">
-                <h4 className="font-bold text-green-700 mb-4">Here's how we can help:</h4>
+                <h4 className="font-bold text-green-700 mb-4">
+                  Here's how we can help:
+                </h4>
               </div>
 
               <div className="space-y-6">
                 {/* Expert Advice at Every Step */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-green-500">
-                  <h4 className="font-bold text-green-700 mb-3">Expert Advice at Every Step:</h4>
+                  <h4 className="font-bold text-green-700 mb-3">
+                    Expert Advice at Every Step:
+                  </h4>
                   <p className="text-gray-700">
-                    From submitting your Expression of Interest (EOI) to securing your state or territory nomination, we 
-                    provide clear, expert guidance to help you at each stage of your application.
+                    From submitting your Expression of Interest (EOI) to
+                    securing your state or territory nomination, we provide
+                    clear, expert guidance to help you at each stage of your
+                    application.
                   </p>
                 </div>
 
                 {/* Skills Assessment Support */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-blue-500">
-                  <h4 className="font-bold text-blue-700 mb-3">Skills Assessment Support:</h4>
+                  <h4 className="font-bold text-blue-700 mb-3">
+                    Skills Assessment Support:
+                  </h4>
                   <p className="text-gray-700">
-                    We'll make sure you're fully prepared for the skills assessment, helping you gather and submit the right 
+                    We'll make sure you're fully prepared for the skills
+                    assessment, helping you gather and submit the right
                     documents to ensure everything is in order.
                   </p>
                 </div>
 
                 {/* English Language Support */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
-                  <h4 className="font-bold text-purple-700 mb-3">English Language Support:</h4>
+                  <h4 className="font-bold text-purple-700 mb-3">
+                    English Language Support:
+                  </h4>
                   <p className="text-gray-700">
-                    Not sure if your English proficiency meets the requirements? We'll offer practical advice on how to 
-                    improve your score and make sure you meet the necessary standards.
+                    Not sure if your English proficiency meets the requirements?
+                    We'll offer practical advice on how to improve your score
+                    and make sure you meet the necessary standards.
                   </p>
                 </div>
 
                 {/* Document Organisation */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-orange-500">
-                  <h4 className="font-bold text-orange-700 mb-3">Document Organisation:</h4>
+                  <h4 className="font-bold text-orange-700 mb-3">
+                    Document Organisation:
+                  </h4>
                   <p className="text-gray-700">
-                    We help you prepare and organise all your documents, making sure nothing is overlooked or missing. 
-                    This ensures your application isn't delayed by missing paperwork.
+                    We help you prepare and organise all your documents, making
+                    sure nothing is overlooked or missing. This ensures your
+                    application isn't delayed by missing paperwork.
                   </p>
                 </div>
 
                 {/* State Nomination Assistance */}
                 <div className="bg-white p-6 rounded-lg border-l-4 border-red-500">
-                  <h4 className="font-bold text-red-700 mb-3">State Nomination Assistance:</h4>
+                  <h4 className="font-bold text-red-700 mb-3">
+                    State Nomination Assistance:
+                  </h4>
                   <p className="text-gray-700">
-                    Choosing the right state or territory is crucial. We'll help you decide which one is best for your situation 
-                    and guide you through the nomination process to ensure approval.
+                    Choosing the right state or territory is crucial. We'll help
+                    you decide which one is best for your situation and guide
+                    you through the nomination process to ensure approval.
                   </p>
                 </div>
               </div>
@@ -4862,8 +5043,9 @@ export default function MigrationService() {
               <div className="bg-green-100 p-4 rounded-lg mt-6 border border-green-300">
                 <p className="text-green-800 text-center italic">
                   <strong>
-                    With our expertise and support, you can focus on your future in Australia, knowing that your 
-                    application is in safe hands.
+                    With our expertise and support, you can focus on your future
+                    in Australia, knowing that your application is in safe
+                    hands.
                   </strong>
                 </p>
               </div>
@@ -4881,7 +5063,8 @@ export default function MigrationService() {
                     Q: Does a 190 visa lead to PR?
                   </h4>
                   <p className="text-gray-700">
-                    <strong>A:</strong> Yes, the Subclass 190 Skilled Nominated Visa grants you permanent residency in Australia, allowing 
+                    <strong>A:</strong> Yes, the Subclass 190 Skilled Nominated
+                    Visa grants you permanent residency in Australia, allowing
                     you to live, work, and study anywhere in the country.
                   </p>
                 </div>
@@ -4891,8 +5074,10 @@ export default function MigrationService() {
                     Q: What's the difference between an 189 and a 190 visa?
                   </h4>
                   <p className="text-gray-700">
-                    <strong>A:</strong> The main difference is that the 190 visa requires state or territory nomination, while the 189 visa is for 
-                    individuals who meet the points test without needing any state nomination.
+                    <strong>A:</strong> The main difference is that the 190 visa
+                    requires state or territory nomination, while the 189 visa
+                    is for individuals who meet the points test without needing
+                    any state nomination.
                   </p>
                 </div>
 
@@ -4901,7 +5086,8 @@ export default function MigrationService() {
                     Q: How long can I stay in Australia with a 190 visa?
                   </h4>
                   <p className="text-gray-700">
-                    <strong>A:</strong> With a 190 visa, you are granted permanent residency, which means you can stay in Australia 
+                    <strong>A:</strong> With a 190 visa, you are granted
+                    permanent residency, which means you can stay in Australia
                     indefinitely.
                   </p>
                 </div>
@@ -4911,7 +5097,8 @@ export default function MigrationService() {
                     Q: How long after a 190 visa can I apply for citizenship?
                   </h4>
                   <p className="text-gray-700">
-                    <strong>A:</strong> You can apply for Australian citizenship after holding permanent residency for 4 years, including at 
+                    <strong>A:</strong> You can apply for Australian citizenship
+                    after holding permanent residency for 4 years, including at
                     least 12 months as a permanent resident.
                   </p>
                 </div>
@@ -4921,8 +5108,10 @@ export default function MigrationService() {
                     Q: How long does it take to get PR after nomination?
                   </h4>
                   <p className="text-gray-700">
-                    <strong>A:</strong> After receiving a state nomination, the processing time for the 190 visa can range from 6 to 12 
-                    months, depending on individual circumstances and application completeness.
+                    <strong>A:</strong> After receiving a state nomination, the
+                    processing time for the 190 visa can range from 6 to 12
+                    months, depending on individual circumstances and
+                    application completeness.
                   </p>
                 </div>
               </div>
@@ -4932,9 +5121,11 @@ export default function MigrationService() {
             <div className="bg-blue-600 text-white p-6 rounded-lg">
               <div className="text-center">
                 <p className="text-lg mb-4">
-                  The Skilled Nominated Visa (Subclass 190) offers a direct pathway to permanent residency in Australia 
-                  for skilled professionals. With state nomination and comprehensive benefits, this visa provides the 
-                  stability and opportunities you need to build your future in Australia.
+                  The Skilled Nominated Visa (Subclass 190) offers a direct
+                  pathway to permanent residency in Australia for skilled
+                  professionals. With state nomination and comprehensive
+                  benefits, this visa provides the stability and opportunities
+                  you need to build your future in Australia.
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                   <Button className="bg-white text-blue-600 hover:bg-gray-100">
@@ -4952,6 +5143,274 @@ export default function MigrationService() {
                   >
                     <Mail className="h-4 w-4 mr-2" />
                     Get State Nomination Help
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Skilled Work Regional (Provisional) Visa (Subclass 491) Modal */}
+      <Dialog
+        open={isSubclass491ModalOpen}
+        onOpenChange={setIsSubclass491ModalOpen}
+      >
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <div className="flex items-center justify-between">
+              <DialogTitle className="text-3xl font-bold text-teal-700">
+                Skilled Work Regional (Provisional) Visa (Subclass 491)
+              </DialogTitle>
+              <Button
+                variant="ghost"
+                onClick={() => setIsSubclass491ModalOpen(false)}
+                className="h-6 w-6 p-0"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          </DialogHeader>
+          
+          <div className="space-y-8 py-6">
+            {/* Benefits Section */}
+            <div className="bg-teal-50 p-6 rounded-lg">
+              <h3 className="text-2xl font-bold text-teal-700 mb-4">
+                Benefits of the Skilled Work Regional (Provisional) Visa (Subclass 491)
+              </h3>
+              
+              <p className="text-gray-700 mb-6">
+                The Skilled Work Regional (Provisional) Visa (Subclass 491) offers several advantages for skilled professionals 
+                looking to settle in Australia's regional areas.
+              </p>
+
+              <p className="text-gray-700 mb-6">
+                <strong>Let's take a closer look at how this visa can benefit you:</strong>
+              </p>
+
+              <div className="space-y-6">
+                {/* Work and Study in Regional Areas */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-teal-500">
+                  <h4 className="font-bold text-teal-700 mb-3">Work and Study in Regional Areas:</h4>
+                  <p className="text-gray-700">
+                    With this visa, you can live, work, and study in regional Australia for up to five years. It's an excellent 
+                    opportunity to experience different parts of Australia, all while advancing your career in a thriving 
+                    workforce.
+                  </p>
+                </div>
+
+                {/* Pathway to Permanent Residency */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-blue-500">
+                  <h4 className="font-bold text-blue-700 mb-3">Pathway to Permanent Residency:</h4>
+                  <p className="text-gray-700">
+                    The Subclass 491 visa is your gateway to permanent residency in Australia. After holding the visa for 
+                    three years, you may be eligible to apply for permanent residency under the Skilled Regional (Permanent) 
+                    Visa (Subclass 191), bringing long-term security and stability for you and your family.
+                  </p>
+                </div>
+
+                {/* Family Sponsorship */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-green-500">
+                  <h4 className="font-bold text-green-700 mb-3">Family Sponsorship:</h4>
+                  <p className="text-gray-700">
+                    This visa allows you to include your family members in your application. If approved, they can join you in 
+                    Australia, work, study, and enjoy all the benefits that come with living in this beautiful country.
+                  </p>
+                </div>
+
+                {/* Access to Medicare */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
+                  <h4 className="font-bold text-purple-700 mb-3">Access to Medicare:</h4>
+                  <p className="text-gray-700">
+                    As a Subclass 491 visa holder, you'll be eligible for Medicare, Australia's public healthcare system. This 
+                    means you'll have access to essential healthcare services at little or no cost, giving you peace of mind 
+                    when it comes to medical needs.
+                  </p>
+                </div>
+
+                {/* Opportunities in Regional Areas */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-orange-500">
+                  <h4 className="font-bold text-orange-700 mb-3">Opportunities in Regional Areas:</h4>
+                  <p className="text-gray-700">
+                    Living and working in regional Australia can be a fantastic opportunity. The job market in these areas is 
+                    often less competitive, increasing your chances of finding a stable job.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-teal-100 p-4 rounded-lg mt-6 border border-teal-300">
+                <p className="text-teal-800 text-center italic">
+                  <strong>
+                    This visa not only opens doors to a fulfilling life in Australia but also provides a clear pathway to 
+                    permanent residency, making it an attractive option for skilled professionals.
+                  </strong>
+                </p>
+              </div>
+            </div>
+
+            {/* Eligibility Criteria */}
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                Eligibility Criteria for the Skilled Work Regional (Provisional) Visa (Subclass 491)
+              </h3>
+              
+              <p className="text-gray-700 mb-6">
+                To successfully apply for the Skilled Work Regional (Provisional) Visa (Subclass 491), you'll need to meet 
+                several important eligibility requirements. Let's break down what you need to qualify for this visa:
+              </p>
+
+              <div className="space-y-6">
+                {/* Age Requirement */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-blue-500">
+                  <h4 className="font-bold text-blue-700 mb-3">Age Requirement:</h4>
+                  <p className="text-gray-700">
+                    You must be under 45 years of age at the time of your application. This age limit ensures that you are 
+                    within the working age bracket and can contribute to the regional workforce in Australia.
+                  </p>
+                </div>
+
+                {/* Skills and Qualifications */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-green-500">
+                  <h4 className="font-bold text-green-700 mb-3">Skills and Qualifications:</h4>
+                  <p className="text-gray-700">
+                    You must have a valid skills assessment for a position on Australia's skilled occupation list. This means 
+                    you need to demonstrate that your qualifications and work experience meet the requirements for a 
+                    specific occupation in demand in regional areas.
+                  </p>
+                </div>
+
+                {/* English Language Proficiency */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
+                  <h4 className="font-bold text-purple-700 mb-3">English Language Proficiency:</h4>
+                  <p className="text-gray-700">
+                    To apply, you must prove your proficiency in English by meeting the required score in a recognised 
+                    English test such as IELTS, TOEFL, or PTE.
+                  </p>
+                </div>
+
+                {/* Sponsorship or Nomination */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-orange-500">
+                  <h4 className="font-bold text-orange-700 mb-3">Sponsorship or Nomination:</h4>
+                  <p className="text-gray-700">
+                    You must be sponsored by an eligible family member or nominated by a State or Territory government. 
+                    The sponsorship or nomination ensures that you will live and work in a regional area of Australia.
+                  </p>
+                </div>
+
+                {/* Points Test */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-red-500">
+                  <h4 className="font-bold text-red-700 mb-3">Points Test:</h4>
+                  <p className="text-gray-700">
+                    You must pass the points test, which awards points for factors like age, English language skills, education, 
+                    and work experience. You need a minimum score of 65 points to be eligible to apply for the visa.
+                  </p>
+                </div>
+
+                {/* Health and Character Requirements */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-blue-600">
+                  <h4 className="font-bold text-blue-700 mb-3">Health and Character Requirements:</h4>
+                  <p className="text-gray-700">
+                    You and any family members included in your application must meet Australian health and character 
+                    standards. This involves undergoing health examinations and providing police checks to ensure you 
+                    don't have any significant criminal history.
+                  </p>
+                </div>
+
+                {/* Commitment to Regional Australia */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-teal-500">
+                  <h4 className="font-bold text-teal-700 mb-3">Commitment to Regional Australia:</h4>
+                  <p className="text-gray-700">
+                    You must be willing to live, work, and study in a designated regional area of Australia for the duration of 
+                    your visa. This ensures that you contribute to the growth and development of regional communities.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-blue-100 p-4 rounded-lg mt-6 border border-blue-300">
+                <p className="text-blue-800 text-center">
+                  <strong>
+                    Meeting these eligibility criteria is crucial for a successful application. If you're unsure about any of the 
+                    requirements or need assistance, seeking advice from an immigration lawyer can help you navigate 
+                    the process and ensure everything is in order.
+                  </strong>
+                </p>
+              </div>
+            </div>
+
+            {/* FAQ Section */}
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <h3 className="text-2xl font-bold text-gray-800 mb-6">
+                Frequently Asked Questions (FAQ)
+              </h3>
+
+              <div className="space-y-6">
+                <div className="border-l-4 border-blue-500 pl-4 bg-white p-4 rounded-r-lg">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: Can I move to another state after receiving the 491 visa?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>A:</strong> While you can move to another state, your visa conditions may require you to live and work in the 
+                    nominated regional area. It's important to comply with these conditions to avoid complications.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-green-500 pl-4 bg-white p-4 rounded-r-lg">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: How do I apply for the Subclass 491 visa?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>A:</strong> To apply, submit an Expression of Interest (EOI) through SkillSelect. You must score at least 65 points, 
+                    and once invited, you can apply with the necessary documentation like skills assessments.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-purple-500 pl-4 bg-white p-4 rounded-r-lg">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: Is there a pathway to permanent residency from the Subclass 491 visa?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>A:</strong> Yes, after holding the Subclass 491 visa for three years, you may apply for permanent residency 
+                    through the Subclass 191 visa if you meet specific work and residency conditions.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-orange-500 pl-4 bg-white p-4 rounded-r-lg">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: What happens if my Expression of Interest (EOI) is not selected?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>A:</strong> If your EOI isn't selected, you'll need to wait for a future invitation. You may increase your chances by 
+                    improving your points score or adjusting your nominated occupation.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Call to Action */}
+            <div className="bg-teal-600 text-white p-6 rounded-lg">
+              <div className="text-center">
+                <p className="text-lg mb-4">
+                  The Skilled Work Regional (Provisional) Visa (Subclass 491) offers an excellent pathway to live and work 
+                  in regional Australia while building towards permanent residency. With comprehensive benefits including 
+                  Medicare access, family sponsorship opportunities, and a clear pathway to permanent residency after 
+                  three years, this visa opens doors to a fulfilling future in Australia's thriving regional communities.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  <Button className="bg-white text-teal-600 hover:bg-gray-100">
+                    <FileText className="h-4 w-4 mr-2" />
+                    Apply for Subclass 491 Visa
+                  </Button>
+                  <Button className="bg-yellow-500 text-teal-900 hover:bg-yellow-400">
+                    <Phone className="h-4 w-4 mr-2" />
+                    Check Regional Opportunities
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="border-white text-white hover:bg-white/10"
+                    onClick={() => setIsSubclass491ModalOpen(false)}
+                  >
+                    <Mail className="h-4 w-4 mr-2" />
+                    Get Regional Nomination Help
                   </Button>
                 </div>
               </div>
