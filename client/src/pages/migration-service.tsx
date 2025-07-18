@@ -31,6 +31,7 @@ export default function MigrationService() {
     useState(false);
   const [isSubclass494ModalOpen, setIsSubclass494ModalOpen] = useState(false);
   const [isSubclass400ModalOpen, setIsSubclass400ModalOpen] = useState(false);
+  const [isSubclass407ModalOpen, setIsSubclass407ModalOpen] = useState(false);
 
   const employerServices = [
     {
@@ -276,7 +277,8 @@ export default function MigrationService() {
                         service.name === "National Innovation Visa 858" ||
                         service.name === "Labour Agreement" ||
                         service.name === "Skilled Employer Sponsored Regional (Subclass 494) Visa" ||
-                        service.name === "Temporary Work (Short Stay Specialist) Visa (Subclass 400)"
+                        service.name === "Temporary Work (Short Stay Specialist) Visa (Subclass 400)" ||
+                        service.name === "Training Visa (Subclass 407)"
                           ? "cursor-pointer hover:bg-gray-50 p-2 rounded-md transition-colors"
                           : ""
                       }`}
@@ -293,6 +295,8 @@ export default function MigrationService() {
                           setIsSubclass494ModalOpen(true);
                         } else if (service.name === "Temporary Work (Short Stay Specialist) Visa (Subclass 400)") {
                           setIsSubclass400ModalOpen(true);
+                        } else if (service.name === "Training Visa (Subclass 407)") {
+                          setIsSubclass407ModalOpen(true);
                         }
                       }}
                     >
@@ -2763,6 +2767,419 @@ export default function MigrationService() {
                   >
                     <Mail className="h-4 w-4 mr-2" />
                     Contact Expert Team
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Training Visa (Subclass 407) Modal */}
+      <Dialog
+        open={isSubclass407ModalOpen}
+        onOpenChange={setIsSubclass407ModalOpen}
+      >
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <div className="flex items-center justify-between">
+              <DialogTitle className="text-3xl font-bold text-green-700">
+                Training Visa (Subclass 407)
+              </DialogTitle>
+              <Button
+                variant="ghost"
+                onClick={() => setIsSubclass407ModalOpen(false)}
+                className="h-6 w-6 p-0"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          </DialogHeader>
+          
+          <div className="space-y-8 py-6">
+            {/* Costs & Details */}
+            <div className="bg-green-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-green-700 mb-4">
+                Costs & Details of the Training Visa (Subclass 407)
+              </h3>
+              <p className="text-gray-700 mb-6">
+                Wondering about the costs and details of the Training Visa (Subclass 407)? Let's break it down simply!
+              </p>
+              
+              <div className="mb-6">
+                <h4 className="text-lg font-bold text-green-700 mb-4">Visa Fees and Processing Times:</h4>
+                
+                <div className="bg-white rounded-lg overflow-hidden border border-green-200">
+                  <table className="w-full">
+                    <thead className="bg-green-100">
+                      <tr>
+                        <th className="px-4 py-3 text-left font-semibold text-green-800">Item</th>
+                        <th className="px-4 py-3 text-left font-semibold text-green-800">Cost</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-green-100">
+                      <tr>
+                        <td className="px-4 py-3 font-medium text-gray-800">Base application fee</td>
+                        <td className="px-4 py-3 text-gray-700">AUD 415 (main applicant)</td>
+                      </tr>
+                      <tr className="bg-green-25">
+                        <td className="px-4 py-3 font-medium text-gray-800">Additional charges for dependents</td>
+                        <td className="px-4 py-3 text-gray-700">Varies (check individual circumstances)</td>
+                      </tr>
+                      <tr>
+                        <td className="px-4 py-3 font-medium text-gray-800">Processing time</td>
+                        <td className="px-4 py-3 text-gray-700">2 to 4 months (average)</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <p className="text-gray-700">
+                  The base application fee for the Training Visa starts at AUD 415 for the main applicant. Keep in mind that if 
+                  you have family members applying as dependents, there may be extra costs involved.
+                </p>
+
+                <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                  <h5 className="font-bold text-blue-700 mb-2">Processing Times:</h5>
+                  <p className="text-blue-700 text-sm">
+                    It usually takes between 2 to 4 months to process your application. Planning is key, as some applications 
+                    can take a bit longer based on your unique situation.
+                  </p>
+                </div>
+
+                <p className="text-gray-700">
+                  This temporary visa lets you stay in Australia for up to 2 years, providing you plenty of time to finish your 
+                  training. However, if you have family members on your visa, they may only be allowed to work 20 hours per week.
+                </p>
+
+                <div className="bg-green-100 p-4 rounded-lg">
+                  <p className="text-green-800 text-sm italic">
+                    <strong>
+                      Getting your Training Visa is a step closer to enhancing your skills while enjoying everything Australia has to offer!
+                    </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Occupational Training Covered */}
+            <div className="bg-blue-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-blue-700 mb-4">
+                Occupational Training Covered by Training Visa (Subclass 407)
+              </h3>
+              <p className="text-gray-700 mb-6">
+                Are you curious about the types of training included in the Training Visa (Subclass 407)? Let's break it down 
+                into three main streams:
+              </p>
+
+              <div className="space-y-6">
+                {/* Stream 1 */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-blue-500">
+                  <h4 className="text-lg font-bold text-blue-700 mb-3">
+                    #1. Occupational Training for Registration
+                  </h4>
+                  <p className="text-gray-700">
+                    This stream is designed for individuals who need specific registration, membership, or a licence to 
+                    work in their field. Whether you're aiming for qualifications in Australia or your home country, this 
+                    hands-on training will help you meet those requirements.
+                  </p>
+                </div>
+
+                {/* Stream 2 */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-green-500">
+                  <h4 className="text-lg font-bold text-green-700 mb-3">
+                    #2. Skills Improvement
+                  </h4>
+                  <p className="text-gray-700">
+                    Looking to sharpen your skills? The skills improvement stream allows you to join a structured 
+                    workplace training program. This training focuses on enhancing your abilities in occupations listed on 
+                    the skilled occupation list for the 407 visa. It's a fantastic opportunity to gain practical experience while 
+                    boosting your employability.
+                  </p>
+                </div>
+
+                {/* Stream 3 */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
+                  <h4 className="text-lg font-bold text-purple-700 mb-3">
+                    #3. Capacity Building Overseas
+                  </h4>
+                  <p className="text-gray-700">
+                    This stream caters to those needing training as part of their overseas studies or professionals 
+                    supported by a government organisation. If you're a manager or professional wanting to develop your 
+                    skills further, this stream offers a pathway to gain valuable training in Australia.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-blue-100 p-4 rounded-lg mt-6">
+                <p className="text-blue-800 text-sm">
+                  <strong>
+                    Training Visa (Subclass 407) provides various opportunities for occupational training. Whether you're 
+                    looking to meet registration requirements, enhance your skills, or build capacity overseas, there's a 
+                    stream that can fit your needs. This visa is a stepping stone to advancing your career while 
+                    experiencing life in Australia!
+                  </strong>
+                </p>
+              </div>
+            </div>
+
+            {/* What This Visa Lets You Do */}
+            <div className="bg-green-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-green-700 mb-4">What This Visa Lets You Do</h3>
+              <p className="text-gray-700 mb-6">
+                The Training Visa (Subclass 407) opens up a world of opportunities for you in Australia. Here's what you can 
+                do with this visa:
+              </p>
+
+              <div className="space-y-6">
+                {/* Live and Work */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-green-500">
+                  <h4 className="font-bold text-green-700 mb-3">Live and Work:</h4>
+                  <p className="text-gray-700">
+                    You'll have the chance to live in Australia while completing your training program. This hands-on 
+                    experience is invaluable for your career.
+                  </p>
+                </div>
+
+                {/* Stay for Up to 2 Years */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-blue-500">
+                  <h4 className="font-bold text-blue-700 mb-3">Stay for Up to 2 Years:</h4>
+                  <p className="text-gray-700">
+                    Depending on the length of your training, you can enjoy your time in Australia for up to two years. It's 
+                    plenty of time to soak in the culture and gain skills.
+                  </p>
+                </div>
+
+                {/* Bring Your Family */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
+                  <h4 className="font-bold text-purple-700 mb-3">Bring Your Family:</h4>
+                  <p className="text-gray-700">
+                    You can include your spouse and children in your application. Just remember, while your family can join 
+                    you, they may face work restrictions. They can work up to 20 hours a week.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-green-100 p-4 rounded-lg mt-6">
+                <p className="text-green-800 text-sm">
+                  <strong>
+                    Overall, this visa is an excellent way to gain experience in your field while exploring everything 
+                    Australia has to offer—from its stunning beaches to vibrant cities. It's not just about work; it's about 
+                    living and thriving in a fantastic environment!
+                  </strong>
+                </p>
+              </div>
+            </div>
+
+            {/* Eligibility Criteria */}
+            <div className="bg-yellow-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-yellow-700 mb-4">
+                Eligibility Criteria for the Training Visa (Subclass 407)
+              </h3>
+              <p className="text-gray-700 mb-6">
+                To qualify for the Training Visa (Subclass 407), you'll need to meet several important criteria. Here's what you 
+                need to know to ensure your application goes smoothly:
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Have an Approved Sponsor */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-yellow-500">
+                  <h4 className="font-bold text-yellow-700 mb-3">Have an Approved Sponsor:</h4>
+                  <p className="text-gray-700 text-sm">
+                    You must be sponsored by an organisation that is approved as a temporary activities sponsor in 
+                    Australia. This sponsor will play a crucial role in supporting your training.
+                  </p>
+                </div>
+
+                {/* Be Nominated */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-blue-500">
+                  <h4 className="font-bold text-blue-700 mb-3">Be Nominated:</h4>
+                  <p className="text-gray-700 text-sm">
+                    Your sponsor needs to nominate you for the visa. If they are an Australian Commonwealth Government 
+                    agency, this requirement may differ. It's essential to understand that the nomination must be for a 
+                    specific type of occupational training.
+                  </p>
+                </div>
+
+                {/* Age Requirement */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-green-500">
+                  <h4 className="font-bold text-green-700 mb-3">Age Requirement:</h4>
+                  <p className="text-gray-700 text-sm">
+                    Generally, you should be at least 18 years old at the time your visa application is decided. This age 
+                    requirement is standard and helps ensure you are prepared for the responsibilities of the visa.
+                  </p>
+                </div>
+
+                {/* Hold a Valid Visa */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-purple-500">
+                  <h4 className="font-bold text-purple-700 mb-3">Hold a Valid Visa:</h4>
+                  <p className="text-gray-700 text-sm">
+                    If you are applying from within Australia, you must currently hold a valid temporary substantive visa. 
+                    Certain visas, like the Subclass 403 (Temporary Work) or Subclass 771 (Transit) visas, are not eligible.
+                  </p>
+                </div>
+
+                {/* Meet Health Requirements */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-red-500">
+                  <h4 className="font-bold text-red-700 mb-3">Meet Health Requirements:</h4>
+                  <p className="text-gray-700 text-sm">
+                    You and any family members applying with you must meet the health requirements set by the Australian 
+                    government. This may involve a health examination.
+                  </p>
+                </div>
+
+                {/* Meet Character Requirements */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-blue-600">
+                  <h4 className="font-bold text-blue-600 mb-3">Meet Character Requirements:</h4>
+                  <p className="text-gray-700 text-sm">
+                    All applicants aged 16 years and over must meet character criteria. This usually involves providing a 
+                    police clearance or similar documentation.
+                  </p>
+                </div>
+
+                {/* Adequate Health Insurance */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-pink-500">
+                  <h4 className="font-bold text-pink-700 mb-3">Adequate Health Insurance:</h4>
+                  <p className="text-gray-700 text-sm">
+                    You must maintain adequate health insurance for the entire duration of your stay. This ensures you are 
+                    covered for any medical treatment you may require while in Australia.
+                  </p>
+                </div>
+
+                {/* Genuine Temporary Entrant */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-teal-500">
+                  <h4 className="font-bold text-teal-700 mb-3">Genuine Temporary Entrant:</h4>
+                  <p className="text-gray-700 text-sm">
+                    You must intend to stay in Australia temporarily and comply with the conditions of the visa. It's crucial to 
+                    demonstrate that you plan to return to your home country after your training.
+                  </p>
+                </div>
+
+                {/* Functional English */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-orange-500">
+                  <h4 className="font-bold text-orange-700 mb-3">Functional English:</h4>
+                  <p className="text-gray-700 text-sm">
+                    A good level of English is required to ensure you can engage effectively in your training program. This is 
+                    essential for meeting the safety and training standards.
+                  </p>
+                </div>
+
+                {/* Sign the Australian Values Statement */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-blue-700">
+                  <h4 className="font-bold text-blue-700 mb-3">Sign the Australian Values Statement:</h4>
+                  <p className="text-gray-700 text-sm">
+                    If you're over 18, you'll need to read the Life in Australia booklet and sign an Australian Values 
+                    Statement. This shows your commitment to respecting Australian laws and values.
+                  </p>
+                </div>
+
+                {/* No Previous Visa Issues */}
+                <div className="bg-white p-6 rounded-lg border-l-4 border-gray-500">
+                  <h4 className="font-bold text-gray-700 mb-3">No Previous Visa Issues:</h4>
+                  <p className="text-gray-700 text-sm">
+                    If you've had a visa cancelled or an application refused in the past, it may affect your eligibility for this 
+                    visa. Your immigration history is taken into consideration.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-yellow-100 p-4 rounded-lg mt-6">
+                <p className="text-yellow-800 text-sm">
+                  <strong>
+                    With these criteria in mind, don't worry if you're not a superstar in your field yet! This visa is all about 
+                    helping you improve your skills and gain valuable experience in Australia. If you meet the 
+                    requirements, you could be well on your way to enhancing your career!
+                  </strong>
+                </p>
+              </div>
+            </div>
+
+            {/* FAQ Section */}
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-gray-800 mb-6">
+                Frequently Asked Questions (FAQ)
+              </h3>
+
+              <div className="space-y-6">
+                <div className="border-l-4 border-blue-500 pl-4">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: Can you apply for PR after a 407 visa?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>A:</strong> Yes, you can apply for Permanent Residency (PR) after holding a 407 visa, but you must meet specific 
+                    criteria and apply for an eligible PR pathway that suits your circumstances.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-green-500 pl-4">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: How many hours can I work with a 407 visa in Australia?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>A:</strong> As a holder of a 407 visa, your work hours are capped at 40 hours per fortnight. However, if you are a 
+                    secondary applicant, you may also face similar restrictions.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-purple-500 pl-4">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: What is the difference between a 407 visa and a 482 visa?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>A:</strong> The 407 visa is for training and skill development, while the 482 visa (Temporary Skill Shortage visa) 
+                    allows skilled workers to work in Australia in a specific occupation. The 482 visa generally leads to more 
+                    direct pathways to PR.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-orange-500 pl-4">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: Can you apply for a 482 after a 407?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>A:</strong> Yes, you can apply for a 482 visa after holding a 407 visa, provided you meet the eligibility criteria for 
+                    the 482 visa, including sponsorship by an approved employer.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-red-500 pl-4">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Q: Who can sponsor a 407 visa?
+                  </h4>
+                  <p className="text-gray-700">
+                    <strong>A:</strong> To sponsor a 407 visa, the sponsor must be an approved business or organisation in Australia. They 
+                    should be willing to provide training and support to the visa applicant throughout their stay.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Call to Action */}
+            <div className="bg-green-600 text-white p-6 rounded-lg">
+              <div className="text-center">
+                <p className="text-lg mb-4">
+                  The Training Visa (Subclass 407) offers an excellent pathway for professional development and skill 
+                  enhancement in Australia, providing valuable hands-on experience in your chosen field while experiencing 
+                  Australian culture and lifestyle.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  <Button className="bg-white text-green-600 hover:bg-gray-100">
+                    <FileText className="h-4 w-4 mr-2" />
+                    Apply for Training Visa
+                  </Button>
+                  <Button className="bg-yellow-500 text-green-900 hover:bg-yellow-400">
+                    <Phone className="h-4 w-4 mr-2" />
+                    Get Training Assessment
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="border-white text-white hover:bg-white/10"
+                    onClick={() => setIsSubclass407ModalOpen(false)}
+                  >
+                    <Mail className="h-4 w-4 mr-2" />
+                    Contact Training Experts
                   </Button>
                 </div>
               </div>
