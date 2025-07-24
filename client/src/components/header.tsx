@@ -93,13 +93,15 @@ export default function Header() {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${getHeaderBg()}`}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center h-20">
-          {/* Logo - Left Side */}
+        <div className="flex justify-between items-center h-20">
+          {/* Logo */}
           <Link href="/">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center">
-                <div className="text-white font-bold text-sm">DTR</div>
-              </div>
+            <div className="flex items-center">
+              <img
+                src={websiteLogo}
+                alt="EduVisa Global Logo"
+                className="h-20 w-auto transition-all duration-300"
+              />
               <span
                 className={`text-lg font-bold transition-colors ${getTextColor()}`}
               >
@@ -108,9 +110,9 @@ export default function Header() {
             </div>
           </Link>
 
-          {/* Desktop Navigation - Center to Right */}
-          <div className="hidden lg:flex items-center justify-center flex-1 ml-8">
-            <nav className="flex items-center space-x-4">
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center space-x-2">
+            <nav className="flex items-center space-x-1">
               {/* 1. Offers in Australia */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -361,10 +363,7 @@ export default function Header() {
                 </DropdownMenuContent>
               </DropdownMenu>
             </nav>
-          </div>
 
-          {/* Auth Section */}
-          <div className="hidden lg:flex items-center ml-4">
             {isAuthenticated ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
