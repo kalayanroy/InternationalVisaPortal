@@ -1,14 +1,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { 
-  BookOpen, 
-  Laptop, 
-  Heart, 
-  Plane, 
-  FileText, 
-  CreditCard, 
-  Languages, 
+import {
+  BookOpen,
+  Laptop,
+  Heart,
+  Plane,
+  FileText,
+  CreditCard,
+  Languages,
   DollarSign,
   GraduationCap,
   CheckCircle,
@@ -21,7 +21,7 @@ import {
   Star,
   Award,
   Camera,
-  TrendingUp
+  TrendingUp,
 } from "lucide-react";
 import Header from "@/components/header";
 
@@ -32,72 +32,72 @@ export default function AustraliaUniversities() {
       duration: "3 Years",
       tuition: "$28,000 AUD/year",
       ielts: "6.0 Overall (5.5 minimum)",
-      icon: <BookOpen className="h-8 w-8" />
+      icon: <BookOpen className="h-8 w-8" />,
     },
     {
       title: "Master of Information Technology",
       duration: "2 Years",
       tuition: "$32,000 AUD/year",
       ielts: "6.5 Overall",
-      icon: <Laptop className="h-8 w-8" />
+      icon: <Laptop className="h-8 w-8" />,
     },
     {
       title: "Bachelor of Nursing",
       duration: "3 Years",
       tuition: "$33,000 AUD/year",
       ielts: "7.0 Overall (7.0 minimum)",
-      icon: <Heart className="h-8 w-8" />
+      icon: <Heart className="h-8 w-8" />,
     },
     {
       title: "Diploma of Hospitality Management",
       duration: "1-2 Years",
       tuition: "$18,000 AUD/year",
       ielts: "5.5 Overall",
-      icon: <Plane className="h-8 w-8" />
-    }
+      icon: <Plane className="h-8 w-8" />,
+    },
   ];
 
   const admissionRequirements = [
     {
       title: "Academic Transcripts",
       description: "Completed academic records",
-      icon: <FileText className="h-8 w-8" />
+      icon: <FileText className="h-8 w-8" />,
     },
     {
       title: "Valid Passport",
       description: "Current passport copy",
-      icon: <CreditCard className="h-8 w-8" />
+      icon: <CreditCard className="h-8 w-8" />,
     },
     {
       title: "English Proficiency",
       description: "IELTS, PTE, or TOEFL",
-      icon: <Languages className="h-8 w-8" />
+      icon: <Languages className="h-8 w-8" />,
     },
     {
       title: "Financial Proof",
       description: "Sufficient funds evidence",
-      icon: <DollarSign className="h-8 w-8" />
+      icon: <DollarSign className="h-8 w-8" />,
     },
     {
       title: "Statement of Purpose",
       description: "Personal statement (SOP)",
-      icon: <FileText className="h-8 w-8" />
+      icon: <FileText className="h-8 w-8" />,
     },
     {
       title: "GTE Statement",
       description: "Genuine Temporary Entrant",
-      icon: <GraduationCap className="h-8 w-8" />
+      icon: <GraduationCap className="h-8 w-8" />,
     },
     {
       title: "Health Cover",
       description: "OSHC Insurance",
-      icon: <Heart className="h-8 w-8" />
+      icon: <Heart className="h-8 w-8" />,
     },
     {
       title: "Passport Photos",
       description: "Recent passport-size photos",
-      icon: <Camera className="h-8 w-8" />
-    }
+      icon: <Camera className="h-8 w-8" />,
+    },
   ];
 
   const topUniversities = [
@@ -108,7 +108,7 @@ export default function AustraliaUniversities() {
       ranking: "#30",
       fees: "$45,000+ AUD/year",
       color: "bg-blue-50 border-blue-200",
-      codeColor: "bg-blue-500 text-white"
+      codeColor: "bg-blue-500 text-white",
     },
     {
       name: "University of Melbourne",
@@ -117,7 +117,7 @@ export default function AustraliaUniversities() {
       ranking: "#34",
       fees: "$44,000+ AUD/year",
       color: "bg-purple-50 border-purple-200",
-      codeColor: "bg-purple-500 text-white"
+      codeColor: "bg-purple-500 text-white",
     },
     {
       name: "University of Queensland",
@@ -126,7 +126,7 @@ export default function AustraliaUniversities() {
       ranking: "#43",
       fees: "$42,000+ AUD/year",
       color: "bg-red-50 border-red-200",
-      codeColor: "bg-red-500 text-white"
+      codeColor: "bg-red-500 text-white",
     },
     {
       name: "Monash University",
@@ -135,7 +135,7 @@ export default function AustraliaUniversities() {
       ranking: "#42",
       fees: "$41,000+ AUD/year",
       color: "bg-green-50 border-green-200",
-      codeColor: "bg-green-500 text-white"
+      codeColor: "bg-green-500 text-white",
     },
     {
       name: "RMIT University",
@@ -144,7 +144,7 @@ export default function AustraliaUniversities() {
       ranking: "#340",
       fees: "$38,000+ AUD/year",
       color: "bg-orange-50 border-orange-200",
-      codeColor: "bg-orange-500 text-white"
+      codeColor: "bg-orange-500 text-white",
     },
     {
       name: "University of Technology Sydney",
@@ -153,29 +153,29 @@ export default function AustraliaUniversities() {
       ranking: "#90",
       fees: "$40,000+ AUD/year",
       color: "bg-cyan-50 border-cyan-200",
-      codeColor: "bg-cyan-500 text-white"
-    }
+      codeColor: "bg-cyan-500 text-white",
+    },
   ];
 
   const whyChoosePoints = [
     "Innovative teaching methods and cutting-edge research facilities",
     "Strong industry connections and practical learning opportunities",
     "Globally recognized degrees and qualifications",
-    "English-speaking environment for international students"
+    "English-speaking environment for international students",
   ];
 
   const workRightsPoints = [
     "Work up to 20 hours per week during studies",
     "Full-time work during semester breaks",
     "Post-study work visa for 2-4 years after graduation",
-    "Pathway to permanent residency for skilled graduates"
+    "Pathway to permanent residency for skilled graduates",
   ];
 
   const lifestylePoints = [
     "Safe and welcoming environment for international students",
     "Multicultural society with students from 200+ countries",
     "Beautiful beaches, national parks, and outdoor activities",
-    "Modern cities with excellent public transport and healthcare"
+    "Modern cities with excellent public transport and healthcare",
   ];
 
   return (
@@ -193,11 +193,12 @@ export default function AustraliaUniversities() {
                   DTR Consultancy
                 </h1>
                 <p className="text-xl mb-8 opacity-90">
-                  Your trusted partner for international education and migration services in
-                  Australia. Turn your dreams into reality with world-class education.
+                  Your trusted partner for international education and migration
+                  services in Australia. Turn your dreams into reality with
+                  world-class education.
                 </p>
-                <Button 
-                  size="lg" 
+                <Button
+                  size="lg"
                   className="bg-black hover:bg-gray-800 text-white px-8 py-3 text-lg font-semibold rounded-full"
                 >
                   🌟 Get Free Consultation
@@ -205,9 +206,13 @@ export default function AustraliaUniversities() {
               </div>
               <div className="flex justify-center">
                 <Card className="bg-white text-black p-8 text-center max-w-sm">
-                  <div className="text-4xl font-bold text-cyan-600 mb-2">AU</div>
+                  <div className="text-4xl font-bold text-cyan-600 mb-2">
+                    AU
+                  </div>
                   <h3 className="text-2xl font-bold mb-2">Australia Awaits</h3>
-                  <p className="text-gray-600">Join 700,000+ international students</p>
+                  <p className="text-gray-600">
+                    Join 700,000+ international students
+                  </p>
                 </Card>
               </div>
             </div>
@@ -218,18 +223,28 @@ export default function AustraliaUniversities() {
         <div className="bg-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Popular Courses in Australia</h2>
-              <p className="text-lg text-gray-600">Discover the most sought-after programs for international students</p>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                Popular Courses in Australia
+              </h2>
+              <p className="text-lg text-gray-600">
+                Discover the most sought-after programs for international
+                students
+              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {popularCourses.map((course, index) => (
-                <Card key={index} className="border-gray-200 hover:shadow-lg transition-shadow">
+                <Card
+                  key={index}
+                  className="border-gray-200 hover:shadow-lg transition-shadow"
+                >
                   <CardHeader className="pb-4">
                     <div className="w-16 h-16 bg-cyan-100 rounded-lg flex items-center justify-center mb-4 text-cyan-600">
                       {course.icon}
                     </div>
-                    <CardTitle className="text-lg text-gray-900">{course.title}</CardTitle>
+                    <CardTitle className="text-lg text-gray-900">
+                      {course.title}
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-2">
                     <div className="flex items-center text-sm text-gray-600">
@@ -241,7 +256,7 @@ export default function AustraliaUniversities() {
                       Tuition: {course.tuition}
                     </div>
                     <div className="flex items-center text-sm text-gray-600">
-                      <Languages className="h-4 w-4 mr-2" />
+                      <BookOpen className="h-4 w-4 mr-2" />
                       IELTS: {course.ielts}
                     </div>
                     <Button className="w-full bg-cyan-500 hover:bg-cyan-600 text-white mt-4">
@@ -258,21 +273,32 @@ export default function AustraliaUniversities() {
         <div className="bg-gray-50 py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Admission Requirements</h2>
-              <p className="text-lg text-gray-600">Everything you need to know for your application</p>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                Admission Requirements
+              </h2>
+              <p className="text-lg text-gray-600">
+                Everything you need to know for your application
+              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {admissionRequirements.map((requirement, index) => (
-                <Card key={index} className="border-gray-200 hover:shadow-lg transition-shadow text-center">
+                <Card
+                  key={index}
+                  className="border-gray-200 hover:shadow-lg transition-shadow text-center"
+                >
                   <CardHeader className="pb-4">
                     <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-4 text-gray-600">
                       {requirement.icon}
                     </div>
-                    <CardTitle className="text-lg text-gray-900">{requirement.title}</CardTitle>
+                    <CardTitle className="text-lg text-gray-900">
+                      {requirement.title}
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-gray-600">{requirement.description}</p>
+                    <p className="text-sm text-gray-600">
+                      {requirement.description}
+                    </p>
                   </CardContent>
                 </Card>
               ))}
@@ -284,19 +310,32 @@ export default function AustraliaUniversities() {
         <div className="bg-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Top Australian Universities</h2>
-              <p className="text-lg text-gray-600">Partner with world-renowned institutions</p>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                Top Australian Universities
+              </h2>
+              <p className="text-lg text-gray-600">
+                Partner with world-renowned institutions
+              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {topUniversities.map((university, index) => (
-                <Card key={index} className={`${university.color} hover:shadow-lg transition-shadow`}>
+                <Card
+                  key={index}
+                  className={`${university.color} hover:shadow-lg transition-shadow`}
+                >
                   <CardHeader className="text-center">
-                    <div className={`w-16 h-16 ${university.codeColor} rounded-lg flex items-center justify-center mx-auto mb-4 text-2xl font-bold`}>
+                    <div
+                      className={`w-16 h-16 ${university.codeColor} rounded-lg flex items-center justify-center mx-auto mb-4 text-2xl font-bold`}
+                    >
                       {university.code}
                     </div>
-                    <CardTitle className="text-lg text-gray-900">{university.name}</CardTitle>
-                    <p className="text-sm text-gray-600">{university.location}</p>
+                    <CardTitle className="text-lg text-gray-900">
+                      {university.name}
+                    </CardTitle>
+                    <p className="text-sm text-gray-600">
+                      {university.location}
+                    </p>
                   </CardHeader>
                   <CardContent className="text-center space-y-2">
                     <div className="flex items-center justify-center text-sm text-cyan-600">
@@ -315,111 +354,74 @@ export default function AustraliaUniversities() {
         </div>
 
         {/* Why Choose Australia Section */}
-        <div className="bg-gray-50 py-16">
+        <div className="bg-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose Australia for Your Studies?</h2>
-              <p className="text-lg text-gray-600">
-                Australia offers world-class education, incredible opportunities, and an 
-                unmatched quality of life. Here's why over 700,000 international students choose 
-                Australia every year.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              {/* World-Class Education System */}
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+              {/* World-Class Education System - Left Side */}
+              <div className="bg-teal-50 rounded-2xl p-8">
+                <div className="flex items-start space-x-4 mb-6">
                   <div className="w-12 h-12 bg-gray-900 rounded-lg flex items-center justify-center flex-shrink-0">
                     <GraduationCap className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4">World-Class Education System</h3>
-                    <p className="text-gray-600 mb-4">
-                      Australia is home to 8 of the world's top 100 universities and offers internationally 
-                      recognized qualifications that are valued by employers worldwide.
-                    </p>
-                    <div className="space-y-2">
-                      {whyChoosePoints.map((point, index) => (
-                        <div key={index} className="flex items-start space-x-2">
-                          <CheckCircle className="h-4 w-4 text-green-500 mt-1 flex-shrink-0" />
-                          <span className="text-sm text-gray-600">{point}</span>
-                        </div>
-                      ))}
-                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                      World-Class Education System
+                    </h3>
                   </div>
                 </div>
-
-                {/* Work & Career Opportunities */}
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-amber-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Briefcase className="h-6 w-6 text-white" />
+                
+                <p className="text-gray-700 mb-6 leading-relaxed">
+                  Australia is home to 8 of the world's top 100 universities and offers internationally 
+                  recognized qualifications that are valued by employers worldwide.
+                </p>
+                
+                <div className="space-y-3">
+                  <div className="flex items-start space-x-3">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-700">Innovative teaching methods and cutting-edge research facilities</span>
                   </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4">Work & Career Opportunities</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-gray-900">20 hours/week</div>
-                        <div className="text-sm text-gray-600">Part-time work while studying</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-gray-900">2-4 years</div>
-                        <div className="text-sm text-gray-600">Post-study work visa</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-gray-900">$25.41/hour</div>
-                        <div className="text-sm text-gray-600">Minimum wage rate</div>
-                      </div>
-                    </div>
+                  <div className="flex items-start space-x-3">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-700">Strong industry connections and practical learning opportunities</span>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-700">Globally recognized degrees and qualifications</span>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-700">English-speaking environment for international students</span>
                   </div>
                 </div>
               </div>
 
-              {/* Education Excellence & Quality of Life */}
-              <div className="space-y-6">
-                <Card className="bg-blue-50 border-blue-200 p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <Trophy className="h-12 w-12 text-yellow-500" />
+              {/* Education Excellence Card - Right Side */}
+              <div className="flex flex-col justify-center">
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 border border-blue-200">
+                  <div className="flex items-center justify-between mb-6">
+                    <Trophy className="h-16 w-16 text-yellow-500" />
                     <div className="text-right">
-                      <h3 className="text-xl font-bold text-gray-900">Education Excellence</h3>
+                      <h3 className="text-2xl font-bold text-gray-900">
+                        Education Excellence
+                      </h3>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  
+                  <div className="grid grid-cols-2 gap-6">
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-cyan-600">#3</div>
-                      <div className="text-sm text-gray-600">Most Popular Study Destination</div>
+                      <div className="text-4xl font-bold text-teal-600 mb-2">#3</div>
+                      <div className="text-sm text-gray-600 leading-tight">
+                        Most Popular Study Destination
+                      </div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-cyan-600">8/100</div>
-                      <div className="text-sm text-gray-600">Top Universities Globally</div>
+                      <div className="text-4xl font-bold text-teal-600 mb-2">8/100</div>
+                      <div className="text-sm text-gray-600 leading-tight">
+                        Top Universities Globally
+                      </div>
                     </div>
                   </div>
-                </Card>
-
-                <Card className="bg-orange-50 border-orange-200 p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
-                      <MapPin className="h-6 w-6 text-white" />
-                    </div>
-                    <div className="text-right">
-                      <h3 className="text-xl font-bold text-gray-900">Quality of Life</h3>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-orange-600">#4</div>
-                      <div className="text-sm text-gray-600">Safest Country in the World</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-orange-600">300+</div>
-                      <div className="text-sm text-gray-600">Days of Sunshine</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-orange-600">7/10</div>
-                      <div className="text-sm text-gray-600">Most Liveable Cities</div>
-                    </div>
-                  </div>
-                </Card>
+                </div>
               </div>
             </div>
           </div>
@@ -436,10 +438,13 @@ export default function AustraliaUniversities() {
                     <DollarSign className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4">Work Rights & Financial Benefits</h3>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                      Work Rights & Financial Benefits
+                    </h3>
                     <p className="text-gray-600 mb-4">
-                      Australia offers excellent work opportunities for international students, helping you 
-                      gain experience and support your studies financially.
+                      Australia offers excellent work opportunities for
+                      international students, helping you gain experience and
+                      support your studies financially.
                     </p>
                     <div className="space-y-2">
                       {workRightsPoints.map((point, index) => (
@@ -460,10 +465,13 @@ export default function AustraliaUniversities() {
                     <Globe className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4">Lifestyle & Cultural Experience</h3>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                      Lifestyle & Cultural Experience
+                    </h3>
                     <p className="text-gray-600 mb-4">
-                      Experience Australia's unique blend of stunning natural beauty, vibrant cities, and 
-                      multicultural society that welcomes students from around the world.
+                      Experience Australia's unique blend of stunning natural
+                      beauty, vibrant cities, and multicultural society that
+                      welcomes students from around the world.
                     </p>
                     <div className="space-y-2">
                       {lifestylePoints.map((point, index) => (
@@ -488,11 +496,14 @@ export default function AustraliaUniversities() {
                 <TrendingUp className="h-8 w-8" />
               </div>
             </div>
-            <h2 className="text-3xl font-bold mb-4">🚀 Your Future Starts Here</h2>
+            <h2 className="text-3xl font-bold mb-4">
+              🚀 Your Future Starts Here
+            </h2>
             <p className="text-xl mb-8 opacity-90 max-w-4xl mx-auto">
-              Join the thousands of successful graduates who started their journey in 
-              Australia. With world-class education, work opportunities, and an incredible 
-              lifestyle, Australia is your gateway to a bright future.
+              Join the thousands of successful graduates who started their
+              journey in Australia. With world-class education, work
+              opportunities, and an incredible lifestyle, Australia is your
+              gateway to a bright future.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
@@ -502,7 +513,9 @@ export default function AustraliaUniversities() {
               </div>
               <div className="text-center">
                 <div className="text-4xl font-bold mb-2">95%</div>
-                <div className="text-lg opacity-90">Graduate Employment Rate</div>
+                <div className="text-lg opacity-90">
+                  Graduate Employment Rate
+                </div>
               </div>
               <div className="text-center">
                 <div className="text-4xl font-bold mb-2">200+</div>
@@ -510,21 +523,23 @@ export default function AustraliaUniversities() {
               </div>
               <div className="text-center">
                 <div className="text-4xl font-bold mb-2">$65K</div>
-                <div className="text-lg opacity-90">Average Graduate Salary</div>
+                <div className="text-lg opacity-90">
+                  Average Graduate Salary
+                </div>
               </div>
             </div>
 
             <div className="space-x-4">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="bg-white text-cyan-600 hover:bg-gray-100 px-8 py-3 text-lg font-semibold"
               >
                 Start Your Application
               </Button>
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 variant="outline"
-                className="border-white text-white hover:bg-white hover:text-cyan-600 px-8 py-3 text-lg font-semibold"
+                className="border-white text-cyan-600 hover:bg-white hover:text-cyan-600 px-8 py-3 text-lg font-semibold"
               >
                 Book Free Consultation
               </Button>

@@ -275,7 +275,7 @@ export default function MigrationService() {
                   {employerServices.map((service, index) => (
                     <div
                       key={index}
-                      className={`flex items-center justify-between ${
+                      className={`flex items-center justify-between  ${
                         service.name === "Employer Nomination Scheme" ||
                         service.name === "National Innovation Visa 858" ||
                         service.name === "Labour Agreement" ||
@@ -321,7 +321,7 @@ export default function MigrationService() {
                     >
                       <div className="flex items-center">
                         <CheckCircle className="h-4 w-4 text-teal-600 mr-2 flex-shrink-0" />
-                        <span className="text-sm text-gray-700">
+                        <span className="text-sm text-gray-700 underline">
                           {service.name}
                         </span>
                       </div>
@@ -380,7 +380,7 @@ export default function MigrationService() {
                     >
                       <div className="flex items-center">
                         <CheckCircle className="h-4 w-4 text-orange-600 mr-2 flex-shrink-0" />
-                        <span className="text-sm text-gray-700">
+                        <span className="text-sm text-gray-700 underline">
                           {service.name}
                         </span>
                       </div>
@@ -1605,7 +1605,7 @@ export default function MigrationService() {
                   </Button>
                   <Button
                     variant="outline"
-                    className="border-white text-white hover:bg-white/10"
+                    className="border-white text-black hover:bg-white/10"
                     onClick={() => setIsNIVModalOpen(false)}
                   >
                     <Phone className="h-4 w-4 mr-2" />
@@ -2069,7 +2069,7 @@ export default function MigrationService() {
                   </Button>
                   <Button
                     variant="outline"
-                    className="border-white text-white hover:bg-white/10"
+                    className="border-white text-black hover:bg-white/10"
                     onClick={() => setIsLabourAgreementModalOpen(false)}
                   >
                     <Phone className="h-4 w-4 mr-2" />
@@ -2627,7 +2627,7 @@ export default function MigrationService() {
                   </Button>
                   <Button
                     variant="outline"
-                    className="border-white text-white hover:bg-white/10"
+                    className="border-white text-black hover:bg-white/10"
                     onClick={() => setIsSubclass494ModalOpen(false)}
                   >
                     <Mail className="h-4 w-4 mr-2" />
@@ -3028,7 +3028,7 @@ export default function MigrationService() {
                   </Button>
                   <Button
                     variant="outline"
-                    className="border-white text-white hover:bg-white/10"
+                    className="border-white text-black hover:bg-white/10"
                     onClick={() => setIsSubclass400ModalOpen(false)}
                   >
                     <Mail className="h-4 w-4 mr-2" />
@@ -3545,7 +3545,7 @@ export default function MigrationService() {
                   </Button>
                   <Button
                     variant="outline"
-                    className="border-white text-white hover:bg-white/10"
+                    className="border-white text-black hover:bg-white/10"
                     onClick={() => setIsSubclass407ModalOpen(false)}
                   >
                     <Mail className="h-4 w-4 mr-2" />
@@ -4763,7 +4763,7 @@ export default function MigrationService() {
                   </Button>
                   <Button
                     variant="outline"
-                    className="border-white text-white hover:bg-white/10"
+                    className="border-white text-black hover:bg-white/10"
                     onClick={() => setIsNationalInnovationModalOpen(false)}
                   >
                     <Mail className="h-4 w-4 mr-2" />
@@ -5143,7 +5143,7 @@ export default function MigrationService() {
                   </Button>
                   <Button
                     variant="outline"
-                    className="border-white text-white hover:bg-white/10"
+                    className="border-white text-black hover:bg-white/10"
                     onClick={() => setIsSubclass190ModalOpen(false)}
                   >
                     <Mail className="h-4 w-4 mr-2" />
@@ -5480,7 +5480,7 @@ export default function MigrationService() {
                   </Button>
                   <Button
                     variant="outline"
-                    className="border-white text-white hover:bg-white/10"
+                    className="border-white text-black hover:bg-white/10"
                     onClick={() => setIsSubclass491ModalOpen(false)}
                   >
                     <Mail className="h-4 w-4 mr-2" />
@@ -5913,7 +5913,7 @@ export default function MigrationService() {
                   </Button>
                   <Button
                     variant="outline"
-                    className="border-white text-white hover:bg-white/10"
+                    className="border-white text-black hover:bg-white/10"
                     onClick={() => setIsSubclass189ModalOpen(false)}
                   >
                     <Mail className="h-4 w-4 mr-2" />
