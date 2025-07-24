@@ -427,12 +427,37 @@ export default function AustraliaUniversities() {
           </div>
         </div>
 
-        {/* Work Rights & Lifestyle Section */}
-        <div className="bg-white py-16">
+        {/* Work & Career Opportunities Section */}
+        <div className="bg-gray-50 py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              {/* Work Rights & Financial Benefits */}
-              <div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+              {/* Work & Career Opportunities - Left Side */}
+              <div className="bg-gray-100 rounded-2xl p-8 text-center">
+                <div className="w-16 h-16 bg-amber-600 rounded-lg flex items-center justify-center mx-auto mb-6">
+                  <Briefcase className="h-8 w-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-8">
+                  Work & Career Opportunities
+                </h3>
+                
+                <div className="space-y-6">
+                  <div>
+                    <div className="text-3xl font-bold text-gray-900 mb-2">20 hours/week</div>
+                    <div className="text-gray-600">Part-time work while studying</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold text-gray-900 mb-2">2-4 years</div>
+                    <div className="text-gray-600">Post-study work visa</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold text-gray-900 mb-2">$25.41/hour</div>
+                    <div className="text-gray-600">Minimum wage rate</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Work Rights & Financial Benefits - Right Side */}
+              <div className="bg-white rounded-2xl p-8 border border-gray-200">
                 <div className="flex items-start space-x-4 mb-6">
                   <div className="w-12 h-12 bg-yellow-500 rounded-lg flex items-center justify-center flex-shrink-0">
                     <DollarSign className="h-6 w-6 text-white" />
@@ -441,45 +466,111 @@ export default function AustraliaUniversities() {
                     <h3 className="text-2xl font-bold text-gray-900 mb-4">
                       Work Rights & Financial Benefits
                     </h3>
-                    <p className="text-gray-600 mb-4">
-                      Australia offers excellent work opportunities for
-                      international students, helping you gain experience and
-                      support your studies financially.
-                    </p>
-                    <div className="space-y-2">
-                      {workRightsPoints.map((point, index) => (
-                        <div key={index} className="flex items-start space-x-2">
-                          <CheckCircle className="h-4 w-4 text-green-500 mt-1 flex-shrink-0" />
-                          <span className="text-sm text-gray-600">{point}</span>
-                        </div>
-                      ))}
-                    </div>
+                  </div>
+                </div>
+                
+                <p className="text-gray-700 mb-6 leading-relaxed">
+                  Australia offers excellent work opportunities for international students, helping you 
+                  gain experience and support your studies financially.
+                </p>
+                
+                <div className="space-y-3">
+                  <div className="flex items-start space-x-3">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-700">Work up to 20 hours per week during studies</span>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-700">Full-time work during semester breaks</span>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-700">Post-study work visa for 2-4 years after graduation</span>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-700">Pathway to permanent residency for skilled graduates</span>
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
 
-              {/* Lifestyle & Cultural Experience */}
-              <div>
+        {/* Lifestyle & Quality of Life Section */}
+        <div className="bg-white py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+              {/* Lifestyle & Cultural Experience - Left Side */}
+              <div className="bg-teal-50 rounded-2xl p-8">
                 <div className="flex items-start space-x-4 mb-6">
-                  <div className="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-teal-600 rounded-full flex items-center justify-center flex-shrink-0">
                     <Globe className="h-6 w-6 text-white" />
                   </div>
                   <div>
                     <h3 className="text-2xl font-bold text-gray-900 mb-4">
                       Lifestyle & Cultural Experience
                     </h3>
-                    <p className="text-gray-600 mb-4">
-                      Experience Australia's unique blend of stunning natural
-                      beauty, vibrant cities, and multicultural society that
-                      welcomes students from around the world.
-                    </p>
-                    <div className="space-y-2">
-                      {lifestylePoints.map((point, index) => (
-                        <div key={index} className="flex items-start space-x-2">
-                          <CheckCircle className="h-4 w-4 text-green-500 mt-1 flex-shrink-0" />
-                          <span className="text-sm text-gray-600">{point}</span>
-                        </div>
-                      ))}
+                  </div>
+                </div>
+                
+                <p className="text-gray-700 mb-6 leading-relaxed">
+                  Experience Australia's unique blend of stunning natural beauty, vibrant cities, and 
+                  multicultural society that welcomes students from around the world.
+                </p>
+                
+                <div className="space-y-3">
+                  <div className="flex items-start space-x-3">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-700">Safe and welcoming environment for international students</span>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-700">Multicultural society with students from 200+ countries</span>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-700">Beautiful beaches, national parks, and outdoor activities</span>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-700">Modern cities with excellent public transport and healthcare</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Quality of Life Card - Right Side */}
+              <div className="flex flex-col justify-center">
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 border border-blue-200">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center">
+                      <MapPin className="h-8 w-8 text-white" />
+                    </div>
+                    <div className="text-right">
+                      <h3 className="text-2xl font-bold text-gray-900">
+                        Quality of Life
+                      </h3>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-6">
+                    <div className="text-center">
+                      <div className="text-4xl font-bold text-blue-600 mb-2">#4</div>
+                      <div className="text-sm text-gray-600 leading-tight">
+                        Safest Country in the World
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-4xl font-bold text-blue-600 mb-2">300+</div>
+                      <div className="text-sm text-gray-600 leading-tight">
+                        Days of Sunshine
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-4xl font-bold text-blue-600 mb-2">7/10</div>
+                      <div className="text-sm text-gray-600 leading-tight">
+                        Most Liveable Cities
+                      </div>
                     </div>
                   </div>
                 </div>
