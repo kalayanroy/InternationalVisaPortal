@@ -10,6 +10,8 @@ import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
 import { apiRequest } from "@/lib/queryClient";
+import { useAuthState } from "@/hooks/useAuth";
+import { useLocation } from "wouter";
 import Header from "@/components/header";
 import {
   Calendar,
@@ -67,7 +69,22 @@ interface UserProfile {
 
 export default function UserDashboard() {
   const { toast } = useToast();
+  const { user: authUser, isAuthenticated, isLoading } = useAuthState();
+  const [, setLocation] = useLocation();
   const [user, setUser] = useState<UserProfile | null>(null);
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      toast({
+        title: "Access Denied",
+        description: "Please log in to access your dashboard.",
+        variant: "destructive",
+      });
+      setLocation("/login");
+      return;
+    }
+  }, [isAuthenticated, isLoading, toast, setLocation]);
   const [consultationForm, setConsultationForm] = useState({
     preferredDate: "",
     preferredTime: "",
@@ -475,7 +492,7 @@ export default function UserDashboard() {
                                 <div className="flex items-center text-sm text-gray-600 space-x-4">
                                   <div className="flex items-center space-x-1">
                                     <MapPin className="h-4 w-4" />
-                                    <span>{application.countryOfInterest}</span>
+                                    <span>{application.preferredCountries}</span>
                                   </div>
                                   <div className="flex items-center space-x-1">
                                     <Calendar className="h-4 w-4" />
