@@ -31,7 +31,6 @@ export default function Header() {
     logout();
     setIsMenuOpen(false);
   };
-
   // Check if we're on migration service page or english test book page
   const isMigrationPage = location === "/migration-service";
   const isEnglishTestBookPage = location === "/english-test-book";
@@ -44,6 +43,7 @@ export default function Header() {
   const isFindCourseDiplomaPage = location === "/courses/diploma";
   const isLoginPage = location === "/login";
   const isStudentApplicationPage = location === "/student-application";
+  const isUserDashboardPage = location === "/user-dashboard";
 
   // Determine header background
   const getHeaderBg = () => {
@@ -59,6 +59,7 @@ export default function Header() {
     if (isFindCourseDiplomaPage) return "bg-[#2dd4bf]";
     if (isLoginPage) return "bg-[#0891b2]";
     if (isStudentApplicationPage) return "bg-[#0891b2]";
+    if (isUserDashboardPage) return "bg-[#0891b2]";
     return "bg-transparent";
   };
 
@@ -76,6 +77,7 @@ export default function Header() {
     if (isFindCourseDiplomaPage) return "text-white";
     if (isLoginPage) return "text-white";
     if (isStudentApplicationPage) return "text-white";
+    if (isUserDashboardPage) return "text-white";
     return "text-white";
   };
 
@@ -93,6 +95,7 @@ export default function Header() {
     if (isLoginPage) return "hover:bg-black/10";
     if (isScrolled) return "hover:bg-navy/10";
     if (isStudentApplicationPage) return "hover:bg-black/10";
+    if (isUserDashboardPage) return "hover:bg-black/10";
     return "hover:bg-white/10";
   };
 
@@ -401,6 +404,17 @@ export default function Header() {
                       >
                         <Settings className="h-4 w-4 mr-2" />
                         Admin Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+                  {user?.role === "user" && (
+                    <DropdownMenuItem>
+                      <Link
+                        href="/user-dashboard"
+                        className="flex items-center w-full"
+                      >
+                        <Settings className="h-4 w-4 mr-2" />
+                        Dashboard
                       </Link>
                     </DropdownMenuItem>
                   )}

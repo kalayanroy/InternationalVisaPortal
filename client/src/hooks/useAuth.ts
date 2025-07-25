@@ -1,4 +1,3 @@
-import { User } from "lucide-react";
 import { useState, useEffect, createContext, useContext } from "react";
 
 export interface User {
@@ -104,6 +103,8 @@ export const useAuthState = () => {
     setToken(null);
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    // Redirect to home page after logout
+    window.location.href = "/";
   };
   //console.log("User:", user);
   if (user == null) {
