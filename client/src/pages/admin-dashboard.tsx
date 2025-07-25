@@ -837,6 +837,38 @@ function ApplicationDetailsView({ application }: { application: StudentApplicati
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {documentFields.map((field) => {
             const hasDocument = application[field.key as keyof StudentApplication];
+            
+            // Special handling for additional documents
+            if (field.key === 'additionalDocuments') {
+              const metadata = application.additionalDocumentsMetadata;
+              
+              return (
+                <div key={field.key} className="col-span-full border rounded-lg p-3">
+                  <div className="flex items-center gap-2 mb-3">
+                    <FileText className="h-4 w-4" />
+                    <span className="text-sm font-medium">{field.label}</span>
+                  </div>
+                  {metadata && Array.isArray(metadata) && metadata.length > 0 ? (
+                    <div className="space-y-2">
+                      {metadata.map((doc: any, index: number) => (
+                        <div key={index} className="bg-gray-50 p-2 rounded text-sm">
+                          <div className="font-medium">{doc.name}</div>
+                          {doc.notes && <div className="text-gray-600 text-xs mt-1">{doc.notes}</div>}
+                          <div className="text-xs text-gray-500 mt-1">
+                            {doc.files?.length || 0} file(s) uploaded
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : hasDocument ? (
+                    <div className="text-sm text-gray-600">Files uploaded but metadata unavailable</div>
+                  ) : (
+                    <div className="text-sm text-gray-500">No additional documents</div>
+                  )}
+                </div>
+              );
+            }
+            
             return (
               <div key={field.key} className="flex items-center justify-between p-3 border rounded-lg">
                 <div className="flex items-center gap-2">
@@ -855,7 +887,9 @@ function ApplicationDetailsView({ application }: { application: StudentApplicati
                         size="sm"
                         onClick={() => {
                           const token = localStorage.getItem("token");
-                          const fileUrl = `/api/files/applications/${application.userId}/${encodeURIComponent(hasDocument)}`;
+                          // Handle comma-separated filenames for multiple files
+                          const filenames = hasDocument.toString().split(',');
+                          const fileUrl = `/api/files/applications/${application.userId}/${encodeURIComponent(filenames[0])}`;
                           window.open(`${fileUrl}?token=${token}`, '_blank');
                         }}
                       >

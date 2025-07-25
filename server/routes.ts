@@ -519,6 +519,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
           });
         }
 
+        // Handle additional documents metadata
+        if (req.body.additionalDocumentsMetadata) {
+          try {
+            const metadata = JSON.parse(req.body.additionalDocumentsMetadata);
+            const additionalFiles = files['additionalDocuments'] || [];
+            
+            // Match files to metadata entries
+            let fileIndex = 0;
+            const processedMetadata = metadata.map((docMeta: any) => {
+              const docFiles = additionalFiles.slice(fileIndex, fileIndex + docMeta.fileCount);
+              fileIndex += docMeta.fileCount;
+              
+              return {
+                name: docMeta.name,
+                notes: docMeta.notes,
+                files: docFiles.map(f => f.filename)
+              };
+            });
+            
+            fileData['additionalDocumentsMetadata'] = JSON.stringify(processedMetadata);
+          } catch (error) {
+            console.error('Error processing additional documents metadata:', error);
+          }
+        }
+
         const applicationData = {
           ...req.body,
           ...fileData, // Add uploaded file references

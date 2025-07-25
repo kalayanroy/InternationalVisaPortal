@@ -248,6 +248,24 @@ export default function StudentApplication() {
         }
       });
 
+      // Add additional documents files to FormData
+      additionalDocuments.forEach((doc, index) => {
+        if (doc.file && doc.file.length > 0) {
+          doc.file.forEach(file => {
+            formData.append('additionalDocuments', file);
+          });
+        }
+      });
+
+      // Add additional documents metadata to FormData
+      formData.append('additionalDocumentsMetadata', JSON.stringify(
+        additionalDocuments.map(doc => ({
+          name: doc.name,
+          notes: doc.notes,
+          fileCount: doc.file ? doc.file.length : 0
+        }))
+      ));
+
       const response = await fetch("/api/student-applications", {
         method: "POST",
         headers: {
