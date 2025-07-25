@@ -702,8 +702,10 @@ export default function AdminDashboard() {
                                   });
                                   
                                   if (missingDocs.length > 0) {
-                                    setSelectedUser(userDocuments.user);
-                                    setDocumentRequestData({
+                                    // Send the document request immediately
+                                    sendDocumentRequestMutation.mutate({
+                                      userId: userDocuments.user.id,
+                                      applicationId: userDocuments.applications[0]?.id,
                                       subject: `Missing Documents Required - ${missingDocs.length} documents`,
                                       message: `We have reviewed your application and found that the following documents are missing: ${missingDocs.join(', ')}. Please upload these documents to proceed with your application process.`,
                                       requestedDocuments: missingDocs
@@ -716,9 +718,10 @@ export default function AdminDashboard() {
                                   }
                                 }}
                                 className="flex items-center gap-2"
+                                disabled={sendDocumentRequestMutation.isPending}
                               >
                                 <Send className="h-3 w-3" />
-                                Request Missing Documents
+                                {sendDocumentRequestMutation.isPending ? "Sending..." : "Request Missing Documents"}
                               </Button>
                             </div>
 
@@ -780,15 +783,18 @@ export default function AdminDashboard() {
                                                   size="sm"
                                                   className="text-xs h-6"
                                                   onClick={() => {
-                                                    setSelectedUser(userDocuments.user);
-                                                    setDocumentRequestData({
+                                                    // Send individual document request immediately
+                                                    sendDocumentRequestMutation.mutate({
+                                                      userId: userDocuments.user.id,
+                                                      applicationId: app.id,
                                                       subject: `Missing Document Request: ${field.label}`,
                                                       message: `We noticed that your ${field.label} is missing from your application. Please upload this document at your earliest convenience to proceed with your application.`,
                                                       requestedDocuments: [field.label]
                                                     });
                                                   }}
+                                                  disabled={sendDocumentRequestMutation.isPending}
                                                 >
-                                                  Request
+                                                  {sendDocumentRequestMutation.isPending ? "..." : "Request"}
                                                 </Button>
                                               </div>
                                             )}
