@@ -177,6 +177,38 @@ export default function StudentApplication() {
     premiumMigrationService: false,
   });
 
+  // File upload state
+  const [uploadedFiles, setUploadedFiles] = useState<{
+    passport?: File[];
+    transcript?: File[];
+    cv?: File[];
+    sop?: File[];
+    experience?: File[];
+    nationalId?: File[];
+    photo?: File[];
+    birth?: File[];
+    financial?: File[];
+  }>({});
+
+  // Helper function to handle file uploads
+  const handleFileUpload = (fileType: string, files: FileList | null) => {
+    if (files && files.length > 0) {
+      const fileArray = Array.from(files);
+      setUploadedFiles(prev => ({
+        ...prev,
+        [fileType]: fileArray
+      }));
+    }
+  };
+
+  // Helper function to get file names for display
+  const getFileNames = (fileType: string): string => {
+    const files = uploadedFiles[fileType as keyof typeof uploadedFiles];
+    if (!files || files.length === 0) return "No files selected";
+    if (files.length === 1) return files[0].name;
+    return `${files.length} files selected`;
+  };
+
   // Check authentication
   useEffect(() => {
     console.log(isAuthenticated);
@@ -1506,13 +1538,15 @@ export default function StudentApplication() {
                         accept=".pdf,.jpg,.jpeg,.png"
                         className="hidden"
                         id="passport-upload"
+                        onChange={(e) => handleFileUpload('passport', e.target.files)}
                       />
                       <label
                         htmlFor="passport-upload"
                         className="cursor-pointer"
                       >
-                        <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-teal-500 transition-colors">
-                          <Upload className="h-5 w-5 text-gray-400" />
+                        <div className="w-full min-h-16 flex flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-teal-500 transition-colors p-2">
+                          <Upload className="h-5 w-5 text-gray-400 mb-1" />
+                          <span className="text-xs text-gray-600 text-center">{getFileNames('passport')}</span>
                         </div>
                       </label>
                     </div>
@@ -1537,13 +1571,15 @@ export default function StudentApplication() {
                         multiple
                         className="hidden"
                         id="academic-upload"
+                        onChange={(e) => handleFileUpload('transcript', e.target.files)}
                       />
                       <label
                         htmlFor="academic-upload"
                         className="cursor-pointer"
                       >
-                        <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-orange-500 transition-colors">
-                          <Upload className="h-5 w-5 text-gray-400" />
+                        <div className="w-full min-h-16 flex flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-orange-500 transition-colors p-2">
+                          <Upload className="h-5 w-5 text-gray-400 mb-1" />
+                          <span className="text-xs text-gray-600 text-center">{getFileNames('transcript')}</span>
                         </div>
                       </label>
                     </div>
@@ -1594,10 +1630,12 @@ export default function StudentApplication() {
                         accept=".pdf,.doc,.docx"
                         className="hidden"
                         id="cv-upload"
+                        onChange={(e) => handleFileUpload('cv', e.target.files)}
                       />
                       <label htmlFor="cv-upload" className="cursor-pointer">
-                        <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-green-500 transition-colors">
-                          <Upload className="h-5 w-5 text-gray-400" />
+                        <div className="w-full min-h-16 flex flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-green-500 transition-colors p-2">
+                          <Upload className="h-5 w-5 text-gray-400 mb-1" />
+                          <span className="text-xs text-gray-600 text-center">{getFileNames('cv')}</span>
                         </div>
                       </label>
                     </div>
@@ -1621,10 +1659,12 @@ export default function StudentApplication() {
                         accept=".pdf,.doc,.docx"
                         className="hidden"
                         id="sop-upload"
+                        onChange={(e) => handleFileUpload('sop', e.target.files)}
                       />
                       <label htmlFor="sop-upload" className="cursor-pointer">
-                        <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-purple-500 transition-colors">
-                          <Upload className="h-5 w-5 text-gray-400" />
+                        <div className="w-full min-h-16 flex flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-purple-500 transition-colors p-2">
+                          <Upload className="h-5 w-5 text-gray-400 mb-1" />
+                          <span className="text-xs text-gray-600 text-center">{getFileNames('sop')}</span>
                         </div>
                       </label>
                     </div>
@@ -1649,13 +1689,15 @@ export default function StudentApplication() {
                         multiple
                         className="hidden"
                         id="experience-upload"
+                        onChange={(e) => handleFileUpload('experience', e.target.files)}
                       />
                       <label
                         htmlFor="experience-upload"
                         className="cursor-pointer"
                       >
-                        <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-indigo-500 transition-colors">
-                          <Upload className="h-5 w-5 text-gray-400" />
+                        <div className="w-full min-h-16 flex flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-indigo-500 transition-colors p-2">
+                          <Upload className="h-5 w-5 text-gray-400 mb-1" />
+                          <span className="text-xs text-gray-600 text-center">{getFileNames('experience')}</span>
                         </div>
                       </label>
                     </div>
@@ -1679,10 +1721,12 @@ export default function StudentApplication() {
                         accept=".pdf,.jpg,.jpeg,.png"
                         className="hidden"
                         id="id-upload"
+                        onChange={(e) => handleFileUpload('nationalId', e.target.files)}
                       />
                       <label htmlFor="id-upload" className="cursor-pointer">
-                        <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-pink-500 transition-colors">
-                          <Upload className="h-5 w-5 text-gray-400" />
+                        <div className="w-full min-h-16 flex flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-pink-500 transition-colors p-2">
+                          <Upload className="h-5 w-5 text-gray-400 mb-1" />
+                          <span className="text-xs text-gray-600 text-center">{getFileNames('nationalId')}</span>
                         </div>
                       </label>
                     </div>
@@ -1706,10 +1750,12 @@ export default function StudentApplication() {
                         accept=".jpg,.jpeg,.png"
                         className="hidden"
                         id="photo-upload"
+                        onChange={(e) => handleFileUpload('photo', e.target.files)}
                       />
                       <label htmlFor="photo-upload" className="cursor-pointer">
-                        <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-red-500 transition-colors">
-                          <Upload className="h-5 w-5 text-gray-400" />
+                        <div className="w-full min-h-16 flex flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-red-500 transition-colors p-2">
+                          <Upload className="h-5 w-5 text-gray-400 mb-1" />
+                          <span className="text-xs text-gray-600 text-center">{getFileNames('photo')}</span>
                         </div>
                       </label>
                     </div>
@@ -1733,10 +1779,12 @@ export default function StudentApplication() {
                         accept=".pdf,.jpg,.jpeg,.png"
                         className="hidden"
                         id="birth-upload"
+                        onChange={(e) => handleFileUpload('birth', e.target.files)}
                       />
                       <label htmlFor="birth-upload" className="cursor-pointer">
-                        <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-yellow-500 transition-colors">
-                          <Upload className="h-5 w-5 text-gray-400" />
+                        <div className="w-full min-h-16 flex flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-yellow-500 transition-colors p-2">
+                          <Upload className="h-5 w-5 text-gray-400 mb-1" />
+                          <span className="text-xs text-gray-600 text-center">{getFileNames('birth')}</span>
                         </div>
                       </label>
                     </div>
@@ -1761,13 +1809,15 @@ export default function StudentApplication() {
                         multiple
                         className="hidden"
                         id="financial-upload"
+                        onChange={(e) => handleFileUpload('financial', e.target.files)}
                       />
                       <label
                         htmlFor="financial-upload"
                         className="cursor-pointer"
                       >
-                        <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-emerald-500 transition-colors">
-                          <Upload className="h-5 w-5 text-gray-400" />
+                        <div className="w-full min-h-16 flex flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-emerald-500 transition-colors p-2">
+                          <Upload className="h-5 w-5 text-gray-400 mb-1" />
+                          <span className="text-xs text-gray-600 text-center">{getFileNames('financial')}</span>
                         </div>
                       </label>
                     </div>
@@ -1854,11 +1904,33 @@ export default function StudentApplication() {
                             multiple
                             className="hidden"
                             id={`docUpload-${doc.id}`}
+                            onChange={(e) => {
+                              const files = e.target.files;
+                              if (files && files.length > 0) {
+                                setAdditionalDocuments((prev) =>
+                                  prev.map((d) =>
+                                    d.id === doc.id
+                                      ? { ...d, file: Array.from(files) }
+                                      : d,
+                                  ),
+                                );
+                              }
+                            }}
                           />
                           <label
                             htmlFor={`docUpload-${doc.id}`}
                             className="cursor-pointer block w-full h-full"
-                          />
+                          >
+                            <div className="text-center">
+                              <span className="text-sm text-gray-600">
+                                {doc.file && doc.file.length > 0 
+                                  ? doc.file.length === 1 
+                                    ? doc.file[0].name 
+                                    : `${doc.file.length} files selected`
+                                  : "No files selected"}
+                              </span>
+                            </div>
+                          </label>
                         </div>
                       </div>
                     </div>
