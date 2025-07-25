@@ -30,6 +30,7 @@ import {
   Save,
   Eye,
   Download,
+  ExternalLink,
 } from "lucide-react";
 
 interface Application {
@@ -135,6 +136,12 @@ export default function UserDashboard() {
     retry: false,
   });
 
+  // Get user consultations
+  const { data: consultations = [], isLoading: consultationsLoading } = useQuery<any[]>({
+    queryKey: ["/api/user/consultations"],
+    retry: false,
+  });
+
   useEffect(() => {
     if (profileData) {
       setUser(profileData as UserProfile);
@@ -157,6 +164,7 @@ export default function UserDashboard() {
         consultationType: "general",
         message: "",
       });
+      queryClient.invalidateQueries({ queryKey: ["/api/user/consultations"] });
     },
     onError: (error: any) => {
       toast({
@@ -445,6 +453,7 @@ export default function UserDashboard() {
 
             {/* Book Consultation Tab */}
             <TabsContent value="consultation" className="space-y-6">
+              {/* Book New Consultation */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
@@ -521,6 +530,115 @@ export default function UserDashboard() {
                       {bookConsultationMutation.isPending ? "Booking..." : "Book Consultation"}
                     </Button>
                   </form>
+                </CardContent>
+              </Card>
+
+              {/* My Consultations List */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <Clock className="h-5 w-5" />
+                    <span>My Consultations</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {consultationsLoading ? (
+                    <div className="flex items-center justify-center py-8">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600"></div>
+                    </div>
+                  ) : consultations.length === 0 ? (
+                    <div className="text-center py-8 text-gray-500">
+                      <Calendar className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                      <p>No consultations booked yet.</p>
+                      <p className="text-sm">Book your first consultation above!</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {consultations.map((consultation: any) => (
+                        <div key={consultation.id} className="border rounded-lg p-4">
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <div className="flex items-center space-x-2 mb-2">
+                                <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                                  consultation.status === 'confirmed' 
+                                    ? 'bg-green-100 text-green-800'
+                                    : consultation.status === 'completed'
+                                    ? 'bg-blue-100 text-blue-800'
+                                    : consultation.status === 'cancelled'
+                                    ? 'bg-red-100 text-red-800'
+                                    : 'bg-yellow-100 text-yellow-800'
+                                }`}>
+                                  {consultation.status.charAt(0).toUpperCase() + consultation.status.slice(1)}
+                                </span>
+                                <span className="text-sm text-gray-500">
+                                  {consultation.consultationType.charAt(0).toUpperCase() + consultation.consultationType.slice(1)}
+                                </span>
+                              </div>
+                              
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                                <div className="flex items-center space-x-2">
+                                  <Calendar className="h-4 w-4 text-gray-400" />
+                                  <span className="text-sm">{consultation.preferredDate}</span>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                  <Clock className="h-4 w-4 text-gray-400" />
+                                  <span className="text-sm">{consultation.preferredTime}</span>
+                                </div>
+                              </div>
+
+                              {consultation.message && (
+                                <p className="text-sm text-gray-600 mb-3">
+                                  <strong>Message:</strong> {consultation.message}
+                                </p>
+                              )}
+
+                              {consultation.meetingNotes && (
+                                <p className="text-sm text-gray-600 mb-3">
+                                  <strong>Admin Notes:</strong> {consultation.meetingNotes}
+                                </p>
+                              )}
+
+                              {consultation.meetingLink && (
+                                <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
+                                  <div className="flex items-center justify-between">
+                                    <div>
+                                      <p className="text-sm font-medium text-green-800 mb-1">
+                                        Meeting Link Available
+                                      </p>
+                                      <p className="text-xs text-green-600">
+                                        Click to join your consultation meeting
+                                      </p>
+                                    </div>
+                                    <a
+                                      href={consultation.meetingLink}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center px-3 py-2 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700 transition-colors"
+                                    >
+                                      Join Meeting
+                                      <ExternalLink className="ml-2 h-4 w-4" />
+                                    </a>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          
+                          <div className="mt-3 pt-3 border-t border-gray-100">
+                            <p className="text-xs text-gray-500">
+                              Booked on {new Date(consultation.createdAt).toLocaleDateString()}
+                              {consultation.confirmedAt && (
+                                <span> • Confirmed on {new Date(consultation.confirmedAt).toLocaleDateString()}</span>
+                              )}
+                              {consultation.completedAt && (
+                                <span> • Completed on {new Date(consultation.completedAt).toLocaleDateString()}</span>
+                              )}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </TabsContent>

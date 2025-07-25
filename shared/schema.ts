@@ -418,3 +418,34 @@ export const insertDocumentMessageSchema = createInsertSchema(documentMessages).
 
 export type InsertDocumentMessage = z.infer<typeof insertDocumentMessageSchema>;
 export type DocumentMessage = typeof documentMessages.$inferSelect;
+
+// Consultations table for booking system with admin meeting links
+export const consultations = pgTable("consultations", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
+  preferredDate: varchar("preferred_date", { length: 50 }).notNull(),
+  preferredTime: varchar("preferred_time", { length: 50 }).notNull(),
+  consultationType: varchar("consultation_type", { length: 50 }).notNull(),
+  message: text("message"),
+  status: varchar("status", { length: 30 }).default("pending").notNull(), // 'pending', 'confirmed', 'completed', 'cancelled'
+  meetingLink: text("meeting_link"), // Admin provided meeting link
+  meetingNotes: text("meeting_notes"), // Admin notes about the consultation
+  confirmedAt: timestamp("confirmed_at"),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertConsultationSchema = createInsertSchema(consultations).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+  status: true,
+  meetingLink: true,
+  meetingNotes: true,
+  confirmedAt: true,
+  completedAt: true,
+});
+
+export type InsertConsultation = z.infer<typeof insertConsultationSchema>;
+export type Consultation = typeof consultations.$inferSelect;

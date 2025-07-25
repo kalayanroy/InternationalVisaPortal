@@ -13,6 +13,7 @@ import {
   insertStudentSchema,
   insertAppointmentSchema,
   insertApplicationSchema,
+  insertConsultationSchema,
 } from "@shared/schema";
 import { z } from "zod";
 import { upload, uploadApplicationDocuments, handleUploadError, getFileUrl } from "./uploads";
@@ -1245,17 +1246,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Preferred date and time are required" });
       }
 
-      // For now, just return success - you can implement actual booking logic later
-      const consultation = {
-        id: Date.now(),
+      // Validate consultation data
+      const consultationData = insertConsultationSchema.parse({
         userId,
         preferredDate,
         preferredTime,
-        consultationType,
-        message,
-        status: "pending",
-        createdAt: new Date().toISOString()
-      };
+        consultationType: consultationType || "general",
+        message: message || ""
+      });
+
+      // Create consultation in database
+      const consultation = await storage.createConsultation(consultationData);
 
       res.status(201).json({
         message: "Consultation booked successfully",
@@ -1264,6 +1265,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error booking consultation:", error);
       res.status(500).json({ message: "Failed to book consultation" });
+    }
+  });
+
+  // Get user consultations
+  app.get("/api/user/consultations", authenticateToken, async (req: AuthRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const consultations = await storage.getUserConsultations(userId);
+      res.json(consultations);
+    } catch (error) {
+      console.error("Error fetching user consultations:", error);
+      res.status(500).json({ message: "Failed to fetch consultations" });
     }
   });
 
@@ -1868,6 +1885,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error retrieving missing documents:", error);
       res.status(500).json({ message: "Failed to retrieve missing documents" });
+    }
+  });
+
+  // Admin consultation routes
+  app.get("/api/admin/consultations", authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const consultations = await storage.getAllConsultations();
+      res.json(consultations);
+    } catch (error) {
+      console.error("Error fetching admin consultations:", error);
+      res.status(500).json({ message: "Failed to fetch consultations" });
+    }
+  });
+
+  app.patch("/api/admin/consultations/:id", authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const consultationId = parseInt(req.params.id);
+      const { status, meetingLink, meetingNotes } = req.body;
+
+      if (!consultationId || isNaN(consultationId)) {
+        return res.status(400).json({ message: "Invalid consultation ID" });
+      }
+
+      if (!status) {
+        return res.status(400).json({ message: "Status is required" });
+      }
+
+      const updatedConsultation = await storage.updateConsultationStatus(
+        consultationId, 
+        status, 
+        meetingLink || undefined, 
+        meetingNotes || undefined
+      );
+
+      res.json({
+        message: "Consultation updated successfully",
+        consultation: updatedConsultation
+      });
+    } catch (error) {
+      console.error("Error updating consultation:", error);
+      res.status(500).json({ message: "Failed to update consultation" });
     }
   });
 

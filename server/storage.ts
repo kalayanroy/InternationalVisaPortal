@@ -8,6 +8,7 @@ import {
   universities,
   notifications,
   documentMessages,
+  consultations,
   type User,
   type InsertUser,
   type ContactInquiry,
@@ -43,6 +44,8 @@ import {
   type InsertNotification,
   type DocumentMessage,
   type InsertDocumentMessage,
+  type Consultation,
+  type InsertConsultation,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, not } from "drizzle-orm";
@@ -187,6 +190,13 @@ export interface IStorage {
     pendingApplications: number;
     notifications: number;
   }>;
+
+  // Consultation booking methods
+  createConsultation(consultation: InsertConsultation): Promise<Consultation>;
+  getUserConsultations(userId: number): Promise<Consultation[]>;
+  getAllConsultations(): Promise<Consultation[]>;
+  updateConsultationStatus(id: number, status: string, meetingLink?: string, meetingNotes?: string): Promise<Consultation | undefined>;
+  deleteConsultation(id: number): Promise<Consultation | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -932,6 +942,77 @@ export class DatabaseStorage implements IStorage {
       applications,
       totalDocuments
     };
+  }
+
+  // Consultation booking methods
+  async createConsultation(consultation: InsertConsultation): Promise<Consultation> {
+    const [created] = await db.insert(consultations).values(consultation).returning();
+    return created;
+  }
+
+  async getUserConsultations(userId: number): Promise<Consultation[]> {
+    return await db.select().from(consultations).where(eq(consultations.userId, userId)).orderBy(desc(consultations.createdAt));
+  }
+
+  async getAllConsultations(): Promise<Consultation[]> {
+    return await db
+      .select({
+        id: consultations.id,
+        userId: consultations.userId,
+        preferredDate: consultations.preferredDate,
+        preferredTime: consultations.preferredTime,
+        consultationType: consultations.consultationType,
+        message: consultations.message,
+        status: consultations.status,
+        meetingLink: consultations.meetingLink,
+        meetingNotes: consultations.meetingNotes,
+        createdAt: consultations.createdAt,
+        confirmedAt: consultations.confirmedAt,
+        completedAt: consultations.completedAt,
+        updatedAt: consultations.updatedAt,
+        user: {
+          id: users.id,
+          firstName: users.firstName,
+          lastName: users.lastName,
+          email: users.email
+        }
+      })
+      .from(consultations)
+      .leftJoin(users, eq(consultations.userId, users.id))
+      .orderBy(desc(consultations.createdAt));
+  }
+
+  async updateConsultationStatus(id: number, status: string, meetingLink?: string, meetingNotes?: string): Promise<Consultation | undefined> {
+    const updates: any = { 
+      status, 
+      updatedAt: new Date() 
+    };
+    
+    if (meetingLink) {
+      updates.meetingLink = meetingLink;
+    }
+    
+    if (meetingNotes) {
+      updates.meetingNotes = meetingNotes;
+    }
+    
+    if (status === 'confirmed') {
+      updates.confirmedAt = new Date();
+    } else if (status === 'completed') {
+      updates.completedAt = new Date();
+    }
+
+    const [updated] = await db
+      .update(consultations)
+      .set(updates)
+      .where(eq(consultations.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteConsultation(id: number): Promise<Consultation | undefined> {
+    const [deleted] = await db.delete(consultations).where(eq(consultations.id, id)).returning();
+    return deleted;
   }
 }
 

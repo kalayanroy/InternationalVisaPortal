@@ -65,6 +65,19 @@ export default function AdminDashboard() {
     enabled: isAuthenticated && isAdmin,
   });
 
+  // Fetch all consultations for admin management
+  const { data: consultations = [] } = useQuery<any[]>({
+    queryKey: ["/api/admin/consultations"],
+    enabled: isAuthenticated && isAdmin,
+  });
+
+  const [selectedConsultation, setSelectedConsultation] = useState<any>(null);
+  const [consultationUpdate, setConsultationUpdate] = useState({
+    status: "",
+    meetingLink: "",
+    meetingNotes: ""
+  });
+
   // Update application status mutation
   const updateStatusMutation = useMutation({
     mutationFn: async ({ applicationId, status, message }: { applicationId: number; status: string; message: string }) => {
@@ -219,6 +232,53 @@ export default function AdminDashboard() {
     },
   });
 
+  // Update consultation mutation
+  const updateConsultationMutation = useMutation({
+    mutationFn: async ({ consultationId, status, meetingLink, meetingNotes }: {
+      consultationId: number;
+      status: string;
+      meetingLink: string;
+      meetingNotes: string;
+    }) => {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`/api/admin/consultations/${consultationId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          status,
+          meetingLink,
+          meetingNotes,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to update consultation");
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Consultation updated successfully",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/consultations"] });
+      setSelectedConsultation(null);
+      setConsultationUpdate({ status: "", meetingLink: "", meetingNotes: "" });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
   // Helper function to get status badge variant
   const getStatusVariant = (status: string) => {
     switch (status) {
@@ -333,6 +393,7 @@ export default function AdminDashboard() {
             <Tabs defaultValue="applications" className="space-y-6">
               <TabsList>
                 <TabsTrigger value="applications">Student Applications</TabsTrigger>
+                <TabsTrigger value="consultations">Consultations</TabsTrigger>
                 <TabsTrigger value="documents">Document Management</TabsTrigger>
                 <TabsTrigger value="users">User Management</TabsTrigger>
                 <TabsTrigger value="notifications">Notifications</TabsTrigger>
@@ -488,6 +549,174 @@ export default function AdminDashboard() {
                                       </DialogContent>
                                     </Dialog>
                                   </div>
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="consultations" className="space-y-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Consultation Management</CardTitle>
+                    <CardDescription>
+                      Manage student consultations, add meeting links, and update status
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    {consultations.length === 0 ? (
+                      <div className="text-center py-8">
+                        <Calendar className="mx-auto h-12 w-12 text-gray-400" />
+                        <h3 className="mt-2 text-sm font-medium text-gray-900">No consultations</h3>
+                        <p className="mt-1 text-sm text-gray-500">
+                          No consultation bookings have been made yet.
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="overflow-x-auto">
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>Student</TableHead>
+                              <TableHead>Type</TableHead>
+                              <TableHead>Date & Time</TableHead>
+                              <TableHead>Status</TableHead>
+                              <TableHead>Meeting Link</TableHead>
+                              <TableHead>Actions</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {consultations.map((consultation: any) => (
+                              <TableRow key={consultation.id}>
+                                <TableCell>
+                                  <div>
+                                    <p className="font-medium">{consultation.user?.firstName} {consultation.user?.lastName}</p>
+                                    <p className="text-sm text-gray-500">{consultation.user?.email}</p>
+                                  </div>
+                                </TableCell>
+                                <TableCell className="capitalize">{consultation.consultationType}</TableCell>
+                                <TableCell>
+                                  <div>
+                                    <p className="font-medium">{consultation.preferredDate}</p>
+                                    <p className="text-sm text-gray-500">{consultation.preferredTime}</p>
+                                  </div>
+                                </TableCell>
+                                <TableCell>
+                                  <Badge variant={
+                                    consultation.status === 'confirmed' ? 'default' :
+                                    consultation.status === 'completed' ? 'secondary' :
+                                    consultation.status === 'cancelled' ? 'destructive' : 'outline'
+                                  }>
+                                    {consultation.status.charAt(0).toUpperCase() + consultation.status.slice(1)}
+                                  </Badge>
+                                </TableCell>
+                                <TableCell>
+                                  {consultation.meetingLink ? (
+                                    <a 
+                                      href={consultation.meetingLink} 
+                                      target="_blank" 
+                                      rel="noopener noreferrer"
+                                      className="text-blue-600 hover:text-blue-800 text-sm"
+                                    >
+                                      Meeting Link
+                                    </a>
+                                  ) : (
+                                    <span className="text-gray-400 text-sm">No link</span>
+                                  )}
+                                </TableCell>
+                                <TableCell>
+                                  <Dialog>
+                                    <DialogTrigger asChild>
+                                      <Button 
+                                        variant="outline" 
+                                        size="sm"
+                                        onClick={() => {
+                                          setSelectedConsultation(consultation);
+                                          setConsultationUpdate({
+                                            status: consultation.status,
+                                            meetingLink: consultation.meetingLink || "",
+                                            meetingNotes: consultation.meetingNotes || ""
+                                          });
+                                        }}
+                                      >
+                                        <Calendar className="h-4 w-4 mr-1" />
+                                        Manage
+                                      </Button>
+                                    </DialogTrigger>
+                                    <DialogContent>
+                                      <DialogHeader>
+                                        <DialogTitle>Manage Consultation</DialogTitle>
+                                        <DialogDescription>
+                                          Update consultation status and provide meeting details
+                                        </DialogDescription>
+                                      </DialogHeader>
+                                      <div className="space-y-4">
+                                        <div>
+                                          <Label htmlFor="status">Status</Label>
+                                          <Select 
+                                            value={consultationUpdate.status} 
+                                            onValueChange={(value) => setConsultationUpdate(prev => ({ ...prev, status: value }))}
+                                          >
+                                            <SelectTrigger>
+                                              <SelectValue placeholder="Select status" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                              <SelectItem value="pending">Pending</SelectItem>
+                                              <SelectItem value="confirmed">Confirmed</SelectItem>
+                                              <SelectItem value="completed">Completed</SelectItem>
+                                              <SelectItem value="cancelled">Cancelled</SelectItem>
+                                            </SelectContent>
+                                          </Select>
+                                        </div>
+                                        <div>
+                                          <Label htmlFor="meetingLink">Meeting Link</Label>
+                                          <Input
+                                            id="meetingLink"
+                                            placeholder="https://zoom.us/j/... or https://meet.google.com/..."
+                                            value={consultationUpdate.meetingLink}
+                                            onChange={(e) => setConsultationUpdate(prev => ({ ...prev, meetingLink: e.target.value }))}
+                                          />
+                                        </div>
+                                        <div>
+                                          <Label htmlFor="meetingNotes">Meeting Notes</Label>
+                                          <Textarea
+                                            id="meetingNotes"
+                                            placeholder="Add any notes or instructions for the student..."
+                                            value={consultationUpdate.meetingNotes}
+                                            onChange={(e) => setConsultationUpdate(prev => ({ ...prev, meetingNotes: e.target.value }))}
+                                            rows={4}
+                                          />
+                                        </div>
+                                        <div className="flex justify-end gap-2">
+                                          <Button 
+                                            variant="outline" 
+                                            onClick={() => {
+                                              setSelectedConsultation(null);
+                                              setConsultationUpdate({ status: "", meetingLink: "", meetingNotes: "" });
+                                            }}
+                                          >
+                                            Cancel
+                                          </Button>
+                                          <Button 
+                                            onClick={() => updateConsultationMutation.mutate({
+                                              consultationId: consultation.id,
+                                              status: consultationUpdate.status,
+                                              meetingLink: consultationUpdate.meetingLink,
+                                              meetingNotes: consultationUpdate.meetingNotes
+                                            })}
+                                            disabled={updateConsultationMutation.isPending || !consultationUpdate.status}
+                                          >
+                                            {updateConsultationMutation.isPending ? "Updating..." : "Update Consultation"}
+                                          </Button>
+                                        </div>
+                                      </div>
+                                    </DialogContent>
+                                  </Dialog>
                                 </TableCell>
                               </TableRow>
                             ))}
