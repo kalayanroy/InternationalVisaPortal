@@ -168,6 +168,11 @@ export interface IStorage {
   // User Dashboard methods
   getUserApplications(userId: number): Promise<StudentApplication[]>;
   updateUserProfile(userId: number, updates: { firstName: string; lastName: string; email: string }): Promise<User | undefined>;
+  getUserDocumentsByApplication(userId: number): Promise<{
+    user: User | undefined;
+    applications: StudentApplication[];
+    totalDocuments: number;
+  }>;
 
   // Notification methods
   createNotification(notification: InsertNotification): Promise<Notification>;
@@ -885,7 +890,7 @@ export class DatabaseStorage implements IStorage {
     applications: StudentApplication[];
     totalDocuments: number;
   }> {
-    const user = await this.getUser(userId);
+    const user = await this.getUserById(userId);
     const applications = await this.getUserApplications(userId);
     
     // Count uploaded documents
