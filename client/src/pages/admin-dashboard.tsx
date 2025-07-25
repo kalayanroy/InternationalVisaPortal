@@ -184,6 +184,41 @@ export default function AdminDashboard() {
     },
   });
 
+  // Update document message status mutation
+  const updateMessageStatusMutation = useMutation({
+    mutationFn: async ({ messageId, status }: { messageId: number; status: string }) => {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`/api/admin/document-messages/${messageId}/status`, {
+        method: "PATCH",
+        headers: { 
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ status }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update message status");
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Status Updated",
+        description: "Document message status updated successfully.",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/document-messages"] });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Update Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
   // Helper function to get status badge variant
   const getStatusVariant = (status: string) => {
     switch (status) {
@@ -633,9 +668,58 @@ export default function AdminDashboard() {
                               </div>
                             </div>
                             
-                            <div className="text-sm text-gray-600">
-                              <p>{userDocuments.applications.length} application(s)</p>
-                              <p>{userDocuments.totalDocuments} documents uploaded</p>
+                            <div className="flex items-center justify-between">
+                              <div className="text-sm text-gray-600">
+                                <p>{userDocuments.applications.length} application(s)</p>
+                                <p>{userDocuments.totalDocuments} documents uploaded</p>
+                              </div>
+                              
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  // Collect all missing documents
+                                  const missingDocs: string[] = [];
+                                  userDocuments.applications.forEach((app: StudentApplication) => {
+                                    [
+                                      { key: 'passportDocument', label: 'Passport Document' },
+                                      { key: 'academicDocuments', label: 'Academic Documents' },
+                                      { key: 'cvResume', label: 'CV/Resume' },
+                                      { key: 'statementOfPurpose', label: 'Statement of Purpose' },
+                                      { key: 'experienceLetters', label: 'Experience Letters' },
+                                      { key: 'englishTestScore', label: 'English Test Score' },
+                                      { key: 'nationalIdDoc', label: 'National ID Document' },
+                                      { key: 'passportPhoto', label: 'Passport Photo' },
+                                      { key: 'birthCertificate', label: 'Birth Certificate' },
+                                      { key: 'financialDocuments', label: 'Financial Documents' },
+                                      { key: 'additionalDocuments', label: 'Additional Documents' },
+                                    ].forEach((field) => {
+                                      const hasDocument = app[field.key as keyof StudentApplication];
+                                      if (!hasDocument && !missingDocs.includes(field.label)) {
+                                        missingDocs.push(field.label);
+                                      }
+                                    });
+                                  });
+                                  
+                                  if (missingDocs.length > 0) {
+                                    setSelectedUser(userDocuments.user);
+                                    setDocumentRequestData({
+                                      subject: `Missing Documents Required - ${missingDocs.length} documents`,
+                                      message: `We have reviewed your application and found that the following documents are missing: ${missingDocs.join(', ')}. Please upload these documents to proceed with your application process.`,
+                                      requestedDocuments: missingDocs
+                                    });
+                                  } else {
+                                    toast({
+                                      title: "All Documents Present",
+                                      description: "This user has uploaded all required documents.",
+                                    });
+                                  }
+                                }}
+                                className="flex items-center gap-2"
+                              >
+                                <Send className="h-3 w-3" />
+                                Request Missing Documents
+                              </Button>
                             </div>
 
                             <ScrollArea className="h-96">
@@ -686,10 +770,27 @@ export default function AdminDashboard() {
                                                 </Button>
                                               </div>
                                             ) : (
-                                              <Badge variant="secondary" className="text-xs">
-                                                <XCircle className="h-3 w-3 mr-1" />
-                                                Missing
-                                              </Badge>
+                                              <div className="flex items-center gap-2">
+                                                <Badge variant="secondary" className="text-xs">
+                                                  <XCircle className="h-3 w-3 mr-1" />
+                                                  Missing
+                                                </Badge>
+                                                <Button
+                                                  variant="outline"
+                                                  size="sm"
+                                                  className="text-xs h-6"
+                                                  onClick={() => {
+                                                    setSelectedUser(userDocuments.user);
+                                                    setDocumentRequestData({
+                                                      subject: `Missing Document Request: ${field.label}`,
+                                                      message: `We noticed that your ${field.label} is missing from your application. Please upload this document at your earliest convenience to proceed with your application.`,
+                                                      requestedDocuments: [field.label]
+                                                    });
+                                                  }}
+                                                >
+                                                  Request
+                                                </Button>
+                                              </div>
                                             )}
                                           </div>
                                         );
@@ -722,68 +823,130 @@ export default function AdminDashboard() {
                           <p>No document messages sent yet</p>
                         </div>
                       ) : (
-                        <div className="space-y-4">
-                          {documentMessages
-                            .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-                            .slice(0, 15)
-                            .map((message) => (
-                            <div key={message.id} className={`border rounded-lg p-4 ${
-                              message.senderType === 'user' ? 'bg-blue-50 border-blue-200' : 'bg-gray-50'
-                            }`}>
-                              <div className="flex items-center justify-between mb-2">
-                                <div className="flex items-center gap-2">
-                                  <h4 className="font-medium">{message.subject}</h4>
-                                  <Badge variant={message.senderType === 'admin' ? 'default' : 'outline'} className="text-xs">
-                                    {message.senderType === 'admin' ? 'Admin Request' : 'User Response'}
-                                  </Badge>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                          {/* Admin Requests Section */}
+                          <div>
+                            <h4 className="text-md font-medium mb-3 flex items-center gap-2">
+                              <Send className="h-4 w-4" />
+                              Admin Requests
+                            </h4>
+                            <div className="space-y-3 max-h-96 overflow-y-auto">
+                              {documentMessages
+                                .filter(message => message.senderType === 'admin')
+                                .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                                .slice(0, 10)
+                                .map((message) => (
+                                <div key={message.id} className="border rounded-lg p-3 bg-gray-50">
+                                  <div className="flex items-center justify-between mb-2">
+                                    <h5 className="font-medium text-sm">{message.subject}</h5>
+                                    <div className="flex items-center gap-1">
+                                      <Badge variant={message.status === 'completed' ? 'default' : 'secondary'} className="text-xs">
+                                        {message.status}
+                                      </Badge>
+                                      <span className="text-xs text-gray-500">
+                                        {format(new Date(message.createdAt), "MMM dd")}
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <p className="text-xs text-gray-600 mb-2">{message.message}</p>
+                                  {message.requestedDocuments && message.requestedDocuments.length > 0 && (
+                                    <div className="text-xs text-gray-500">
+                                      <strong>Requested:</strong> {message.requestedDocuments.join(', ')}
+                                    </div>
+                                  )}
                                 </div>
-                                <div className="flex items-center gap-2">
-                                  <Badge variant={message.status === 'completed' ? 'default' : 'secondary'}>
-                                    {message.status}
-                                  </Badge>
-                                  <span className="text-sm text-gray-500">
-                                    {format(new Date(message.createdAt), "MMM dd, HH:mm")}
-                                  </span>
-                                </div>
-                              </div>
-                              
-                              <p className="text-sm text-gray-700 mb-2">{message.message}</p>
-                              
-                              {/* Show requested documents for admin messages */}
-                              {message.messageType === 'document_request' && message.requestedDocuments && message.requestedDocuments.length > 0 && (
-                                <div className="text-xs text-gray-600 mb-2">
-                                  <strong>Requested:</strong> {message.requestedDocuments.join(', ')}
-                                </div>
-                              )}
-                              
-                              {/* Show uploaded files for user responses */}
-                              {message.messageType === 'document_upload' && message.attachments && message.attachments.length > 0 && (
-                                <div className="text-xs text-green-700 bg-green-50 p-2 rounded">
-                                  <strong>Uploaded Files ({message.attachments.length}):</strong>
-                                  <div className="mt-1 space-y-1">
-                                    {message.attachments.map((file, index) => (
-                                      <div key={index} className="flex items-center gap-2">
-                                        <FileText className="h-3 w-3" />
-                                        <span className="text-xs">{file}</span>
-                                        <Button 
-                                          variant="ghost" 
-                                          size="sm"
-                                          className="h-5 w-5 p-0"
-                                          onClick={() => {
-                                            const token = localStorage.getItem("token");
-                                            const fileUrl = `/api/files/applications/${message.userId}/${encodeURIComponent(file)}`;
-                                            window.open(`${fileUrl}?token=${token}`, '_blank');
-                                          }}
-                                        >
-                                          <Download className="h-3 w-3" />
-                                        </Button>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* User Responses Section */}
+                          <div>
+                            <h4 className="text-md font-medium mb-3 flex items-center gap-2">
+                              <User className="h-4 w-4" />
+                              User Responses
+                            </h4>
+                            <div className="space-y-3 max-h-96 overflow-y-auto">
+                              {documentMessages
+                                .filter(message => message.senderType === 'user')
+                                .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                                .slice(0, 10)
+                                .map((message) => (
+                                <div key={message.id} className="border rounded-lg p-3 bg-blue-50 border-blue-200">
+                                  <div className="flex items-center justify-between mb-2">
+                                    <h5 className="font-medium text-sm">{message.subject}</h5>
+                                    <div className="flex items-center gap-1">
+                                      <Badge variant="outline" className="text-xs">
+                                        Response
+                                      </Badge>
+                                      <span className="text-xs text-gray-500">
+                                        {format(new Date(message.createdAt), "MMM dd")}
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <p className="text-xs text-gray-700 mb-2">{message.message}</p>
+                                  
+                                  {/* Show uploaded files for user responses */}
+                                  {message.attachments && message.attachments.length > 0 && (
+                                    <div className="text-xs text-green-700 bg-green-50 p-2 rounded mt-2">
+                                      <strong>Uploaded Files ({message.attachments.length}):</strong>
+                                      <div className="mt-1 space-y-1">
+                                        {message.attachments.map((file, index) => (
+                                          <div key={index} className="flex items-center gap-2">
+                                            <FileText className="h-3 w-3" />
+                                            <span className="text-xs">{file}</span>
+                                            <Button 
+                                              variant="ghost" 
+                                              size="sm"
+                                              className="h-4 w-4 p-0"
+                                              onClick={() => {
+                                                const token = localStorage.getItem("token");
+                                                const fileUrl = `/api/files/applications/${message.userId}/${encodeURIComponent(file)}`;
+                                                window.open(`${fileUrl}?token=${token}`, '_blank');
+                                              }}
+                                            >
+                                              <Download className="h-3 w-3" />
+                                            </Button>
+                                          </div>
+                                        ))}
                                       </div>
-                                    ))}
+                                    </div>
+                                  )}
+                                  
+                                  {/* Action buttons for user responses */}
+                                  <div className="flex justify-end gap-2 mt-2">
+                                    {message.status !== 'completed' && (
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="text-xs h-6"
+                                        onClick={() => updateMessageStatusMutation.mutate({ 
+                                          messageId: message.id, 
+                                          status: 'viewed' 
+                                        })}
+                                      >
+                                        <Eye className="h-3 w-3 mr-1" />
+                                        Mark as Viewed
+                                      </Button>
+                                    )}
+                                    {message.status === 'viewed' && (
+                                      <Button
+                                        variant="default"
+                                        size="sm"
+                                        className="text-xs h-6"
+                                        onClick={() => updateMessageStatusMutation.mutate({ 
+                                          messageId: message.id, 
+                                          status: 'completed' 
+                                        })}
+                                      >
+                                        <CheckCircle className="h-3 w-3 mr-1" />
+                                        Mark as Complete
+                                      </Button>
+                                    )}
                                   </div>
                                 </div>
-                              )}
+                              ))}
                             </div>
-                          ))}
+                          </div>
                         </div>
                       )}
                     </div>

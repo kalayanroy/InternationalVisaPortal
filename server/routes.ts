@@ -1757,6 +1757,81 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin endpoint to mark document messages as viewed/completed
+  app.patch("/api/admin/document-messages/:id/status", authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const messageId = parseInt(req.params.id);
+      const { status } = req.body;
+
+      if (!status || !['pending', 'viewed', 'completed'].includes(status)) {
+        return res.status(400).json({ message: "Valid status (pending, viewed, completed) is required" });
+      }
+
+      const updatedMessage = await storage.updateDocumentMessageStatus(messageId, status);
+      if (!updatedMessage) {
+        return res.status(404).json({ message: "Message not found" });
+      }
+
+      res.json({ 
+        message: `Document message marked as ${status}`,
+        documentMessage: updatedMessage 
+      });
+    } catch (error) {
+      console.error("Error updating document message status:", error);
+      res.status(500).json({ message: "Failed to update message status" });
+    }
+  });
+
+  // Admin endpoint to retrieve missing documents and update status automatically
+  app.post("/api/admin/retrieve-missing-documents", authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const { userId, missingDocuments } = req.body;
+
+      if (!userId || !missingDocuments || !Array.isArray(missingDocuments)) {
+        return res.status(400).json({ message: "User ID and missing documents array are required" });
+      }
+
+      // Create a document request for missing documents
+      const adminUser = req.user;
+      if (!adminUser) {
+        return res.status(401).json({ message: "Admin user not found" });
+      }
+      
+      const documentMessage = await storage.createDocumentMessage({
+        userId: parseInt(userId),
+        applicationId: null,
+        senderId: adminUser.id,
+        senderType: "admin",
+        messageType: "document_request",
+        subject: "Missing Documents Required",
+        message: `The following documents are missing from your application and need to be uploaded: ${missingDocuments.join(', ')}. Please upload these documents to complete your application.`,
+        requestedDocuments: missingDocuments,
+        attachments: [],
+        status: "pending",
+        read: false
+      });
+
+      // Create notification for user
+      await storage.createNotification({
+        userId: parseInt(userId),
+        title: "Missing Documents Request",
+        message: "We need additional documents from you. Please check your document requests tab.",
+        type: "document_request",
+        read: false,
+        relatedEntityId: documentMessage.id,
+        relatedEntityType: "document_message"
+      });
+
+      res.json({
+        message: "Missing documents request sent successfully",
+        documentMessage
+      });
+    } catch (error) {
+      console.error("Error retrieving missing documents:", error);
+      res.status(500).json({ message: "Failed to retrieve missing documents" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
