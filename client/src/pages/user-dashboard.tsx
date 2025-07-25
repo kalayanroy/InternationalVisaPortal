@@ -32,14 +32,19 @@ import {
 
 interface Application {
   id: number;
+  userId: number;
   fullName: string;
   email: string;
-  phone: string;
-  countryOfInterest: string;
+  contactNumber: string;
+  preferredCountries: string;
   preferredCourse: string;
   status: string;
   createdAt: string;
-  submittedDocuments?: string[];
+  submittedDocuments?: string;
+  studyLevel: string;
+  preferredIntake: string;
+  budget: number;
+  budgetCurrency: string;
 }
 
 interface Notice {
@@ -136,6 +141,27 @@ export default function UserDashboard() {
       toast({
         title: "Error",
         description: error.message || "Failed to update profile",
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Create sample applications mutation
+  const createSampleApplicationsMutation = useMutation({
+    mutationFn: async () => {
+      return await apiRequest("/api/user/create-sample-applications", "POST", {});
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Sample applications created successfully!",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/user/applications"] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to create sample applications",
         variant: "destructive",
       });
     },
@@ -294,9 +320,18 @@ export default function UserDashboard() {
                     <div className="text-center py-8">
                       <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                       <p className="text-gray-600">No applications yet</p>
-                      <Button className="mt-4 bg-teal-600 hover:bg-teal-700">
-                        Start New Application
-                      </Button>
+                      <div className="flex flex-col space-y-2 mt-4">
+                        <Button className="bg-teal-600 hover:bg-teal-700">
+                          Start New Application
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          onClick={() => createSampleApplicationsMutation.mutate()}
+                          disabled={createSampleApplicationsMutation.isPending}
+                        >
+                          {createSampleApplicationsMutation.isPending ? "Creating..." : "Create Sample Applications"}
+                        </Button>
+                      </div>
                     </div>
                   ) : (
                     <div className="space-y-4">
@@ -306,7 +341,7 @@ export default function UserDashboard() {
                             <GraduationCap className="h-8 w-8 text-teal-600" />
                             <div>
                               <h4 className="font-medium">{application.preferredCourse}</h4>
-                              <p className="text-sm text-gray-600">{application.countryOfInterest}</p>
+                              <p className="text-sm text-gray-600">{application.preferredCountries}</p>
                             </div>
                           </div>
                           <Badge className={getStatusColor(application.status)}>

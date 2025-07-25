@@ -1159,6 +1159,170 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Create sample applications for testing
+  app.post("/api/user/create-sample-applications", authenticateToken, async (req: AuthRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      // Check if user already has applications
+      const existingApps = await storage.getUserApplications(userId);
+      if (existingApps.length > 0) {
+        return res.json({ message: "Sample applications already exist" });
+      }
+
+      // Create sample applications
+      const sampleApplications = [
+        {
+          userId,
+          fullName: "John Doe",
+          gender: "Male",
+          dateOfBirth: "1998-05-15",
+          nationality: "Bangladesh",
+          maritalStatus: "Single",
+          passportNumber: "BD1234567",
+          passportExpiry: "2028-05-15",
+          nationalId: "1234567890123",
+          currentAddress: "123 Main St, Dhaka, Bangladesh",
+          permanentAddress: "123 Main St, Dhaka, Bangladesh",
+          contactNumber: "+8801712345678",
+          email: "john.doe@example.com",
+          emergencyContactName: "Jane Doe",
+          emergencyContactRelation: "Mother",
+          emergencyContactPhone: "+8801987654321",
+          educationHistory: JSON.stringify([
+            {
+              level: "Bachelor's",
+              institution: "University of Dhaka",
+              field: "Computer Science",
+              graduationYear: "2020",
+              cgpa: "3.8"
+            }
+          ]),
+          preferredCountries: "USA, Canada",
+          preferredCity: "Boston",
+          preferredCourse: "Master of Science in Computer Science",
+          preferredIntake: "Fall 2024",
+          studyLevel: "Master's",
+          budget: 50000,
+          budgetCurrency: "USD",
+          fundingSource: "Family Savings",
+          openToScholarships: true,
+          institutionType: "Public University",
+          studyMode: "Full-time",
+          hasEnglishTest: true,
+          testType: "IELTS",
+          testDate: "2023-12-01",
+          overallScore: "7.5",
+          listeningScore: "7.0",
+          readingScore: "8.0",
+          writingScore: "7.0",
+          speakingScore: "8.0",
+          planningTestDate: null,
+          workExperience: JSON.stringify([
+            {
+              company: "Tech Solutions Ltd",
+              position: "Software Developer",
+              duration: "2020-2023",
+              description: "Full-stack web development"
+            }
+          ]),
+          previousStudentVisa: false,
+          countriesVisited: "India, Thailand",
+          visaRefusals: false,
+          visaRefusalDetails: null,
+          familyInDestination: false,
+          familyRelationship: null,
+          familyVisaType: null,
+          specialRequirements: null,
+          status: "Under Review",
+          submittedDocuments: JSON.stringify(["Passport", "Transcripts", "IELTS Certificate"]),
+          additionalInfo: "Interested in AI and Machine Learning specialization"
+        },
+        {
+          userId,
+          fullName: "John Doe",
+          gender: "Male",
+          dateOfBirth: "1998-05-15",
+          nationality: "Bangladesh",
+          maritalStatus: "Single",
+          passportNumber: "BD1234567",
+          passportExpiry: "2028-05-15",
+          nationalId: "1234567890123",
+          currentAddress: "123 Main St, Dhaka, Bangladesh",
+          permanentAddress: "123 Main St, Dhaka, Bangladesh",
+          contactNumber: "+8801712345678",
+          email: "john.doe@example.com",
+          emergencyContactName: "Jane Doe",
+          emergencyContactRelation: "Mother",
+          emergencyContactPhone: "+8801987654321",
+          educationHistory: JSON.stringify([
+            {
+              level: "Bachelor's",
+              institution: "University of Dhaka",
+              field: "Computer Science",
+              graduationYear: "2020",
+              cgpa: "3.8"
+            }
+          ]),
+          preferredCountries: "UK",
+          preferredCity: "London",
+          preferredCourse: "Master of Business Administration",
+          preferredIntake: "Spring 2024",
+          studyLevel: "Master's",
+          budget: 45000,
+          budgetCurrency: "GBP",
+          fundingSource: "Bank Loan",
+          openToScholarships: true,
+          institutionType: "Private University",
+          studyMode: "Full-time",
+          hasEnglishTest: true,
+          testType: "TOEFL",
+          testDate: "2023-11-15",
+          overallScore: "105",
+          listeningScore: "28",
+          readingScore: "29",
+          writingScore: "24",
+          speakingScore: "24",
+          planningTestDate: null,
+          workExperience: JSON.stringify([
+            {
+              company: "Business Corp",
+              position: "Business Analyst",
+              duration: "2021-2023",
+              description: "Market research and data analysis"
+            }
+          ]),
+          previousStudentVisa: false,
+          countriesVisited: "India, Singapore",
+          visaRefusals: false,
+          visaRefusalDetails: null,
+          familyInDestination: true,
+          familyRelationship: "Uncle",
+          familyVisaType: "Work Permit",
+          specialRequirements: null,
+          status: "Accepted",
+          submittedDocuments: JSON.stringify(["Passport", "Transcripts", "TOEFL Certificate", "Work Experience Letter"]),
+          additionalInfo: "Looking for MBA with focus on International Business"
+        }
+      ];
+
+      for (const app of sampleApplications) {
+        await storage.createStudentApplication(app);
+      }
+
+      res.json({ 
+        message: "Sample applications created successfully",
+        count: sampleApplications.length
+      });
+    } catch (error) {
+      console.error("Error creating sample applications:", error);
+      res.status(500).json({ message: "Failed to create sample applications" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
