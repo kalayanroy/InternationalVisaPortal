@@ -144,7 +144,7 @@ export default function UserDashboard() {
   // Book consultation mutation
   const bookConsultationMutation = useMutation({
     mutationFn: async (data: any) => {
-      return await apiRequest("/api/user/book-consultation", "POST", data);
+      return await apiRequest("POST", "/api/user/book-consultation", data);
     },
     onSuccess: () => {
       toast({
@@ -170,7 +170,7 @@ export default function UserDashboard() {
   // Update profile mutation
   const updateProfileMutation = useMutation({
     mutationFn: async (data: any) => {
-      return await apiRequest("/api/user/profile", "PUT", data);
+      return await apiRequest("PUT", "/api/user/profile", data);
     },
     onSuccess: () => {
       toast({
@@ -191,7 +191,7 @@ export default function UserDashboard() {
   // Create sample applications mutation
   const createSampleApplicationsMutation = useMutation({
     mutationFn: async () => {
-      return await apiRequest("/api/user/create-sample-applications", "POST", {});
+      return await apiRequest("POST", "/api/user/create-sample-applications", {});
     },
     onSuccess: () => {
       toast({
