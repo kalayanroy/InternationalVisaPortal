@@ -449,3 +449,24 @@ export const insertConsultationSchema = createInsertSchema(consultations).omit({
 
 export type InsertConsultation = z.infer<typeof insertConsultationSchema>;
 export type Consultation = typeof consultations.$inferSelect;
+
+// Notices table for admin-published notices visible to all users
+export const notices = pgTable("notices", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  message: text("message").notNull(),
+  type: varchar("type", { length: 50 }).default("info").notNull(), // 'info', 'warning', 'success', 'urgent'
+  isActive: boolean("is_active").default(true).notNull(),
+  publishedBy: integer("published_by").references(() => users.id, { onDelete: "cascade" }).notNull(), // Admin who published
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertNoticeSchema = createInsertSchema(notices).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertNotice = z.infer<typeof insertNoticeSchema>;
+export type Notice = typeof notices.$inferSelect;

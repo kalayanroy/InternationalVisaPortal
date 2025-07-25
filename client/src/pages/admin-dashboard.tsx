@@ -71,12 +71,26 @@ export default function AdminDashboard() {
     enabled: isAuthenticated && isAdmin,
   });
 
+  // Fetch all notices for admin management
+  const { data: notices = [] } = useQuery<any[]>({
+    queryKey: ["/api/admin/notices"],
+    enabled: isAuthenticated && isAdmin,
+  });
+
   const [selectedConsultation, setSelectedConsultation] = useState<any>(null);
   const [consultationUpdate, setConsultationUpdate] = useState({
     status: "",
     meetingLink: "",
     meetingNotes: ""
   });
+
+  // Notice board state
+  const [newNotice, setNewNotice] = useState({
+    title: "",
+    message: "",
+    type: "info"
+  });
+  const [editingNotice, setEditingNotice] = useState<any>(null);
 
   // Update application status mutation
   const updateStatusMutation = useMutation({
@@ -279,6 +293,114 @@ export default function AdminDashboard() {
     },
   });
 
+  // Create notice mutation
+  const createNoticeMutation = useMutation({
+    mutationFn: async (noticeData: { title: string; message: string; type: string }) => {
+      const token = localStorage.getItem("token");
+      const response = await fetch("/api/admin/notices", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(noticeData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to create notice");
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Notice created successfully",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/notices"] });
+      setNewNotice({ title: "", message: "", type: "info" });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Update notice mutation
+  const updateNoticeMutation = useMutation({
+    mutationFn: async ({ noticeId, updates }: { noticeId: number; updates: any }) => {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`/api/admin/notices/${noticeId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(updates),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to update notice");
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Notice updated successfully",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/notices"] });
+      setEditingNotice(null);
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Delete notice mutation
+  const deleteNoticeMutation = useMutation({
+    mutationFn: async (noticeId: number) => {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`/api/admin/notices/${noticeId}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to delete notice");
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Notice deleted successfully",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/notices"] });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
   // Helper function to get status badge variant
   const getStatusVariant = (status: string) => {
     switch (status) {
@@ -396,6 +518,7 @@ export default function AdminDashboard() {
                 <TabsTrigger value="consultations">Consultations</TabsTrigger>
                 <TabsTrigger value="documents">Document Management</TabsTrigger>
                 <TabsTrigger value="users">User Management</TabsTrigger>
+                <TabsTrigger value="notices">Notice Board</TabsTrigger>
                 <TabsTrigger value="notifications">Notifications</TabsTrigger>
               </TabsList>
 
@@ -1202,6 +1325,207 @@ export default function AdminDashboard() {
                     </div>
                   </CardContent>
                 </Card>
+              </TabsContent>
+
+              <TabsContent value="notices" className="space-y-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Notice Board Management</CardTitle>
+                    <CardDescription>Create and manage notices visible to all users</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    {/* Create New Notice Form */}
+                    <div className="border rounded-lg p-4">
+                      <h3 className="text-lg font-medium mb-4">Create New Notice</h3>
+                      <div className="space-y-4">
+                        <div>
+                          <Label htmlFor="notice-title">Title</Label>
+                          <Input
+                            id="notice-title"
+                            value={newNotice.title}
+                            onChange={(e) => setNewNotice({ ...newNotice, title: e.target.value })}
+                            placeholder="Enter notice title"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="notice-message">Message</Label>
+                          <Textarea
+                            id="notice-message"
+                            value={newNotice.message}
+                            onChange={(e) => setNewNotice({ ...newNotice, message: e.target.value })}
+                            placeholder="Enter notice message"
+                            rows={4}
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="notice-type">Type</Label>
+                          <Select
+                            value={newNotice.type}
+                            onValueChange={(value) => setNewNotice({ ...newNotice, type: value })}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select notice type" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="info">Info</SelectItem>
+                              <SelectItem value="warning">Warning</SelectItem>
+                              <SelectItem value="success">Success</SelectItem>
+                              <SelectItem value="urgent">Urgent</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <Button
+                          onClick={() => createNoticeMutation.mutate(newNotice)}
+                          disabled={!newNotice.title || !newNotice.message || createNoticeMutation.isPending}
+                          className="w-full"
+                        >
+                          {createNoticeMutation.isPending ? "Creating..." : "Create Notice"}
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Existing Notices */}
+                    <div>
+                      <h3 className="text-lg font-medium mb-4">Existing Notices</h3>
+                      {notices.length === 0 ? (
+                        <div className="text-center py-8">
+                          <MessageSquare className="mx-auto h-12 w-12 text-gray-400" />
+                          <p className="mt-1 text-sm text-gray-500">No notices created yet</p>
+                        </div>
+                      ) : (
+                        <div className="space-y-4">
+                          {notices.map((notice: any) => (
+                            <Card key={notice.id} className="relative">
+                              <CardContent className="pt-4">
+                                <div className="flex items-start justify-between">
+                                  <div className="flex-1">
+                                    <div className="flex items-center space-x-2 mb-2">
+                                      <h4 className="font-semibold">{notice.title}</h4>
+                                      <Badge
+                                        variant={
+                                          notice.type === "urgent" ? "destructive" :
+                                          notice.type === "warning" ? "secondary" :
+                                          notice.type === "success" ? "default" : "outline"
+                                        }
+                                      >
+                                        {notice.type}
+                                      </Badge>
+                                      {notice.isActive && (
+                                        <Badge variant="outline" className="text-green-600">Active</Badge>
+                                      )}
+                                    </div>
+                                    <p className="text-gray-600 mb-2">{notice.message}</p>
+                                    <p className="text-xs text-gray-500">
+                                      Created: {new Date(notice.createdAt).toLocaleDateString()}
+                                    </p>
+                                  </div>
+                                  <div className="flex space-x-2">
+                                    <Button
+                                      size="sm"
+                                      variant="outline"
+                                      onClick={() => setEditingNotice(notice)}
+                                    >
+                                      Edit
+                                    </Button>
+                                    <Button
+                                      size="sm"
+                                      variant="outline"
+                                      onClick={() => updateNoticeMutation.mutate({
+                                        noticeId: notice.id,
+                                        updates: { isActive: !notice.isActive }
+                                      })}
+                                      disabled={updateNoticeMutation.isPending}
+                                    >
+                                      {notice.isActive ? "Hide" : "Show"}
+                                    </Button>
+                                    <Button
+                                      size="sm"
+                                      variant="destructive"
+                                      onClick={() => {
+                                        if (confirm("Are you sure you want to delete this notice?")) {
+                                          deleteNoticeMutation.mutate(notice.id);
+                                        }
+                                      }}
+                                      disabled={deleteNoticeMutation.isPending}
+                                    >
+                                      Delete
+                                    </Button>
+                                  </div>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Edit Notice Dialog */}
+                {editingNotice && (
+                  <Dialog open={!!editingNotice} onOpenChange={() => setEditingNotice(null)}>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Edit Notice</DialogTitle>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <div>
+                          <Label htmlFor="edit-title">Title</Label>
+                          <Input
+                            id="edit-title"
+                            value={editingNotice.title}
+                            onChange={(e) => setEditingNotice({ ...editingNotice, title: e.target.value })}
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="edit-message">Message</Label>
+                          <Textarea
+                            id="edit-message"
+                            value={editingNotice.message}
+                            onChange={(e) => setEditingNotice({ ...editingNotice, message: e.target.value })}
+                            rows={4}
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="edit-type">Type</Label>
+                          <Select
+                            value={editingNotice.type}
+                            onValueChange={(value) => setEditingNotice({ ...editingNotice, type: value })}
+                          >
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="info">Info</SelectItem>
+                              <SelectItem value="warning">Warning</SelectItem>
+                              <SelectItem value="success">Success</SelectItem>
+                              <SelectItem value="urgent">Urgent</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="flex space-x-2">
+                          <Button
+                            onClick={() => updateNoticeMutation.mutate({
+                              noticeId: editingNotice.id,
+                              updates: {
+                                title: editingNotice.title,
+                                message: editingNotice.message,
+                                type: editingNotice.type
+                              }
+                            })}
+                            disabled={updateNoticeMutation.isPending}
+                            className="flex-1"
+                          >
+                            {updateNoticeMutation.isPending ? "Updating..." : "Update Notice"}
+                          </Button>
+                          <Button variant="outline" onClick={() => setEditingNotice(null)}>
+                            Cancel
+                          </Button>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                )}
               </TabsContent>
 
               <TabsContent value="notifications">

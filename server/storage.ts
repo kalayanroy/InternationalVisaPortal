@@ -9,6 +9,7 @@ import {
   notifications,
   documentMessages,
   consultations,
+  notices,
   type User,
   type InsertUser,
   type ContactInquiry,
@@ -46,6 +47,8 @@ import {
   type InsertDocumentMessage,
   type Consultation,
   type InsertConsultation,
+  type Notice,
+  type InsertNotice,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, not } from "drizzle-orm";
@@ -197,6 +200,12 @@ export interface IStorage {
   getAllConsultations(): Promise<Consultation[]>;
   updateConsultationStatus(id: number, status: string, meetingLink?: string, meetingNotes?: string): Promise<Consultation | undefined>;
   deleteConsultation(id: number): Promise<Consultation | undefined>;
+
+  // Notice board methods
+  getAllNotices(): Promise<Notice[]>;
+  createNotice(notice: InsertNotice): Promise<Notice>;
+  updateNotice(id: number, updates: Partial<InsertNotice>): Promise<Notice | undefined>;
+  deleteNotice(id: number): Promise<Notice | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -1012,6 +1021,34 @@ export class DatabaseStorage implements IStorage {
 
   async deleteConsultation(id: number): Promise<Consultation | undefined> {
     const [deleted] = await db.delete(consultations).where(eq(consultations.id, id)).returning();
+    return deleted;
+  }
+
+  // Notice board methods
+  async getAllNotices(): Promise<Notice[]> {
+    return await db
+      .select()
+      .from(notices)
+      .where(eq(notices.isActive, true))
+      .orderBy(desc(notices.createdAt));
+  }
+
+  async createNotice(notice: InsertNotice): Promise<Notice> {
+    const [created] = await db.insert(notices).values(notice).returning();
+    return created;
+  }
+
+  async updateNotice(id: number, updates: Partial<InsertNotice>): Promise<Notice | undefined> {
+    const [updated] = await db
+      .update(notices)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(notices.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteNotice(id: number): Promise<Notice | undefined> {
+    const [deleted] = await db.delete(notices).where(eq(notices.id, id)).returning();
     return deleted;
   }
 }

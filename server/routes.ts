@@ -1198,35 +1198,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
-      // Return mock notices for now - you can implement real notices later
-      const notices = [
-        {
-          id: 1,
-          title: "Application Update",
-          message: "Your application to Harvard University has been received and is under review.",
-          type: "info",
-          createdAt: new Date().toISOString(),
-          isRead: false
-        },
-        {
-          id: 2,
-          title: "Document Required",
-          message: "Please submit your English proficiency test results within 7 days.",
-          type: "warning",
-          createdAt: new Date(Date.now() - 86400000).toISOString(),
-          isRead: false
-        },
-        {
-          id: 3,
-          title: "Consultation Scheduled",
-          message: "Your consultation session has been scheduled for tomorrow at 2:00 PM.",
-          type: "success",
-          createdAt: new Date(Date.now() - 172800000).toISOString(),
-          isRead: true
-        }
-      ];
-
-      res.json(notices);
+      const notices = await storage.getAllNotices();
+      res.json(notices.map(notice => ({
+        ...notice,
+        isRead: false // For now, all notices are unread. You can implement user-specific read status later
+      })));
     } catch (error) {
       console.error("Error fetching user notices:", error);
       res.status(500).json({ message: "Failed to fetch notices" });
@@ -1926,6 +1902,93 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error updating consultation:", error);
       res.status(500).json({ message: "Failed to update consultation" });
+    }
+  });
+
+  // Admin notice board routes
+  app.get("/api/admin/notices", authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const notices = await storage.getAllNotices();
+      res.json(notices);
+    } catch (error) {
+      console.error("Error fetching admin notices:", error);
+      res.status(500).json({ message: "Failed to fetch notices" });
+    }
+  });
+
+  app.post("/api/admin/notices", authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const { title, message, type } = req.body;
+      const adminId = req.user?.id;
+
+      if (!title || !message) {
+        return res.status(400).json({ message: "Title and message are required" });
+      }
+
+      if (!adminId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const noticeData = {
+        title,
+        message,
+        type: type || "info",
+        publishedBy: adminId,
+        isActive: true
+      };
+
+      const notice = await storage.createNotice(noticeData);
+      res.status(201).json({
+        message: "Notice created successfully",
+        notice
+      });
+    } catch (error) {
+      console.error("Error creating notice:", error);
+      res.status(500).json({ message: "Failed to create notice" });
+    }
+  });
+
+  app.patch("/api/admin/notices/:id", authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const noticeId = parseInt(req.params.id);
+      const updates = req.body;
+
+      if (!noticeId || isNaN(noticeId)) {
+        return res.status(400).json({ message: "Invalid notice ID" });
+      }
+
+      const updatedNotice = await storage.updateNotice(noticeId, updates);
+      if (!updatedNotice) {
+        return res.status(404).json({ message: "Notice not found" });
+      }
+
+      res.json({
+        message: "Notice updated successfully",
+        notice: updatedNotice
+      });
+    } catch (error) {
+      console.error("Error updating notice:", error);
+      res.status(500).json({ message: "Failed to update notice" });
+    }
+  });
+
+  app.delete("/api/admin/notices/:id", authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const noticeId = parseInt(req.params.id);
+
+      if (!noticeId || isNaN(noticeId)) {
+        return res.status(400).json({ message: "Invalid notice ID" });
+      }
+
+      const deletedNotice = await storage.deleteNotice(noticeId);
+      if (!deletedNotice) {
+        return res.status(404).json({ message: "Notice not found" });
+      }
+
+      res.json({ message: "Notice deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting notice:", error);
+      res.status(500).json({ message: "Failed to delete notice" });
     }
   });
 
