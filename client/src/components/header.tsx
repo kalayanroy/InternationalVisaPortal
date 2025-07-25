@@ -156,12 +156,12 @@ export default function Header() {
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <Link href="/uk-universities" className="w-full">
+                    <Link href="/uk-university" className="w-full">
                       UK
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <Link href="/usa-universities" className="w-full">
+                    <Link href="/usa-university" className="w-full">
                       USA
                     </Link>
                   </DropdownMenuItem>

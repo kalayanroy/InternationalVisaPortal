@@ -41,6 +41,7 @@ function Router() {
       <Route path="/consultation" component={Consultation} />
       <Route path="/usa-universities" component={USAUniversities} />
       <Route path="/uk-universities" component={UKUniversities} />
+      <Route path="/uk-university" component={UKUniversities} />
       <Route path="/canada-universities" component={CanadaUniversities} />
       <Route path="/australia-universities" component={AustraliaUniversities} />
       <Route path="/germany-universities" component={GermanyUniversities} />
