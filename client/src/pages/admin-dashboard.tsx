@@ -669,7 +669,15 @@ export default function AdminDashboard() {
                                                   <CheckCircle className="h-3 w-3 mr-1" />
                                                   Uploaded
                                                 </Badge>
-                                                <Button variant="outline" size="sm">
+                                                <Button 
+                                                  variant="outline" 
+                                                  size="sm"
+                                                  onClick={() => {
+                                                    const token = localStorage.getItem("token");
+                                                    const fileUrl = `/api/files/applications/user_${app.userId}/${hasDocument}`;
+                                                    window.open(`${fileUrl}?token=${token}`, '_blank');
+                                                  }}
+                                                >
                                                   <Download className="h-3 w-3" />
                                                 </Button>
                                               </div>
@@ -836,7 +844,15 @@ function ApplicationDetailsView({ application }: { application: StudentApplicati
                         <CheckCircle className="h-3 w-3 mr-1" />
                         Uploaded
                       </Badge>
-                      <Button variant="outline" size="sm">
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => {
+                          const token = localStorage.getItem("token");
+                          const fileUrl = `/api/files/applications/user_${application.userId}/${hasDocument}`;
+                          window.open(`${fileUrl}?token=${token}`, '_blank');
+                        }}
+                      >
                         <Download className="h-3 w-3" />
                       </Button>
                     </>

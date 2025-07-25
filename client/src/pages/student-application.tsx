@@ -225,13 +225,36 @@ export default function StudentApplication() {
   const mutation = useMutation({
     mutationFn: async (data: any) => {
       const token = localStorage.getItem("token");
+      const formData = new FormData();
+
+      // Add all text fields to FormData
+      Object.keys(data).forEach(key => {
+        if (key !== 'files' && data[key] !== null && data[key] !== undefined) {
+          if (typeof data[key] === 'object') {
+            formData.append(key, JSON.stringify(data[key]));
+          } else {
+            formData.append(key, data[key].toString());
+          }
+        }
+      });
+
+      // Add files to FormData
+      Object.keys(uploadedFiles).forEach(fileType => {
+        const files = uploadedFiles[fileType as keyof typeof uploadedFiles];
+        if (files && files.length > 0) {
+          files.forEach(file => {
+            formData.append(fileType, file);
+          });
+        }
+      });
+
       const response = await fetch("/api/student-applications", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
+          // Don't set Content-Type header - let browser set it with boundary for multipart
         },
-        body: JSON.stringify(data),
+        body: formData,
       });
 
       if (!response.ok) {

@@ -15,6 +15,11 @@ import {
   insertApplicationSchema,
 } from "@shared/schema";
 import { z } from "zod";
+import { uploadApplicationDocuments, handleUploadError, getFileUrl } from "./uploads";
+import path from "path";
+import fs from "fs";
+import jwt from "jsonwebtoken";
+
 // It's good practice to have password complexity requirements here.
 const passwordResetSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters long"),
@@ -400,29 +405,87 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Student Application routes
+  // File serving endpoint with token support in query params
+  app.get("/api/files/applications/:userId/:filename", async (req, res) => {
+    try {
+      const { userId, filename } = req.params;
+      const token = req.headers.authorization?.replace('Bearer ', '') || req.query.token as string;
+      
+      if (!token) {
+        return res.status(401).json({ message: "Authentication required" });
+      }
+
+      // Verify token
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || "fallback_secret") as any;
+      
+      // Check if user has permission to access the file (own files or admin)
+      if (decoded.id !== parseInt(userId) && decoded.role !== 'admin') {
+        return res.status(403).json({ message: "Access denied" });
+      }
+
+      const filePath = path.join(process.cwd(), 'uploads', 'applications', `user_${userId}`, filename);
+      
+      // Check if file exists
+      if (!fs.existsSync(filePath)) {
+        return res.status(404).json({ message: "File not found" });
+      }
+      
+      res.sendFile(filePath);
+    } catch (error) {
+      console.error("Error serving file:", error);
+      res.status(500).json({ message: "Failed to serve file" });
+    }
+  });
+
+  // Student Application routes with file upload
   app.post(
     "/api/student-applications",
     authenticateToken,
+    uploadApplicationDocuments,
+    handleUploadError,
     async (req: AuthRequest, res) => {
       try {
+        const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+        const userId = req.user?.id!;
+        
+        // Process uploaded files and create file URLs
+        const fileData: Record<string, string> = {};
+        
+        if (files) {
+          Object.keys(files).forEach(fieldName => {
+            const fieldFiles = files[fieldName];
+            if (fieldFiles && fieldFiles.length > 0) {
+              // For single file fields, store just the filename
+              if (fieldFiles.length === 1) {
+                fileData[fieldName] = fieldFiles[0].filename;
+              } else {
+                // For multiple files, store as comma-separated filenames
+                fileData[fieldName] = fieldFiles.map(f => f.filename).join(',');
+              }
+            }
+          });
+        }
+
         const applicationData = {
           ...req.body,
-          userId: req.user?.id, // Use the authenticated user's ID
+          ...fileData, // Add uploaded file references
+          userId,
         };
+        
         if (!applicationData.planningTestDate) {
           applicationData.planningTestDate = new Date();
         }
-        console.log("Creating student application with data:", applicationData);
+        
+        console.log("Creating student application with files:", applicationData);
 
-        const application =
-          await storage.createStudentApplication(applicationData);
-        res.status(201).json(application);
+        const application = await storage.createStudentApplication(applicationData);
+        res.status(201).json({
+          ...application,
+          message: "Application submitted successfully with documents"
+        });
       } catch (error) {
         console.error("Error creating student application:", error);
-        res
-          .status(500)
-          .json({ message: "Failed to create student application" });
+        res.status(500).json({ message: "Failed to create student application" });
       }
     },
   );
