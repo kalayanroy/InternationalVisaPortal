@@ -36,6 +36,8 @@ export default function Header() {
   const isMigrationPage = location === "/migration-service";
   const isEnglishTestBookPage = location === "/english-test-book";
   const isAUUniversityPage = location === "/australia-universities";
+  const isUKUniversityPage = location === "/uk-university";
+  const isUSAUniversityPage = location === "/usa-university";
   const isFindCourseUndergraduatePage = location === "/courses/undergraduate";
   const isFindCoursePostgraduatePage = location === "/courses/postgraduate";
   const isFindCoursePhdPage = location === "/courses/phd";
@@ -48,6 +50,8 @@ export default function Header() {
     if (isMigrationPage) return "bg-[#06b6d4]";
     if (isEnglishTestBookPage) return "bg-[#e5e7eb]";
     if (isAUUniversityPage) return "bg-[#0891b2]";
+    if (isUKUniversityPage) return "bg-[#0891b2]";
+    if (isUSAUniversityPage) return "bg-[#0891b2]";
     if (isScrolled) return "bg-white shadow-lg";
     if (isFindCourseUndergraduatePage) return "bg-[#2dd4bf]";
     if (isFindCoursePostgraduatePage) return "bg-[#2dd4bf]";
@@ -63,6 +67,8 @@ export default function Header() {
     if (isMigrationPage) return "text-white";
     if (isEnglishTestBookPage) return "text-black";
     if (isAUUniversityPage) return "text-white";
+    if (isUKUniversityPage) return "text-white";
+    if (isUSAUniversityPage) return "text-white";
     if (isScrolled) return "text-navy";
     if (isFindCourseUndergraduatePage) return "text-white";
     if (isFindCoursePostgraduatePage) return "text-white";
@@ -78,6 +84,8 @@ export default function Header() {
     if (isMigrationPage) return "hover:bg-black/10";
     if (isEnglishTestBookPage) return "hover:bg-black/10";
     if (isAUUniversityPage) return "hover:bg-black/10";
+    if (isUKUniversityPage) return "hover:bg-black/10";
+    if (isUSAUniversityPage) return "hover:bg-black/10";
     if (isFindCourseUndergraduatePage) return "hover:bg-black/10";
     if (isFindCoursePostgraduatePage) return "hover:bg-black/10";
     if (isFindCoursePhdPage) return "hover:bg-black/10";

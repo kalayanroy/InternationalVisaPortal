@@ -369,28 +369,39 @@ export default function AustraliaUniversities() {
                     </h3>
                   </div>
                 </div>
-                
+
                 <p className="text-gray-700 mb-6 leading-relaxed">
-                  Australia is home to 8 of the world's top 100 universities and offers internationally 
-                  recognized qualifications that are valued by employers worldwide.
+                  Australia is home to 8 of the world's top 100 universities and
+                  offers internationally recognized qualifications that are
+                  valued by employers worldwide.
                 </p>
-                
+
                 <div className="space-y-3">
                   <div className="flex items-start space-x-3">
                     <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">Innovative teaching methods and cutting-edge research facilities</span>
+                    <span className="text-gray-700">
+                      Innovative teaching methods and cutting-edge research
+                      facilities
+                    </span>
                   </div>
                   <div className="flex items-start space-x-3">
                     <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">Strong industry connections and practical learning opportunities</span>
+                    <span className="text-gray-700">
+                      Strong industry connections and practical learning
+                      opportunities
+                    </span>
                   </div>
                   <div className="flex items-start space-x-3">
                     <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">Globally recognized degrees and qualifications</span>
+                    <span className="text-gray-700">
+                      Globally recognized degrees and qualifications
+                    </span>
                   </div>
                   <div className="flex items-start space-x-3">
                     <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">English-speaking environment for international students</span>
+                    <span className="text-gray-700">
+                      English-speaking environment for international students
+                    </span>
                   </div>
                 </div>
               </div>
@@ -406,16 +417,20 @@ export default function AustraliaUniversities() {
                       </h3>
                     </div>
                   </div>
-                  
+
                   <div className="grid grid-cols-2 gap-6">
                     <div className="text-center">
-                      <div className="text-4xl font-bold text-teal-600 mb-2">#3</div>
+                      <div className="text-4xl font-bold text-teal-600 mb-2">
+                        #3
+                      </div>
                       <div className="text-sm text-gray-600 leading-tight">
                         Most Popular Study Destination
                       </div>
                     </div>
                     <div className="text-center">
-                      <div className="text-4xl font-bold text-teal-600 mb-2">8/100</div>
+                      <div className="text-4xl font-bold text-teal-600 mb-2">
+                        8/100
+                      </div>
                       <div className="text-sm text-gray-600 leading-tight">
                         Top Universities Globally
                       </div>
@@ -439,18 +454,26 @@ export default function AustraliaUniversities() {
                 <h3 className="text-2xl font-bold text-gray-900 mb-8">
                   Work & Career Opportunities
                 </h3>
-                
+
                 <div className="space-y-6">
                   <div>
-                    <div className="text-3xl font-bold text-gray-900 mb-2">20 hours/week</div>
-                    <div className="text-gray-600">Part-time work while studying</div>
+                    <div className="text-3xl font-bold text-gray-900 mb-2">
+                      20 hours/week
+                    </div>
+                    <div className="text-gray-600">
+                      Part-time work while studying
+                    </div>
                   </div>
                   <div>
-                    <div className="text-3xl font-bold text-gray-900 mb-2">2-4 years</div>
+                    <div className="text-3xl font-bold text-gray-900 mb-2">
+                      2-4 years
+                    </div>
                     <div className="text-gray-600">Post-study work visa</div>
                   </div>
                   <div>
-                    <div className="text-3xl font-bold text-gray-900 mb-2">$25.41/hour</div>
+                    <div className="text-3xl font-bold text-gray-900 mb-2">
+                      $25.41/hour
+                    </div>
                     <div className="text-gray-600">Minimum wage rate</div>
                   </div>
                 </div>
@@ -468,28 +491,37 @@ export default function AustraliaUniversities() {
                     </h3>
                   </div>
                 </div>
-                
+
                 <p className="text-gray-700 mb-6 leading-relaxed">
-                  Australia offers excellent work opportunities for international students, helping you 
-                  gain experience and support your studies financially.
+                  Australia offers excellent work opportunities for
+                  international students, helping you gain experience and
+                  support your studies financially.
                 </p>
-                
+
                 <div className="space-y-3">
                   <div className="flex items-start space-x-3">
                     <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">Work up to 20 hours per week during studies</span>
+                    <span className="text-gray-700">
+                      Work up to 20 hours per week during studies
+                    </span>
                   </div>
                   <div className="flex items-start space-x-3">
                     <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">Full-time work during semester breaks</span>
+                    <span className="text-gray-700">
+                      Full-time work during semester breaks
+                    </span>
                   </div>
                   <div className="flex items-start space-x-3">
                     <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">Post-study work visa for 2-4 years after graduation</span>
+                    <span className="text-gray-700">
+                      Post-study work visa for 2-4 years after graduation
+                    </span>
                   </div>
                   <div className="flex items-start space-x-3">
                     <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">Pathway to permanent residency for skilled graduates</span>
+                    <span className="text-gray-700">
+                      Pathway to permanent residency for skilled graduates
+                    </span>
                   </div>
                 </div>
               </div>
@@ -513,28 +545,38 @@ export default function AustraliaUniversities() {
                     </h3>
                   </div>
                 </div>
-                
+
                 <p className="text-gray-700 mb-6 leading-relaxed">
-                  Experience Australia's unique blend of stunning natural beauty, vibrant cities, and 
-                  multicultural society that welcomes students from around the world.
+                  Experience Australia's unique blend of stunning natural
+                  beauty, vibrant cities, and multicultural society that
+                  welcomes students from around the world.
                 </p>
-                
+
                 <div className="space-y-3">
                   <div className="flex items-start space-x-3">
                     <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">Safe and welcoming environment for international students</span>
+                    <span className="text-gray-700">
+                      Safe and welcoming environment for international students
+                    </span>
                   </div>
                   <div className="flex items-start space-x-3">
                     <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">Multicultural society with students from 200+ countries</span>
+                    <span className="text-gray-700">
+                      Multicultural society with students from 200+ countries
+                    </span>
                   </div>
                   <div className="flex items-start space-x-3">
                     <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">Beautiful beaches, national parks, and outdoor activities</span>
+                    <span className="text-gray-700">
+                      Beautiful beaches, national parks, and outdoor activities
+                    </span>
                   </div>
                   <div className="flex items-start space-x-3">
                     <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">Modern cities with excellent public transport and healthcare</span>
+                    <span className="text-gray-700">
+                      Modern cities with excellent public transport and
+                      healthcare
+                    </span>
                   </div>
                 </div>
               </div>
@@ -552,22 +594,28 @@ export default function AustraliaUniversities() {
                       </h3>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-6">
                     <div className="text-center">
-                      <div className="text-4xl font-bold text-blue-600 mb-2">#4</div>
+                      <div className="text-4xl font-bold text-blue-600 mb-2">
+                        #4
+                      </div>
                       <div className="text-sm text-gray-600 leading-tight">
                         Safest Country in the World
                       </div>
                     </div>
                     <div className="text-center">
-                      <div className="text-4xl font-bold text-blue-600 mb-2">300+</div>
+                      <div className="text-4xl font-bold text-blue-600 mb-2">
+                        300+
+                      </div>
                       <div className="text-sm text-gray-600 leading-tight">
                         Days of Sunshine
                       </div>
                     </div>
                     <div className="text-center">
-                      <div className="text-4xl font-bold text-blue-600 mb-2">7/10</div>
+                      <div className="text-4xl font-bold text-blue-600 mb-2">
+                        7/10
+                      </div>
                       <div className="text-sm text-gray-600 leading-tight">
                         Most Liveable Cities
                       </div>

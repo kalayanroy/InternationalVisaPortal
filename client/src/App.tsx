@@ -9,8 +9,8 @@ import Services from "@/pages/services";
 import About from "@/pages/about";
 import SuccessStories from "@/pages/success-stories";
 import Consultation from "@/pages/consultation";
-import USAUniversities from "@/pages/usa-universities-fixed";
-import UKUniversities from "@/pages/uk-universities";
+import USAUniversities from "@/pages/usa-university";
+import UKUniversities from "@/pages/uk-university";
 import CanadaUniversities from "@/pages/canada-universities";
 import AustraliaUniversities from "@/pages/australia-universities";
 import GermanyUniversities from "@/pages/germany-universities";
@@ -22,6 +22,7 @@ import NotFound from "@/pages/not-found";
 import Login from "@/pages/login";
 import Register from "@/pages/register";
 import AdminDashboard from "@/pages/admin-dashboard";
+import UserDashboard from "@/pages/user-dashboard";
 import StudentApplication from "@/pages/student-application";
 import AddUniversity from "@/pages/add-university";
 import AttachmentSystem from "@/pages/attachment-system";
@@ -39,7 +40,7 @@ function Router() {
       <Route path="/about" component={About} />
       <Route path="/success-stories" component={SuccessStories} />
       <Route path="/consultation" component={Consultation} />
-      <Route path="/usa-universities" component={USAUniversities} />
+      <Route path="/usa-university" component={USAUniversities} />
       <Route path="/uk-universities" component={UKUniversities} />
       <Route path="/uk-university" component={UKUniversities} />
       <Route path="/canada-universities" component={CanadaUniversities} />
@@ -52,6 +53,7 @@ function Router() {
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
       <Route path="/admin-dashboard" component={AdminDashboard} />
+      <Route path="/user-dashboard" component={UserDashboard} />
       <Route path="/student-application" component={StudentApplication} />
       <Route path="/add-university" component={AddUniversity} />
       <Route path="/attachment-system" component={AttachmentSystem} />

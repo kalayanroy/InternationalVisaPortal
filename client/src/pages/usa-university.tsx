@@ -25,96 +25,105 @@ import {
 } from "lucide-react";
 import Header from "@/components/header";
 
-export default function UKUniversity() {
+export default function USAUniversity() {
   const popularCourses = [
     {
-      title: "Business Management",
-      duration: "3 Years",
-      tuition: "$28,000 AUD/year",
-      ielts: "6.0 Overall (5.5 minimum)",
+      title: "Business Administration",
+      duration: "",
+      tuition: "",
+      ielts: "6.5+",
       icon: <BookOpen className="h-8 w-8" />,
     },
     {
       title: "Computer Science & IT",
-      duration: "2 Years",
-      tuition: "$32,000 AUD/year",
-      ielts: "6.5 Overall",
+      duration: "",
+      tuition: "",
+      ielts: "90+",
       icon: <Laptop className="h-8 w-8" />,
     },
     {
-      title: "Engineering",
-      duration: "3 Years",
-      tuition: "$33,000 AUD/year",
-      ielts: "7.0 Overall (7.0 minimum)",
+      title: "Data Science & AI",
+      duration: "",
+      tuition: "",
+      ielts: "320+",
       icon: <Heart className="h-8 w-8" />,
     },
     {
-      title: "Healthcare & Nursing",
-      duration: "1-2 Years",
-      tuition: "$18,000 AUD/year",
-      ielts: "5.5 Overall",
+      title: "Engineering",
+      duration: "",
+      tuition: "",
+      ielts: "85+",
+      icon: <Plane className="h-8 w-8" />,
+    },
+    {
+      title: "Public Health",
+      duration: "",
+      tuition: "",
+      ielts: "7.0+",
+      icon: <Plane className="h-8 w-8" />,
+    },
+    {
+      title: "Finance & Accounting",
+      duration: "",
+      tuition: "",
+      ielts: "650+",
       icon: <Plane className="h-8 w-8" />,
     },
     {
       title: "Law",
-      duration: "1-2 Years",
-      tuition: "$18,000 AUD/year",
-      ielts: "5.5 Overall",
+      duration: "",
+      tuition: "",
+      ielts: "160+",
       icon: <Plane className="h-8 w-8" />,
     },
     {
-      title: "Data Science",
-      duration: "1-2 Years",
-      tuition: "$18,000 AUD/year",
-      ielts: "5.5 Overall",
-      icon: <Plane className="h-8 w-8" />,
-    },
-    {
-      title: "Media & Communication",
-      duration: "1-2 Years",
-      tuition: "$18,000 AUD/year",
-      ielts: "5.5 Overall",
-      icon: <Plane className="h-8 w-8" />,
-    },
-    {
-      title: "Accounting & Finance",
-      duration: "1-2 Years",
-      tuition: "$18,000 AUD/year",
-      ielts: "5.5 Overall",
+      title: "Film & Media Studies",
+      duration: "",
+      tuition: "",
+      ielts: "Portfolio Required",
       icon: <Plane className="h-8 w-8" />,
     },
   ];
 
   const admissionRequirements = [
     {
-      title: "Academic Qualification",
-      description:
-        "Minimum academic qualification (Diploma / Bachelor's / Master's)",
+      title: "Valid Passport",
+      description: "Current passport copy",
       icon: <FileText className="h-8 w-8" />,
     },
     {
-      title: "English Proficiency",
-      description: "English proficiency test (IELTS/TOEFL/PTE)",
+      title: "Academic Certificates",
+      description: "Completed academic records",
       icon: <CreditCard className="h-8 w-8" />,
     },
     {
-      title: "Documentation",
-      description: "Valid passport and financial documents",
+      title: "English Language Proficiency",
+      description: "IELTS/TOEFL/PTE/Duolingo",
       icon: <Languages className="h-8 w-8" />,
     },
     {
-      title: "Statement of Purpose",
+      title: "Statement of Purpose (SOP)",
       description: "Statement of Purpose (SOP)",
       icon: <DollarSign className="h-8 w-8" />,
     },
     {
-      title: "Recommendations",
+      title: "CV/Resume",
       description: "Letters of recommendation (if required)",
       icon: <FileText className="h-8 w-8" />,
     },
     {
-      title: "Professional Experience",
-      description: "CV/Resume for postgraduate courses",
+      title: "Financial Proof",
+      description: "",
+      icon: <GraduationCap className="h-8 w-8" />,
+    },
+    {
+      title: "Visa Application Form (DS-160)",
+      description: "",
+      icon: <GraduationCap className="h-8 w-8" />,
+    },
+    {
+      title: "SEVIS Fee Payment",
+      description: "",
       icon: <GraduationCap className="h-8 w-8" />,
     },
   ];
@@ -197,6 +206,24 @@ export default function UKUniversity() {
     "Modern cities with excellent public transport and healthcare",
   ];
 
+  const visaGuidance = [
+    {
+      title: "F-1 Student Visa",
+      decription:
+        "For full-time academic studies at accredited US institutions. Allows part-time work on campus and practical training opportunities.",
+    },
+    {
+      title: "J-1 Exchange Visitor Visa",
+      decription:
+        "For educational and cultural exchange programs, including research scholars, professors, and short-term students.",
+    },
+    {
+      title: "M-1 Vocational Visa",
+      decription:
+        "For vocational and technical training programs. Ideal for students pursuing non-academic or vocational studies.",
+    },
+  ];
+
   return (
     <>
       <Header />
@@ -207,13 +234,13 @@ export default function UKUniversity() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
                 <h1 className="text-4xl md:text-5xl font-bold mb-6">
-                  Study in UK with
+                  Study in USA with
                   <br />
                   DTR Consultancy
                 </h1>
                 <p className="text-xl mb-8 opacity-90">
                   Your trusted partner for international education and migration
-                  services in United Kingdom. Turn your dreams into reality with
+                  services in United States. Turn your dreams into reality with
                   world-class education.
                 </p>
                 <Button
@@ -226,10 +253,10 @@ export default function UKUniversity() {
               <div className="flex justify-center">
                 <Card className="bg-white text-black p-8 text-center max-w-sm">
                   <div className="text-4xl font-bold text-cyan-600 mb-2">
-                    UK
+                    USA
                   </div>
                   <h3 className="text-2xl font-bold mb-2">
-                    United Kingdom Awaits
+                    United States Awaits
                   </h3>
                   <p className="text-gray-600">
                     Join 700,000+ international students
@@ -245,7 +272,7 @@ export default function UKUniversity() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                Popular Courses in United Kingdom(UK)
+                Popular Courses in United States(USA)
               </h2>
               <p className="text-lg text-gray-600">
                 Discover the most sought-after programs for international
@@ -332,7 +359,7 @@ export default function UKUniversity() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                Top United Kingdom(UK) Universities
+                Top United States(USA) Universities
               </h2>
               <p className="text-lg text-gray-600">
                 Partner with world-renowned institutions
@@ -374,7 +401,7 @@ export default function UKUniversity() {
           </div>
         </div>
 
-        {/* Why Choose United Kingdom Section */}
+        {/* Why Choose United States Section */}
         <div className="bg-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
@@ -392,7 +419,7 @@ export default function UKUniversity() {
                 </div>
 
                 <p className="text-gray-700 mb-6 leading-relaxed">
-                  United Kingdom(UK) is home to 8 of the world's top 100
+                  United States(USA) is home to 8 of the world's top 100
                   universities and offers internationally recognized
                   qualifications that are valued by employers worldwide.
                 </p>
@@ -514,7 +541,7 @@ export default function UKUniversity() {
                 </div>
 
                 <p className="text-gray-700 mb-6 leading-relaxed">
-                  United Kingdom(UK) offers excellent work opportunities for
+                  United States(USA) offers excellent work opportunities for
                   international students, helping you gain experience and
                   support your studies financially.
                 </p>
@@ -568,7 +595,7 @@ export default function UKUniversity() {
                 </div>
 
                 <p className="text-gray-700 mb-6 leading-relaxed">
-                  Experience United Kingdom's unique blend of stunning natural
+                  Experience United States's unique blend of stunning natural
                   beauty, vibrant cities, and multicultural society that
                   welcomes students from around the world.
                 </p>
@@ -647,6 +674,44 @@ export default function UKUniversity() {
             </div>
           </div>
         </div>
+        {/* Visa Guidance Section */}
+        <div className="bg-white py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                Visa Guidance
+              </h2>
+              <p className="text-lg text-gray-600">
+                Understanding US visa categories for students
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {visaGuidance.map((course, index) => (
+                <Card
+                  key={index}
+                  className="border-gray-200 hover:shadow-lg transition-shadow"
+                >
+                  <CardHeader className="pb-4">
+                    <CardTitle className="text-lg text-gray-900">
+                      {course.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    <div className="flex items-center text-sm text-gray-600">
+                      <p className="text-sm text-gray-600">
+                        {course.decription}
+                      </p>
+                    </div>
+                    <Button className="w-full bg-cyan-500 hover:bg-cyan-600 text-white mt-4">
+                      Learn More
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </div>
 
         {/* Your Future Starts Here Section */}
         <div className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white py-16">
@@ -661,8 +726,8 @@ export default function UKUniversity() {
             </h2>
             <p className="text-xl mb-8 opacity-90 max-w-4xl mx-auto">
               Join the thousands of successful graduates who started their
-              journey in United Kingdom. With world-class education, work
-              opportunities, and an incredible lifestyle, United Kingdom is your
+              journey in United States. With world-class education, work
+              opportunities, and an incredible lifestyle, United States is your
               gateway to a bright future.
             </p>
 

@@ -158,6 +158,10 @@ export interface IStorage {
     updates: Partial<AdmissionTimeline>,
   ): Promise<AdmissionTimeline | undefined>;
   deleteAdmissionTimeline(id: number): Promise<AdmissionTimeline | undefined>;
+
+  // User Dashboard methods
+  getUserApplications(userId: number): Promise<StudentApplication[]>;
+  updateUserProfile(userId: number, updates: { firstName: string; lastName: string; email: string }): Promise<User | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -721,6 +725,29 @@ export class DatabaseStorage implements IStorage {
       .where(eq(users.id, id))
       .returning();
     return deleted;
+  }
+
+  // User Dashboard methods
+  async getUserApplications(userId: number): Promise<StudentApplication[]> {
+    return await db
+      .select()
+      .from(studentApplications)
+      .where(eq(studentApplications.userId, userId))
+      .orderBy(desc(studentApplications.createdAt));
+  }
+
+  async updateUserProfile(userId: number, updates: { firstName: string; lastName: string; email: string }): Promise<User | undefined> {
+    const [updated] = await db
+      .update(users)
+      .set({ 
+        firstName: updates.firstName,
+        lastName: updates.lastName,
+        email: updates.email,
+        updatedAt: new Date()
+      })
+      .where(eq(users.id, userId))
+      .returning();
+    return updated;
   }
 }
 

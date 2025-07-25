@@ -1033,6 +1033,132 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // User Dashboard API endpoints
+  app.get("/api/user/applications", authenticateToken, async (req: AuthRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const applications = await storage.getUserApplications(userId);
+      res.json(applications);
+    } catch (error) {
+      console.error("Error fetching user applications:", error);
+      res.status(500).json({ message: "Failed to fetch applications" });
+    }
+  });
+
+  app.get("/api/user/notices", authenticateToken, async (req: AuthRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      // Return mock notices for now - you can implement real notices later
+      const notices = [
+        {
+          id: 1,
+          title: "Application Update",
+          message: "Your application to Harvard University has been received and is under review.",
+          type: "info",
+          createdAt: new Date().toISOString(),
+          isRead: false
+        },
+        {
+          id: 2,
+          title: "Document Required",
+          message: "Please submit your English proficiency test results within 7 days.",
+          type: "warning",
+          createdAt: new Date(Date.now() - 86400000).toISOString(),
+          isRead: false
+        },
+        {
+          id: 3,
+          title: "Consultation Scheduled",
+          message: "Your consultation session has been scheduled for tomorrow at 2:00 PM.",
+          type: "success",
+          createdAt: new Date(Date.now() - 172800000).toISOString(),
+          isRead: true
+        }
+      ];
+
+      res.json(notices);
+    } catch (error) {
+      console.error("Error fetching user notices:", error);
+      res.status(500).json({ message: "Failed to fetch notices" });
+    }
+  });
+
+  app.post("/api/user/book-consultation", authenticateToken, async (req: AuthRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const { preferredDate, preferredTime, consultationType, message } = req.body;
+
+      if (!preferredDate || !preferredTime) {
+        return res.status(400).json({ message: "Preferred date and time are required" });
+      }
+
+      // For now, just return success - you can implement actual booking logic later
+      const consultation = {
+        id: Date.now(),
+        userId,
+        preferredDate,
+        preferredTime,
+        consultationType,
+        message,
+        status: "pending",
+        createdAt: new Date().toISOString()
+      };
+
+      res.status(201).json({
+        message: "Consultation booked successfully",
+        consultation
+      });
+    } catch (error) {
+      console.error("Error booking consultation:", error);
+      res.status(500).json({ message: "Failed to book consultation" });
+    }
+  });
+
+  app.put("/api/user/profile", authenticateToken, async (req: AuthRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const { firstName, lastName, email } = req.body;
+
+      if (!firstName || !lastName || !email) {
+        return res.status(400).json({ message: "First name, last name, and email are required" });
+      }
+
+      const updatedUser = await storage.updateUserProfile(userId, {
+        firstName,
+        lastName,
+        email
+      });
+
+      if (!updatedUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      res.json({
+        message: "Profile updated successfully",
+        user: updatedUser
+      });
+    } catch (error) {
+      console.error("Error updating user profile:", error);
+      res.status(500).json({ message: "Failed to update profile" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
