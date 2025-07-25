@@ -67,6 +67,22 @@ interface UserProfile {
   profileImageUrl?: string;
 }
 
+interface DocumentRequest {
+  id: number;
+  userId: number;
+  applicationId?: number;
+  subject: string;
+  message: string;
+  requestedDocuments: string[];
+  status: string;
+  createdAt: string;
+  senderId: number;
+  senderType: string;
+  messageType: string;
+  read: boolean;
+  attachments?: string[];
+}
+
 export default function UserDashboard() {
   const { toast } = useToast();
   const { user: authUser, isAuthenticated, isLoading } = useAuthState();
@@ -92,6 +108,9 @@ export default function UserDashboard() {
     message: "",
   });
 
+  const [documentRequestFiles, setDocumentRequestFiles] = useState<{[key: number]: File[]}>({});
+  const [documentRequestMessages, setDocumentRequestMessages] = useState<{[key: number]: string}>({});
+
   // Get user profile
   const { data: profileData, isLoading: profileLoading } = useQuery({
     queryKey: ["/api/auth/user"],
@@ -107,6 +126,12 @@ export default function UserDashboard() {
   // Get notices
   const { data: notices = [], isLoading: noticesLoading } = useQuery<Notice[]>({
     queryKey: ["/api/user/notices"],
+    retry: false,
+  });
+
+  // Get document requests
+  const { data: documentRequests = [], isLoading: documentRequestsLoading } = useQuery<DocumentRequest[]>({
+    queryKey: ["/api/user/document-requests"],
     retry: false,
   });
 
@@ -179,6 +204,50 @@ export default function UserDashboard() {
       toast({
         title: "Error",
         description: error.message || "Failed to create sample applications",
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Upload documents for document request mutation
+  const uploadDocumentRequestMutation = useMutation({
+    mutationFn: async ({ requestId, files, message }: { requestId: number; files: File[]; message: string }) => {
+      const token = localStorage.getItem("token");
+      const formData = new FormData();
+      
+      files.forEach(file => {
+        formData.append('documents', file);
+      });
+      formData.append('message', message);
+
+      const response = await fetch(`/api/user/document-requests/${requestId}/upload`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to upload documents");
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Documents uploaded successfully!",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/user/document-requests"] });
+      setDocumentRequestFiles({});
+      setDocumentRequestMessages({});
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to upload documents",
         variant: "destructive",
       });
     },
@@ -267,10 +336,11 @@ export default function UserDashboard() {
           </div>
 
           <Tabs defaultValue="overview" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-5">
+            <TabsList className="grid w-full grid-cols-6">
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="consultation">Book Consultation</TabsTrigger>
               <TabsTrigger value="applications">Application Status</TabsTrigger>
+              <TabsTrigger value="document-requests">Document Requests</TabsTrigger>
               <TabsTrigger value="notices">Notice Board</TabsTrigger>
               <TabsTrigger value="profile">Profile Settings</TabsTrigger>
             </TabsList>
@@ -519,6 +589,157 @@ export default function UserDashboard() {
                             </div>
                           </CardContent>
                         </Card>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* Document Requests Tab */}
+            <TabsContent value="document-requests" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <FileText className="h-5 w-5" />
+                    <span>Document Requests from Admin</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {documentRequestsLoading ? (
+                    <div className="text-center py-4">Loading document requests...</div>
+                  ) : documentRequests.length === 0 ? (
+                    <div className="text-center py-8">
+                      <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                      <p className="text-gray-600">No document requests</p>
+                      <p className="text-sm text-gray-500">When admin requests additional documents, they will appear here.</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-6">
+                      {documentRequests.map((request: DocumentRequest) => (
+                        <div key={request.id} className="border rounded-lg p-6">
+                          <div className="flex items-start justify-between mb-4">
+                            <div>
+                              <h3 className="font-semibold text-lg">{request.subject}</h3>
+                              <p className="text-sm text-gray-500">
+                                Requested on {new Date(request.createdAt).toLocaleDateString()}
+                              </p>
+                            </div>
+                            <Badge 
+                              className={
+                                request.status === 'completed' ? 'bg-green-100 text-green-800' :
+                                request.read ? 'bg-blue-100 text-blue-800' :
+                                'bg-yellow-100 text-yellow-800'
+                              }
+                            >
+                              {request.status === 'completed' ? 'Completed' :
+                               request.read ? 'Viewed' : 'New'}
+                            </Badge>
+                          </div>
+
+                          <div className="mb-4">
+                            <p className="text-gray-700 mb-3">{request.message}</p>
+                            
+                            {request.requestedDocuments && request.requestedDocuments.length > 0 && (
+                              <div>
+                                <h4 className="font-medium mb-2">Requested Documents:</h4>
+                                <ul className="list-disc list-inside text-sm text-gray-600">
+                                  {request.requestedDocuments.map((doc, index) => (
+                                    <li key={index}>{doc}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+
+                          {request.status !== 'completed' && request.messageType === 'document_request' && (
+                            <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                              <h4 className="font-medium mb-3">Upload Documents</h4>
+                              
+                              <div className="space-y-4">
+                                <div>
+                                  <Label htmlFor={`files-${request.id}`}>Select Documents</Label>
+                                  <Input
+                                    id={`files-${request.id}`}
+                                    type="file"
+                                    multiple
+                                    accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.txt"
+                                    onChange={(e) => {
+                                      if (e.target.files) {
+                                        setDocumentRequestFiles(prev => ({
+                                          ...prev,
+                                          [request.id]: Array.from(e.target.files!)
+                                        }));
+                                      }
+                                    }}
+                                    className="mt-1"
+                                  />
+                                  <p className="text-xs text-gray-500 mt-1">
+                                    Supported formats: PDF, JPG, PNG, DOC, DOCX, TXT (Max 10MB each)
+                                  </p>
+                                </div>
+
+                                <div>
+                                  <Label htmlFor={`message-${request.id}`}>Additional Message (Optional)</Label>
+                                  <Textarea
+                                    id={`message-${request.id}`}
+                                    placeholder="Any additional information about the uploaded documents..."
+                                    value={documentRequestMessages[request.id] || ''}
+                                    onChange={(e) => {
+                                      setDocumentRequestMessages(prev => ({
+                                        ...prev,
+                                        [request.id]: e.target.value
+                                      }));
+                                    }}
+                                    className="mt-1"
+                                  />
+                                </div>
+
+                                <Button
+                                  onClick={() => {
+                                    const files = documentRequestFiles[request.id];
+                                    const message = documentRequestMessages[request.id] || '';
+                                    
+                                    if (!files || files.length === 0) {
+                                      toast({
+                                        title: "Error",
+                                        description: "Please select at least one document to upload",
+                                        variant: "destructive",
+                                      });
+                                      return;
+                                    }
+
+                                    uploadDocumentRequestMutation.mutate({
+                                      requestId: request.id,
+                                      files,
+                                      message
+                                    });
+                                  }}
+                                  disabled={uploadDocumentRequestMutation.isPending}
+                                  className="bg-teal-600 hover:bg-teal-700"
+                                >
+                                  {uploadDocumentRequestMutation.isPending ? 'Uploading...' : 'Upload Documents'}
+                                </Button>
+
+                                {documentRequestFiles[request.id] && documentRequestFiles[request.id].length > 0 && (
+                                  <div className="mt-2">
+                                    <p className="text-sm text-gray-600">
+                                      Selected files: {documentRequestFiles[request.id].map(f => f.name).join(', ')}
+                                    </p>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          )}
+
+                          {request.attachments && request.attachments.length > 0 && (
+                            <div className="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400">
+                              <p className="text-sm text-blue-700">
+                                <strong>Uploaded Documents:</strong> {request.attachments.length} file(s) uploaded
+                              </p>
+                            </div>
+                          )}
+                        </div>
                       ))}
                     </div>
                   )}

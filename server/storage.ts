@@ -866,6 +866,14 @@ export class DatabaseStorage implements IStorage {
       .orderBy(desc(documentMessages.createdAt));
   }
 
+  async getDocumentMessageById(id: number): Promise<DocumentMessage | undefined> {
+    const [message] = await db
+      .select()
+      .from(documentMessages)
+      .where(eq(documentMessages.id, id));
+    return message;
+  }
+
   async markDocumentMessageAsRead(id: number): Promise<DocumentMessage | undefined> {
     const [updated] = await db
       .update(documentMessages)

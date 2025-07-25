@@ -15,7 +15,7 @@ import {
   insertApplicationSchema,
 } from "@shared/schema";
 import { z } from "zod";
-import { uploadApplicationDocuments, handleUploadError, getFileUrl } from "./uploads";
+import { upload, uploadApplicationDocuments, handleUploadError, getFileUrl } from "./uploads";
 import path from "path";
 import fs from "fs";
 import jwt from "jsonwebtoken";
@@ -1299,6 +1299,80 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Failed to update profile" });
     }
   });
+
+  // User document requests endpoints (reusing document messages)
+  app.get("/api/user/document-requests", authenticateToken, async (req: AuthRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      // Get document messages that are document requests
+      const documentRequests = await storage.getUserDocumentMessages(userId);
+      // Filter only document request type messages
+      const filteredRequests = documentRequests.filter(msg => msg.messageType === 'document_request');
+      res.json(filteredRequests);
+    } catch (error) {
+      console.error("Error fetching user document requests:", error);
+      res.status(500).json({ message: "Failed to fetch document requests" });
+    }
+  });
+
+  // Upload documents for a document request
+  app.post(
+    "/api/user/document-requests/:id/upload",
+    authenticateToken,
+    upload.array('documents', 10),
+    handleUploadError,
+    async (req: AuthRequest, res) => {
+      try {
+        const requestId = parseInt(req.params.id);
+        const userId = req.user?.id!;
+        const files = req.files as Express.Multer.File[];
+        const { message } = req.body;
+
+        if (!files || files.length === 0) {
+          return res.status(400).json({ message: "No files uploaded" });
+        }
+
+        // Get the document request (message)
+        const documentMessage = await storage.getDocumentMessageById(requestId);
+        if (!documentMessage || documentMessage.userId !== userId) {
+          return res.status(404).json({ message: "Document request not found" });
+        }
+
+        // Store file information
+        const uploadedFiles = files.map(file => file.filename);
+        
+        // Update document message with uploaded files and user response
+        await storage.updateDocumentMessageStatus(requestId, 'completed');
+        
+        // Create a response message from user to admin
+        await storage.createDocumentMessage({
+          userId,
+          applicationId: documentMessage.applicationId,
+          senderId: userId,
+          senderType: "user",
+          messageType: "document_upload",
+          subject: `Re: ${documentMessage.subject}`,
+          message: message || `Uploaded ${uploadedFiles.length} document(s) in response to your request.`,
+          requestedDocuments: [],
+          attachments: uploadedFiles,
+          status: "completed",
+          read: false
+        });
+
+        res.json({
+          message: "Documents uploaded successfully",
+          uploadedFiles: uploadedFiles
+        });
+      } catch (error) {
+        console.error("Error uploading documents for request:", error);
+        res.status(500).json({ message: "Failed to upload documents" });
+      }
+    }
+  );
 
   // Create sample applications for testing
   app.post("/api/user/create-sample-applications", authenticateToken, async (req: AuthRequest, res) => {
