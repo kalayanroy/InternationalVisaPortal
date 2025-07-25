@@ -674,7 +674,7 @@ export default function AdminDashboard() {
                                                   size="sm"
                                                   onClick={() => {
                                                     const token = localStorage.getItem("token");
-                                                    const fileUrl = `/api/files/applications/user_${app.userId}/${hasDocument}`;
+                                                    const fileUrl = `/api/files/applications/${app.userId}/${encodeURIComponent(hasDocument)}`;
                                                     window.open(`${fileUrl}?token=${token}`, '_blank');
                                                   }}
                                                 >
@@ -849,7 +849,7 @@ function ApplicationDetailsView({ application }: { application: StudentApplicati
                         size="sm"
                         onClick={() => {
                           const token = localStorage.getItem("token");
-                          const fileUrl = `/api/files/applications/user_${application.userId}/${hasDocument}`;
+                          const fileUrl = `/api/files/applications/${application.userId}/${encodeURIComponent(hasDocument)}`;
                           window.open(`${fileUrl}?token=${token}`, '_blank');
                         }}
                       >

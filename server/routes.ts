@@ -406,31 +406,67 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // File serving endpoint with token support in query params
-  app.get("/api/files/applications/:userId/:filename", async (req, res) => {
+  app.get("/api/files/applications/:userId/:filename(*)", async (req, res) => {
     try {
-      const { userId, filename } = req.params;
+      const { userId } = req.params;
+      const filename = decodeURIComponent(req.params.filename);
       const token = req.headers.authorization?.replace('Bearer ', '') || req.query.token as string;
       
+      console.log(`File download request - userId: ${userId}, filename: ${filename}, token: ${token ? 'provided' : 'missing'}`);
+      
       if (!token) {
+        console.log("No token provided");
         return res.status(401).json({ message: "Authentication required" });
       }
 
       // Verify token
-      const decoded = jwt.verify(token, process.env.JWT_SECRET || "fallback_secret") as any;
+      let decoded;
+      try {
+        const JWT_SECRET = process.env.JWT_SECRET || "your-super-secret-jwt-key-change-this-in-production";
+        decoded = jwt.verify(token, JWT_SECRET) as any;
+        console.log(`Token decoded successfully - user ID: ${decoded.id}, role: ${decoded.role}`);
+      } catch (tokenError) {
+        console.log("Token verification failed:", tokenError);
+        return res.status(401).json({ message: "Invalid token" });
+      }
       
       // Check if user has permission to access the file (own files or admin)
       if (decoded.id !== parseInt(userId) && decoded.role !== 'admin') {
+        console.log(`Access denied - decoded.id: ${decoded.id}, userId: ${userId}, role: ${decoded.role}`);
         return res.status(403).json({ message: "Access denied" });
       }
 
       const filePath = path.join(process.cwd(), 'uploads', 'applications', `user_${userId}`, filename);
+      console.log(`Looking for file at: ${filePath}`);
       
       // Check if file exists
       if (!fs.existsSync(filePath)) {
+        console.log(`File not found at path: ${filePath}`);
+        
+        // List directory contents for debugging
+        const userDir = path.join(process.cwd(), 'uploads', 'applications', `user_${userId}`);
+        if (fs.existsSync(userDir)) {
+          const files = fs.readdirSync(userDir);
+          console.log(`Files in user directory: ${files.join(', ')}`);
+        } else {
+          console.log(`User directory does not exist: ${userDir}`);
+        }
+        
         return res.status(404).json({ message: "File not found" });
       }
       
-      res.sendFile(filePath);
+      console.log(`Serving file: ${filePath}`);
+      
+      // Set proper headers for file download
+      const stat = fs.statSync(filePath);
+      res.setHeader('Content-Length', stat.size);
+      res.setHeader('Content-Type', 'application/octet-stream');
+      res.setHeader('Content-Disposition', `attachment; filename="${path.basename(filename)}"`);
+      
+      // Stream the file
+      const fileStream = fs.createReadStream(filePath);
+      fileStream.pipe(res);
+      
     } catch (error) {
       console.error("Error serving file:", error);
       res.status(500).json({ message: "Failed to serve file" });
