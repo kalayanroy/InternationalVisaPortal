@@ -7,6 +7,7 @@ import {
   studentApplications,
   universities,
   notifications,
+  documentMessages,
   type User,
   type InsertUser,
   type ContactInquiry,
@@ -40,6 +41,8 @@ import {
   type InsertAdmissionTimeline,
   type Notification,
   type InsertNotification,
+  type DocumentMessage,
+  type InsertDocumentMessage,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, not } from "drizzle-orm";
@@ -823,6 +826,83 @@ export class DatabaseStorage implements IStorage {
       applications: totalApplications.length,
       pendingApplications: pendingApplications.length,
       notifications: totalNotifications.length,
+    };
+  }
+
+  // Document Messages methods
+  async createDocumentMessage(message: InsertDocumentMessage): Promise<DocumentMessage> {
+    const [created] = await db
+      .insert(documentMessages)
+      .values(message)
+      .returning();
+    return created;
+  }
+
+  async getUserDocumentMessages(userId: number): Promise<DocumentMessage[]> {
+    return await db
+      .select()
+      .from(documentMessages)
+      .where(eq(documentMessages.userId, userId))
+      .orderBy(desc(documentMessages.createdAt));
+  }
+
+  async getApplicationDocumentMessages(applicationId: number): Promise<DocumentMessage[]> {
+    return await db
+      .select()
+      .from(documentMessages)
+      .where(eq(documentMessages.applicationId, applicationId))
+      .orderBy(desc(documentMessages.createdAt));
+  }
+
+  async getAllDocumentMessages(): Promise<DocumentMessage[]> {
+    return await db
+      .select()
+      .from(documentMessages)
+      .orderBy(desc(documentMessages.createdAt));
+  }
+
+  async markDocumentMessageAsRead(id: number): Promise<DocumentMessage | undefined> {
+    const [updated] = await db
+      .update(documentMessages)
+      .set({ read: true })
+      .where(eq(documentMessages.id, id))
+      .returning();
+    return updated;
+  }
+
+  async updateDocumentMessageStatus(id: number, status: string): Promise<DocumentMessage | undefined> {
+    const [updated] = await db
+      .update(documentMessages)
+      .set({ status, updatedAt: new Date() })
+      .where(eq(documentMessages.id, id))
+      .returning();
+    return updated;
+  }
+
+  // Get user documents by application
+  async getUserDocumentsByApplication(userId: number): Promise<{
+    user: User | undefined;
+    applications: StudentApplication[];
+    totalDocuments: number;
+  }> {
+    const user = await this.getUser(userId);
+    const applications = await this.getUserApplications(userId);
+    
+    // Count uploaded documents
+    let totalDocuments = 0;
+    applications.forEach(app => {
+      const documentFields = [
+        app.passportDocument, app.academicDocuments, app.englishTestScore,
+        app.cvResume, app.statementOfPurpose, app.experienceLetters,
+        app.nationalIdDoc, app.passportPhoto, app.birthCertificate, app.financialDocuments
+      ];
+      totalDocuments += documentFields.filter(doc => doc && doc.trim() !== '').length;
+    });
+
+    return {
+      user,
+      applications,
+      totalDocuments
     };
   }
 }

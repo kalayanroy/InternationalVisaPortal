@@ -13,10 +13,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Users, FileText, Calendar, GraduationCap, Eye, Download, MessageSquare, CheckCircle, XCircle, Clock, AlertCircle } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { Users, FileText, Calendar, GraduationCap, Eye, Download, MessageSquare, CheckCircle, XCircle, Clock, AlertCircle, Send, FolderOpen, User } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
-import type { StudentApplication, User, Notification } from "@shared/schema";
+import type { StudentApplication, User as UserType, Notification, DocumentMessage } from "@shared/schema";
 
 export default function AdminDashboard() {
   const { user, isAuthenticated, isAdmin, isLoading } = useAuthState();
@@ -26,16 +28,40 @@ export default function AdminDashboard() {
   
   const [selectedApplication, setSelectedApplication] = useState<StudentApplication | null>(null);
   const [statusUpdateData, setStatusUpdateData] = useState({ status: "", message: "" });
+  const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
+  const [documentRequestData, setDocumentRequestData] = useState({
+    subject: "",
+    message: "",
+    requestedDocuments: [] as string[]
+  });
+  const [userDocuments, setUserDocuments] = useState<any>(null);
 
   // Fetch all student applications
-  const { data: applications = [], isLoading: applicationsLoading } = useQuery({
+  const { data: applications = [], isLoading: applicationsLoading } = useQuery<StudentApplication[]>({
     queryKey: ["/api/admin/applications"],
     enabled: isAuthenticated && isAdmin,
   });
 
-  // Fetch dashboard statistics
-  const { data: stats = { users: 0, applications: 0, pendingApplications: 0 } } = useQuery({
+  // Fetch dashboard statistics  
+  const { data: stats = { users: 0, applications: 0, pendingApplications: 0, notifications: 0 } } = useQuery<{
+    users: number;
+    applications: number;
+    pendingApplications: number;
+    notifications: number;
+  }>({
     queryKey: ["/api/admin/stats"],
+    enabled: isAuthenticated && isAdmin,
+  });
+
+  // Fetch all users for user management
+  const { data: allUsers = [] } = useQuery<UserType[]>({
+    queryKey: ["/api/admin/users"],
+    enabled: isAuthenticated && isAdmin,
+  });
+
+  // Fetch document messages
+  const { data: documentMessages = [] } = useQuery<DocumentMessage[]>({
+    queryKey: ["/api/admin/document-messages"],
     enabled: isAuthenticated && isAdmin,
   });
 
@@ -71,6 +97,87 @@ export default function AdminDashboard() {
     onError: (error: Error) => {
       toast({
         title: "Update Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Send document request mutation
+  const sendDocumentRequestMutation = useMutation({
+    mutationFn: async ({ userId, applicationId, subject, message, requestedDocuments }: {
+      userId: number;
+      applicationId?: number;
+      subject: string;
+      message: string;
+      requestedDocuments: string[];
+    }) => {
+      const token = localStorage.getItem("token");
+      const response = await fetch("/api/admin/document-messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          userId,
+          applicationId,
+          subject,
+          message,
+          requestedDocuments,
+          messageType: "document_request"
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to send document request");
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Document Request Sent",
+        description: "Document request sent successfully and user notified.",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/document-messages"] });
+      setSelectedUser(null);
+      setDocumentRequestData({ subject: "", message: "", requestedDocuments: [] });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Request Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Fetch user documents mutation
+  const fetchUserDocumentsMutation = useMutation({
+    mutationFn: async (userId: number) => {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`/api/admin/users/${userId}/documents`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to fetch user documents");
+      }
+
+      return response.json();
+    },
+    onSuccess: (data) => {
+      setUserDocuments(data);
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Fetch Failed",
         description: error.message,
         variant: "destructive",
       });
@@ -191,6 +298,7 @@ export default function AdminDashboard() {
             <Tabs defaultValue="applications" className="space-y-6">
               <TabsList>
                 <TabsTrigger value="applications">Student Applications</TabsTrigger>
+                <TabsTrigger value="documents">Document Management</TabsTrigger>
                 <TabsTrigger value="users">User Management</TabsTrigger>
                 <TabsTrigger value="notifications">Notifications</TabsTrigger>
               </TabsList>
@@ -352,6 +460,281 @@ export default function AdminDashboard() {
                         </Table>
                       </div>
                     )}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="documents" className="space-y-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Document Management</CardTitle>
+                    <CardDescription>
+                      View all user documents and send document requests to students
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      {/* Users with Documents Section */}
+                      <div>
+                        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                          <FolderOpen className="h-5 w-5" />
+                          Users & Documents
+                        </h3>
+                        <div className="space-y-3">
+                          {allUsers
+                            .filter(user => user.role === 'user')
+                            .map((user) => (
+                              <div key={user.id} className="border rounded-lg p-4 space-y-3">
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center gap-3">
+                                    <User className="h-5 w-5 text-gray-500" />
+                                    <div>
+                                      <p className="font-medium">{user.firstName} {user.lastName}</p>
+                                      <p className="text-sm text-gray-500">{user.email}</p>
+                                    </div>
+                                  </div>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => fetchUserDocumentsMutation.mutate(user.id)}
+                                    disabled={fetchUserDocumentsMutation.isPending}
+                                  >
+                                    <Eye className="h-4 w-4 mr-1" />
+                                    View Documents
+                                  </Button>
+                                </div>
+                                
+                                <div className="flex items-center justify-between">
+                                  <div className="text-sm text-gray-600">
+                                    {applications.filter(app => app.userId === user.id).length} application(s)
+                                  </div>
+                                  <Dialog>
+                                    <DialogTrigger asChild>
+                                      <Button
+                                        variant="default"
+                                        size="sm"
+                                        onClick={() => setSelectedUser(user)}
+                                      >
+                                        <Send className="h-4 w-4 mr-1" />
+                                        Request Documents
+                                      </Button>
+                                    </DialogTrigger>
+                                    <DialogContent className="max-w-md">
+                                      <DialogHeader>
+                                        <DialogTitle>Request Documents from {user.firstName}</DialogTitle>
+                                        <DialogDescription>
+                                          Send a document request to the user with specific requirements
+                                        </DialogDescription>
+                                      </DialogHeader>
+                                      <div className="space-y-4">
+                                        <div>
+                                          <Label htmlFor="subject">Subject</Label>
+                                          <Input
+                                            id="subject"
+                                            placeholder="Document Request Subject"
+                                            value={documentRequestData.subject}
+                                            onChange={(e) => setDocumentRequestData(prev => ({
+                                              ...prev, subject: e.target.value
+                                            }))}
+                                          />
+                                        </div>
+                                        <div>
+                                          <Label htmlFor="message">Message</Label>
+                                          <Textarea
+                                            id="message"
+                                            placeholder="Please describe what documents are needed..."
+                                            value={documentRequestData.message}
+                                            onChange={(e) => setDocumentRequestData(prev => ({
+                                              ...prev, message: e.target.value
+                                            }))}
+                                            rows={4}
+                                          />
+                                        </div>
+                                        <div>
+                                          <Label>Requested Documents</Label>
+                                          <div className="grid grid-cols-1 gap-2 mt-2">
+                                            {[
+                                              'Passport Document',
+                                              'Academic Transcripts',
+                                              'English Test Score',
+                                              'CV/Resume',
+                                              'Statement of Purpose',
+                                              'Financial Documents',
+                                              'Other'
+                                            ].map((doc) => (
+                                              <label key={doc} className="flex items-center space-x-2">
+                                                <input
+                                                  type="checkbox"
+                                                  checked={documentRequestData.requestedDocuments.includes(doc)}
+                                                  onChange={(e) => {
+                                                    if (e.target.checked) {
+                                                      setDocumentRequestData(prev => ({
+                                                        ...prev,
+                                                        requestedDocuments: [...prev.requestedDocuments, doc]
+                                                      }));
+                                                    } else {
+                                                      setDocumentRequestData(prev => ({
+                                                        ...prev,
+                                                        requestedDocuments: prev.requestedDocuments.filter(d => d !== doc)
+                                                      }));
+                                                    }
+                                                  }}
+                                                />
+                                                <span className="text-sm">{doc}</span>
+                                              </label>
+                                            ))}
+                                          </div>
+                                        </div>
+                                        <div className="flex justify-end gap-2">
+                                          <Button
+                                            variant="outline"
+                                            onClick={() => {
+                                              setSelectedUser(null);
+                                              setDocumentRequestData({ subject: "", message: "", requestedDocuments: [] });
+                                            }}
+                                          >
+                                            Cancel
+                                          </Button>
+                                          <Button
+                                            onClick={() => sendDocumentRequestMutation.mutate({
+                                              userId: user.id,
+                                              subject: documentRequestData.subject,
+                                              message: documentRequestData.message,
+                                              requestedDocuments: documentRequestData.requestedDocuments
+                                            })}
+                                            disabled={sendDocumentRequestMutation.isPending || !documentRequestData.subject || !documentRequestData.message}
+                                          >
+                                            {sendDocumentRequestMutation.isPending ? "Sending..." : "Send Request"}
+                                          </Button>
+                                        </div>
+                                      </div>
+                                    </DialogContent>
+                                  </Dialog>
+                                </div>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+
+                      {/* User Documents View Section */}
+                      <div>
+                        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                          <FileText className="h-5 w-5" />
+                          Document Details
+                        </h3>
+                        
+                        {userDocuments ? (
+                          <div className="border rounded-lg p-4 space-y-4">
+                            <div className="flex items-center gap-3">
+                              <User className="h-6 w-6 text-gray-500" />
+                              <div>
+                                <p className="font-medium">{userDocuments.user?.firstName} {userDocuments.user?.lastName}</p>
+                                <p className="text-sm text-gray-500">{userDocuments.user?.email}</p>
+                              </div>
+                            </div>
+                            
+                            <div className="text-sm text-gray-600">
+                              <p>{userDocuments.applications.length} application(s)</p>
+                              <p>{userDocuments.totalDocuments} documents uploaded</p>
+                            </div>
+
+                            <ScrollArea className="h-96">
+                              <div className="space-y-4">
+                                {userDocuments.applications.map((app: StudentApplication) => (
+                                  <div key={app.id} className="border rounded-lg p-3 space-y-3">
+                                    <div className="flex items-center justify-between">
+                                      <h4 className="font-medium">{app.preferredCourse}</h4>
+                                      <Badge variant={getStatusVariant(app.status)}>
+                                        {app.status?.replace('_', ' ').toUpperCase()}
+                                      </Badge>
+                                    </div>
+                                    
+                                    <div className="grid grid-cols-1 gap-2">
+                                      {[
+                                        { key: 'passportDocument', label: 'Passport Document' },
+                                        { key: 'academicDocuments', label: 'Academic Documents' },
+                                        { key: 'cvResume', label: 'CV/Resume' },
+                                        { key: 'statementOfPurpose', label: 'Statement of Purpose' },
+                                        { key: 'experienceLetters', label: 'Experience Letters' },
+                                        { key: 'englishTestScore', label: 'English Test Score' },
+                                        { key: 'financialDocuments', label: 'Financial Documents' },
+                                      ].map((field) => {
+                                        const hasDocument = app[field.key as keyof StudentApplication];
+                                        return (
+                                          <div key={field.key} className="flex items-center justify-between text-sm">
+                                            <span>{field.label}</span>
+                                            {hasDocument ? (
+                                              <div className="flex items-center gap-2">
+                                                <Badge variant="default" className="text-xs">
+                                                  <CheckCircle className="h-3 w-3 mr-1" />
+                                                  Uploaded
+                                                </Badge>
+                                                <Button variant="outline" size="sm">
+                                                  <Download className="h-3 w-3" />
+                                                </Button>
+                                              </div>
+                                            ) : (
+                                              <Badge variant="secondary" className="text-xs">
+                                                <XCircle className="h-3 w-3 mr-1" />
+                                                Missing
+                                              </Badge>
+                                            )}
+                                          </div>
+                                        );
+                                      })}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </ScrollArea>
+                          </div>
+                        ) : (
+                          <div className="border rounded-lg p-8 text-center text-gray-500">
+                            <FileText className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+                            <p>Select a user to view their documents</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    
+                    {/* Document Messages History */}
+                    <div className="mt-8">
+                      <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                        <MessageSquare className="h-5 w-5" />
+                        Document Messages History
+                      </h3>
+                      
+                      {documentMessages.length === 0 ? (
+                        <div className="text-center py-8 text-gray-500">
+                          <MessageSquare className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+                          <p>No document messages sent yet</p>
+                        </div>
+                      ) : (
+                        <div className="space-y-4">
+                          {documentMessages.slice(0, 10).map((message) => (
+                            <div key={message.id} className="border rounded-lg p-4">
+                              <div className="flex items-center justify-between mb-2">
+                                <h4 className="font-medium">{message.subject}</h4>
+                                <div className="flex items-center gap-2">
+                                  <Badge variant={message.status === 'completed' ? 'default' : 'secondary'}>
+                                    {message.status}
+                                  </Badge>
+                                  <span className="text-sm text-gray-500">
+                                    {format(new Date(message.createdAt), "MMM dd, yyyy")}
+                                  </span>
+                                </div>
+                              </div>
+                              <p className="text-sm text-gray-600 mb-2">{message.message}</p>
+                              {message.requestedDocuments && message.requestedDocuments.length > 0 && (
+                                <div className="text-xs text-gray-500">
+                                  Requested: {message.requestedDocuments.join(', ')}
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </CardContent>
                 </Card>
               </TabsContent>

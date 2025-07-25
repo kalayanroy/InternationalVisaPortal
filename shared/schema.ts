@@ -389,3 +389,30 @@ export const insertNotificationSchema = createInsertSchema(notifications).omit({
 
 export type InsertNotification = z.infer<typeof insertNotificationSchema>;
 export type Notification = typeof notifications.$inferSelect;
+
+// Document Messages table for admin-user communication about documents
+export const documentMessages = pgTable("document_messages", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
+  applicationId: integer("application_id").references(() => studentApplications.id, { onDelete: "cascade" }),
+  senderId: integer("sender_id").references(() => users.id, { onDelete: "cascade" }).notNull(), // Admin or User who sent the message
+  senderType: varchar("sender_type", { length: 20 }).notNull(), // 'admin' or 'user'
+  messageType: varchar("message_type", { length: 50 }).notNull(), // 'document_request', 'document_upload', 'general'
+  subject: varchar("subject", { length: 255 }).notNull(),
+  message: text("message").notNull(),
+  requestedDocuments: text("requested_documents").array(), // Array of requested document types
+  attachments: text("attachments").array(), // Array of uploaded file paths/URLs
+  status: varchar("status", { length: 30 }).default("pending").notNull(), // 'pending', 'completed', 'read'
+  read: boolean("read").default(false).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertDocumentMessageSchema = createInsertSchema(documentMessages).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertDocumentMessage = z.infer<typeof insertDocumentMessageSchema>;
+export type DocumentMessage = typeof documentMessages.$inferSelect;

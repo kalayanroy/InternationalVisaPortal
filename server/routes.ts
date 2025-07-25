@@ -1435,6 +1435,113 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Document Messages API routes
+  app.get("/api/admin/document-messages", authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const messages = await storage.getAllDocumentMessages();
+      res.json(messages);
+    } catch (error) {
+      console.error("Error fetching document messages:", error);
+      res.status(500).json({ message: "Failed to fetch document messages" });
+    }
+  });
+
+  app.post("/api/admin/document-messages", authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const adminUser = req.user;
+      if (!adminUser) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const { userId, applicationId, subject, message, requestedDocuments, messageType } = req.body;
+
+      if (!subject || !message || !userId) {
+        return res.status(400).json({ message: "Subject, message, and userId are required" });
+      }
+
+      const documentMessage = await storage.createDocumentMessage({
+        userId,
+        applicationId: applicationId || null,
+        senderId: adminUser.id,
+        senderType: "admin",
+        messageType: messageType || "document_request",
+        subject,
+        message,
+        requestedDocuments: requestedDocuments || [],
+        attachments: [],
+        status: "pending",
+        read: false
+      });
+
+      // Also create a notification for the user
+      await storage.createNotification({
+        userId,
+        title: `Document Request: ${subject}`,
+        message: `Admin has requested additional documents. Please check your messages.`,
+        type: "document_request",
+        read: false,
+        relatedEntityId: documentMessage.id,
+        relatedEntityType: "document_message"
+      });
+
+      res.status(201).json({
+        message: "Document request sent successfully",
+        documentMessage
+      });
+    } catch (error) {
+      console.error("Error creating document message:", error);
+      res.status(500).json({ message: "Failed to send document request" });
+    }
+  });
+
+  app.get("/api/admin/users/:userId/documents", authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const userDocuments = await storage.getUserDocumentsByApplication(userId);
+      res.json(userDocuments);
+    } catch (error) {
+      console.error("Error fetching user documents:", error);
+      res.status(500).json({ message: "Failed to fetch user documents" });
+    }
+  });
+
+  // User document messages endpoints
+  app.get("/api/user/document-messages", authenticateToken, async (req: AuthRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const messages = await storage.getUserDocumentMessages(userId);
+      res.json(messages);
+    } catch (error) {
+      console.error("Error fetching user document messages:", error);
+      res.status(500).json({ message: "Failed to fetch document messages" });
+    }
+  });
+
+  app.patch("/api/user/document-messages/:id/read", authenticateToken, async (req: AuthRequest, res) => {
+    try {
+      const messageId = parseInt(req.params.id);
+      const userId = req.user?.id;
+
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const message = await storage.markDocumentMessageAsRead(messageId);
+      if (!message) {
+        return res.status(404).json({ message: "Message not found" });
+      }
+
+      res.json({ message: "Message marked as read" });
+    } catch (error) {
+      console.error("Error marking message as read:", error);
+      res.status(500).json({ message: "Failed to mark message as read" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
