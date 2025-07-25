@@ -678,7 +678,7 @@ export default function AdminDashboard() {
                                                   size="sm"
                                                   onClick={() => {
                                                     const token = localStorage.getItem("token");
-                                                    const fileUrl = `/api/files/applications/${app.userId}/${encodeURIComponent(hasDocument)}`;
+                                                    const fileUrl = `/api/files/applications/${app.userId}/${encodeURIComponent(String(hasDocument))}`;
                                                     window.open(`${fileUrl}?token=${token}`, '_blank');
                                                   }}
                                                 >
@@ -723,23 +723,63 @@ export default function AdminDashboard() {
                         </div>
                       ) : (
                         <div className="space-y-4">
-                          {documentMessages.slice(0, 10).map((message) => (
-                            <div key={message.id} className="border rounded-lg p-4">
+                          {documentMessages
+                            .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                            .slice(0, 15)
+                            .map((message) => (
+                            <div key={message.id} className={`border rounded-lg p-4 ${
+                              message.senderType === 'user' ? 'bg-blue-50 border-blue-200' : 'bg-gray-50'
+                            }`}>
                               <div className="flex items-center justify-between mb-2">
-                                <h4 className="font-medium">{message.subject}</h4>
+                                <div className="flex items-center gap-2">
+                                  <h4 className="font-medium">{message.subject}</h4>
+                                  <Badge variant={message.senderType === 'admin' ? 'default' : 'outline'} className="text-xs">
+                                    {message.senderType === 'admin' ? 'Admin Request' : 'User Response'}
+                                  </Badge>
+                                </div>
                                 <div className="flex items-center gap-2">
                                   <Badge variant={message.status === 'completed' ? 'default' : 'secondary'}>
                                     {message.status}
                                   </Badge>
                                   <span className="text-sm text-gray-500">
-                                    {format(new Date(message.createdAt), "MMM dd, yyyy")}
+                                    {format(new Date(message.createdAt), "MMM dd, HH:mm")}
                                   </span>
                                 </div>
                               </div>
-                              <p className="text-sm text-gray-600 mb-2">{message.message}</p>
-                              {message.requestedDocuments && message.requestedDocuments.length > 0 && (
-                                <div className="text-xs text-gray-500">
-                                  Requested: {message.requestedDocuments.join(', ')}
+                              
+                              <p className="text-sm text-gray-700 mb-2">{message.message}</p>
+                              
+                              {/* Show requested documents for admin messages */}
+                              {message.messageType === 'document_request' && message.requestedDocuments && message.requestedDocuments.length > 0 && (
+                                <div className="text-xs text-gray-600 mb-2">
+                                  <strong>Requested:</strong> {message.requestedDocuments.join(', ')}
+                                </div>
+                              )}
+                              
+                              {/* Show uploaded files for user responses */}
+                              {message.messageType === 'document_upload' && message.attachments && message.attachments.length > 0 && (
+                                <div className="text-xs text-green-700 bg-green-50 p-2 rounded">
+                                  <strong>Uploaded Files ({message.attachments.length}):</strong>
+                                  <div className="mt-1 space-y-1">
+                                    {message.attachments.map((file, index) => (
+                                      <div key={index} className="flex items-center gap-2">
+                                        <FileText className="h-3 w-3" />
+                                        <span className="text-xs">{file}</span>
+                                        <Button 
+                                          variant="ghost" 
+                                          size="sm"
+                                          className="h-5 w-5 p-0"
+                                          onClick={() => {
+                                            const token = localStorage.getItem("token");
+                                            const fileUrl = `/api/files/applications/${message.userId}/${encodeURIComponent(file)}`;
+                                            window.open(`${fileUrl}?token=${token}`, '_blank');
+                                          }}
+                                        >
+                                          <Download className="h-3 w-3" />
+                                        </Button>
+                                      </div>
+                                    ))}
+                                  </div>
                                 </div>
                               )}
                             </div>
