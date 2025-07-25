@@ -448,19 +448,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const files = req.files as { [fieldname: string]: Express.Multer.File[] };
         const userId = req.user?.id!;
         
-        // Process uploaded files and create file URLs
+        // Process uploaded files and map to database field names
         const fileData: Record<string, string> = {};
+        
+        // Map form field names to database field names
+        const fieldMapping = {
+          'passport': 'passportDocument',
+          'transcript': 'academicDocuments', 
+          'testScore': 'englishTestScore',
+          'cv': 'cvResume',
+          'sop': 'statementOfPurpose',
+          'experience': 'experienceLetters',
+          'nationalId': 'nationalIdDoc',
+          'photo': 'passportPhoto',
+          'birth': 'birthCertificate',
+          'financial': 'financialDocuments',
+          'additionalDocuments': 'additionalDocuments'
+        };
         
         if (files) {
           Object.keys(files).forEach(fieldName => {
             const fieldFiles = files[fieldName];
             if (fieldFiles && fieldFiles.length > 0) {
+              const dbFieldName = fieldMapping[fieldName as keyof typeof fieldMapping] || fieldName;
+              
               // For single file fields, store just the filename
               if (fieldFiles.length === 1) {
-                fileData[fieldName] = fieldFiles[0].filename;
+                fileData[dbFieldName] = fieldFiles[0].filename;
               } else {
                 // For multiple files, store as comma-separated filenames
-                fileData[fieldName] = fieldFiles.map(f => f.filename).join(',');
+                fileData[dbFieldName] = fieldFiles.map(f => f.filename).join(',');
               }
             }
           });

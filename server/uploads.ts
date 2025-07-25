@@ -68,16 +68,16 @@ export const upload = multer({
 
 // Middleware to handle multiple file uploads for different document types
 export const uploadApplicationDocuments = upload.fields([
-  { name: 'passportDocument', maxCount: 1 },
-  { name: 'academicDocuments', maxCount: 5 },
-  { name: 'englishTestScore', maxCount: 1 },
-  { name: 'cvResume', maxCount: 1 },
-  { name: 'statementOfPurpose', maxCount: 1 },
-  { name: 'experienceLetters', maxCount: 3 },
-  { name: 'nationalIdDoc', maxCount: 1 },
-  { name: 'passportPhoto', maxCount: 1 },
-  { name: 'birthCertificate', maxCount: 1 },
-  { name: 'financialDocuments', maxCount: 5 },
+  { name: 'passport', maxCount: 2 },
+  { name: 'transcript', maxCount: 5 },
+  { name: 'testScore', maxCount: 1 },
+  { name: 'cv', maxCount: 1 },
+  { name: 'sop', maxCount: 1 },
+  { name: 'experience', maxCount: 3 },
+  { name: 'nationalId', maxCount: 1 },
+  { name: 'photo', maxCount: 1 },
+  { name: 'birth', maxCount: 1 },
+  { name: 'financial', maxCount: 5 },
   { name: 'additionalDocuments', maxCount: 10 }
 ]);
 

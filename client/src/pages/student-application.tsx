@@ -1626,10 +1626,12 @@ export default function StudentApplication() {
                         accept=".pdf,.jpg,.jpeg,.png"
                         className="hidden"
                         id="test-upload"
+                        onChange={(e) => handleFileUpload('testScore', e.target.files)}
                       />
                       <label htmlFor="test-upload" className="cursor-pointer">
-                        <div className="w-full h-16 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-blue-500 transition-colors">
-                          <Upload className="h-5 w-5 text-gray-400" />
+                        <div className="w-full min-h-16 flex flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-300 hover:border-blue-500 transition-colors p-2">
+                          <Upload className="h-5 w-5 text-gray-400 mb-1" />
+                          <span className="text-xs text-gray-600 text-center">{getFileNames('testScore')}</span>
                         </div>
                       </label>
                     </div>
