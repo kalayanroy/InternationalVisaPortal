@@ -1191,6 +1191,76 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/user/applications/:applicationId/download", authenticateToken, async (req: AuthRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      const applicationId = parseInt(req.params.applicationId);
+      
+      if (!userId || !applicationId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      // Get the application and verify ownership
+      const applications = await storage.getUserApplications(userId);
+      const application = applications.find(app => app.id === applicationId);
+      
+      if (!application) {
+        return res.status(404).json({ message: "Application not found" });
+      }
+
+      // For now, we'll generate a simple PDF with application details
+      // In a real implementation, you might want to use a PDF library like jsPDF or puppeteer
+      const applicationData = {
+        fullName: application.fullName,
+        email: application.email,
+        contactNumber: application.contactNumber,
+        preferredCountries: application.preferredCountries,
+        preferredCourse: application.preferredCourse,
+        studyLevel: application.studyLevel,
+        preferredIntake: application.preferredIntake,
+        budget: `${application.budgetCurrency} ${application.budget?.toLocaleString()}`,
+        status: application.status,
+        submittedDocuments: application.submittedDocuments || "No documents submitted",
+        applicationDate: new Date(application.createdAt).toLocaleDateString()
+      };
+
+      // Create a simple text file for now (you can implement proper PDF generation later)
+      const content = `
+APPLICATION DETAILS
+==================
+
+Personal Information:
+- Full Name: ${applicationData.fullName}
+- Email: ${applicationData.email}
+- Contact Number: ${applicationData.contactNumber}
+
+Academic Information:
+- Preferred Countries: ${applicationData.preferredCountries}
+- Preferred Course: ${applicationData.preferredCourse}
+- Study Level: ${applicationData.studyLevel}
+- Preferred Intake: ${applicationData.preferredIntake}
+- Budget: ${applicationData.budget}
+
+Application Status: ${applicationData.status}
+Application Date: ${applicationData.applicationDate}
+
+Submitted Documents:
+${applicationData.submittedDocuments}
+
+Generated on: ${new Date().toLocaleString()}
+      `.trim();
+
+      const filename = `application-${applicationId}-${application.fullName.replace(/\s+/g, '_')}.txt`;
+      
+      res.setHeader('Content-Type', 'text/plain');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.send(content);
+    } catch (error) {
+      console.error("Error downloading application:", error);
+      res.status(500).json({ message: "Failed to download application" });
+    }
+  });
+
   app.get("/api/user/notices", authenticateToken, async (req: AuthRequest, res) => {
     try {
       const userId = req.user?.id;

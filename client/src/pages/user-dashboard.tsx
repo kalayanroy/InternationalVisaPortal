@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
@@ -111,6 +112,7 @@ export default function UserDashboard() {
 
   const [documentRequestFiles, setDocumentRequestFiles] = useState<{[key: number]: File[]}>({});
   const [documentRequestMessages, setDocumentRequestMessages] = useState<{[key: number]: string}>({});
+  const [selectedApplication, setSelectedApplication] = useState<Application | null>(null);
 
   // Get user profile
   const { data: profileData, isLoading: profileLoading } = useQuery({
@@ -311,6 +313,51 @@ export default function UserDashboard() {
         return <Eye className="h-4 w-4" />;
       default:
         return <FileText className="h-4 w-4" />;
+    }
+  };
+
+  const handleDownloadApplication = async (applicationId: number) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`/api/user/applications/${applicationId}/download`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to download application");
+      }
+
+      // Get the filename from the response headers
+      const contentDisposition = response.headers.get("content-disposition");
+      const filename = contentDisposition 
+        ? contentDisposition.split("filename=")[1]?.replace(/"/g, "") 
+        : `application-${applicationId}.pdf`;
+
+      // Create blob and download
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.style.display = "none";
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+
+      toast({
+        title: "Success",
+        description: "Application downloaded successfully",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to download application",
+        variant: "destructive",
+      });
     }
   };
 
@@ -695,11 +742,19 @@ export default function UserDashboard() {
                                 )}
                               </div>
                               <div className="flex space-x-2">
-                                <Button variant="outline" size="sm">
+                                <Button 
+                                  variant="outline" 
+                                  size="sm"
+                                  onClick={() => setSelectedApplication(application)}
+                                >
                                   <Eye className="h-4 w-4 mr-1" />
                                   View Details
                                 </Button>
-                                <Button variant="outline" size="sm">
+                                <Button 
+                                  variant="outline" 
+                                  size="sm"
+                                  onClick={() => handleDownloadApplication(application.id)}
+                                >
                                   <Download className="h-4 w-4 mr-1" />
                                   Download
                                 </Button>
@@ -990,6 +1045,96 @@ export default function UserDashboard() {
           </Tabs>
         </div>
       </div>
+
+      {/* Application Details Dialog */}
+      {selectedApplication && (
+        <Dialog open={!!selectedApplication} onOpenChange={() => setSelectedApplication(null)}>
+          <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Application Details</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-6">
+              {/* Personal Information */}
+              <div>
+                <h3 className="text-lg font-semibold mb-3">Personal Information</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <span className="font-medium">Full Name:</span>
+                    <p className="text-gray-600">{selectedApplication.fullName}</p>
+                  </div>
+                  <div>
+                    <span className="font-medium">Email:</span>
+                    <p className="text-gray-600">{selectedApplication.email}</p>
+                  </div>
+                  <div>
+                    <span className="font-medium">Contact Number:</span>
+                    <p className="text-gray-600">{selectedApplication.contactNumber}</p>
+                  </div>
+                  <div>
+                    <span className="font-medium">Status:</span>
+                    <Badge className={getStatusColor(selectedApplication.status)}>
+                      {getStatusIcon(selectedApplication.status)}
+                      <span className="ml-1 capitalize">{selectedApplication.status}</span>
+                    </Badge>
+                  </div>
+                </div>
+              </div>
+
+              {/* Academic Information */}
+              <div>
+                <h3 className="text-lg font-semibold mb-3">Academic Information</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <span className="font-medium">Preferred Countries:</span>
+                    <p className="text-gray-600">{selectedApplication.preferredCountries}</p>
+                  </div>
+                  <div>
+                    <span className="font-medium">Preferred Course:</span>
+                    <p className="text-gray-600">{selectedApplication.preferredCourse}</p>
+                  </div>
+                  <div>
+                    <span className="font-medium">Study Level:</span>
+                    <p className="text-gray-600">{selectedApplication.studyLevel}</p>
+                  </div>
+                  <div>
+                    <span className="font-medium">Preferred Intake:</span>
+                    <p className="text-gray-600">{selectedApplication.preferredIntake}</p>
+                  </div>
+                  <div>
+                    <span className="font-medium">Budget:</span>
+                    <p className="text-gray-600">{selectedApplication.budgetCurrency} {selectedApplication.budget?.toLocaleString()}</p>
+                  </div>
+                  <div>
+                    <span className="font-medium">Application Date:</span>
+                    <p className="text-gray-600">{new Date(selectedApplication.createdAt).toLocaleDateString()}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Submitted Documents */}
+              {selectedApplication.submittedDocuments && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-3">Submitted Documents</h3>
+                  <div className="text-sm">
+                    <p className="text-gray-600">{selectedApplication.submittedDocuments}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Action Buttons */}
+              <div className="flex justify-end space-x-2 pt-4 border-t">
+                <Button variant="outline" onClick={() => setSelectedApplication(null)}>
+                  Close
+                </Button>
+                <Button onClick={() => handleDownloadApplication(selectedApplication.id)}>
+                  <Download className="h-4 w-4 mr-2" />
+                  Download Application
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </>
   );
 }
