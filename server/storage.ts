@@ -6,6 +6,7 @@ import {
   applications,
   studentApplications,
   universities,
+  notifications,
   type User,
   type InsertUser,
   type ContactInquiry,
@@ -37,6 +38,8 @@ import {
   admissionTimeline,
   type AdmissionTimeline,
   type InsertAdmissionTimeline,
+  type Notification,
+  type InsertNotification,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, not } from "drizzle-orm";
@@ -162,6 +165,20 @@ export interface IStorage {
   // User Dashboard methods
   getUserApplications(userId: number): Promise<StudentApplication[]>;
   updateUserProfile(userId: number, updates: { firstName: string; lastName: string; email: string }): Promise<User | undefined>;
+
+  // Notification methods
+  createNotification(notification: InsertNotification): Promise<Notification>;
+  getUserNotifications(userId: number): Promise<Notification[]>;
+  getAllNotifications(): Promise<Notification[]>;
+  markNotificationAsRead(id: number): Promise<Notification | undefined>;
+
+  // Admin statistics
+  getAdminStats(): Promise<{
+    users: number;
+    applications: number;
+    pendingApplications: number;
+    notifications: number;
+  }>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -748,6 +765,65 @@ export class DatabaseStorage implements IStorage {
       .where(eq(users.id, userId))
       .returning();
     return updated;
+  }
+
+  // Notification methods
+  async createNotification(notification: InsertNotification): Promise<Notification> {
+    const [created] = await db
+      .insert(notifications)
+      .values(notification)
+      .returning();
+    return created;
+  }
+
+  async getUserNotifications(userId: number): Promise<Notification[]> {
+    return await db
+      .select()
+      .from(notifications)
+      .where(eq(notifications.userId, userId))
+      .orderBy(desc(notifications.createdAt));
+  }
+
+  async getAllNotifications(): Promise<Notification[]> {
+    return await db
+      .select()
+      .from(notifications)
+      .orderBy(desc(notifications.createdAt));
+  }
+
+  async markNotificationAsRead(id: number): Promise<Notification | undefined> {
+    const [updated] = await db
+      .update(notifications)
+      .set({ read: true })
+      .where(eq(notifications.id, id))
+      .returning();
+    return updated;
+  }
+
+  // Admin statistics
+  async getAdminStats(): Promise<{
+    users: number;
+    applications: number;
+    pendingApplications: number;
+    notifications: number;
+  }> {
+    const [usersCount] = await db.select({ count: eq(users.id, users.id) }).from(users);
+    const [applicationsCount] = await db.select({ count: eq(studentApplications.id, studentApplications.id) }).from(studentApplications);
+    const [pendingCount] = await db.select({ count: eq(studentApplications.id, studentApplications.id) }).from(studentApplications).where(eq(studentApplications.status, 'pending'));
+    const [notificationsCount] = await db.select({ count: eq(notifications.id, notifications.id) }).from(notifications);
+
+    // Count rows properly
+    const totalUsers = await db.select().from(users);
+    const totalApplications = await db.select().from(studentApplications);
+    const pendingApplications = await db.select().from(studentApplications).where(eq(studentApplications.status, 'pending'));
+    const totalNotifications = await db.select().from(notifications);
+
+    return {
+      users: totalUsers.length,
+      applications: totalApplications.length,
+      pendingApplications: pendingApplications.length,
+      notifications: totalNotifications.length,
+    };
   }
 }
 

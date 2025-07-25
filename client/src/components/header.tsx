@@ -44,6 +44,7 @@ export default function Header() {
   const isLoginPage = location === "/login";
   const isStudentApplicationPage = location === "/student-application";
   const isUserDashboardPage = location === "/user-dashboard";
+  const isAdminDashboardPage = location === "/admin-dashboard";
 
   // Determine header background
   const getHeaderBg = () => {
@@ -60,6 +61,7 @@ export default function Header() {
     if (isLoginPage) return "bg-[#0891b2]";
     if (isStudentApplicationPage) return "bg-[#0891b2]";
     if (isUserDashboardPage) return "bg-[#0891b2]";
+    if (isAdminDashboardPage) return "bg-[#0891b2]";
     return "bg-transparent";
   };
 
@@ -78,6 +80,7 @@ export default function Header() {
     if (isLoginPage) return "text-white";
     if (isStudentApplicationPage) return "text-white";
     if (isUserDashboardPage) return "text-white";
+    if (isAdminDashboardPage) return "text-white";
     return "text-white";
   };
 
@@ -96,6 +99,7 @@ export default function Header() {
     if (isScrolled) return "hover:bg-navy/10";
     if (isStudentApplicationPage) return "hover:bg-black/10";
     if (isUserDashboardPage) return "hover:bg-black/10";
+    if (isAdminDashboardPage) return "hover:bg-black/10";
     return "hover:bg-white/10";
   };
 

@@ -368,3 +368,24 @@ export const insertAdmissionTimelineSchema = createInsertSchema(admissionTimelin
 
 export type InsertAdmissionTimeline = z.infer<typeof insertAdmissionTimelineSchema>;
 export type AdmissionTimeline = typeof admissionTimeline.$inferSelect;
+
+// Notifications table for user notifications
+export const notifications = pgTable("notifications", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
+  message: text("message").notNull(),
+  type: varchar("type", { length: 50 }).notNull(), // 'application_status', 'appointment', 'general'
+  read: boolean("read").default(false).notNull(),
+  relatedEntityId: integer("related_entity_id"), // Reference to application, appointment, etc.
+  relatedEntityType: varchar("related_entity_type", { length: 50 }), // 'application', 'appointment'
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertNotificationSchema = createInsertSchema(notifications).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertNotification = z.infer<typeof insertNotificationSchema>;
+export type Notification = typeof notifications.$inferSelect;

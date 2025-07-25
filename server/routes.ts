@@ -1323,6 +1323,118 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin API routes for applications and notifications management
+  app.get("/api/admin/applications", authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const applications = await storage.getAllStudentApplications();
+      res.json(applications);
+    } catch (error) {
+      console.error("Error fetching admin applications:", error);
+      res.status(500).json({ message: "Failed to fetch applications" });
+    }
+  });
+
+  app.get("/api/admin/stats", authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const stats = await storage.getAdminStats();
+      res.json(stats);
+    } catch (error) {
+      console.error("Error fetching admin stats:", error);
+      res.status(500).json({ message: "Failed to fetch statistics" });
+    }
+  });
+
+  app.patch("/api/admin/applications/:id/status", authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const applicationId = parseInt(req.params.id);
+      const { status, message } = req.body;
+
+      if (!status) {
+        return res.status(400).json({ message: "Status is required" });
+      }
+
+      // Get the application to find the user
+      const application = await storage.getStudentApplication(applicationId);
+      if (!application) {
+        return res.status(404).json({ message: "Application not found" });
+      }
+
+      // Update application status
+      const updatedApplication = await storage.updateStudentApplicationStatus(applicationId, status);
+      if (!updatedApplication) {
+        return res.status(404).json({ message: "Failed to update application" });
+      }
+
+      // Create notification for user if message is provided
+      if (message && application.userId) {
+        await storage.createNotification({
+          userId: application.userId,
+          title: `Application Status Update`,
+          message: message,
+          type: "application_status",
+          read: false,
+          relatedEntityId: applicationId,
+          relatedEntityType: "application"
+        });
+      }
+
+      res.json({
+        message: "Application status updated successfully",
+        application: updatedApplication
+      });
+    } catch (error) {
+      console.error("Error updating application status:", error);
+      res.status(500).json({ message: "Failed to update application status" });
+    }
+  });
+
+  app.get("/api/admin/notifications", authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const notifications = await storage.getAllNotifications();
+      res.json(notifications);
+    } catch (error) {
+      console.error("Error fetching admin notifications:", error);
+      res.status(500).json({ message: "Failed to fetch notifications" });
+    }
+  });
+
+  // User notifications endpoint
+  app.get("/api/user/notifications", authenticateToken, async (req: AuthRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const notifications = await storage.getUserNotifications(userId);
+      res.json(notifications);
+    } catch (error) {
+      console.error("Error fetching user notifications:", error);
+      res.status(500).json({ message: "Failed to fetch notifications" });
+    }
+  });
+
+  app.patch("/api/user/notifications/:id/read", authenticateToken, async (req: AuthRequest, res) => {
+    try {
+      const notificationId = parseInt(req.params.id);
+      const userId = req.user?.id;
+
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const notification = await storage.markNotificationAsRead(notificationId);
+      if (!notification) {
+        return res.status(404).json({ message: "Notification not found" });
+      }
+
+      res.json({ message: "Notification marked as read" });
+    } catch (error) {
+      console.error("Error marking notification as read:", error);
+      res.status(500).json({ message: "Failed to mark notification as read" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
