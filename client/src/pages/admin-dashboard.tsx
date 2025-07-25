@@ -657,7 +657,11 @@ export default function AdminDashboard() {
                                         { key: 'statementOfPurpose', label: 'Statement of Purpose' },
                                         { key: 'experienceLetters', label: 'Experience Letters' },
                                         { key: 'englishTestScore', label: 'English Test Score' },
+                                        { key: 'nationalIdDoc', label: 'National ID Document' },
+                                        { key: 'passportPhoto', label: 'Passport Photo' },
+                                        { key: 'birthCertificate', label: 'Birth Certificate' },
                                         { key: 'financialDocuments', label: 'Financial Documents' },
+                                        { key: 'additionalDocuments', label: 'Additional Documents' },
                                       ].map((field) => {
                                         const hasDocument = app[field.key as keyof StudentApplication];
                                         return (
@@ -792,10 +796,12 @@ function ApplicationDetailsView({ application }: { application: StudentApplicati
     { key: 'cvResume', label: 'CV/Resume' },
     { key: 'statementOfPurpose', label: 'Statement of Purpose' },
     { key: 'experienceLetters', label: 'Experience Letters' },
+    { key: 'englishTestScore', label: 'English Test Score' },
     { key: 'nationalIdDoc', label: 'National ID Document' },
     { key: 'passportPhoto', label: 'Passport Photo' },
     { key: 'birthCertificate', label: 'Birth Certificate' },
     { key: 'financialDocuments', label: 'Financial Documents' },
+    { key: 'additionalDocuments', label: 'Additional Documents' },
   ];
 
   return (

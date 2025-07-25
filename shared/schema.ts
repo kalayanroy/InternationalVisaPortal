@@ -237,6 +237,7 @@ export const studentApplications = pgTable("student_applications", {
   passportPhoto: text("passport_photo"),
   birthCertificate: text("birth_certificate"),
   financialDocuments: text("financial_documents"),
+  additionalDocuments: text("additional_documents"),
   
   // Declaration & Consent Fields
   dataConsent: boolean("data_consent").default(false),
