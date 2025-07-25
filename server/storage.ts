@@ -420,6 +420,21 @@ export class DatabaseStorage implements IStorage {
     return application || undefined;
   }
 
+  async updateStudentApplicationDocuments(
+    id: number,
+    documentUpdates: Record<string, string>,
+  ): Promise<StudentApplication | undefined> {
+    const [application] = await db
+      .update(studentApplications)
+      .set({
+        ...documentUpdates,
+        updatedAt: new Date(),
+      })
+      .where(eq(studentApplications.id, id))
+      .returning();
+    return application || undefined;
+  }
+
   // Admin methods
   async getAllUsers(): Promise<User[]> {
     return await db

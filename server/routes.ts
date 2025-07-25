@@ -1348,6 +1348,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
         // Update document message with uploaded files and user response
         await storage.updateDocumentMessageStatus(requestId, 'completed');
         
+        // Update the application record with the uploaded documents
+        if (documentMessage.applicationId && documentMessage.requestedDocuments) {
+          // Map requested document types to application field names
+          const documentFieldMapping: Record<string, string> = {
+            'Passport Document': 'passportDocument',
+            'Academic Documents': 'academicDocuments',
+            'CV/Resume': 'cvResume',
+            'Statement of Purpose': 'statementOfPurpose',
+            'Experience Letters': 'experienceLetters',
+            'English Test Score': 'englishTestScore',
+            'National ID Document': 'nationalIdDoc',
+            'Passport Photo': 'passportPhoto',
+            'Birth Certificate': 'birthCertificate',
+            'Financial Documents': 'financialDocuments',
+            'Additional Documents': 'additionalDocuments'
+          };
+
+          // Get the current application
+          const application = await storage.getStudentApplication(documentMessage.applicationId);
+          if (application) {
+            // Create update object with the uploaded files
+            const updateData: Record<string, string> = {};
+            
+            // For each requested document type, update the corresponding field
+            documentMessage.requestedDocuments.forEach((docType: string) => {
+              const fieldName = documentFieldMapping[docType];
+              if (fieldName && uploadedFiles.length > 0) {
+                // Use the first uploaded file for each document type
+                updateData[fieldName] = uploadedFiles[0];
+              }
+            });
+
+            // Update the application with the new document information
+            if (Object.keys(updateData).length > 0) {
+              await storage.updateStudentApplicationDocuments(documentMessage.applicationId, updateData);
+            }
+          }
+        }
+        
         // Create a response message from user to admin
         await storage.createDocumentMessage({
           userId,
