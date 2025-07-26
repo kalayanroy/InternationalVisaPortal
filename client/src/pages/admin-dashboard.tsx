@@ -488,6 +488,74 @@ export default function AdminDashboard() {
     },
   });
 
+  // Mark notification as read mutation
+  const markNotificationReadMutation = useMutation({
+    mutationFn: async (notificationId: number) => {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`/api/admin/notifications/${notificationId}/read`, {
+        method: "PATCH",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to mark notification as read");
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/notifications"] });
+      toast({
+        title: "Success",
+        description: "Notification marked as read",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Delete notification mutation
+  const deleteNotificationMutation = useMutation({
+    mutationFn: async (notificationId: number) => {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`/api/admin/notifications/${notificationId}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to delete notification");
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/notifications"] });
+      toast({
+        title: "Success",
+        description: "Notification deleted successfully",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
   // Create notice mutation
   const createNoticeMutation = useMutation({
     mutationFn: async (noticeData: { title: string; message: string; type: string }) => {
@@ -763,73 +831,7 @@ export default function AdminDashboard() {
     setIsNotificationDetailsOpen(true);
   };
 
-  // Mark notification as read mutation
-  const markNotificationReadMutation = useMutation({
-    mutationFn: async (notificationId: number) => {
-      const token = localStorage.getItem("token");
-      const response = await fetch(`/api/admin/notifications/${notificationId}/read`, {
-        method: "PATCH",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-        },
-      });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to mark notification as read");
-      }
-
-      return response.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/notifications"] });
-      toast({
-        title: "Success",
-        description: "Notification marked as read",
-      });
-    },
-    onError: (error: Error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    },
-  });
-
-  // Delete notification mutation
-  const deleteNotificationMutation = useMutation({
-    mutationFn: async (notificationId: number) => {
-      const token = localStorage.getItem("token");
-      const response = await fetch(`/api/admin/notifications/${notificationId}`, {
-        method: "DELETE",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to delete notification");
-      }
-
-      return response.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/notifications"] });
-      toast({
-        title: "Success",
-        description: "Notification deleted successfully",
-      });
-    },
-    onError: (error: Error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    },
-  });
 
   // Don't render anything if not authenticated or not admin
   if (!isAuthenticated || !isAdmin) {
