@@ -35,6 +35,33 @@ export default function AdminDashboard() {
     requestedDocuments: [] as string[]
   });
   const [userDocuments, setUserDocuments] = useState<any>(null);
+  
+  // User Management States
+  const [userSearchTerm, setUserSearchTerm] = useState("");
+  const [selectedUserRole, setSelectedUserRole] = useState("all");
+  const [isCreateUserOpen, setIsCreateUserOpen] = useState(false);
+  const [isEditUserOpen, setIsEditUserOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState<UserType | null>(null);
+  const [isPasswordResetOpen, setIsPasswordResetOpen] = useState(false);
+  const [passwordResetUser, setPasswordResetUser] = useState<UserType | null>(null);
+  const [newUserData, setNewUserData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    role: "user"
+  });
+  const [editUserData, setEditUserData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    role: ""
+  });
+  const [passwordResetData, setPasswordResetData] = useState({
+    newPassword: "",
+    confirmPassword: ""
+  });
 
   // Fetch all student applications
   const { data: applications = [], isLoading: applicationsLoading } = useQuery<StudentApplication[]>({
@@ -293,6 +320,160 @@ export default function AdminDashboard() {
     },
   });
 
+  // User Management Mutations
+  const createUserMutation = useMutation({
+    mutationFn: async (userData: any) => {
+      const token = localStorage.getItem("token");
+      const response = await fetch("/api/admin/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to create user");
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "User created successfully",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+      setIsCreateUserOpen(false);
+      setNewUserData({
+        username: "",
+        email: "",
+        password: "",
+        firstName: "",
+        lastName: "",
+        role: "user"
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const updateUserMutation = useMutation({
+    mutationFn: async ({ userId, userData }: { userId: number; userData: any }) => {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`/api/admin/users/${userId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to update user");
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "User updated successfully",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
+      setIsEditUserOpen(false);
+      setEditingUser(null);
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const deleteUserMutation = useMutation({
+    mutationFn: async (userId: number) => {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`/api/admin/users/${userId}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to delete user");
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "User deleted successfully",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const resetPasswordMutation = useMutation({
+    mutationFn: async ({ userId, password }: { userId: number; password: string }) => {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`/api/admin/users/${userId}/reset-password`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify({ password }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to reset password");
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Password reset successfully",
+      });
+      setIsPasswordResetOpen(false);
+      setPasswordResetUser(null);
+      setPasswordResetData({ newPassword: "", confirmPassword: "" });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
   // Create notice mutation
   const createNoticeMutation = useMutation({
     mutationFn: async (noticeData: { title: string; message: string; type: string }) => {
@@ -446,6 +627,61 @@ export default function AdminDashboard() {
       </div>
     );
   }
+
+  // User management helper functions
+  const filteredUsers = allUsers.filter(user => {
+    const matchesSearch = userSearchTerm === "" || 
+      user.firstName?.toLowerCase().includes(userSearchTerm.toLowerCase()) ||
+      user.lastName?.toLowerCase().includes(userSearchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(userSearchTerm.toLowerCase()) ||
+      user.username.toLowerCase().includes(userSearchTerm.toLowerCase());
+    
+    const matchesRole = selectedUserRole === "all" || user.role === selectedUserRole;
+    
+    return matchesSearch && matchesRole;
+  });
+
+  const handleEditUser = (user: UserType) => {
+    setEditingUser(user);
+    setEditUserData({
+      firstName: user.firstName || "",
+      lastName: user.lastName || "",
+      email: user.email,
+      role: user.role
+    });
+    setIsEditUserOpen(true);
+  };
+
+  const handlePasswordReset = (user: UserType) => {
+    setPasswordResetUser(user);
+    setIsPasswordResetOpen(true);
+  };
+
+  const handleDeleteUser = (user: UserType) => {
+    if (user.id === 1) {
+      toast({
+        title: "Cannot Delete",
+        description: "Cannot delete the main admin account",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (window.confirm(`Are you sure you want to delete user ${user.firstName} ${user.lastName}? This action cannot be undone.`)) {
+      deleteUserMutation.mutate(user.id);
+    }
+  };
+
+  const getRoleColor = (role: string) => {
+    switch (role) {
+      case "admin":
+        return "bg-red-100 text-red-800";
+      case "user":
+        return "bg-blue-100 text-blue-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
 
   // Don't render anything if not authenticated or not admin
   if (!isAuthenticated || !isAdmin) {
@@ -1312,19 +1548,341 @@ export default function AdminDashboard() {
                 </Card>
               </TabsContent>
 
-              <TabsContent value="users">
+              <TabsContent value="users" className="space-y-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>User Management</CardTitle>
-                    <CardDescription>Manage registered users and their roles</CardDescription>
+                    <CardTitle className="flex items-center justify-between">
+                      <span className="flex items-center gap-2">
+                        <Users className="h-5 w-5" />
+                        User Management
+                      </span>
+                      <Dialog open={isCreateUserOpen} onOpenChange={setIsCreateUserOpen}>
+                        <DialogTrigger asChild>
+                          <Button>
+                            <User className="h-4 w-4 mr-2" />
+                            Create User
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>Create New User</DialogTitle>
+                            <DialogDescription>
+                              Add a new user to the system with appropriate role and permissions.
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="space-y-4">
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <Label htmlFor="firstName">First Name</Label>
+                                <Input
+                                  id="firstName"
+                                  value={newUserData.firstName}
+                                  onChange={(e) => setNewUserData({ ...newUserData, firstName: e.target.value })}
+                                  placeholder="Enter first name"
+                                />
+                              </div>
+                              <div>
+                                <Label htmlFor="lastName">Last Name</Label>
+                                <Input
+                                  id="lastName"
+                                  value={newUserData.lastName}
+                                  onChange={(e) => setNewUserData({ ...newUserData, lastName: e.target.value })}
+                                  placeholder="Enter last name"
+                                />
+                              </div>
+                            </div>
+                            <div>
+                              <Label htmlFor="username">Username</Label>
+                              <Input
+                                id="username"
+                                value={newUserData.username}
+                                onChange={(e) => setNewUserData({ ...newUserData, username: e.target.value })}
+                                placeholder="Enter username"
+                              />
+                            </div>
+                            <div>
+                              <Label htmlFor="email">Email</Label>
+                              <Input
+                                id="email"
+                                type="email"
+                                value={newUserData.email}
+                                onChange={(e) => setNewUserData({ ...newUserData, email: e.target.value })}
+                                placeholder="Enter email address"
+                              />
+                            </div>
+                            <div>
+                              <Label htmlFor="password">Password</Label>
+                              <Input
+                                id="password"
+                                type="password"
+                                value={newUserData.password}
+                                onChange={(e) => setNewUserData({ ...newUserData, password: e.target.value })}
+                                placeholder="Enter password"
+                              />
+                            </div>
+                            <div>
+                              <Label htmlFor="role">Role</Label>
+                              <Select value={newUserData.role} onValueChange={(value) => setNewUserData({ ...newUserData, role: value })}>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select role" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="user">User</SelectItem>
+                                  <SelectItem value="admin">Admin</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <div className="flex justify-end gap-2">
+                              <Button variant="outline" onClick={() => setIsCreateUserOpen(false)}>
+                                Cancel
+                              </Button>
+                              <Button
+                                onClick={() => createUserMutation.mutate(newUserData)}
+                                disabled={createUserMutation.isPending}
+                              >
+                                {createUserMutation.isPending ? "Creating..." : "Create User"}
+                              </Button>
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+                    </CardTitle>
+                    <CardDescription>
+                      Manage registered users, their roles, and account settings
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-center py-8">
-                      <Users className="mx-auto h-12 w-12 text-gray-400" />
-                      <p className="mt-1 text-sm text-gray-500">User management interface coming soon</p>
+                    {/* Search and Filter Controls */}
+                    <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                      <div className="flex-1">
+                        <Input
+                          placeholder="Search users by name, email, or username..."
+                          value={userSearchTerm}
+                          onChange={(e) => setUserSearchTerm(e.target.value)}
+                          className="w-full"
+                        />
+                      </div>
+                      <div className="w-full sm:w-48">
+                        <Select value={selectedUserRole} onValueChange={setSelectedUserRole}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Filter by role" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="all">All Roles</SelectItem>
+                            <SelectItem value="user">Users</SelectItem>
+                            <SelectItem value="admin">Admins</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+
+                    {/* Users Table */}
+                    <div className="rounded-md border">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Name</TableHead>
+                            <TableHead>Email</TableHead>
+                            <TableHead>Username</TableHead>
+                            <TableHead>Role</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead>Joined</TableHead>
+                            <TableHead className="text-right">Actions</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {filteredUsers.map((user) => (
+                            <TableRow key={user.id}>
+                              <TableCell className="font-medium">
+                                {user.firstName} {user.lastName}
+                              </TableCell>
+                              <TableCell>{user.email}</TableCell>
+                              <TableCell>{user.username}</TableCell>
+                              <TableCell>
+                                <Badge className={getRoleColor(user.role)}>
+                                  {user.role}
+                                </Badge>
+                              </TableCell>
+                              <TableCell>
+                                <Badge className={user.isActive ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"}>
+                                  {user.isActive ? "Active" : "Inactive"}
+                                </Badge>
+                              </TableCell>
+                              <TableCell>
+                                {user.createdAt ? format(new Date(user.createdAt), "MMM dd, yyyy") : "Unknown"}
+                              </TableCell>
+                              <TableCell className="text-right">
+                                <div className="flex justify-end gap-2">
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => handleEditUser(user)}
+                                  >
+                                    Edit
+                                  </Button>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => handlePasswordReset(user)}
+                                  >
+                                    Reset Password
+                                  </Button>
+                                  {user.id !== 1 && (
+                                    <Button
+                                      variant="destructive"
+                                      size="sm"
+                                      onClick={() => handleDeleteUser(user)}
+                                      disabled={deleteUserMutation.isPending}
+                                    >
+                                      Delete
+                                    </Button>
+                                  )}
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                      {filteredUsers.length === 0 && (
+                        <div className="text-center py-8">
+                          <Users className="mx-auto h-12 w-12 text-gray-400" />
+                          <p className="mt-2 text-sm text-gray-500">
+                            {userSearchTerm || selectedUserRole !== "all" 
+                              ? "No users match your search criteria" 
+                              : "No users found"
+                            }
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
+
+                {/* Edit User Dialog */}
+                <Dialog open={isEditUserOpen} onOpenChange={setIsEditUserOpen}>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Edit User</DialogTitle>
+                      <DialogDescription>
+                        Update user information and role settings.
+                      </DialogDescription>
+                    </DialogHeader>
+                    {editingUser && (
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <Label htmlFor="editFirstName">First Name</Label>
+                            <Input
+                              id="editFirstName"
+                              value={editUserData.firstName}
+                              onChange={(e) => setEditUserData({ ...editUserData, firstName: e.target.value })}
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor="editLastName">Last Name</Label>
+                            <Input
+                              id="editLastName"
+                              value={editUserData.lastName}
+                              onChange={(e) => setEditUserData({ ...editUserData, lastName: e.target.value })}
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <Label htmlFor="editEmail">Email</Label>
+                          <Input
+                            id="editEmail"
+                            type="email"
+                            value={editUserData.email}
+                            onChange={(e) => setEditUserData({ ...editUserData, email: e.target.value })}
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="editRole">Role</Label>
+                          <Select value={editUserData.role} onValueChange={(value) => setEditUserData({ ...editUserData, role: value })}>
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="user">User</SelectItem>
+                              <SelectItem value="admin">Admin</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="flex justify-end gap-2">
+                          <Button variant="outline" onClick={() => setIsEditUserOpen(false)}>
+                            Cancel
+                          </Button>
+                          <Button
+                            onClick={() => updateUserMutation.mutate({ userId: editingUser.id, userData: editUserData })}
+                            disabled={updateUserMutation.isPending}
+                          >
+                            {updateUserMutation.isPending ? "Updating..." : "Update User"}
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                  </DialogContent>
+                </Dialog>
+
+                {/* Password Reset Dialog */}
+                <Dialog open={isPasswordResetOpen} onOpenChange={setIsPasswordResetOpen}>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Reset User Password</DialogTitle>
+                      <DialogDescription>
+                        Set a new password for {passwordResetUser?.firstName} {passwordResetUser?.lastName}
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      <div>
+                        <Label htmlFor="newPassword">New Password</Label>
+                        <Input
+                          id="newPassword"
+                          type="password"
+                          value={passwordResetData.newPassword}
+                          onChange={(e) => setPasswordResetData({ ...passwordResetData, newPassword: e.target.value })}
+                          placeholder="Enter new password"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="confirmPassword">Confirm Password</Label>
+                        <Input
+                          id="confirmPassword"
+                          type="password"
+                          value={passwordResetData.confirmPassword}
+                          onChange={(e) => setPasswordResetData({ ...passwordResetData, confirmPassword: e.target.value })}
+                          placeholder="Confirm new password"
+                        />
+                      </div>
+                      <div className="flex justify-end gap-2">
+                        <Button variant="outline" onClick={() => setIsPasswordResetOpen(false)}>
+                          Cancel
+                        </Button>
+                        <Button
+                          onClick={() => {
+                            if (passwordResetData.newPassword !== passwordResetData.confirmPassword) {
+                              toast({
+                                title: "Error",
+                                description: "Passwords do not match",
+                                variant: "destructive",
+                              });
+                              return;
+                            }
+                            if (passwordResetUser) {
+                              resetPasswordMutation.mutate({ 
+                                userId: passwordResetUser.id, 
+                                password: passwordResetData.newPassword 
+                              });
+                            }
+                          }}
+                          disabled={resetPasswordMutation.isPending || !passwordResetData.newPassword || !passwordResetData.confirmPassword}
+                        >
+                          {resetPasswordMutation.isPending ? "Resetting..." : "Reset Password"}
+                        </Button>
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </TabsContent>
 
               <TabsContent value="notices" className="space-y-4">
