@@ -158,6 +158,7 @@ export default function UserDashboard() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user/document-requests"] });
       queryClient.invalidateQueries({ queryKey: ["/api/user/document-requests/unread-count"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/user/document-requests/pending-count"] });
     },
   });
 
@@ -169,6 +170,7 @@ export default function UserDashboard() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user/document-requests"] });
       queryClient.invalidateQueries({ queryKey: ["/api/user/document-requests/unread-count"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/user/document-requests/pending-count"] });
       toast({
         title: "Success",
         description: "All document requests marked as read",
@@ -209,6 +211,15 @@ export default function UserDashboard() {
   });
 
   const unreadDocumentCount = unreadDocumentData?.count || 0;
+
+  // Get pending document requests count (viewed but not uploaded)
+  const { data: pendingDocumentData } = useQuery<{ viewedPending: number; totalPending: number }>({
+    queryKey: ["/api/user/document-requests/pending-count"],
+    retry: false,
+  });
+
+  const pendingDocumentCount = pendingDocumentData?.viewedPending || 0;
+  const totalPendingDocumentCount = pendingDocumentData?.totalPending || 0;
 
   // Get document requests
   const { data: documentRequests = [], isLoading: documentRequestsLoading } = useQuery<DocumentRequest[]>({
@@ -329,6 +340,7 @@ export default function UserDashboard() {
         description: "Documents uploaded successfully!",
       });
       queryClient.invalidateQueries({ queryKey: ["/api/user/document-requests"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/user/document-requests/pending-count"] });
       setDocumentRequestFiles({});
       setDocumentRequestMessages({});
     },
@@ -475,9 +487,9 @@ export default function UserDashboard() {
               <TabsTrigger value="applications">Application Status</TabsTrigger>
               <TabsTrigger value="document-requests" className="relative">
                 Document Requests
-                {unreadDocumentCount > 0 && (
-                  <Badge className="ml-2 bg-red-500 text-white text-xs px-1.5 py-0.5 min-w-[20px] h-5 rounded-full">
-                    {unreadDocumentCount}
+                {totalPendingDocumentCount > 0 && (
+                  <Badge className="ml-2 bg-orange-500 text-white text-xs px-1.5 py-0.5 min-w-[20px] h-5 rounded-full">
+                    {totalPendingDocumentCount}
                   </Badge>
                 )}
               </TabsTrigger>
@@ -869,22 +881,31 @@ export default function UserDashboard() {
                     <CardTitle className="flex items-center space-x-2">
                       <FileText className="h-5 w-5" />
                       <span>Document Requests from Admin</span>
-                      {unreadDocumentCount > 0 && (
-                        <Badge className="bg-red-500 text-white">
-                          {unreadDocumentCount} unread
-                        </Badge>
-                      )}
+                      <div className="flex space-x-2">
+                        {unreadDocumentCount > 0 && (
+                          <Badge className="bg-red-500 text-white">
+                            {unreadDocumentCount} new
+                          </Badge>
+                        )}
+                        {pendingDocumentCount > 0 && (
+                          <Badge className="bg-orange-500 text-white">
+                            {pendingDocumentCount} pending upload
+                          </Badge>
+                        )}
+                      </div>
                     </CardTitle>
-                    {unreadDocumentCount > 0 && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => markAllDocumentRequestsAsReadMutation.mutate()}
-                        disabled={markAllDocumentRequestsAsReadMutation.isPending}
-                      >
-                        Mark All as Read
-                      </Button>
-                    )}
+                    <div className="flex space-x-2">
+                      {unreadDocumentCount > 0 && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => markAllDocumentRequestsAsReadMutation.mutate()}
+                          disabled={markAllDocumentRequestsAsReadMutation.isPending}
+                        >
+                          Mark All as Read
+                        </Button>
+                      )}
+                    </div>
                   </div>
                 </CardHeader>
                 <CardContent>
@@ -898,10 +919,15 @@ export default function UserDashboard() {
                     </div>
                   ) : (
                     <div className="space-y-6">
-                      {unreadDocumentCount > 0 && (
-                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
-                          <p className="text-sm text-blue-700">
-                            💡 <strong>Tip:</strong> Click on unread document requests (highlighted in blue) to mark them as read.
+                      {(unreadDocumentCount > 0 || pendingDocumentCount > 0) && (
+                        <div className="bg-gradient-to-r from-red-50 to-orange-50 border border-red-200 rounded-lg p-3 mb-4">
+                          <p className="text-sm text-gray-700">
+                            💡 <strong>Status Guide:</strong> 
+                            <span className="ml-2 text-red-700">Red = New requests (click to mark as read)</span>
+                            <span className="mx-2">•</span>
+                            <span className="text-orange-700">Orange = Viewed but need document upload</span>
+                            <span className="mx-2">•</span>
+                            <span className="text-green-700">Green = Completed</span>
                           </p>
                         </div>
                       )}
@@ -910,7 +936,9 @@ export default function UserDashboard() {
                           key={request.id} 
                           className={`cursor-pointer transition-colors hover:bg-gray-50 border rounded-lg p-6 ${
                             !request.read && request.messageType === 'document_request' 
-                              ? "border-l-4 border-l-blue-500 bg-blue-50/30" 
+                              ? "border-l-4 border-l-red-500 bg-red-50/20" 
+                              : request.read && request.status !== 'completed' && request.messageType === 'document_request'
+                              ? "border-l-4 border-l-orange-500 bg-orange-50/20"
                               : ""
                           }`}
                           onClick={() => {
@@ -922,7 +950,8 @@ export default function UserDashboard() {
                           <div className="flex items-start justify-between mb-4">
                             <div>
                               <h3 className={`font-semibold text-lg ${
-                                !request.read && request.messageType === 'document_request' ? "text-blue-800" : ""
+                                !request.read && request.messageType === 'document_request' ? "text-red-800" : 
+                                request.read && request.status !== 'completed' && request.messageType === 'document_request' ? "text-orange-800" : ""
                               }`}>
                                 {request.subject}
                               </h3>
@@ -933,14 +962,15 @@ export default function UserDashboard() {
                             <Badge 
                               className={
                                 request.status === 'completed' ? 'bg-green-100 text-green-800' :
-                                request.read ? 'bg-blue-100 text-blue-800' :
-                                request.messageType === 'document_request' ? 'bg-blue-500 text-white' :
-                                'bg-yellow-100 text-yellow-800'
+                                !request.read && request.messageType === 'document_request' ? 'bg-red-500 text-white' :
+                                request.read && request.status !== 'completed' && request.messageType === 'document_request' ? 'bg-orange-500 text-white' :
+                                'bg-blue-100 text-blue-800'
                               }
                             >
                               {request.status === 'completed' ? 'Completed' :
-                               request.read ? 'Viewed' : 
-                               request.messageType === 'document_request' ? 'New' : 'Pending'}
+                               !request.read && request.messageType === 'document_request' ? 'New' :
+                               request.read && request.status !== 'completed' && request.messageType === 'document_request' ? 'Pending Upload' :
+                               'Viewed'}
                             </Badge>
                           </div>
 

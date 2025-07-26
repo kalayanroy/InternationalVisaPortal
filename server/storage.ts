@@ -945,6 +945,30 @@ export class DatabaseStorage implements IStorage {
     return result[0]?.count || 0;
   }
 
+  // Get viewed but not uploaded document requests count
+  async getViewedPendingDocumentRequestsCount(userId: number): Promise<number> {
+    const result = await db
+      .select({ count: sql<number>`count(*)::int` })
+      .from(documentMessages)
+      .where(
+        and(
+          eq(documentMessages.userId, userId),
+          eq(documentMessages.read, true), // Viewed
+          eq(documentMessages.messageType, "document_request"), // Admin requests only
+          ne(documentMessages.status, "completed") // Not completed with uploads
+        )
+      );
+    
+    return result[0]?.count || 0;
+  }
+
+  // Get total pending document requests (unread + viewed but not uploaded)
+  async getTotalPendingDocumentRequestsCount(userId: number): Promise<number> {
+    const unreadCount = await this.getUnreadDocumentRequestsCount(userId);
+    const viewedPendingCount = await this.getViewedPendingDocumentRequestsCount(userId);
+    return unreadCount + viewedPendingCount;
+  }
+
   // Mark document request as read
   async markDocumentRequestAsRead(userId: number, messageId: number): Promise<DocumentMessage | undefined> {
     const [updated] = await db

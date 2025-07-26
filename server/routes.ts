@@ -1356,6 +1356,27 @@ Generated on: ${new Date().toLocaleString()}
     }
   });
 
+  // Get pending document requests count (viewed but not uploaded)
+  app.get("/api/user/document-requests/pending-count", authenticateToken, async (req: AuthRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: "User not authenticated" });
+      }
+
+      const pendingCount = await storage.getViewedPendingDocumentRequestsCount(userId);
+      const totalPendingCount = await storage.getTotalPendingDocumentRequestsCount(userId);
+      
+      res.json({ 
+        viewedPending: pendingCount,
+        totalPending: totalPendingCount 
+      });
+    } catch (error) {
+      console.error("Error fetching pending document requests count:", error);
+      res.status(500).json({ message: "Failed to fetch pending document requests count" });
+    }
+  });
+
   // Mark document request as read
   app.post("/api/user/document-requests/:id/mark-read", authenticateToken, async (req: AuthRequest, res) => {
     try {
