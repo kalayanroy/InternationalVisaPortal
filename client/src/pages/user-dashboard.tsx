@@ -67,6 +67,9 @@ interface UserProfile {
   firstName: string;
   lastName: string;
   profileImageUrl?: string;
+  role?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface DocumentRequest {
@@ -117,7 +120,7 @@ export default function UserDashboard() {
   // Profile settings state
   const [profileFormData, setProfileFormData] = useState({
     firstName: user?.firstName || '',
-    lastName: user.lastName || '',
+    lastName: user?.lastName || '',
     username: user?.username || '',
   });
   
@@ -439,15 +442,7 @@ export default function UserDashboard() {
     bookConsultationMutation.mutate(consultationForm);
   };
 
-  const handleUpdateProfile = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!user) return;
-    updateProfileMutation.mutate({
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-    });
-  };
+
 
   const getStatusColor = (status: string) => {
     switch (status?.toLowerCase()) {
