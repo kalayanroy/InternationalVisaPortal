@@ -117,22 +117,28 @@ export default function UserDashboard() {
   // Mark notice as read mutation
   const markNoticeAsReadMutation = useMutation({
     mutationFn: async (noticeId: number) => {
-      await apiRequest(`/api/user/notices/${noticeId}/mark-read`, {
-        method: "POST",
-      });
+      console.log("Calling API to mark notice as read:", noticeId);
+      return await apiRequest(`/api/user/notices/${noticeId}/mark-read`, "POST");
     },
-    onSuccess: () => {
+    onSuccess: (data, noticeId) => {
+      console.log("Successfully marked notice as read:", noticeId);
       queryClient.invalidateQueries({ queryKey: ["/api/user/notices"] });
       queryClient.invalidateQueries({ queryKey: ["/api/user/notices/unread-count"] });
+    },
+    onError: (error, noticeId) => {
+      console.error("Error marking notice as read:", error, noticeId);
+      toast({
+        title: "Error",
+        description: "Failed to mark notice as read",
+        variant: "destructive",
+      });
     },
   });
 
   // Mark all notices as read mutation
   const markAllNoticesAsReadMutation = useMutation({
     mutationFn: async () => {
-      await apiRequest("/api/user/notices/mark-all-read", {
-        method: "POST",
-      });
+      return await apiRequest("/api/user/notices/mark-all-read", "POST");
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user/notices"] });
@@ -1015,7 +1021,9 @@ export default function UserDashboard() {
                             !notice.isRead ? "border-l-4 border-l-blue-500 bg-blue-50/30" : ""
                           }`}
                           onClick={() => {
+                            console.log("Notice clicked:", notice.id, "isRead:", notice.isRead);
                             if (!notice.isRead) {
+                              console.log("Marking notice as read:", notice.id);
                               markNoticeAsReadMutation.mutate(notice.id);
                             }
                           }}
