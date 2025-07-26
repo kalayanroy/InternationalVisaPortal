@@ -1852,6 +1852,40 @@ Generated on: ${new Date().toLocaleString()}
     }
   });
 
+  // Admin mark notification as read
+  app.patch("/api/admin/notifications/:id/read", authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const notificationId = parseInt(req.params.id);
+      const notification = await storage.markNotificationAsRead(notificationId);
+      
+      if (!notification) {
+        return res.status(404).json({ message: "Notification not found" });
+      }
+
+      res.json({ message: "Notification marked as read successfully" });
+    } catch (error) {
+      console.error("Error marking notification as read:", error);
+      res.status(500).json({ message: "Failed to mark notification as read" });
+    }
+  });
+
+  // Admin delete notification
+  app.delete("/api/admin/notifications/:id", authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+    try {
+      const notificationId = parseInt(req.params.id);
+      const result = await storage.deleteNotification(notificationId);
+      
+      if (!result) {
+        return res.status(404).json({ message: "Notification not found" });
+      }
+
+      res.json({ message: "Notification deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting notification:", error);
+      res.status(500).json({ message: "Failed to delete notification" });
+    }
+  });
+
   // User notifications endpoint
   app.get("/api/user/notifications", authenticateToken, async (req: AuthRequest, res) => {
     try {
