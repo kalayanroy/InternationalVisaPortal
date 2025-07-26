@@ -63,6 +63,14 @@ export default function AdminDashboard() {
     confirmPassword: ""
   });
 
+  // Notification History States
+  const [notificationSearchTerm, setNotificationSearchTerm] = useState("");
+  const [selectedNotificationType, setSelectedNotificationType] = useState("all");
+  const [selectedNotificationStatus, setSelectedNotificationStatus] = useState("all");
+  const [selectedDateRange, setSelectedDateRange] = useState("all");
+  const [selectedNotification, setSelectedNotification] = useState<Notification | null>(null);
+  const [isNotificationDetailsOpen, setIsNotificationDetailsOpen] = useState(false);
+
   // Fetch all student applications
   const { data: applications = [], isLoading: applicationsLoading } = useQuery<StudentApplication[]>({
     queryKey: ["/api/admin/applications"],
@@ -101,6 +109,12 @@ export default function AdminDashboard() {
   // Fetch all notices for admin management
   const { data: notices = [] } = useQuery<any[]>({
     queryKey: ["/api/admin/notices"],
+    enabled: isAuthenticated && isAdmin,
+  });
+
+  // Fetch notification history for admin management
+  const { data: notificationHistory = [] } = useQuery<Notification[]>({
+    queryKey: ["/api/admin/notifications"],
     enabled: isAuthenticated && isAdmin,
   });
 
@@ -682,6 +696,140 @@ export default function AdminDashboard() {
         return "bg-gray-100 text-gray-800";
     }
   };
+
+  // Notification history helper functions
+  const getNotificationTypeColor = (type: string) => {
+    switch (type) {
+      case "application_status":
+        return "bg-blue-100 text-blue-800";
+      case "appointment":
+        return "bg-green-100 text-green-800";
+      case "document_request":
+        return "bg-orange-100 text-orange-800";
+      case "general":
+        return "bg-purple-100 text-purple-800";
+      case "system":
+        return "bg-gray-100 text-gray-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
+
+  const getNotificationStatusColor = (read: boolean) => {
+    return read ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800";
+  };
+
+  const filterNotificationsByDateRange = (notifications: Notification[], range: string) => {
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    
+    switch (range) {
+      case "today":
+        return notifications.filter(notification => 
+          new Date(notification.createdAt) >= startOfDay
+        );
+      case "week":
+        const weekAgo = new Date(startOfDay.getTime() - 7 * 24 * 60 * 60 * 1000);
+        return notifications.filter(notification => 
+          new Date(notification.createdAt) >= weekAgo
+        );
+      case "month":
+        const monthAgo = new Date(startOfDay.getTime() - 30 * 24 * 60 * 60 * 1000);
+        return notifications.filter(notification => 
+          new Date(notification.createdAt) >= monthAgo
+        );
+      case "all":
+      default:
+        return notifications;
+    }
+  };
+
+  const filteredNotifications = filterNotificationsByDateRange(notificationHistory, selectedDateRange)
+    .filter(notification => {
+      const matchesSearch = notificationSearchTerm === "" || 
+        notification.title.toLowerCase().includes(notificationSearchTerm.toLowerCase()) ||
+        notification.message.toLowerCase().includes(notificationSearchTerm.toLowerCase());
+      
+      const matchesType = selectedNotificationType === "all" || notification.type === selectedNotificationType;
+      const matchesStatus = selectedNotificationStatus === "all" || 
+        (selectedNotificationStatus === "read" && notification.read) ||
+        (selectedNotificationStatus === "unread" && !notification.read);
+      
+      return matchesSearch && matchesType && matchesStatus;
+    });
+
+  const handleViewNotificationDetails = (notification: Notification) => {
+    setSelectedNotification(notification);
+    setIsNotificationDetailsOpen(true);
+  };
+
+  // Mark notification as read mutation
+  const markNotificationReadMutation = useMutation({
+    mutationFn: async (notificationId: number) => {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`/api/admin/notifications/${notificationId}/read`, {
+        method: "PATCH",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to mark notification as read");
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/notifications"] });
+      toast({
+        title: "Success",
+        description: "Notification marked as read",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Delete notification mutation
+  const deleteNotificationMutation = useMutation({
+    mutationFn: async (notificationId: number) => {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`/api/admin/notifications/${notificationId}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to delete notification");
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/notifications"] });
+      toast({
+        title: "Success",
+        description: "Notification deleted successfully",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
 
   // Don't render anything if not authenticated or not admin
   if (!isAuthenticated || !isAdmin) {
@@ -2086,19 +2234,308 @@ export default function AdminDashboard() {
                 )}
               </TabsContent>
 
-              <TabsContent value="notifications">
+              <TabsContent value="notifications" className="space-y-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Notification History</CardTitle>
-                    <CardDescription>View all sent notifications and user communications</CardDescription>
+                    <CardTitle className="flex items-center gap-2">
+                      <MessageSquare className="h-5 w-5" />
+                      Notification History
+                    </CardTitle>
+                    <CardDescription>
+                      View and manage all system notifications and user communications
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-center py-8">
-                      <MessageSquare className="mx-auto h-12 w-12 text-gray-400" />
-                      <p className="mt-1 text-sm text-gray-500">Notification history coming soon</p>
+                    {/* Filters and Search */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                      <div>
+                        <Input
+                          placeholder="Search notifications..."
+                          value={notificationSearchTerm}
+                          onChange={(e) => setNotificationSearchTerm(e.target.value)}
+                          className="w-full"
+                        />
+                      </div>
+                      <div>
+                        <Select value={selectedNotificationType} onValueChange={setSelectedNotificationType}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Filter by type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="all">All Types</SelectItem>
+                            <SelectItem value="application_status">Application Status</SelectItem>
+                            <SelectItem value="appointment">Appointment</SelectItem>
+                            <SelectItem value="document_request">Document Request</SelectItem>
+                            <SelectItem value="general">General</SelectItem>
+                            <SelectItem value="system">System</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <Select value={selectedNotificationStatus} onValueChange={setSelectedNotificationStatus}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Filter by status" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="all">All Status</SelectItem>
+                            <SelectItem value="read">Read</SelectItem>
+                            <SelectItem value="unread">Unread</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <Select value={selectedDateRange} onValueChange={setSelectedDateRange}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Date range" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="all">All Time</SelectItem>
+                            <SelectItem value="today">Today</SelectItem>
+                            <SelectItem value="week">Last Week</SelectItem>
+                            <SelectItem value="month">Last Month</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+
+                    {/* Notification Statistics */}
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                      <Card>
+                        <CardContent className="p-4">
+                          <div className="text-center">
+                            <div className="text-2xl font-bold text-blue-600">{notificationHistory.length}</div>
+                            <div className="text-sm text-gray-500">Total Notifications</div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                      <Card>
+                        <CardContent className="p-4">
+                          <div className="text-center">
+                            <div className="text-2xl font-bold text-red-600">
+                              {notificationHistory.filter(n => !n.read).length}
+                            </div>
+                            <div className="text-sm text-gray-500">Unread</div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                      <Card>
+                        <CardContent className="p-4">
+                          <div className="text-center">
+                            <div className="text-2xl font-bold text-green-600">
+                              {notificationHistory.filter(n => n.read).length}
+                            </div>
+                            <div className="text-sm text-gray-500">Read</div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                      <Card>
+                        <CardContent className="p-4">
+                          <div className="text-center">
+                            <div className="text-2xl font-bold text-orange-600">
+                              {notificationHistory.filter(n => n.type === "application_status").length}
+                            </div>
+                            <div className="text-sm text-gray-500">Application Updates</div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+
+                    {/* Notifications Table */}
+                    <div className="rounded-md border">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Title</TableHead>
+                            <TableHead>Type</TableHead>
+                            <TableHead>User</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead>Date</TableHead>
+                            <TableHead className="text-right">Actions</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {filteredNotifications.map((notification) => {
+                            const user = allUsers.find(u => u.id === notification.userId);
+                            return (
+                              <TableRow key={notification.id} className={!notification.read ? "bg-blue-50" : ""}>
+                                <TableCell className="font-medium">
+                                  <div className="max-w-xs truncate" title={notification.title}>
+                                    {notification.title}
+                                  </div>
+                                  {!notification.read && (
+                                    <Badge className="bg-red-100 text-red-800 text-xs ml-2">New</Badge>
+                                  )}
+                                </TableCell>
+                                <TableCell>
+                                  <Badge className={getNotificationTypeColor(notification.type)}>
+                                    {notification.type.replace('_', ' ').toUpperCase()}
+                                  </Badge>
+                                </TableCell>
+                                <TableCell>
+                                  {user ? `${user.firstName} ${user.lastName}` : `User ID: ${notification.userId}`}
+                                </TableCell>
+                                <TableCell>
+                                  <Badge className={getNotificationStatusColor(notification.read)}>
+                                    {notification.read ? "Read" : "Unread"}
+                                  </Badge>
+                                </TableCell>
+                                <TableCell>
+                                  {format(new Date(notification.createdAt), "MMM dd, yyyy HH:mm")}
+                                </TableCell>
+                                <TableCell className="text-right">
+                                  <div className="flex justify-end gap-2">
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => handleViewNotificationDetails(notification)}
+                                    >
+                                      View
+                                    </Button>
+                                    {!notification.read && (
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => markNotificationReadMutation.mutate(notification.id)}
+                                        disabled={markNotificationReadMutation.isPending}
+                                      >
+                                        Mark Read
+                                      </Button>
+                                    )}
+                                    <Button
+                                      variant="destructive"
+                                      size="sm"
+                                      onClick={() => {
+                                        if (window.confirm("Are you sure you want to delete this notification?")) {
+                                          deleteNotificationMutation.mutate(notification.id);
+                                        }
+                                      }}
+                                      disabled={deleteNotificationMutation.isPending}
+                                    >
+                                      Delete
+                                    </Button>
+                                  </div>
+                                </TableCell>
+                              </TableRow>
+                            );
+                          })}
+                        </TableBody>
+                      </Table>
+                      {filteredNotifications.length === 0 && (
+                        <div className="text-center py-8">
+                          <MessageSquare className="mx-auto h-12 w-12 text-gray-400" />
+                          <p className="mt-2 text-sm text-gray-500">
+                            {notificationSearchTerm || selectedNotificationType !== "all" || selectedNotificationStatus !== "all" || selectedDateRange !== "all"
+                              ? "No notifications match your search criteria"
+                              : "No notifications found"
+                            }
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
+
+                {/* Notification Details Dialog */}
+                <Dialog open={isNotificationDetailsOpen} onOpenChange={setIsNotificationDetailsOpen}>
+                  <DialogContent className="max-w-2xl">
+                    <DialogHeader>
+                      <DialogTitle>Notification Details</DialogTitle>
+                      <DialogDescription>
+                        Full notification information and context
+                      </DialogDescription>
+                    </DialogHeader>
+                    {selectedNotification && (
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <Label className="text-sm font-medium text-gray-500">Type</Label>
+                            <div className="mt-1">
+                              <Badge className={getNotificationTypeColor(selectedNotification.type)}>
+                                {selectedNotification.type.replace('_', ' ').toUpperCase()}
+                              </Badge>
+                            </div>
+                          </div>
+                          <div>
+                            <Label className="text-sm font-medium text-gray-500">Status</Label>
+                            <div className="mt-1">
+                              <Badge className={getNotificationStatusColor(selectedNotification.read)}>
+                                {selectedNotification.read ? "Read" : "Unread"}
+                              </Badge>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <Label className="text-sm font-medium text-gray-500">Recipient</Label>
+                          <div className="mt-1 text-sm">
+                            {(() => {
+                              const user = allUsers.find(u => u.id === selectedNotification.userId);
+                              return user ? `${user.firstName} ${user.lastName} (${user.email})` : `User ID: ${selectedNotification.userId}`;
+                            })()}
+                          </div>
+                        </div>
+
+                        <div>
+                          <Label className="text-sm font-medium text-gray-500">Title</Label>
+                          <div className="mt-1 text-sm font-medium">{selectedNotification.title}</div>
+                        </div>
+
+                        <div>
+                          <Label className="text-sm font-medium text-gray-500">Message</Label>
+                          <div className="mt-1 p-4 bg-gray-50 rounded-lg text-sm whitespace-pre-wrap">
+                            {selectedNotification.message}
+                          </div>
+                        </div>
+
+                        {selectedNotification.relatedEntityId && selectedNotification.relatedEntityType && (
+                          <div>
+                            <Label className="text-sm font-medium text-gray-500">Related Entity</Label>
+                            <div className="mt-1 text-sm">
+                              {selectedNotification.relatedEntityType.charAt(0).toUpperCase() + selectedNotification.relatedEntityType.slice(1)} ID: {selectedNotification.relatedEntityId}
+                            </div>
+                          </div>
+                        )}
+
+                        <div>
+                          <Label className="text-sm font-medium text-gray-500">Created</Label>
+                          <div className="mt-1 text-sm">
+                            {format(new Date(selectedNotification.createdAt), "MMMM dd, yyyy 'at' HH:mm")}
+                          </div>
+                        </div>
+
+                        <div className="flex justify-end gap-2 pt-4">
+                          {!selectedNotification.read && (
+                            <Button
+                              variant="outline"
+                              onClick={() => {
+                                markNotificationReadMutation.mutate(selectedNotification.id);
+                                setIsNotificationDetailsOpen(false);
+                              }}
+                              disabled={markNotificationReadMutation.isPending}
+                            >
+                              Mark as Read
+                            </Button>
+                          )}
+                          <Button
+                            variant="destructive"
+                            onClick={() => {
+                              if (window.confirm("Are you sure you want to delete this notification?")) {
+                                deleteNotificationMutation.mutate(selectedNotification.id);
+                                setIsNotificationDetailsOpen(false);
+                              }
+                            }}
+                            disabled={deleteNotificationMutation.isPending}
+                          >
+                            Delete Notification
+                          </Button>
+                          <Button onClick={() => setIsNotificationDetailsOpen(false)}>
+                            Close
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                  </DialogContent>
+                </Dialog>
               </TabsContent>
             </Tabs>
           </div>
