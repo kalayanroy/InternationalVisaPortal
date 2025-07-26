@@ -54,7 +54,7 @@ import {
   type InsertUserNoticeRead,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, not, sql, and, isNull } from "drizzle-orm";
+import { eq, desc, not, sql, and, isNull, ne } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 
 export interface IStorage {
@@ -65,6 +65,11 @@ export interface IStorage {
   createUser(user: InsertUser): Promise<User>;
   registerUser(userData: RegisterUser): Promise<User>;
   authenticateUser(credentials: LoginUser): Promise<User | null>;
+  
+  // Profile Management
+  updateUserProfile(userId: number, updates: Partial<User>): Promise<User>;
+  changeUserPassword(userId: number, currentPassword: string, newPassword: string): Promise<boolean>;
+  updateUserEmail(userId: number, newEmail: string): Promise<User>;
 
   getStudent(id: number): Promise<Student | undefined>;
   getStudentByEmail(email: string): Promise<Student | undefined>;
@@ -967,6 +972,82 @@ export class DatabaseStorage implements IStorage {
     const unreadCount = await this.getUnreadDocumentRequestsCount(userId);
     const viewedPendingCount = await this.getViewedPendingDocumentRequestsCount(userId);
     return unreadCount + viewedPendingCount;
+  }
+
+  // Profile Management Methods
+  async updateUserProfile(userId: number, updates: Partial<User>): Promise<User> {
+    const allowedUpdates = {
+      firstName: updates.firstName,
+      lastName: updates.lastName,
+      username: updates.username,
+    };
+
+    // Remove undefined values
+    const cleanUpdates = Object.fromEntries(
+      Object.entries(allowedUpdates).filter(([_, value]) => value !== undefined)
+    );
+
+    if (Object.keys(cleanUpdates).length === 0) {
+      throw new Error("No valid updates provided");
+    }
+
+    const [updatedUser] = await db
+      .update(users)
+      .set(cleanUpdates)
+      .where(eq(users.id, userId))
+      .returning();
+
+    if (!updatedUser) {
+      throw new Error("User not found");
+    }
+
+    return updatedUser;
+  }
+
+  async changeUserPassword(userId: number, currentPassword: string, newPassword: string): Promise<boolean> {
+    // Get current user
+    const user = await this.getUserById(userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Verify current password
+    const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
+    if (!isCurrentPasswordValid) {
+      throw new Error("Current password is incorrect");
+    }
+
+    // Hash new password
+    const saltRounds = 10;
+    const hashedNewPassword = await bcrypt.hash(newPassword, saltRounds);
+
+    // Update password in database
+    await db
+      .update(users)
+      .set({ password: hashedNewPassword })
+      .where(eq(users.id, userId));
+
+    return true;
+  }
+
+  async updateUserEmail(userId: number, newEmail: string): Promise<User> {
+    // Check if email is already taken by another user
+    const existingUser = await this.getUserByEmail(newEmail);
+    if (existingUser && existingUser.id !== userId) {
+      throw new Error("Email is already taken by another user");
+    }
+
+    const [updatedUser] = await db
+      .update(users)
+      .set({ email: newEmail })
+      .where(eq(users.id, userId))
+      .returning();
+
+    if (!updatedUser) {
+      throw new Error("User not found");
+    }
+
+    return updatedUser;
   }
 
   // Mark document request as read

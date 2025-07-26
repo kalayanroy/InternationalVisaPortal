@@ -2199,6 +2199,87 @@ Generated on: ${new Date().toLocaleString()}
     }
   });
 
+  // Profile Management Routes
+  
+  // Update user profile (name, username)
+  app.put("/api/user/profile", authenticateToken, async (req: AuthRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: "User not authenticated" });
+      }
+
+      const { firstName, lastName, username } = req.body;
+      
+      const updatedUser = await storage.updateUserProfile(userId, {
+        firstName,
+        lastName,
+        username,
+      });
+
+      res.json(updatedUser);
+    } catch (error: any) {
+      console.error("Error updating user profile:", error);
+      res.status(400).json({ message: error.message || "Failed to update profile" });
+    }
+  });
+
+  // Change user password
+  app.put("/api/user/password", authenticateToken, async (req: AuthRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: "User not authenticated" });
+      }
+
+      const { currentPassword, newPassword } = req.body;
+      
+      if (!currentPassword || !newPassword) {
+        return res.status(400).json({ message: "Current password and new password are required" });
+      }
+
+      if (newPassword.length < 6) {
+        return res.status(400).json({ message: "New password must be at least 6 characters long" });
+      }
+
+      await storage.changeUserPassword(userId, currentPassword, newPassword);
+
+      res.json({ message: "Password changed successfully" });
+    } catch (error: any) {
+      console.error("Error changing password:", error);
+      res.status(400).json({ message: error.message || "Failed to change password" });
+    }
+  });
+
+  // Update user email
+  app.put("/api/user/email", authenticateToken, async (req: AuthRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: "User not authenticated" });
+      }
+
+      const { newEmail } = req.body;
+      
+      if (!newEmail) {
+        return res.status(400).json({ message: "New email is required" });
+      }
+
+      // Basic email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(newEmail)) {
+        return res.status(400).json({ message: "Invalid email format" });
+      }
+
+      const updatedUser = await storage.updateUserEmail(userId, newEmail);
+
+      res.json(updatedUser);
+    } catch (error: any) {
+      console.error("Error updating email:", error);
+      res.status(400).json({ message: error.message || "Failed to update email" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

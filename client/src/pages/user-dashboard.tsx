@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -113,6 +113,37 @@ export default function UserDashboard() {
   const [documentRequestFiles, setDocumentRequestFiles] = useState<{[key: number]: File[]}>({});
   const [documentRequestMessages, setDocumentRequestMessages] = useState<{[key: number]: string}>({});
   const [selectedApplication, setSelectedApplication] = useState<Application | null>(null);
+  
+  // Profile settings state
+  const [profileFormData, setProfileFormData] = useState({
+    firstName: user?.firstName || '',
+    lastName: user.lastName || '',
+    username: user?.username || '',
+  });
+  
+  const [passwordFormData, setPasswordFormData] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+  });
+  
+  const [emailFormData, setEmailFormData] = useState({
+    newEmail: user?.email || '',
+  });
+
+  // Update profile data when user data loads
+  React.useEffect(() => {
+    if (user) {
+      setProfileFormData({
+        firstName: user.firstName || '',
+        lastName: user.lastName || '',
+        username: user.username || '',
+      });
+      setEmailFormData({
+        newEmail: user.email || '',
+      });
+    }
+  }, [user]);
 
   // Mark notice as read mutation
   const markNoticeAsReadMutation = useMutation({
@@ -266,26 +297,7 @@ export default function UserDashboard() {
     },
   });
 
-  // Update profile mutation
-  const updateProfileMutation = useMutation({
-    mutationFn: async (data: any) => {
-      return await apiRequest("PUT", "/api/user/profile", data);
-    },
-    onSuccess: () => {
-      toast({
-        title: "Success",
-        description: "Profile updated successfully!",
-      });
-      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
-    },
-    onError: (error: any) => {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to update profile",
-        variant: "destructive",
-      });
-    },
-  });
+
 
   // Create sample applications mutation
   const createSampleApplicationsMutation = useMutation({
@@ -348,6 +360,67 @@ export default function UserDashboard() {
       toast({
         title: "Error",
         description: error.message || "Failed to upload documents",
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Enhanced profile management mutations
+  const updateProfileMutation = useMutation({
+    mutationFn: async (data: { firstName: string; lastName: string; username: string }) => {
+      return await apiRequest("PUT", "/api/user/profile", data);
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Profile updated successfully!",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update profile",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const changePasswordMutation = useMutation({
+    mutationFn: async (data: { currentPassword: string; newPassword: string }) => {
+      return await apiRequest("PUT", "/api/user/password", data);
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Password changed successfully!",
+      });
+      setPasswordFormData({ currentPassword: '', newPassword: '', confirmPassword: '' });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to change password",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const updateEmailMutation = useMutation({
+    mutationFn: async (data: { newEmail: string }) => {
+      return await apiRequest("PUT", "/api/user/email", data);
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Email updated successfully!",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update email",
         variant: "destructive",
       });
     },
@@ -1178,71 +1251,222 @@ export default function UserDashboard() {
 
             {/* Profile Settings Tab */}
             <TabsContent value="profile" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <Settings className="h-5 w-5" />
-                    <span>Profile Settings</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {user && (
-                    <form onSubmit={handleUpdateProfile} className="space-y-6">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid gap-6">
+                {/* Personal Information Section */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center space-x-2">
+                      <User className="h-5 w-5" />
+                      <span>Personal Information</span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {user && (
+                      <form onSubmit={(e) => {
+                        e.preventDefault();
+                        updateProfileMutation.mutate(profileFormData);
+                      }} className="space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div>
+                            <Label htmlFor="firstName">First Name</Label>
+                            <Input
+                              id="firstName"
+                              value={profileFormData.firstName}
+                              onChange={(e) => setProfileFormData({ ...profileFormData, firstName: e.target.value })}
+                              required
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor="lastName">Last Name</Label>
+                            <Input
+                              id="lastName"
+                              value={profileFormData.lastName}
+                              onChange={(e) => setProfileFormData({ ...profileFormData, lastName: e.target.value })}
+                              required
+                            />
+                          </div>
+                        </div>
+
                         <div>
-                          <Label htmlFor="firstName">First Name</Label>
+                          <Label htmlFor="username">Username</Label>
                           <Input
-                            id="firstName"
-                            value={user.firstName}
-                            onChange={(e) => setUser({ ...user, firstName: e.target.value })}
+                            id="username"
+                            value={profileFormData.username}
+                            onChange={(e) => setProfileFormData({ ...profileFormData, username: e.target.value })}
                             required
                           />
                         </div>
-                        <div>
-                          <Label htmlFor="lastName">Last Name</Label>
-                          <Input
-                            id="lastName"
-                            value={user.lastName}
-                            onChange={(e) => setUser({ ...user, lastName: e.target.value })}
-                            required
-                          />
-                        </div>
+
+                        <Button
+                          type="submit"
+                          className="bg-teal-600 hover:bg-teal-700"
+                          disabled={updateProfileMutation.isPending}
+                        >
+                          <Save className="h-4 w-4 mr-2" />
+                          {updateProfileMutation.isPending ? "Updating..." : "Update Profile"}
+                        </Button>
+                      </form>
+                    )}
+                  </CardContent>
+                </Card>
+
+                {/* Email Update Section */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center space-x-2">
+                      <Mail className="h-5 w-5" />
+                      <span>Email Address</span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <form onSubmit={(e) => {
+                      e.preventDefault();
+                      updateEmailMutation.mutate(emailFormData);
+                    }} className="space-y-6">
+                      <div>
+                        <Label htmlFor="currentEmail">Current Email</Label>
+                        <Input
+                          id="currentEmail"
+                          type="email"
+                          value={user?.email || ''}
+                          disabled
+                          className="bg-gray-100"
+                        />
                       </div>
 
                       <div>
-                        <Label htmlFor="email">Email Address</Label>
+                        <Label htmlFor="newEmail">New Email Address</Label>
                         <Input
-                          id="email"
+                          id="newEmail"
                           type="email"
-                          value={user.email}
-                          onChange={(e) => setUser({ ...user, email: e.target.value })}
+                          value={emailFormData.newEmail}
+                          onChange={(e) => setEmailFormData({ ...emailFormData, newEmail: e.target.value })}
+                          required
+                        />
+                      </div>
+
+                      <Button
+                        type="submit"
+                        className="bg-blue-600 hover:bg-blue-700"
+                        disabled={updateEmailMutation.isPending || emailFormData.newEmail === user?.email}
+                      >
+                        <Mail className="h-4 w-4 mr-2" />
+                        {updateEmailMutation.isPending ? "Updating..." : "Update Email"}
+                      </Button>
+                    </form>
+                  </CardContent>
+                </Card>
+
+                {/* Password Change Section */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center space-x-2">
+                      <Settings className="h-5 w-5" />
+                      <span>Change Password</span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <form onSubmit={(e) => {
+                      e.preventDefault();
+                      if (passwordFormData.newPassword !== passwordFormData.confirmPassword) {
+                        toast({
+                          title: "Error",
+                          description: "New passwords do not match",
+                          variant: "destructive",
+                        });
+                        return;
+                      }
+                      changePasswordMutation.mutate({
+                        currentPassword: passwordFormData.currentPassword,
+                        newPassword: passwordFormData.newPassword,
+                      });
+                    }} className="space-y-6">
+                      <div>
+                        <Label htmlFor="currentPassword">Current Password</Label>
+                        <Input
+                          id="currentPassword"
+                          type="password"
+                          value={passwordFormData.currentPassword}
+                          onChange={(e) => setPasswordFormData({ ...passwordFormData, currentPassword: e.target.value })}
                           required
                         />
                       </div>
 
                       <div>
-                        <Label htmlFor="username">Username</Label>
+                        <Label htmlFor="newPassword">New Password</Label>
                         <Input
-                          id="username"
-                          value={user.username}
-                          disabled
-                          className="bg-gray-100"
+                          id="newPassword"
+                          type="password"
+                          value={passwordFormData.newPassword}
+                          onChange={(e) => setPasswordFormData({ ...passwordFormData, newPassword: e.target.value })}
+                          required
+                          minLength={6}
                         />
-                        <p className="text-xs text-gray-500 mt-1">Username cannot be changed</p>
+                        <p className="text-xs text-gray-500 mt-1">Password must be at least 6 characters long</p>
+                      </div>
+
+                      <div>
+                        <Label htmlFor="confirmPassword">Confirm New Password</Label>
+                        <Input
+                          id="confirmPassword"
+                          type="password"
+                          value={passwordFormData.confirmPassword}
+                          onChange={(e) => setPasswordFormData({ ...passwordFormData, confirmPassword: e.target.value })}
+                          required
+                          minLength={6}
+                        />
                       </div>
 
                       <Button
                         type="submit"
-                        className="bg-teal-600 hover:bg-teal-700"
-                        disabled={updateProfileMutation.isPending}
+                        className="bg-red-600 hover:bg-red-700"
+                        disabled={changePasswordMutation.isPending || !passwordFormData.currentPassword || !passwordFormData.newPassword || !passwordFormData.confirmPassword}
                       >
-                        <Save className="h-4 w-4 mr-2" />
-                        {updateProfileMutation.isPending ? "Saving..." : "Save Changes"}
+                        <Settings className="h-4 w-4 mr-2" />
+                        {changePasswordMutation.isPending ? "Changing..." : "Change Password"}
                       </Button>
                     </form>
-                  )}
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+
+                {/* Account Information Display */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center space-x-2">
+                      <User className="h-5 w-5" />
+                      <span>Account Information</span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <Label>Account Type</Label>
+                        <p className="text-sm text-gray-600 mt-1 capitalize">
+                          {user?.role || 'Student'}
+                        </p>
+                      </div>
+                      <div>
+                        <Label>Member Since</Label>
+                        <p className="text-sm text-gray-600 mt-1">
+                          {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Unknown'}
+                        </p>
+                      </div>
+                      <div>
+                        <Label>Last Updated</Label>
+                        <p className="text-sm text-gray-600 mt-1">
+                          {user?.updatedAt ? new Date(user.updatedAt).toLocaleDateString() : 'Unknown'}
+                        </p>
+                      </div>
+                      <div>
+                        <Label>User ID</Label>
+                        <p className="text-sm text-gray-600 mt-1">
+                          #{user?.id}
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </TabsContent>
           </Tabs>
         </div>
