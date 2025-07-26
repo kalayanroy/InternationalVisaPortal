@@ -124,15 +124,18 @@ Preferred communication style: Simple, everyday language.
 - **Our Teams Page**: Built team showcase page with six member cards featuring circular teal avatars and detailed descriptions
 - **FAQs Page**: Implemented collapsible FAQ accordion with six common questions about consultation services
 - **Resources Page**: Built comprehensive resources page with English test and university resources sections plus newsletter subscription
+- **Events & News Page**: Created dynamic events page with today's education news, upcoming seminars, and past events sections
 - **Navigation Restructure**: Changed main menu from "Contact Us" to "About Us" dropdown with complete submenu structure
 - **Page Features**: Reception area, meeting rooms, work spaces sections with location details and virtual tour call-to-action
 - **Team Showcase**: Professional team member cards with positions, descriptions, and "Join Our Team" call-to-action
 - **Interactive FAQs**: Accordion-style FAQ section with expandable answers and contact button
 - **Resource Library**: English test resources (IELTS, TOEFL, PTE) and university resources (rankings, course comparison, scholarships)
 - **Newsletter Integration**: Email subscription form with teal styling and responsive design
+- **News Categories**: Breaking news, visa updates, scholarships, test updates, healthcare, rankings, and policy updates with color-coded badges
+- **Event Management**: Upcoming seminars and workshops with booking functionality, location details, and date/time display
 - **Responsive Design**: Modern card-based layout with interactive map placeholder and proper mobile responsiveness
-- **Menu Organization**: "Our Office", "Our Teams", "FAQs", and "Resources" now appear under "About Us" menu in both desktop and mobile navigation
-- **Route Integration**: Added /our-office, /our-teams, /faqs, and /resources routes with proper component integration and navigation flow
+- **Menu Organization**: "Our Office", "Our Teams", "FAQs", "Resources", and "Events" now appear under "About Us" menu in both desktop and mobile navigation
+- **Route Integration**: Added /our-office, /our-teams, /faqs, /resources, and /events routes with proper component integration and navigation flow
 
 ✓ **January 25, 2025**: Fixed Document Status Update Issue in Admin Dashboard
 - **Document Status Sync**: Fixed critical issue where uploaded documents weren't updating application records

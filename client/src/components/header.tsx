@@ -50,6 +50,7 @@ export default function Header() {
   const isOurTeamPage = location === "/our-teams";
   const isFAQPage = location === "/faqs";
   const isResourcesPage = location === "/resources";
+  const isEventsPage = location === "/events";
   // Determine header background
   const getHeaderBg = () => {
     if (isMigrationPage) return "bg-[#06b6d4]";
@@ -71,6 +72,7 @@ export default function Header() {
     if (isOurTeamPage) return "bg-[#0891b2]";
     if (isFAQPage) return "bg-[#0891b2]";
     if (isResourcesPage) return "bg-[#0891b2]";
+    if (isEventsPage) return "bg-[#0891b2]";
     return "bg-transparent";
   };
 
@@ -95,6 +97,7 @@ export default function Header() {
     if (isOurTeamPage) return "text-white";
     if (isFAQPage) return "text-white";
     if (isResourcesPage) return "text-white";
+    if (isEventsPage) return "text-white";
     return "text-white";
   };
 
