@@ -7,6 +7,7 @@ import Home from "@/pages/home";
 import Universities from "@/pages/universities";
 import Services from "@/pages/services";
 import About from "@/pages/about";
+import Contact from "@/pages/contact";
 import SuccessStories from "@/pages/success-stories";
 import Consultation from "@/pages/consultation";
 import USAUniversities from "@/pages/usa-university";
@@ -38,6 +39,8 @@ function Router() {
       <Route path="/universities" component={Universities} />
       <Route path="/services" component={Services} />
       <Route path="/about" component={About} />
+      <Route path="/contact" component={Contact} />
+      <Route path="/contact-fixed" component={Contact} />
       <Route path="/success-stories" component={SuccessStories} />
       <Route path="/consultation" component={Consultation} />
       <Route path="/usa-university" component={USAUniversities} />
