@@ -10,6 +10,7 @@ import About from "@/pages/about";
 import Contact from "@/pages/contact";
 import OurOffice from "@/pages/our-office";
 import OurTeams from "@/pages/our-teams";
+import FAQs from "@/pages/faqs";
 import SuccessStories from "@/pages/success-stories";
 import Consultation from "@/pages/consultation";
 import USAUniversities from "@/pages/usa-university";
@@ -45,6 +46,7 @@ function Router() {
       <Route path="/contact-fixed" component={Contact} />
       <Route path="/our-office" component={OurOffice} />
       <Route path="/our-teams" component={OurTeams} />
+      <Route path="/faqs" component={FAQs} />
       <Route path="/success-stories" component={SuccessStories} />
       <Route path="/consultation" component={Consultation} />
       <Route path="/usa-university" component={USAUniversities} />
