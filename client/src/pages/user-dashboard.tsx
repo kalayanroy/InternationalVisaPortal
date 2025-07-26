@@ -1001,6 +1001,13 @@ export default function UserDashboard() {
                     </div>
                   ) : (
                     <div className="space-y-4">
+                      {unreadNoticeCount > 0 && (
+                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+                          <p className="text-sm text-blue-700">
+                            💡 <strong>Tip:</strong> Click on unread notices (highlighted in blue) to mark them as read.
+                          </p>
+                        </div>
+                      )}
                       {notices.map((notice: Notice) => (
                         <Card 
                           key={notice.id} 
