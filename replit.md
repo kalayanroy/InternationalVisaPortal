@@ -119,6 +119,14 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+✓ **January 26, 2025**: Implemented Our Office Page and Updated Navigation Menu Structure
+- **Our Office Page**: Created comprehensive office page based on provided design mockup with teal/blue/green office feature cards
+- **Navigation Restructure**: Changed main menu from "Contact Us" to "About Us" dropdown with "Our Office" as first submenu item
+- **Page Features**: Reception area, meeting rooms, work spaces sections with location details and virtual tour call-to-action
+- **Responsive Design**: Modern card-based layout with interactive map placeholder and proper mobile responsiveness
+- **Menu Organization**: "Our Office" now appears under "About Us" menu in both desktop and mobile navigation
+- **Route Integration**: Added /our-office route with proper component integration and navigation flow
+
 ✓ **January 25, 2025**: Fixed Document Status Update Issue in Admin Dashboard
 - **Document Status Sync**: Fixed critical issue where uploaded documents weren't updating application records
 - **Bidirectional Updates**: Document uploads via request responses now properly update the original application's document fields

@@ -45,7 +45,7 @@ export default function Header() {
   const isStudentApplicationPage = location === "/student-application";
   const isUserDashboardPage = location === "/user-dashboard";
   const isAdminDashboardPage = location === "/admin-dashboard";
-
+  const isContactUsPage = location === "/contact-fixed";
   // Determine header background
   const getHeaderBg = () => {
     if (isMigrationPage) return "bg-[#06b6d4]";
@@ -62,6 +62,7 @@ export default function Header() {
     if (isStudentApplicationPage) return "bg-[#0891b2]";
     if (isUserDashboardPage) return "bg-[#0891b2]";
     if (isAdminDashboardPage) return "bg-[#0891b2]";
+    if (isContactUsPage) return "bg-[#0891b2]";
     return "bg-transparent";
   };
 
@@ -81,6 +82,7 @@ export default function Header() {
     if (isStudentApplicationPage) return "text-white";
     if (isUserDashboardPage) return "text-white";
     if (isAdminDashboardPage) return "text-white";
+    if (isContactUsPage) return "text-white";
     return "text-white";
   };
 
@@ -100,6 +102,7 @@ export default function Header() {
     if (isStudentApplicationPage) return "hover:bg-black/10";
     if (isUserDashboardPage) return "hover:bg-black/10";
     if (isAdminDashboardPage) return "hover:bg-black/10";
+    if (isContactUsPage) return "hover:bg-black/10";
     return "hover:bg-white/10";
   };
 
@@ -333,28 +336,18 @@ export default function Header() {
                 Apply Now
               </Link>
 
-              {/* 6. Contact Us */}
+              {/* 6. About Us */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
                     className={`flex items-center space-x-1 font-medium transition-colors hover:scale-105 px-2 py-1 h-auto text-sm ${getTextColor()} hover:text-main ${getButtonHoverStyle()}`}
                   >
-                    <span>Contact Us</span>
+                    <span>About Us</span>
                     <ChevronDown className="h-3 w-3" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-48">
-                  <DropdownMenuItem>
-                    <Link href="/about" className="w-full">
-                      About Us
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link href="/contact-fixed" className="w-full">
-                      Contact Us
-                    </Link>
-                  </DropdownMenuItem>
                   <DropdownMenuItem>
                     <Link href="/our-office" className="w-full">
                       Our Office
@@ -363,6 +356,11 @@ export default function Header() {
                   <DropdownMenuItem>
                     <Link href="/our-teams" className="w-full">
                       Our Teams
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link href="/contact-fixed" className="w-full">
+                      Contact Us
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
@@ -700,26 +698,12 @@ export default function Header() {
                 Apply Now
               </Link>
 
-              {/* Contact Us */}
+              {/* About Us */}
               <div className="px-3 py-2">
                 <span className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
-                  Contact Us
+                  About Us
                 </span>
                 <div className="mt-1 space-y-1">
-                  <Link
-                    href="/about"
-                    className="block px-3 py-2 text-navy hover:text-main text-sm"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    About Us
-                  </Link>
-                  <Link
-                    href="/contact-fixed"
-                    className="block px-3 py-2 text-navy hover:text-main text-sm"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Contact Us
-                  </Link>
                   <Link
                     href="/our-office"
                     className="block px-3 py-2 text-navy hover:text-main text-sm"
@@ -733,6 +717,13 @@ export default function Header() {
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Our Teams
+                  </Link>
+                  <Link
+                    href="/contact-fixed"
+                    className="block px-3 py-2 text-navy hover:text-main text-sm"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Contact Us
                   </Link>
                   <Link
                     href="/faqs"
