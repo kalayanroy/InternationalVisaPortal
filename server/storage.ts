@@ -929,6 +929,51 @@ export class DatabaseStorage implements IStorage {
     return updated;
   }
 
+  // Get unread document requests count for user
+  async getUnreadDocumentRequestsCount(userId: number): Promise<number> {
+    const result = await db
+      .select({ count: sql<number>`count(*)::int` })
+      .from(documentMessages)
+      .where(
+        and(
+          eq(documentMessages.userId, userId),
+          eq(documentMessages.read, false),
+          eq(documentMessages.messageType, "document_request") // Only count admin requests, not user responses
+        )
+      );
+    
+    return result[0]?.count || 0;
+  }
+
+  // Mark document request as read
+  async markDocumentRequestAsRead(userId: number, messageId: number): Promise<DocumentMessage | undefined> {
+    const [updated] = await db
+      .update(documentMessages)
+      .set({ read: true, updatedAt: new Date() })
+      .where(
+        and(
+          eq(documentMessages.id, messageId),
+          eq(documentMessages.userId, userId)
+        )
+      )
+      .returning();
+    return updated;
+  }
+
+  // Mark all document requests as read for user
+  async markAllDocumentRequestsAsRead(userId: number): Promise<void> {
+    await db
+      .update(documentMessages)
+      .set({ read: true, updatedAt: new Date() })
+      .where(
+        and(
+          eq(documentMessages.userId, userId),
+          eq(documentMessages.read, false),
+          eq(documentMessages.messageType, "document_request")
+        )
+      );
+  }
+
   // Get user documents by application
   async getUserDocumentsByApplication(userId: number): Promise<{
     user: User | undefined;

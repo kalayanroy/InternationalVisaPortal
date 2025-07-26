@@ -119,6 +119,17 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+✓ **January 27, 2025**: Implemented Complete Unread Count System for Notice Board and Document Requests
+- **Notice Board Unread Tracking**: Fixed API call parameter order and implemented fully functional unread notice count system
+- **Document Request Unread Tracking**: Added comprehensive unread count system for document requests from admin
+- **Visual Indicators**: Both Notice Board and Document Requests tabs now show red badges with unread counts
+- **Click-to-Read Functionality**: Users can click on unread items to mark them as read with real-time count updates
+- **Mark All as Read**: Added bulk action buttons for both notices and document requests
+- **Database Integration**: Added `userNoticeReads` table tracking and document message read status updates
+- **API Endpoints**: Created `/unread-count`, `/mark-read`, and `/mark-all-read` endpoints for both systems
+- **User Experience**: Added helpful tip messages and blue highlighting for unread items
+- **Real-time Updates**: Automatic cache invalidation ensures counts update immediately after user actions
+
 ✓ **January 26, 2025**: Implemented Complete About Us Menu Structure with All Pages
 - **Our Office Page**: Created comprehensive office page based on provided design mockup with teal/blue/green office feature cards
 - **Our Teams Page**: Built team showcase page with six member cards featuring circular teal avatars and detailed descriptions

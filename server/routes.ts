@@ -1340,6 +1340,61 @@ Generated on: ${new Date().toLocaleString()}
     }
   });
 
+  // Get unread document requests count
+  app.get("/api/user/document-requests/unread-count", authenticateToken, async (req: AuthRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: "User not authenticated" });
+      }
+
+      const count = await storage.getUnreadDocumentRequestsCount(userId);
+      res.json({ count });
+    } catch (error) {
+      console.error("Error fetching unread document requests count:", error);
+      res.status(500).json({ message: "Failed to fetch unread document requests count" });
+    }
+  });
+
+  // Mark document request as read
+  app.post("/api/user/document-requests/:id/mark-read", authenticateToken, async (req: AuthRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      const messageId = parseInt(req.params.id);
+
+      if (!userId) {
+        return res.status(401).json({ message: "User not authenticated" });
+      }
+
+      if (!messageId || isNaN(messageId)) {
+        return res.status(400).json({ message: "Invalid message ID" });
+      }
+
+      await storage.markDocumentRequestAsRead(userId, messageId);
+      res.json({ message: "Document request marked as read" });
+    } catch (error) {
+      console.error("Error marking document request as read:", error);
+      res.status(500).json({ message: "Failed to mark document request as read" });
+    }
+  });
+
+  // Mark all document requests as read
+  app.post("/api/user/document-requests/mark-all-read", authenticateToken, async (req: AuthRequest, res) => {
+    try {
+      const userId = req.user?.id;
+
+      if (!userId) {
+        return res.status(401).json({ message: "User not authenticated" });
+      }
+
+      await storage.markAllDocumentRequestsAsRead(userId);
+      res.json({ message: "All document requests marked as read" });
+    } catch (error) {
+      console.error("Error marking all document requests as read:", error);
+      res.status(500).json({ message: "Failed to mark all document requests as read" });
+    }
+  });
+
   app.post("/api/user/book-consultation", authenticateToken, async (req: AuthRequest, res) => {
     try {
       const userId = req.user?.id;

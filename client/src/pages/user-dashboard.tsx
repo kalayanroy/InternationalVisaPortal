@@ -150,6 +150,32 @@ export default function UserDashboard() {
     },
   });
 
+  // Mark document request as read mutation
+  const markDocumentAsReadMutation = useMutation({
+    mutationFn: async (messageId: number) => {
+      return await apiRequest("POST", `/api/user/document-requests/${messageId}/mark-read`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/user/document-requests"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/user/document-requests/unread-count"] });
+    },
+  });
+
+  // Mark all document requests as read mutation
+  const markAllDocumentRequestsAsReadMutation = useMutation({
+    mutationFn: async () => {
+      return await apiRequest("POST", "/api/user/document-requests/mark-all-read");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/user/document-requests"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/user/document-requests/unread-count"] });
+      toast({
+        title: "Success",
+        description: "All document requests marked as read",
+      });
+    },
+  });
+
   // Get user profile
   const { data: profileData, isLoading: profileLoading } = useQuery({
     queryKey: ["/api/auth/user"],
@@ -175,6 +201,14 @@ export default function UserDashboard() {
   });
 
   const unreadNoticeCount = unreadNoticeData?.count || 0;
+
+  // Get unread document requests count
+  const { data: unreadDocumentData } = useQuery<{ count: number }>({
+    queryKey: ["/api/user/document-requests/unread-count"],
+    retry: false,
+  });
+
+  const unreadDocumentCount = unreadDocumentData?.count || 0;
 
   // Get document requests
   const { data: documentRequests = [], isLoading: documentRequestsLoading } = useQuery<DocumentRequest[]>({
@@ -439,7 +473,14 @@ export default function UserDashboard() {
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="consultation">Book Consultation</TabsTrigger>
               <TabsTrigger value="applications">Application Status</TabsTrigger>
-              <TabsTrigger value="document-requests">Document Requests</TabsTrigger>
+              <TabsTrigger value="document-requests" className="relative">
+                Document Requests
+                {unreadDocumentCount > 0 && (
+                  <Badge className="ml-2 bg-red-500 text-white text-xs px-1.5 py-0.5 min-w-[20px] h-5 rounded-full">
+                    {unreadDocumentCount}
+                  </Badge>
+                )}
+              </TabsTrigger>
               <TabsTrigger value="notices" className="relative">
                 Notice Board
                 {unreadNoticeCount > 0 && (
@@ -824,10 +865,27 @@ export default function UserDashboard() {
             <TabsContent value="document-requests" className="space-y-6">
               <Card>
                 <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <FileText className="h-5 w-5" />
-                    <span>Document Requests from Admin</span>
-                  </CardTitle>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="flex items-center space-x-2">
+                      <FileText className="h-5 w-5" />
+                      <span>Document Requests from Admin</span>
+                      {unreadDocumentCount > 0 && (
+                        <Badge className="bg-red-500 text-white">
+                          {unreadDocumentCount} unread
+                        </Badge>
+                      )}
+                    </CardTitle>
+                    {unreadDocumentCount > 0 && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => markAllDocumentRequestsAsReadMutation.mutate()}
+                        disabled={markAllDocumentRequestsAsReadMutation.isPending}
+                      >
+                        Mark All as Read
+                      </Button>
+                    )}
+                  </div>
                 </CardHeader>
                 <CardContent>
                   {documentRequestsLoading ? (
@@ -840,11 +898,34 @@ export default function UserDashboard() {
                     </div>
                   ) : (
                     <div className="space-y-6">
+                      {unreadDocumentCount > 0 && (
+                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+                          <p className="text-sm text-blue-700">
+                            💡 <strong>Tip:</strong> Click on unread document requests (highlighted in blue) to mark them as read.
+                          </p>
+                        </div>
+                      )}
                       {documentRequests.map((request: DocumentRequest) => (
-                        <div key={request.id} className="border rounded-lg p-6">
+                        <div 
+                          key={request.id} 
+                          className={`cursor-pointer transition-colors hover:bg-gray-50 border rounded-lg p-6 ${
+                            !request.read && request.messageType === 'document_request' 
+                              ? "border-l-4 border-l-blue-500 bg-blue-50/30" 
+                              : ""
+                          }`}
+                          onClick={() => {
+                            if (!request.read && request.messageType === 'document_request') {
+                              markDocumentAsReadMutation.mutate(request.id);
+                            }
+                          }}
+                        >
                           <div className="flex items-start justify-between mb-4">
                             <div>
-                              <h3 className="font-semibold text-lg">{request.subject}</h3>
+                              <h3 className={`font-semibold text-lg ${
+                                !request.read && request.messageType === 'document_request' ? "text-blue-800" : ""
+                              }`}>
+                                {request.subject}
+                              </h3>
                               <p className="text-sm text-gray-500">
                                 Requested on {new Date(request.createdAt).toLocaleDateString()}
                               </p>
@@ -853,11 +934,13 @@ export default function UserDashboard() {
                               className={
                                 request.status === 'completed' ? 'bg-green-100 text-green-800' :
                                 request.read ? 'bg-blue-100 text-blue-800' :
+                                request.messageType === 'document_request' ? 'bg-blue-500 text-white' :
                                 'bg-yellow-100 text-yellow-800'
                               }
                             >
                               {request.status === 'completed' ? 'Completed' :
-                               request.read ? 'Viewed' : 'New'}
+                               request.read ? 'Viewed' : 
+                               request.messageType === 'document_request' ? 'New' : 'Pending'}
                             </Badge>
                           </div>
 
