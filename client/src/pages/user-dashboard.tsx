@@ -118,7 +118,7 @@ export default function UserDashboard() {
   const markNoticeAsReadMutation = useMutation({
     mutationFn: async (noticeId: number) => {
       console.log("Calling API to mark notice as read:", noticeId);
-      return await apiRequest(`/api/user/notices/${noticeId}/mark-read`, "POST");
+      return await apiRequest("POST", `/api/user/notices/${noticeId}/mark-read`);
     },
     onSuccess: (data, noticeId) => {
       console.log("Successfully marked notice as read:", noticeId);
@@ -138,7 +138,7 @@ export default function UserDashboard() {
   // Mark all notices as read mutation
   const markAllNoticesAsReadMutation = useMutation({
     mutationFn: async () => {
-      return await apiRequest("/api/user/notices/mark-all-read", "POST");
+      return await apiRequest("POST", "/api/user/notices/mark-all-read");
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user/notices"] });
