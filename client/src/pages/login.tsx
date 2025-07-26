@@ -165,6 +165,9 @@ export default function Login() {
                   <div>
                     <strong>Admin:</strong> username: admin, password: admin123
                   </div>
+                  <div>
+                    <strong>User:</strong> username: emon, password: P@ssw0rd
+                  </div>
                 </div>
               </div>
             </CardContent>

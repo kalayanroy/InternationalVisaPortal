@@ -1,50 +1,61 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { MapPin, Phone, Mail } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Twitter, Linkedin, AlertTriangle } from "lucide-react";
 import type { InsertContactInquiry } from "@shared/schema";
 
 export default function Contact() {
   const { toast } = useToast();
-  const [formData, setFormData] = useState<InsertContactInquiry>({
-    firstName: "",
-    lastName: "",
+  const [formData, setFormData] = useState({
+    fullName: "",
     email: "",
     phone: "",
-    destination: "",
+    preferredCountry: "",
+    subject: "",
     message: "",
+    agreeToReceiveComms: false,
   });
 
   const contactMutation = useMutation({
-    mutationFn: async (data: InsertContactInquiry) => {
-      const response = await apiRequest("POST", "/api/contact", data);
+    mutationFn: async (data: any) => {
+      // Convert form data to match backend schema
+      const contactData: InsertContactInquiry = {
+        firstName: data.fullName.split(' ')[0] || data.fullName,
+        lastName: data.fullName.split(' ').slice(1).join(' ') || '',
+        email: data.email,
+        phone: data.phone,
+        destination: data.preferredCountry,
+        message: `Subject: ${data.subject}\n\n${data.message}`,
+      };
+      const response = await apiRequest("POST", "/api/contact", contactData);
       return response.json();
     },
     onSuccess: (data) => {
       toast({
-        title: "Success!",
-        description: data.message,
+        title: "Message Sent!",
+        description: "We'll get back to you within 24 hours",
       });
       setFormData({
-        firstName: "",
-        lastName: "",
+        fullName: "",
         email: "",
         phone: "",
-        destination: "",
+        preferredCountry: "",
+        subject: "",
         message: "",
+        agreeToReceiveComms: false,
       });
     },
     onError: (error) => {
       toast({
         title: "Error",
-        description: error.message || "Failed to submit inquiry. Please try again.",
+        description: error.message || "Failed to send message. Please try again.",
         variant: "destructive",
       });
     },
@@ -52,194 +63,258 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.agreeToReceiveComms) {
+      toast({
+        title: "Please confirm",
+        description: "You must agree to receive communications to proceed.",
+        variant: "destructive",
+      });
+      return;
+    }
     contactMutation.mutate(formData);
   };
 
-  const handleInputChange = (field: keyof InsertContactInquiry, value: string) => {
+  const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
-    <section id="contact" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Ready to Start Your Journey?
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Get in touch with our expert consultants for a free assessment of your visa eligibility
-          </p>
-        </div>
+    <section id="contact" className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="max-w-6xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[600px]">
+          {/* Left Panel - Teal Contact Information */}
+          <div className="bg-teal-500 text-white p-8 lg:p-12 flex flex-col justify-between">
+            <div>
+              <h2 className="text-3xl font-bold mb-4">Let's Connect</h2>
+              <p className="text-teal-100 mb-8 text-lg">
+                Ready to start your study abroad journey? Get in touch with our expert consultants today.
+              </p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          <div>
-            <div className="space-y-8">
-              <div className="flex items-start">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <MapPin className="h-6 w-6 text-primary" />
+              <div className="space-y-6">
+                {/* Call Us */}
+                <div className="flex items-start space-x-4">
+                  <div className="bg-white bg-opacity-20 p-3 rounded-lg">
+                    <Phone className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-lg mb-1">Call Us</h4>
+                    <p className="text-teal-100">+61 420 959 371</p>
+                    <p className="text-teal-200 text-sm">Mon-Fri: 9AM-6PM AEST</p>
+                  </div>
                 </div>
-                <div className="ml-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Our Offices</h3>
-                  <p className="text-gray-600">
-                    <strong>New Delhi:</strong> Connaught Place, Block A<br />
-                    <strong>Mumbai:</strong> Bandra Kurla Complex<br />
-                    <strong>Bangalore:</strong> Koramangala, 5th Block
-                  </p>
-                </div>
-              </div>
 
-              <div className="flex items-start">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Phone className="h-6 w-6 text-primary" />
+                {/* Email Us */}
+                <div className="flex items-start space-x-4">
+                  <div className="bg-white bg-opacity-20 p-3 rounded-lg">
+                    <Mail className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-lg mb-1">Email Us</h4>
+                    <p className="text-teal-100">Application@dtrconsultation.com</p>
+                    <p className="text-teal-200 text-sm">We reply within 24 hours</p>
+                  </div>
                 </div>
-                <div className="ml-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Call Us</h3>
-                  <p className="text-gray-600">
-                    <strong>Toll Free:</strong> 1800-123-4567<br />
-                    <strong>WhatsApp:</strong> +91 98765 43210<br />
-                    <span className="text-sm text-primary">Available 24/7</span>
-                  </p>
-                </div>
-              </div>
 
-              <div className="flex items-start">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Mail className="h-6 w-6 text-primary" />
+                {/* Visit Our Office */}
+                <div className="flex items-start space-x-4">
+                  <div className="bg-white bg-opacity-20 p-3 rounded-lg">
+                    <MapPin className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-lg mb-1">Visit Our Office</h4>
+                    <p className="text-teal-100">Tower One, International Towers</p>
+                    <p className="text-teal-100">100 Barangaroo Ave</p>
+                    <p className="text-teal-100">Barangaroo NSW 2000</p>
+                    <p className="text-teal-100">Sydney, Australia</p>
+                  </div>
                 </div>
-                <div className="ml-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Email Us</h3>
-                  <p className="text-gray-600">
-                    <strong>General:</strong> info@eduvisaglobal.com<br />
-                    <strong>Support:</strong> support@eduvisaglobal.com<br />
-                    <span className="text-sm text-primary">Response within 24 hours</span>
-                  </p>
+
+                {/* Office Hours */}
+                <div className="flex items-start space-x-4">
+                  <div className="bg-white bg-opacity-20 p-3 rounded-lg">
+                    <Clock className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-lg mb-1">Office Hours</h4>
+                    <p className="text-teal-100">Monday - Friday: 9:00 AM - 6:00 PM</p>
+                    <p className="text-teal-100">Saturday: 10:00 AM - 2:00 PM</p>
+                    <p className="text-teal-100">Sunday: Closed</p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="mt-8">
-              <img
-                src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400"
-                alt="Visa application documents"
-                className="rounded-xl shadow-lg w-full h-64 object-cover"
-              />
+            {/* Social Media */}
+            <div>
+              <p className="text-teal-200 text-sm mb-4">Follow us on social media</p>
+              <div className="flex space-x-3">
+                <div className="bg-white bg-opacity-20 p-2 rounded-lg hover:bg-opacity-30 transition-all cursor-pointer">
+                  <Twitter className="h-5 w-5" />
+                </div>
+                <div className="bg-white bg-opacity-20 p-2 rounded-lg hover:bg-opacity-30 transition-all cursor-pointer">
+                  <Twitter className="h-5 w-5" />
+                </div>
+                <div className="bg-white bg-opacity-20 p-2 rounded-lg hover:bg-opacity-30 transition-all cursor-pointer">
+                  <Linkedin className="h-5 w-5" />
+                </div>
+              </div>
             </div>
           </div>
 
-          <div>
-            <Card className="bg-gray-50">
-              <CardContent className="p-8">
-                <h3 className="text-2xl font-semibold text-gray-900 mb-6">Get Free Consultation</h3>
+          {/* Right Panel - White Contact Form */}
+          <div className="p-8 lg:p-12 bg-white flex flex-col justify-center">
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-2">Send us a Message</h2>
+              <p className="text-gray-600 mb-8">
+                Fill out the form below and we'll get back to you within 24 hours
+              </p>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <Label htmlFor="firstName" className="text-sm font-medium text-gray-700">
-                        First Name *
-                      </Label>
-                      <Input
-                        id="firstName"
-                        type="text"
-                        required
-                        value={formData.firstName}
-                        onChange={(e) => handleInputChange("firstName", e.target.value)}
-                        placeholder="Enter your first name"
-                        className="mt-2"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="lastName" className="text-sm font-medium text-gray-700">
-                        Last Name *
-                      </Label>
-                      <Input
-                        id="lastName"
-                        type="text"
-                        required
-                        value={formData.lastName}
-                        onChange={(e) => handleInputChange("lastName", e.target.value)}
-                        placeholder="Enter your last name"
-                        className="mt-2"
-                      />
-                    </div>
+              {/* Demo Form Notice */}
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 flex items-start space-x-3">
+                <AlertTriangle className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="text-blue-800 text-sm">
+                    <strong>Demo Form:</strong> This is a sample contact form for demonstration purposes. In a real 
+                    implementation, messages would be sent to Application@dtrconsultation.com
+                  </p>
+                </div>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Full Name */}
+                  <div>
+                    <Label htmlFor="fullName" className="text-gray-700 font-medium">
+                      Full Name *
+                    </Label>
+                    <Input
+                      id="fullName"
+                      value={formData.fullName}
+                      onChange={(e) => handleInputChange("fullName", e.target.value)}
+                      placeholder="Enter your full name"
+                      required
+                      className="mt-2 border-gray-300"
+                    />
                   </div>
 
+                  {/* Email Address */}
                   <div>
-                    <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                    <Label htmlFor="email" className="text-gray-700 font-medium">
                       Email Address *
                     </Label>
                     <Input
                       id="email"
                       type="email"
-                      required
                       value={formData.email}
                       onChange={(e) => handleInputChange("email", e.target.value)}
-                      placeholder="Enter your email address"
-                      className="mt-2"
+                      placeholder="your@email.com"
+                      required
+                      className="mt-2 border-gray-300"
                     />
                   </div>
+                </div>
 
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Phone Number */}
                   <div>
-                    <Label htmlFor="phone" className="text-sm font-medium text-gray-700">
-                      Phone Number *
+                    <Label htmlFor="phone" className="text-gray-700 font-medium">
+                      Phone Number
                     </Label>
                     <Input
                       id="phone"
-                      type="tel"
-                      required
                       value={formData.phone}
                       onChange={(e) => handleInputChange("phone", e.target.value)}
-                      placeholder="Enter your phone number"
-                      className="mt-2"
+                      placeholder="+61 xxx xxx xxx"
+                      className="mt-2 border-gray-300"
                     />
                   </div>
 
+                  {/* Preferred Country */}
                   <div>
-                    <Label htmlFor="destination" className="text-sm font-medium text-gray-700">
-                      Preferred Destination
+                    <Label htmlFor="preferredCountry" className="text-gray-700 font-medium">
+                      Preferred Country
                     </Label>
-                    <Select value={formData.destination} onValueChange={(value) => handleInputChange("destination", value)}>
-                      <SelectTrigger className="mt-2">
-                        <SelectValue placeholder="Select destination country" />
+                    <Select value={formData.preferredCountry} onValueChange={(value) => handleInputChange("preferredCountry", value)}>
+                      <SelectTrigger className="mt-2 border-gray-300">
+                        <SelectValue placeholder="Select a country" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="usa">United States</SelectItem>
+                        <SelectItem value="australia">Australia</SelectItem>
                         <SelectItem value="canada">Canada</SelectItem>
                         <SelectItem value="uk">United Kingdom</SelectItem>
-                        <SelectItem value="australia">Australia</SelectItem>
+                        <SelectItem value="usa">United States</SelectItem>
                         <SelectItem value="germany">Germany</SelectItem>
+                        <SelectItem value="singapore">Singapore</SelectItem>
                         <SelectItem value="other">Other</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
+                </div>
 
-                  <div>
-                    <Label htmlFor="message" className="text-sm font-medium text-gray-700">
-                      Message
-                    </Label>
-                    <Textarea
-                      id="message"
-                      rows={4}
-                      value={formData.message || ""}
-                      onChange={(e) => handleInputChange("message", e.target.value)}
-                      placeholder="Tell us about your study plans and any specific questions..."
-                      className="mt-2"
-                    />
-                  </div>
+                {/* Subject */}
+                <div>
+                  <Label htmlFor="subject" className="text-gray-700 font-medium">
+                    Subject *
+                  </Label>
+                  <Select value={formData.subject} onValueChange={(value) => handleInputChange("subject", value)}>
+                    <SelectTrigger className="mt-2 border-gray-300">
+                      <SelectValue placeholder="Select a subject" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="student-visa">Student Visa Inquiry</SelectItem>
+                      <SelectItem value="university-application">University Application</SelectItem>
+                      <SelectItem value="course-selection">Course Selection</SelectItem>
+                      <SelectItem value="documentation">Documentation Help</SelectItem>
+                      <SelectItem value="consultation">Consultation Booking</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-                  <Button
-                    type="submit"
-                    disabled={contactMutation.isPending}
-                    className="w-full bg-primary text-white hover:bg-blue-700 py-4"
-                  >
-                    {contactMutation.isPending ? "Submitting..." : "Schedule Free Consultation"}
-                  </Button>
+                {/* Message */}
+                <div>
+                  <Label htmlFor="message" className="text-gray-700 font-medium">
+                    Message *
+                  </Label>
+                  <Textarea
+                    id="message"
+                    value={formData.message}
+                    onChange={(e) => handleInputChange("message", e.target.value)}
+                    placeholder="Tell us about your study abroad goals, preferred courses, or any specific questions you have..."
+                    rows={4}
+                    required
+                    className="mt-2 border-gray-300"
+                  />
+                </div>
 
-                  <p className="text-sm text-gray-500 text-center">
-                    By submitting this form, you agree to our privacy policy and terms of service.
-                  </p>
-                </form>
-              </CardContent>
-            </Card>
+                {/* Agreement Checkbox */}
+                <div className="flex items-start space-x-3">
+                  <Checkbox
+                    id="agree"
+                    checked={formData.agreeToReceiveComms}
+                    onCheckedChange={(checked) => handleInputChange("agreeToReceiveComms", checked)}
+                    className="mt-1"
+                  />
+                  <Label htmlFor="agree" className="text-sm text-gray-600 leading-relaxed">
+                    I agree to receive communications from DTR Consultation regarding my inquiry and study abroad opportunities.
+                  </Label>
+                </div>
+
+                {/* Submit Button */}
+                <Button
+                  type="submit"
+                  disabled={contactMutation.isPending}
+                  className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 text-lg font-semibold"
+                >
+                  <AlertTriangle className="h-5 w-5 mr-2" />
+                  {contactMutation.isPending ? "Sending..." : "Send Message"}
+                </Button>
+
+                <p className="text-center text-sm text-gray-500">
+                  We typically respond within 24 hours during business days
+                </p>
+              </form>
+            </div>
           </div>
         </div>
       </div>
