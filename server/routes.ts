@@ -1268,14 +1268,66 @@ Generated on: ${new Date().toLocaleString()}
         return res.status(401).json({ message: "Unauthorized" });
       }
 
-      const notices = await storage.getAllNotices();
-      res.json(notices.map(notice => ({
-        ...notice,
-        isRead: false // For now, all notices are unread. You can implement user-specific read status later
-      })));
+      const notices = await storage.getNoticesWithReadStatus(userId);
+      res.json(notices);
     } catch (error) {
       console.error("Error fetching user notices:", error);
       res.status(500).json({ message: "Failed to fetch notices" });
+    }
+  });
+
+  // Get unread notice count
+  app.get("/api/user/notices/unread-count", authenticateToken, async (req: AuthRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: "User not authenticated" });
+      }
+
+      const count = await storage.getUnreadNoticeCount(userId);
+      res.json({ count });
+    } catch (error) {
+      console.error("Error fetching unread notice count:", error);
+      res.status(500).json({ message: "Failed to fetch unread notice count" });
+    }
+  });
+
+  // Mark notice as read
+  app.post("/api/user/notices/:id/mark-read", authenticateToken, async (req: AuthRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      const noticeId = parseInt(req.params.id);
+
+      if (!userId) {
+        return res.status(401).json({ message: "User not authenticated" });
+      }
+
+      if (!noticeId || isNaN(noticeId)) {
+        return res.status(400).json({ message: "Invalid notice ID" });
+      }
+
+      await storage.markNoticeAsRead(userId, noticeId);
+      res.json({ message: "Notice marked as read" });
+    } catch (error) {
+      console.error("Error marking notice as read:", error);
+      res.status(500).json({ message: "Failed to mark notice as read" });
+    }
+  });
+
+  // Mark all notices as read
+  app.post("/api/user/notices/mark-all-read", authenticateToken, async (req: AuthRequest, res) => {
+    try {
+      const userId = req.user?.id;
+
+      if (!userId) {
+        return res.status(401).json({ message: "User not authenticated" });
+      }
+
+      await storage.markAllNoticesAsRead(userId);
+      res.json({ message: "All notices marked as read" });
+    } catch (error) {
+      console.error("Error marking all notices as read:", error);
+      res.status(500).json({ message: "Failed to mark all notices as read" });
     }
   });
 

@@ -1,4 +1,4 @@
-import { pgTable, text, serial, timestamp, json, boolean, varchar, date, integer, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, timestamp, json, boolean, varchar, date, integer, jsonb, unique } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -470,3 +470,22 @@ export const insertNoticeSchema = createInsertSchema(notices).omit({
 
 export type InsertNotice = z.infer<typeof insertNoticeSchema>;
 export type Notice = typeof notices.$inferSelect;
+
+// User Notice Reads - tracks which notices each user has read
+export const userNoticeReads = pgTable("user_notice_reads", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
+  noticeId: integer("notice_id").references(() => notices.id, { onDelete: "cascade" }).notNull(),
+  readAt: timestamp("read_at").defaultNow().notNull(),
+}, (table) => ({
+  // Unique constraint to prevent duplicate reads
+  uniqueUserNotice: unique("unique_user_notice").on(table.userId, table.noticeId),
+}));
+
+export const insertUserNoticeReadSchema = createInsertSchema(userNoticeReads).omit({
+  id: true,
+  readAt: true,
+});
+
+export type InsertUserNoticeRead = z.infer<typeof insertUserNoticeReadSchema>;
+export type UserNoticeRead = typeof userNoticeReads.$inferSelect;

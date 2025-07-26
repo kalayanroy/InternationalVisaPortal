@@ -114,6 +114,36 @@ export default function UserDashboard() {
   const [documentRequestMessages, setDocumentRequestMessages] = useState<{[key: number]: string}>({});
   const [selectedApplication, setSelectedApplication] = useState<Application | null>(null);
 
+  // Mark notice as read mutation
+  const markNoticeAsReadMutation = useMutation({
+    mutationFn: async (noticeId: number) => {
+      await apiRequest(`/api/user/notices/${noticeId}/mark-read`, {
+        method: "POST",
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/user/notices"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/user/notices/unread-count"] });
+    },
+  });
+
+  // Mark all notices as read mutation
+  const markAllNoticesAsReadMutation = useMutation({
+    mutationFn: async () => {
+      await apiRequest("/api/user/notices/mark-all-read", {
+        method: "POST",
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/user/notices"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/user/notices/unread-count"] });
+      toast({
+        title: "Success",
+        description: "All notices marked as read",
+      });
+    },
+  });
+
   // Get user profile
   const { data: profileData, isLoading: profileLoading } = useQuery({
     queryKey: ["/api/auth/user"],
@@ -131,6 +161,14 @@ export default function UserDashboard() {
     queryKey: ["/api/user/notices"],
     retry: false,
   });
+
+  // Get unread notice count
+  const { data: unreadNoticeData } = useQuery<{ count: number }>({
+    queryKey: ["/api/user/notices/unread-count"],
+    retry: false,
+  });
+
+  const unreadNoticeCount = unreadNoticeData?.count || 0;
 
   // Get document requests
   const { data: documentRequests = [], isLoading: documentRequestsLoading } = useQuery<DocumentRequest[]>({
@@ -396,7 +434,14 @@ export default function UserDashboard() {
               <TabsTrigger value="consultation">Book Consultation</TabsTrigger>
               <TabsTrigger value="applications">Application Status</TabsTrigger>
               <TabsTrigger value="document-requests">Document Requests</TabsTrigger>
-              <TabsTrigger value="notices">Notice Board</TabsTrigger>
+              <TabsTrigger value="notices" className="relative">
+                Notice Board
+                {unreadNoticeCount > 0 && (
+                  <Badge className="ml-2 bg-red-500 text-white text-xs px-1.5 py-0.5 min-w-[20px] h-5 rounded-full">
+                    {unreadNoticeCount}
+                  </Badge>
+                )}
+              </TabsTrigger>
               <TabsTrigger value="profile">Profile Settings</TabsTrigger>
             </TabsList>
 
@@ -924,10 +969,27 @@ export default function UserDashboard() {
             <TabsContent value="notices" className="space-y-6">
               <Card>
                 <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <Bell className="h-5 w-5" />
-                    <span>Notice Board</span>
-                  </CardTitle>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="flex items-center space-x-2">
+                      <Bell className="h-5 w-5" />
+                      <span>Notice Board</span>
+                      {unreadNoticeCount > 0 && (
+                        <Badge className="bg-red-500 text-white">
+                          {unreadNoticeCount} unread
+                        </Badge>
+                      )}
+                    </CardTitle>
+                    {unreadNoticeCount > 0 && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => markAllNoticesAsReadMutation.mutate()}
+                        disabled={markAllNoticesAsReadMutation.isPending}
+                      >
+                        Mark All as Read
+                      </Button>
+                    )}
+                  </div>
                 </CardHeader>
                 <CardContent>
                   {noticesLoading ? (
@@ -940,14 +1002,26 @@ export default function UserDashboard() {
                   ) : (
                     <div className="space-y-4">
                       {notices.map((notice: Notice) => (
-                        <Card key={notice.id} className={`${!notice.isRead ? "border-l-4 border-l-blue-500" : ""}`}>
+                        <Card 
+                          key={notice.id} 
+                          className={`cursor-pointer transition-colors hover:bg-gray-50 ${
+                            !notice.isRead ? "border-l-4 border-l-blue-500 bg-blue-50/30" : ""
+                          }`}
+                          onClick={() => {
+                            if (!notice.isRead) {
+                              markNoticeAsReadMutation.mutate(notice.id);
+                            }
+                          }}
+                        >
                           <CardContent className="pt-4">
                             <div className="flex items-start justify-between">
                               <div className="flex-1">
                                 <div className="flex items-center space-x-2 mb-2">
-                                  <h4 className="font-semibold">{notice.title}</h4>
+                                  <h4 className={`font-semibold ${!notice.isRead ? "text-blue-800" : ""}`}>
+                                    {notice.title}
+                                  </h4>
                                   {!notice.isRead && (
-                                    <Badge className="bg-blue-100 text-blue-800 text-xs">New</Badge>
+                                    <Badge className="bg-blue-500 text-white text-xs">New</Badge>
                                   )}
                                 </div>
                                 <p className="text-gray-600 mb-2">{notice.message}</p>

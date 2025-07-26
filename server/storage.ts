@@ -10,6 +10,7 @@ import {
   documentMessages,
   consultations,
   notices,
+  userNoticeReads,
   type User,
   type InsertUser,
   type ContactInquiry,
@@ -49,9 +50,11 @@ import {
   type InsertConsultation,
   type Notice,
   type InsertNotice,
+  type UserNoticeRead,
+  type InsertUserNoticeRead,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, not } from "drizzle-orm";
+import { eq, desc, not, sql, and, isNull } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 
 export interface IStorage {
@@ -1050,6 +1053,92 @@ export class DatabaseStorage implements IStorage {
   async deleteNotice(id: number): Promise<Notice | undefined> {
     const [deleted] = await db.delete(notices).where(eq(notices.id, id)).returning();
     return deleted;
+  }
+
+  async getNoticesWithReadStatus(userId: number): Promise<(Notice & { isRead: boolean })[]> {
+    const result = await db
+      .select({
+        id: notices.id,
+        title: notices.title,
+        message: notices.message,
+        type: notices.type,
+        isActive: notices.isActive,
+        publishedBy: notices.publishedBy,
+        createdAt: notices.createdAt,
+        updatedAt: notices.updatedAt,
+        isRead: sql<boolean>`CASE WHEN ${userNoticeReads.userId} IS NOT NULL THEN true ELSE false END`,
+      })
+      .from(notices)
+      .leftJoin(
+        userNoticeReads,
+        and(
+          eq(userNoticeReads.noticeId, notices.id),
+          eq(userNoticeReads.userId, userId)
+        )
+      )
+      .where(eq(notices.isActive, true))
+      .orderBy(desc(notices.createdAt));
+
+    return result;
+  }
+
+  async getUnreadNoticeCount(userId: number): Promise<number> {
+    const result = await db
+      .select({ count: sql<number>`count(*)` })
+      .from(notices)
+      .leftJoin(
+        userNoticeReads,
+        and(
+          eq(userNoticeReads.noticeId, notices.id),
+          eq(userNoticeReads.userId, userId)
+        )
+      )
+      .where(
+        and(
+          eq(notices.isActive, true),
+          isNull(userNoticeReads.userId)
+        )
+      );
+
+    return result[0]?.count || 0;
+  }
+
+  async markNoticeAsRead(userId: number, noticeId: number): Promise<UserNoticeRead> {
+    const [userRead] = await db
+      .insert(userNoticeReads)
+      .values({ userId, noticeId })
+      .onConflictDoNothing()
+      .returning();
+    return userRead;
+  }
+
+  async markAllNoticesAsRead(userId: number): Promise<void> {
+    // Get all active notices that the user hasn't read
+    const unreadNotices = await db
+      .select({ id: notices.id })
+      .from(notices)
+      .leftJoin(
+        userNoticeReads,
+        and(
+          eq(userNoticeReads.noticeId, notices.id),
+          eq(userNoticeReads.userId, userId)
+        )
+      )
+      .where(
+        and(
+          eq(notices.isActive, true),
+          isNull(userNoticeReads.userId)
+        )
+      );
+
+    if (unreadNotices.length > 0) {
+      const readEntries = unreadNotices.map(notice => ({
+        userId,
+        noticeId: notice.id,
+      }));
+
+      await db.insert(userNoticeReads).values(readEntries).onConflictDoNothing();
+    }
   }
 }
 
