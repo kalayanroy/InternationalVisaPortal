@@ -1295,18 +1295,27 @@ Generated on: ${new Date().toLocaleString()}
   // Mark notice as read
   app.post("/api/user/notices/:id/mark-read", authenticateToken, async (req: AuthRequest, res) => {
     try {
+      console.log("Mark notice as read request received");
+      console.log("User:", req.user?.id);
+      console.log("Notice ID param:", req.params.id);
+      
       const userId = req.user?.id;
       const noticeId = parseInt(req.params.id);
 
       if (!userId) {
+        console.log("User not authenticated");
         return res.status(401).json({ message: "User not authenticated" });
       }
 
       if (!noticeId || isNaN(noticeId)) {
+        console.log("Invalid notice ID:", req.params.id);
         return res.status(400).json({ message: "Invalid notice ID" });
       }
 
-      await storage.markNoticeAsRead(userId, noticeId);
+      console.log("Calling storage.markNoticeAsRead with userId:", userId, "noticeId:", noticeId);
+      const result = await storage.markNoticeAsRead(userId, noticeId);
+      console.log("Mark notice as read result:", result);
+      
       res.json({ message: "Notice marked as read" });
     } catch (error) {
       console.error("Error marking notice as read:", error);

@@ -1104,12 +1104,19 @@ export class DatabaseStorage implements IStorage {
   }
 
   async markNoticeAsRead(userId: number, noticeId: number): Promise<UserNoticeRead> {
-    const [userRead] = await db
-      .insert(userNoticeReads)
-      .values({ userId, noticeId })
-      .onConflictDoNothing()
-      .returning();
-    return userRead;
+    console.log("Storage: markNoticeAsRead called with userId:", userId, "noticeId:", noticeId);
+    try {
+      const [userRead] = await db
+        .insert(userNoticeReads)
+        .values({ userId, noticeId })
+        .onConflictDoNothing()
+        .returning();
+      console.log("Storage: markNoticeAsRead result:", userRead);
+      return userRead;
+    } catch (error) {
+      console.error("Storage: markNoticeAsRead error:", error);
+      throw error;
+    }
   }
 
   async markAllNoticesAsRead(userId: number): Promise<void> {
