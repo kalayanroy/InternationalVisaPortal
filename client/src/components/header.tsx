@@ -48,6 +48,8 @@ export default function Header() {
   const isContactUsPage = location === "/contact-fixed";
   const isOurOfficePage = location === "/our-office";
   const isOurTeamPage = location === "/our-teams";
+  const isFAQPage = location === "/faqs";
+  const isResourcesPage = location === "/resources";
   // Determine header background
   const getHeaderBg = () => {
     if (isMigrationPage) return "bg-[#06b6d4]";
@@ -67,6 +69,8 @@ export default function Header() {
     if (isContactUsPage) return "bg-[#0891b2]";
     if (isOurOfficePage) return "bg-[#0891b2]";
     if (isOurTeamPage) return "bg-[#0891b2]";
+    if (isFAQPage) return "bg-[#0891b2]";
+    if (isResourcesPage) return "bg-[#0891b2]";
     return "bg-transparent";
   };
 
@@ -89,6 +93,8 @@ export default function Header() {
     if (isContactUsPage) return "text-white";
     if (isOurOfficePage) return "text-white";
     if (isOurTeamPage) return "text-white";
+    if (isFAQPage) return "text-white";
+    if (isResourcesPage) return "text-white";
     return "text-white";
   };
 
@@ -111,6 +117,7 @@ export default function Header() {
     if (isContactUsPage) return "hover:bg-black/10";
     if (isOurOfficePage) return "hover:bg-black/10";
     if (isOurTeamPage) return "hover:bg-black/10";
+    if (isFAQPage) return "hover:bg-black/10";
     return "hover:bg-white/10";
   };
 

@@ -119,17 +119,20 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
-✓ **January 26, 2025**: Implemented Our Office, Our Teams, and FAQs Pages with Complete About Us Menu Structure
+✓ **January 26, 2025**: Implemented Complete About Us Menu Structure with All Pages
 - **Our Office Page**: Created comprehensive office page based on provided design mockup with teal/blue/green office feature cards
 - **Our Teams Page**: Built team showcase page with six member cards featuring circular teal avatars and detailed descriptions
 - **FAQs Page**: Implemented collapsible FAQ accordion with six common questions about consultation services
+- **Resources Page**: Built comprehensive resources page with English test and university resources sections plus newsletter subscription
 - **Navigation Restructure**: Changed main menu from "Contact Us" to "About Us" dropdown with complete submenu structure
 - **Page Features**: Reception area, meeting rooms, work spaces sections with location details and virtual tour call-to-action
 - **Team Showcase**: Professional team member cards with positions, descriptions, and "Join Our Team" call-to-action
 - **Interactive FAQs**: Accordion-style FAQ section with expandable answers and contact button
+- **Resource Library**: English test resources (IELTS, TOEFL, PTE) and university resources (rankings, course comparison, scholarships)
+- **Newsletter Integration**: Email subscription form with teal styling and responsive design
 - **Responsive Design**: Modern card-based layout with interactive map placeholder and proper mobile responsiveness
-- **Menu Organization**: "Our Office", "Our Teams", and "FAQs" now appear under "About Us" menu in both desktop and mobile navigation
-- **Route Integration**: Added /our-office, /our-teams, and /faqs routes with proper component integration and navigation flow
+- **Menu Organization**: "Our Office", "Our Teams", "FAQs", and "Resources" now appear under "About Us" menu in both desktop and mobile navigation
+- **Route Integration**: Added /our-office, /our-teams, /faqs, and /resources routes with proper component integration and navigation flow
 
 ✓ **January 25, 2025**: Fixed Document Status Update Issue in Admin Dashboard
 - **Document Status Sync**: Fixed critical issue where uploaded documents weren't updating application records
